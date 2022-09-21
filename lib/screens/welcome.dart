@@ -3,12 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_login_app/api/googlesignin.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
 import 'package:flutter_login_app/screens/signin_screen.dart';
 import 'package:flutter_login_app/screens/signup_screen.dart';
 import 'package:flutter_login_app/utils/color_utils.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -50,7 +52,7 @@ class _WelcomeState extends State<Welcome> {
                   height: 150,
                 ),
                 RaisedButton(
-                  color: Colors.grey,
+                  color: Colors.green,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0)),
                   child: Padding(
@@ -111,9 +113,15 @@ class _WelcomeState extends State<Welcome> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Flexible(child: Image.asset('assets/google.png')),
+                      Flexible(
+                          child: TextButton(
+                              onPressed: googleLogin,
+                              child: Image.asset('assets/google.png'))),
                       const SizedBox(width: 24),
-                      Flexible(child: Image.asset('assets/facebook.png')),
+                      Flexible(
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Image.asset('assets/facebook.png'))),
                     ],
                   ),
                 ),
@@ -143,6 +151,22 @@ class _WelcomeState extends State<Welcome> {
             ),
           ))),
     );
+  }
+
+  // signIn() async {
+  //   await GoogleSignInApi.login();
+  // }
+  googleLogin() async {
+    print('google login method called');
+
+    GoogleSignIn _googleSignIn = GoogleSignIn();
+    try {
+      var result = await _googleSignIn.signIn();
+      print(result);
+      Get.to(() => SignInScreen());
+    } catch (e) {
+      print(e);
+    }
   }
 }
 

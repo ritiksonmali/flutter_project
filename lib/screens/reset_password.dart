@@ -11,49 +11,86 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController _emailTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          "Reset Password",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
+      body: Form(
+        key: _formKey,
+        child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.white,
+            child: SingleChildScrollView(
+                child: Padding(
+              padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 140,
+                  ),
+                  Text(
+                    'Reset Your Password',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    cursorColor: Colors.black87,
+                    style: TextStyle(color: Colors.black87),
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: Colors.black87,
+                        ),
+                        labelText: 'Enter Email Id',
+                        labelStyle: TextStyle(color: Colors.black54),
+                        // filled: true,
+                        // floatingLabelBehavior: FloatingLabelBehavior.never,
+                        // fillColor: Colors.white.withOpacity(0.3),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.black)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.blue))),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Email Required';
+                      }
+                      return null;
+                    },
+                    // onSaved: (value) {
+                    //   userLoginData['email'] = value!;
+                    // },
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+
+                  // reusableTextField("Enter Email Id", Icons.person_outline, false,
+                  //     _emailTextController),
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  firebaseUIButton(context, "Reset Password", () {
+                    FirebaseAuth.instance
+                        .sendPasswordResetEmail(
+                            email: _emailTextController.text)
+                        .then((value) => Navigator.of(context).pop());
+                  })
+                ],
+              ),
+            ))),
       ),
-      body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            hexStringToColor("CB2B93"),
-            hexStringToColor("9546C4"),
-            hexStringToColor("5E61F4")
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-          child: SingleChildScrollView(
-              child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
-            child: Column(
-              children: <Widget>[
-                const SizedBox(
-                  height: 20,
-                ),
-                reusableTextField("Enter Email Id", Icons.person_outline, false,
-                    _emailTextController),
-                const SizedBox(
-                  height: 20,
-                ),
-                firebaseUIButton(context, "Reset Password", () {
-                  FirebaseAuth.instance
-                      .sendPasswordResetEmail(email: _emailTextController.text)
-                      .then((value) => Navigator.of(context).pop());
-                })
-              ],
-            ),
-          ))),
     );
   }
 }

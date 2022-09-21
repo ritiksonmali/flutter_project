@@ -38,12 +38,13 @@ class _SignInScreenState extends State<SignInScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          hexStringToColor("CB2B93"),
-          hexStringToColor("9546C4"),
-          hexStringToColor("5E61F4")
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+        color: Colors.white,
+        // decoration: BoxDecoration(
+        //     gradient: LinearGradient(colors: [
+        //   hexStringToColor("CB2B93"),
+        //   hexStringToColor("9546C4"),
+        //   hexStringToColor("5E61F4")
+        // ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
@@ -54,28 +55,31 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: <Widget>[
                   // logoWidget("assets/profile.png"),
                   const SizedBox(
-                    height: 200,
+                    height: 150,
                   ),
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    cursorColor: Colors.white,
-                    style: TextStyle(color: Colors.white.withOpacity(0.9)),
+                    cursorColor: Colors.black87,
+                    style: TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.person_outline,
-                        color: Colors.white70,
-                      ),
-                      labelText: 'Enter Email',
-                      labelStyle:
-                          TextStyle(color: Colors.white.withOpacity(0.9)),
-                      filled: true,
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      fillColor: Colors.white.withOpacity(0.3),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                          borderSide: const BorderSide(
-                              width: 0, style: BorderStyle.none)),
-                    ),
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: Colors.black87,
+                        ),
+                        labelText: 'Enter Email',
+                        labelStyle: TextStyle(color: Colors.black54),
+                        // filled: true,
+                        // floatingLabelBehavior: FloatingLabelBehavior.never,
+                        // fillColor: Colors.white.withOpacity(0.3),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.black)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.blue))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Email Required';
@@ -95,24 +99,27 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    cursorColor: Colors.white,
-                    style: TextStyle(color: Colors.white.withOpacity(0.9)),
+                    cursorColor: Colors.black87,
+                    style: TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.lock_outline,
-                        color: Colors.white70,
-                      ),
-                      labelText: 'Enter Password',
-                      labelStyle:
-                          TextStyle(color: Colors.white.withOpacity(0.9)),
-                      filled: true,
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      fillColor: Colors.white.withOpacity(0.3),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                          borderSide: const BorderSide(
-                              width: 0, style: BorderStyle.none)),
-                    ),
+                        prefixIcon: Icon(
+                          Icons.lock_outline,
+                          color: Colors.black87,
+                        ),
+                        labelText: 'Enter Password',
+                        labelStyle: TextStyle(color: Colors.black54),
+                        // filled: true,
+                        // floatingLabelBehavior: FloatingLabelBehavior.never,
+                        // fillColor: Colors.white.withOpacity(0.3),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.black)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.blue))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Password Required';
@@ -153,7 +160,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             if (states.contains(MaterialState.pressed)) {
                               return Colors.black26;
                             }
-                            return Colors.white;
+                            return Colors.green;
                           }),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -200,7 +207,7 @@ class _SignInScreenState extends State<SignInScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text("Don't have account?",
-            style: TextStyle(color: Colors.white70)),
+            style: TextStyle(color: Colors.black)),
         GestureDetector(
           onTap: () {
             // Navigator.push(context,
@@ -209,7 +216,7 @@ class _SignInScreenState extends State<SignInScreen> {
           },
           child: const Text(
             " Sign Up",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
         )
       ],
@@ -224,7 +231,7 @@ class _SignInScreenState extends State<SignInScreen> {
       child: TextButton(
         child: const Text(
           "Forgot Password?",
-          style: TextStyle(color: Colors.white70),
+          style: TextStyle(color: Colors.black),
           textAlign: TextAlign.right,
         ),
         onPressed: () => Navigator.push(
