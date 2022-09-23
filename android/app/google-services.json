@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "756174159755",
+    "firebase_url": "https://login-app-e3f3c-default-rtdb.firebaseio.com",
     "project_id": "login-app-e3f3c",
     "storage_bucket": "login-app-e3f3c.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "756174159755-5tnfkqtg0khngrk5kioaq8sfndui6fg6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_login_app",
+            "certificate_hash": "8536a343ac88b259e4fb5812283fa9472e927913"
+          }
+        },
         {
           "client_id": "756174159755-0drhod7do1htcqu04up8vlbv6gv57li9.apps.googleusercontent.com",
           "client_type": 3

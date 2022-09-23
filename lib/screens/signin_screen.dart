@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_login_app/screens/reset_password.dart';
 import 'package:flutter_login_app/screens/signup_screen.dart';
 import 'package:flutter_login_app/utils/color_utils.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -21,20 +24,30 @@ class _SignInScreenState extends State<SignInScreen> {
 
   AuthController controller = Get.put(AuthController());
 
-  login() {
-    if (_formKey.currentState!.validate()) {
-      print("Form is valid ");
-      _formKey.currentState!.save();
-      print('Data for login $userLoginData');
-      controller.logiN(userLoginData['email'], userLoginData['password']);
-    }
-  }
+  // login() {
+  //   if (_formKey.currentState!.validate()) {
+  //     print("Form is valid ");
+  //     _formKey.currentState!.save();
+  //     print('Data for login $userLoginData');
+  //     controller.logiN(userLoginData['email'], userLoginData['password']);
+  //   }
+  // }
 
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // extendBodyBehindAppBar: true,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.lightBlue,
+      //   centerTitle: true,
+      //   elevation: 0,
+      //   title: const Text(
+      //     "Sign In",
+      //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      //   ),
+      // ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -58,6 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: 150,
                   ),
                   TextFormField(
+                    controller: _emailTextController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -87,7 +101,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       return null;
                     },
                     onSaved: (value) {
-                      userLoginData['email'] = value!;
+                      // userLoginData['email'] = value!;
                     },
                     keyboardType: TextInputType.emailAddress,
                   ),
@@ -98,6 +112,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: 20,
                   ),
                   TextFormField(
+                    controller: _passwordTextController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -127,7 +142,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       return null;
                     },
                     onSaved: (value) {
-                      userLoginData['password'] = value!;
+                      // userLoginData['password'] = value!;
                     },
                     obscureText: true,
                   ),
@@ -145,7 +160,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         BoxDecoration(borderRadius: BorderRadius.circular(90)),
                     child: ElevatedButton(
                       onPressed: () {
-                        login();
+                        // login();
+                        RestApiTest(_emailTextController.text.toString(),
+                            _passwordTextController.text.toString());
                       },
                       child: Text(
                         'Sign In',
@@ -238,5 +255,24 @@ class _SignInScreenState extends State<SignInScreen> {
             context, MaterialPageRoute(builder: (context) => ResetPassword())),
       ),
     );
+  }
+
+  Future RestApiTest(String username, password) async {
+    try {
+      print(username);
+      print(password);
+      String url = 'http://10.0.2.2:8081/users/login';
+      var response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({'username': username, 'password': password}));
+
+      if (response.statusCode == 200) {
+        print("Success");
+      } else {
+        print("failed");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

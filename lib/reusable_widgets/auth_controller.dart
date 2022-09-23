@@ -77,4 +77,8 @@ class AuthController extends GetxController {
       }
     }
   }
+
+  Future<void> ForgetPassword(email) async {
+    print('$email');
+  }
 }

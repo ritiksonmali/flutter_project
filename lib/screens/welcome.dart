@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_login_app/api/googlesignin.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_login_app/screens/signup_screen.dart';
 import 'package:flutter_login_app/utils/color_utils.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -47,7 +49,7 @@ class _WelcomeState extends State<Welcome> {
               //   ),
               // ],
               children: <Widget>[
-                logoWidget('assets/welcome_logo.png'),
+                logoWidget('assets/pngegg.png'),
                 SizedBox(
                   height: 150,
                 ),
@@ -115,12 +117,22 @@ class _WelcomeState extends State<Welcome> {
                     children: <Widget>[
                       Flexible(
                           child: TextButton(
-                              onPressed: googleLogin,
+                              onPressed: () {
+                                final provider = Provider.of<GoogleSignInApi>(
+                                    context,
+                                    listen: false);
+                                provider.SignInwithGoogle();
+                              },
                               child: Image.asset('assets/google.png'))),
                       const SizedBox(width: 24),
                       Flexible(
                           child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                final provider = Provider.of<GoogleSignInApi>(
+                                    context,
+                                    listen: false);
+                                provider.signinwithfacebook();
+                              },
                               child: Image.asset('assets/facebook.png'))),
                     ],
                   ),
@@ -156,18 +168,43 @@ class _WelcomeState extends State<Welcome> {
   // signIn() async {
   //   await GoogleSignInApi.login();
   // }
-  googleLogin() async {
-    print('google login method called');
+  // googleLogin() async {
+  //   print('google login method called');
 
-    GoogleSignIn _googleSignIn = GoogleSignIn();
-    try {
-      var result = await _googleSignIn.signIn();
-      print(result);
-      Get.to(() => SignInScreen());
-    } catch (e) {
-      print(e);
-    }
-  }
+  //   GoogleSignIn _googleSignIn = GoogleSignIn();
+  //   try {
+  //     var result = await _googleSignIn.signIn();
+  //     print(result);
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  // SignInwithGoogle() async {
+  //   try {
+  //     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  //     GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+  //     AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth?.accessToken,
+  //       idToken: googleAuth?.idToken,
+  //     );
+  //     UserCredential userCredential =
+  //         await FirebaseAuth.instance.signInWithCredential(credential);
+
+  //     print(userCredential.user?.displayName);
+
+  //     if (userCredential.user != null) {
+  //       Get.to(() => HomeScreen());
+  //     } else {
+  //       print('not verified');
+  //     }
+  //   } on Exception catch (e) {
+  //     print(e);
+  //   }
+  // }
+
 }
 
 

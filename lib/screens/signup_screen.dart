@@ -16,9 +16,11 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   Map<String, String> userSignupData = {
-    "username": "",
+    "firstname": "",
+    "lastname": "",
     "email": "",
-    "password": ""
+    "password": "",
+    "confirm_password": "",
   };
 
   AuthController controller = Get.put(AuthController());
@@ -33,21 +35,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  // TextEditingController _passwordTextController = TextEditingController();
+  TextEditingController _password = TextEditingController();
+  TextEditingController _confirmpassword = TextEditingController();
   // TextEditingController _emailTextController = TextEditingController();
   // TextEditingController _userNameTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          "Sign Up",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-      ),
+      // extendBodyBehindAppBar: true,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.lightBlue,
+      //   centerTitle: true,
+      //   elevation: 0,
+      //   title: const Text(
+      //     "Sign Up",
+      //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      //   ),
+      // ),
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -66,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 children: <Widget>[
                   const SizedBox(
-                    height: 80,
+                    height: 40,
                   ),
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -77,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Icons.person_outline,
                           color: Colors.black87,
                         ),
-                        labelText: 'Enter UserName',
+                        labelText: 'Enter First Name',
                         labelStyle: TextStyle(color: Colors.black54),
                         // filled: true,
                         // floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -93,12 +97,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             borderSide: BorderSide(color: Colors.blue))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'User Name Required';
+                        return 'First Name Required';
                       }
                       return null;
                     },
                     onSaved: (value) {
-                      userSignupData['username'] = value!;
+                      userSignupData['firstname'] = value!;
+                    },
+                    keyboardType: TextInputType.text,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    cursorColor: Colors.black87,
+                    style: TextStyle(color: Colors.black87),
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.person_outline,
+                          color: Colors.black87,
+                        ),
+                        labelText: 'Enter Last Name',
+                        labelStyle: TextStyle(color: Colors.black54),
+                        // filled: true,
+                        // floatingLabelBehavior: FloatingLabelBehavior.never,
+                        // fillColor: Colors.white.withOpacity(0.3),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.black)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.blue))),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Last Name Required';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      userSignupData['lastname'] = value!;
                     },
                     keyboardType: TextInputType.text,
                   ),
@@ -149,6 +190,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 20,
                   ),
                   TextFormField(
+                    controller: _password,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -179,6 +221,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     onSaved: (value) {
                       userSignupData['password'] = value!;
+                    },
+                    obscureText: true,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: _confirmpassword,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    cursorColor: Colors.black87,
+                    style: TextStyle(color: Colors.black87),
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.lock_outline,
+                          color: Colors.black87,
+                        ),
+                        labelText: 'Enter Confirm Password',
+                        labelStyle: TextStyle(color: Colors.black54),
+                        // filled: true,
+                        // floatingLabelBehavior: FloatingLabelBehavior.never,
+                        // fillColor: Colors.white.withOpacity(0.3),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.black)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.blue))),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password Required';
+                      }
+                      if (_password.text != _confirmpassword.text) {
+                        return 'Do not Match Password';
+                      }
+
+                      return null;
+                    },
+                    onSaved: (value) {
+                      userSignupData['confirm_password'] = value!;
                     },
                     obscureText: true,
                   ),
