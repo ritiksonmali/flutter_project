@@ -1,10 +1,16 @@
+import 'dart:convert';
+
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
+import 'package:flutter_login_app/screens/signin_screen.dart';
 import 'package:flutter_login_app/utils/color_utils.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -23,20 +29,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
     "confirm_password": "",
   };
 
-  AuthController controller = Get.put(AuthController());
+  bool sos = false;
+  bool isValid = false;
+
+  // AuthController controller = Get.put(AuthController());
 
   signUp() {
     if (_formKey.currentState!.validate()) {
       print("Form is valid ");
       _formKey.currentState!.save();
-      print('User Sign Up Data $userSignupData');
-      controller.signUp(userSignupData['email'], userSignupData['password'],
-          userSignupData['username']);
+      // print('User Sign Up Data $userSignupData');
+      // controller.signUp(userSignupData['email'], userSignupData['password'],
+      //     userSignupData['username']);
+      EmailValidation();
+      if (isValid == true) {
+        RestApiTest(
+            _firstnamecontroller.text.toString(),
+            _lastnamecontroller.text.toString(),
+            _emailcontroller.text.toString(),
+            _passwordcontroller.text.toString(),
+            sos);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Please Enter Valid Email'),
+          backgroundColor: Colors.redAccent,
+        ));
+      }
+    } else {
+      // Get.snackbar(
+      //   "Alert",
+      //   "please Fill the valid info",
+      //   snackPosition: SnackPosition.BOTTOM,
+      //   backgroundColor: Theme.of(context).errorColor,
+      //   colorText: Colors.black,
+      // );
+
+      print('form is not valid');
     }
   }
 
-  TextEditingController _password = TextEditingController();
-  TextEditingController _confirmpassword = TextEditingController();
+  TextEditingController _firstnamecontroller = TextEditingController();
+  TextEditingController _lastnamecontroller = TextEditingController();
+  TextEditingController _emailcontroller = TextEditingController();
+  TextEditingController _passwordcontroller = TextEditingController();
+  TextEditingController _confirmpasswordcontroller = TextEditingController();
   // TextEditingController _emailTextController = TextEditingController();
   // TextEditingController _userNameTextController = TextEditingController();
   @override
@@ -73,6 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 40,
                   ),
                   TextFormField(
+                    controller: _firstnamecontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -101,8 +138,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }
                       return null;
                     },
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                      LengthLimitingTextInputFormatter(15)
+                    ],
                     onSaved: (value) {
-                      userSignupData['firstname'] = value!;
+                      // userSignupData['firstname'] = value!;
                     },
                     keyboardType: TextInputType.text,
                   ),
@@ -110,6 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 20,
                   ),
                   TextFormField(
+                    controller: _lastnamecontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -138,8 +180,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }
                       return null;
                     },
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                      LengthLimitingTextInputFormatter(15)
+                    ],
                     onSaved: (value) {
-                      userSignupData['lastname'] = value!;
+                      // userSignupData['lastname'] = value!;
                     },
                     keyboardType: TextInputType.text,
                   ),
@@ -150,6 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 20,
                   ),
                   TextFormField(
+                    controller: _emailcontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -178,8 +225,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }
                       return null;
                     },
+                    inputFormatters: <TextInputFormatter>[
+                      LengthLimitingTextInputFormatter(20)
+                    ],
                     onSaved: (value) {
-                      userSignupData['email'] = value!;
+                      // userSignupData['email'] = value!;
                     },
                     keyboardType: TextInputType.emailAddress,
                   ),
@@ -190,7 +240,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 20,
                   ),
                   TextFormField(
-                    controller: _password,
+                    controller: _passwordcontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -220,7 +270,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return null;
                     },
                     onSaved: (value) {
-                      userSignupData['password'] = value!;
+                      // userSignupData['password'] = value!;
                     },
                     obscureText: true,
                   ),
@@ -228,7 +278,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 20,
                   ),
                   TextFormField(
-                    controller: _confirmpassword,
+                    controller: _confirmpasswordcontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -255,14 +305,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Password Required';
                       }
-                      if (_password.text != _confirmpassword.text) {
+                      if (_passwordcontroller.text !=
+                          _confirmpasswordcontroller.text) {
                         return 'Do not Match Password';
                       }
 
                       return null;
                     },
                     onSaved: (value) {
-                      userSignupData['confirm_password'] = value!;
+                      // userSignupData['confirm_password'] = value!;
                     },
                     obscureText: true,
                   ),
@@ -323,5 +374,51 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ))),
     );
+  }
+
+  void EmailValidation() {
+    setState(() {
+      isValid = EmailValidator.validate(_emailcontroller.text.trim());
+    });
+  }
+
+  Future RestApiTest(
+      String firstname, lastname, email, password, bool sos) async {
+    try {
+      print(firstname + " " + lastname + " " + email + " " + password);
+      print(sos);
+
+      String url = 'http://10.0.2.2:8082/api/auth/signup';
+      http.Response response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            'firstName': firstname,
+            'lastName': lastname,
+            'email': email,
+            'password': password,
+            'sos': sos,
+          }));
+
+      if (response.statusCode == 200) {
+        print("Success");
+        Get.off(() => SignInScreen());
+      } else if (response.statusCode == 400) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Email is already in use !'),
+          backgroundColor: Colors.redAccent,
+        ));
+        print("Email is already in use !");
+      } else if (response.statusCode == 500) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Something Went Wrong !'),
+          backgroundColor: Colors.redAccent,
+        ));
+        print("Email is already in use!");
+      } else {
+        print("failed");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

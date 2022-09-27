@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Pages/home.dart';
-import 'package:flutter_login_app/api/googlesignin.dart';
+import 'package:flutter_login_app/api/signin.dart';
 import 'package:flutter_login_app/screens/main_app.dart';
 import 'package:flutter_login_app/screens/signin_screen.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => GoogleSignInApi(),
+      create: (context) => SignInApi(),
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Login App',

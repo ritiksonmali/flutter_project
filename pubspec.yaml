@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^1.21.1
   google_sign_in: ^5.4.1
   flutter_facebook_auth: ^4.4.1+1
+  flutter_login_facebook: ^1.6.0
   provider: ^6.0.3
   http: ^0.13.5
   get: ^4.6.5
@@ -53,6 +54,7 @@ dependencies:
   linear_progress_bar: ^1.1.0
   flutter_bloc: ^8.1.1
   dio: ^4.0.6
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,9 @@
-class Users {
-  String? username;
-  String? password;
+// class Users {
+//   String? username;
+//   String? password;
+//   bool sso = false;
 
-  Users(this.username, this.password);
-}
+//   Users() {
+//     this.username=
+//   }
+// }

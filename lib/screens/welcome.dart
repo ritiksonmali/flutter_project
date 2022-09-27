@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_login_app/api/googlesignin.dart';
+import 'package:flutter_login_app/api/signin.dart';
+import 'package:flutter_login_app/api/signincontroller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
 import 'package:flutter_login_app/screens/signin_screen.dart';
@@ -13,6 +16,7 @@ import 'package:flutter_login_app/utils/color_utils.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -22,6 +26,11 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
+  final user = FirebaseAuth.instance.currentUser;
+
+  SigninController s = new SigninController();
+  SignInApi ver = new SignInApi();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,8 +127,7 @@ class _WelcomeState extends State<Welcome> {
                       Flexible(
                           child: TextButton(
                               onPressed: () {
-                                final provider = Provider.of<GoogleSignInApi>(
-                                    context,
+                                final provider = Provider.of<SignInApi>(context,
                                     listen: false);
                                 provider.SignInwithGoogle();
                               },
@@ -128,8 +136,7 @@ class _WelcomeState extends State<Welcome> {
                       Flexible(
                           child: TextButton(
                               onPressed: () {
-                                final provider = Provider.of<GoogleSignInApi>(
-                                    context,
+                                final provider = Provider.of<SignInApi>(context,
                                     listen: false);
                                 provider.signinwithfacebook();
                               },
@@ -163,6 +170,46 @@ class _WelcomeState extends State<Welcome> {
             ),
           ))),
     );
+  }
+
+  Future RestApiTest() async {
+    try {
+      print(s.firstname);
+      print(s.lastname);
+      print(s.sos);
+
+      String url = 'http://10.0.2.2:8082/api/auth/signinwithsso';
+      http.Response response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            'firstName': s.firstname,
+            'lastName': s.lastname,
+            'email': s.email,
+            'password': s.password,
+            'sos': s.sos,
+          }));
+
+      if (response.statusCode == 200) {
+        print("Success");
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Login SuccessFully !'),
+          backgroundColor: Colors.green,
+        ));
+        Get.off(() => HomeScreen());
+      } else if (response.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(''),
+          backgroundColor: Colors.green,
+        ));
+        print("Please Enter Valid Email and Password");
+      } else if (response.statusCode == 400) {
+        print("Bad Request");
+      } else {
+        print("failed");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   // signIn() async {

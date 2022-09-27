@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
@@ -22,16 +22,30 @@ class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
   Map<String, String> userLoginData = {"email": "", "password": ""};
 
+  bool isValid = false;
+
   AuthController controller = Get.put(AuthController());
 
-  // login() {
-  //   if (_formKey.currentState!.validate()) {
-  //     print("Form is valid ");
-  //     _formKey.currentState!.save();
-  //     print('Data for login $userLoginData');
-  //     controller.logiN(userLoginData['email'], userLoginData['password']);
-  //   }
-  // }
+  login() {
+    if (_formKey.currentState!.validate()) {
+      print("Form is valid ");
+      _formKey.currentState!.save();
+      // print('Data for login $userLoginData');
+      // controller.logiN(userLoginData['email'], userLoginData['password']);
+      EmailValidation();
+      if (isValid == true) {
+        RestApiTest(_emailTextController.text.toString(),
+            _passwordTextController.text.toString());
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Please Enter Valid Email'),
+          backgroundColor: Colors.redAccent,
+        ));
+      }
+    } else {
+      print('Form is Not Valid');
+    }
+  }
 
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
@@ -160,9 +174,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         BoxDecoration(borderRadius: BorderRadius.circular(90)),
                     child: ElevatedButton(
                       onPressed: () {
-                        // login();
-                        RestApiTest(_emailTextController.text.toString(),
-                            _passwordTextController.text.toString());
+                        login();
                       },
                       child: Text(
                         'Sign In',
@@ -257,17 +269,37 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Future RestApiTest(String username, password) async {
+  void EmailValidation() {
+    setState(() {
+      isValid = EmailValidator.validate(_emailTextController.text.trim());
+    });
+  }
+
+  Future RestApiTest(String email, password) async {
     try {
-      print(username);
-      print(password);
-      String url = 'http://10.0.2.2:8081/users/login';
-      var response = await http.post(Uri.parse(url),
+      print(email + " " + password);
+
+      String url = 'http://10.0.2.2:8082/api/auth/signin';
+      http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
-          body: json.encode({'username': username, 'password': password}));
+          body: json.encode({'email': email, 'password': password}));
 
       if (response.statusCode == 200) {
         print("Success");
+
+        Get.off(() => HomeScreen());
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Login SuccessFully !'),
+          backgroundColor: Colors.green,
+        ));
+      } else if (response.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Please Enter Valid Email and Password'),
+          backgroundColor: Colors.redAccent,
+        ));
+        print("Please Enter Valid Email and Password");
+      } else if (response.statusCode == 400) {
+        print("Bad Request");
       } else {
         print("failed");
       }

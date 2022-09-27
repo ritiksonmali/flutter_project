@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_login_app/api/googlesignin.dart';
 import 'package:flutter_login_app/reusable_widgets/Data_controller.dart';
 import 'package:flutter_login_app/screens/navbar.dart';
 import 'package:get/get.dart';
@@ -14,8 +13,6 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  DataController controller = Get.put(DataController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
