@@ -10,6 +10,7 @@ import 'package:flutter_login_app/screens/signup_screen.dart';
 import 'package:flutter_login_app/utils/color_utils.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -280,13 +281,16 @@ class _SignInScreenState extends State<SignInScreen> {
       print(email + " " + password);
 
       String url = 'http://10.0.2.2:8082/api/auth/signin';
-      http.Response response = await http.post(Uri.parse(url),
+      var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({'email': email, 'password': password}));
 
+      var store = await SharedPreferences.getInstance();
+
       if (response.statusCode == 200) {
         print("Success");
-
+        store.setString('userData', json.encode(response.body));
+        print(response.body);
         Get.off(() => HomeScreen());
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Login SuccessFully !'),

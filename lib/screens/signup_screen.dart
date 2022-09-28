@@ -401,6 +401,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       if (response.statusCode == 200) {
         print("Success");
+
+        print("response body is :" + response.body);
         Get.off(() => SignInScreen());
       } else if (response.statusCode == 400) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

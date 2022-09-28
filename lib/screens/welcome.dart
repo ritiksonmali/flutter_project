@@ -7,7 +7,6 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_login_app/api/signin.dart';
-import 'package:flutter_login_app/api/signincontroller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
 import 'package:flutter_login_app/screens/signin_screen.dart';
@@ -26,11 +25,6 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  final user = FirebaseAuth.instance.currentUser;
-
-  SigninController s = new SigninController();
-  SignInApi ver = new SignInApi();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,10 +73,6 @@ class _WelcomeState extends State<Welcome> {
                     ),
                   ),
                   onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => SignUpScreen()));
                     Get.to(() => SignInScreen());
                   },
                 ),
@@ -171,89 +161,4 @@ class _WelcomeState extends State<Welcome> {
           ))),
     );
   }
-
-  Future RestApiTest() async {
-    try {
-      print(s.firstname);
-      print(s.lastname);
-      print(s.sos);
-
-      String url = 'http://10.0.2.2:8082/api/auth/signinwithsso';
-      http.Response response = await http.post(Uri.parse(url),
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({
-            'firstName': s.firstname,
-            'lastName': s.lastname,
-            'email': s.email,
-            'password': s.password,
-            'sos': s.sos,
-          }));
-
-      if (response.statusCode == 200) {
-        print("Success");
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Login SuccessFully !'),
-          backgroundColor: Colors.green,
-        ));
-        Get.off(() => HomeScreen());
-      } else if (response.statusCode == 401) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(''),
-          backgroundColor: Colors.green,
-        ));
-        print("Please Enter Valid Email and Password");
-      } else if (response.statusCode == 400) {
-        print("Bad Request");
-      } else {
-        print("failed");
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  // signIn() async {
-  //   await GoogleSignInApi.login();
-  // }
-  // googleLogin() async {
-  //   print('google login method called');
-
-  //   GoogleSignIn _googleSignIn = GoogleSignIn();
-  //   try {
-  //     var result = await _googleSignIn.signIn();
-  //     print(result);
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  // SignInwithGoogle() async {
-  //   try {
-  //     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-  //     GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-  //     AuthCredential credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth?.accessToken,
-  //       idToken: googleAuth?.idToken,
-  //     );
-  //     UserCredential userCredential =
-  //         await FirebaseAuth.instance.signInWithCredential(credential);
-
-  //     print(userCredential.user?.displayName);
-
-  //     if (userCredential.user != null) {
-  //       Get.to(() => HomeScreen());
-  //     } else {
-  //       print('not verified');
-  //     }
-  //   } on Exception catch (e) {
-  //     print(e);
-  //   }
-  // }
-
 }
-
-
-//  Image.asset('assets/facebook.png'),
-//                 Image.asset('assets/google.png'),
