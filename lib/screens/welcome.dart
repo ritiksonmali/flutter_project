@@ -56,10 +56,12 @@ class _WelcomeState extends State<Welcome> {
                 SizedBox(
                   height: 150,
                 ),
-                RaisedButton(
-                  color: Colors.green,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0)),
+                ElevatedButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.only(
                         top: 5.0, bottom: 5.0, right: 40.0, left: 40.0),
