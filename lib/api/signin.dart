@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
+import 'package:flutter_login_app/model/User.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,8 @@ class SignInApi extends ChangeNotifier {
 //  default password and sso flag for google and facebook login
   final String Defaultpassword = 'Flutter@123';
   final bool sos = true;
+
+  Users user = Users();
 
   static final googleSignIn = GoogleSignIn();
 
@@ -127,11 +131,18 @@ class SignInApi extends ChangeNotifier {
             'sos': sos,
           }));
 
+      Map userDetails = jsonDecode(response.body);
+      Map user = userDetails['result'];
+
       var store = await SharedPreferences.getInstance();
 
       if (response.statusCode == 200) {
         print("Succesfully Logged in......!");
-        store.setString('userData', json.encode(response.body));
+        store.setString('userData', json.encode(user));
+
+       user.getUsers(user);
+       
+
         CommanDialog.hideLoading();
         Get.snackbar('Hi', 'Login SuccessFully !',
             backgroundColor: Colors.green, colorText: Colors.black);
