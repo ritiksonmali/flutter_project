@@ -285,12 +285,19 @@ class _SignInScreenState extends State<SignInScreen> {
           headers: {'Content-Type': 'application/json'},
           body: json.encode({'email': email, 'password': password}));
 
+      Map userDetails = jsonDecode(response.body);
+      Map user = userDetails['result'];
+
       var store = await SharedPreferences.getInstance();
 
       if (response.statusCode == 200) {
         print("Success");
-        store.setString('userData', json.encode(response.body));
-        print(response.body);
+
+        store.setString('userData', json.encode(user));
+
+        // String? data = store.getString('userData');
+        // Map<String, dynamic> userdata = jsonDecode(data!);
+
         Get.off(() => HomeScreen());
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Login SuccessFully !'),

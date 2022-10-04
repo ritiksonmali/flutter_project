@@ -19,7 +19,7 @@ class SignInApi extends ChangeNotifier {
   final String Defaultpassword = 'Flutter@123';
   final bool sos = true;
 
-  Users user = Users();
+  Users a = Users();
 
   static final googleSignIn = GoogleSignIn();
 
@@ -139,10 +139,9 @@ class SignInApi extends ChangeNotifier {
       if (response.statusCode == 200) {
         print("Succesfully Logged in......!");
         store.setString('userData', json.encode(user));
-
-       user.getUsers(user);
-       
-
+        // String? data = store.getString('userData');
+        // Map<String, dynamic> userdata = jsonDecode(data!);
+        // print(userdata);
         CommanDialog.hideLoading();
         Get.snackbar('Hi', 'Login SuccessFully !',
             backgroundColor: Colors.green, colorText: Colors.black);
