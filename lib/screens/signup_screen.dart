@@ -226,7 +226,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return null;
                     },
                     inputFormatters: <TextInputFormatter>[
-                      LengthLimitingTextInputFormatter(20)
+                      LengthLimitingTextInputFormatter(30)
                     ],
                     onSaved: (value) {
                       // userSignupData['email'] = value!;
