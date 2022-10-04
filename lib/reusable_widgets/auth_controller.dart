@@ -14,24 +14,6 @@ class AuthController extends GetxController {
               email: email.trim(), password: password);
 
       print(userCredential);
-
-      // try {
-      //   CommanDialog.showLoading();
-      //   var response =
-      //       await FirebaseFirestore.instance.collection('userslist').add({
-      //     'user_Id': userCredential.user!.uid,
-      //     'user_name': username,
-      //     "password": password,
-      //     'joinDate': DateTime.now().millisecondsSinceEpoch,
-      //     'email': email
-      //   });
-      //   print("Firebase response1111 ${response.id}");
-      //   CommanDialog.hideLoading();
-      // } catch (exception) {
-      //   CommanDialog.hideLoading();
-      //   print("Error Saving Data at firestore $exception");
-      // }
-
       CommanDialog.hideLoading();
       Get.back();
     } on FirebaseAuthException catch (e) {

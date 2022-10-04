@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_app/Pages/User.dart';
+import 'package:flutter_login_app/Pages/ProfilePage.dart';
 import 'package:flutter_login_app/Pages/history.dart';
 import 'package:flutter_login_app/Pages/home.dart';
 import 'package:flutter_login_app/screens/navbar.dart';
@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
-  final screen = [HomePage(), HistoryPage(), UserPage()];
+  final screen = [HomePage(), HistoryPage(), ProfilePage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'User',
+              label: 'Profile',
               backgroundColor: Colors.white),
         ],
         onTap: (index) {

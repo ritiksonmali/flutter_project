@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Controller/LoginController.dart';
+import 'package:flutter_login_app/Pages/ProfilePage.dart';
 import 'package:flutter_login_app/api/signin.dart';
 import 'package:flutter_login_app/reusable_widgets/Data_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/screens/signin_screen.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
+import 'package:flutter_login_app/screens/profile.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -20,14 +22,16 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      child: ListView(  
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
+               decoration: BoxDecoration(color: Color.fromARGB(244, 239, 138, 138)),
             accountName: Text('User : xyz'),
             accountEmail: Text('Email Id : example@gmail.com'),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
+                  
                 child: Image.asset(
                   "assets/profile.png",
                   width: 90,
@@ -37,10 +41,16 @@ class NavBar extends StatelessWidget {
               ),
             ),
           ),
+          
           ListTile(
+            
             leading: Icon(Icons.face),
             title: Text('Profile'),
-            onTap: (() => null),
+            onTap: () {
+              // final provider = Provider.of<SignInApi>(context, listen: false);
+              // provider.logout(url);
+              Get.off(() => ProfilePage());
+            },
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),

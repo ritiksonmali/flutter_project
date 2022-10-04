@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
-import 'package:flutter_login_app/api/signincontroller.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/get.dart';
@@ -133,6 +132,8 @@ class SignInApi extends ChangeNotifier {
       if (response.statusCode == 200) {
         print("Succesfully Logged in......!");
         store.setString('userData', json.encode(response.body));
+        print(store);
+        print(store);
         CommanDialog.hideLoading();
         Get.snackbar('Hi', 'Login SuccessFully !',
             backgroundColor: Colors.green, colorText: Colors.black);

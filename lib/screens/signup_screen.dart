@@ -131,7 +131,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             borderSide: BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: BorderSide(color: Colors.white))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'First Name Required';
@@ -173,7 +173,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             borderSide: BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: BorderSide(color: Colors.white))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Last Name Required';
