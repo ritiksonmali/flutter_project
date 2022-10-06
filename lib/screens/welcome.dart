@@ -11,7 +11,7 @@ import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
 import 'package:flutter_login_app/screens/signin_screen.dart';
 import 'package:flutter_login_app/screens/signup_screen.dart';
-import 'package:flutter_login_app/utils/color_utils.dart';
+import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';

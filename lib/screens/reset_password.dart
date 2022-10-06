@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
-import 'package:flutter_login_app/utils/color_utils.dart';
+import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 
 class ResetPassword extends StatefulWidget {

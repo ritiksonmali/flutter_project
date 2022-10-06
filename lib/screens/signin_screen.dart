@@ -7,7 +7,7 @@ import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
 import 'package:flutter_login_app/screens/reset_password.dart';
 import 'package:flutter_login_app/screens/signup_screen.dart';
-import 'package:flutter_login_app/utils/color_utils.dart';
+import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';

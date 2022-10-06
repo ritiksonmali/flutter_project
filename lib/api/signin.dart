@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
+import 'package:flutter_login_app/model/User.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/get.dart';
@@ -17,11 +19,13 @@ class SignInApi extends ChangeNotifier {
   final String Defaultpassword = 'Flutter@123';
   final bool sos = true;
 
+  Users user = Users();
+
   static final googleSignIn = GoogleSignIn();
 
   GoogleSignInAccount? _user;
 
-  GoogleSignInAccount get user => _user!;
+ // GoogleSignInAccount get user => _user!;
 
   Future SignInwithGoogle() async {
     try {
@@ -86,29 +90,10 @@ class SignInApi extends ChangeNotifier {
       RestApiTest(
           arr[0], arr[1], userData['email'], this.Defaultpassword, this.sos);
 
-      // print(result.status);
-      // Get.to(() => HomeScreen());
+      
     }
   }
 
-  // Future logout(String url) async {
-  //   try {
-  //     await FirebaseAuth.instance.signOut();
-  //     await FacebookAuth.i.logOut();
-
-  //     await googleSignIn.signOut();
-
-  //     // await googleSignIn.disconnect();
-  //     await url;
-  //     print('logout success');
-
-  //     // await FacebookLogin().logOut();
-
-  //   } on Exception catch (e) {
-  //     print(e);
-  //     // TODO
-  //   }
-  // }
 
   Future RestApiTest(
       String firstname, lastname, email, password, bool sos) async {
@@ -127,13 +112,17 @@ class SignInApi extends ChangeNotifier {
             'sos': sos,
           }));
 
+      Map userDetails = jsonDecode(response.body);
+      Map user = userDetails['result'];
+
       var store = await SharedPreferences.getInstance();
 
       if (response.statusCode == 200) {
         print("Succesfully Logged in......!");
-        store.setString('userData', json.encode(response.body));
+        store.setString('userData', json.encode(user));
         print(store);
-        print(store);
+       
+
         CommanDialog.hideLoading();
         Get.snackbar('Hi', 'Login SuccessFully !',
             backgroundColor: Colors.green, colorText: Colors.black);

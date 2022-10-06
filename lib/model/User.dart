@@ -1,32 +1,40 @@
-// class User {
-//   String name;
-//   int age;
+import 'dart:convert';
 
-//   User(this.name, this.age);
+Users usersFromJson(dynamic str) => Users.fromJson(json.decode(str));
 
-//   factory User.fromJson(dynamic json) {
-//     return User(json['name'] as String, json['age'] as int);
-//   }
+String usersToJson(Users data) => json.encode(data.toJson());
 
-//   @override
-//   String toString() {
-//     return '{ ${this.name}, ${this.age} }';
-//   }
-// }
+class Users {
+  Users({
+    this.id,
+    this.email,
+    this.firstName,
+    this.lastName,
+  });
 
-// class Tutorial {
-//   String title;
-//   String description;
-//   User author;
+  int? id;
+  String? email;
+  String? firstName;
+  String? lastName;
 
-//   Tutorial(this.title, this.description, this.author);
+  factory Users.fromJson(Map<String, dynamic> json) => Users(
+        id: json["id"],
+        email: json["email"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+      );
 
-//   factory Tutorial.fromJson(dynamic json) {
-//     return Tutorial(json['title'] as String, json['description'] as String, User.fromJson(json['author']));
-//   }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "email": email,
+        "firstName": firstName,
+        "lastName": lastName,
+      };
 
-//   @override
-//   String toString() {
-//     return '{ ${this.title}, ${this.description}, ${this.author} }';
-//   }
-// }
+  void getUsers(int id, String email, String firstname, String lastname) {
+    this.id = id;
+    this.email = email;
+    this.firstName = firstname;
+    this.lastName = lastname;
+  }
+}
