@@ -17,6 +17,7 @@ class SignInScreen extends StatefulWidget {
 
   @override
   _SignInScreenState createState() => _SignInScreenState();
+  
 }
 
 class _SignInScreenState extends State<SignInScreen> {
@@ -30,6 +31,7 @@ class _SignInScreenState extends State<SignInScreen> {
   login() {
     if (_formKey.currentState!.validate()) {
       print("Form is valid ");
+      
       _formKey.currentState!.save();
       // print('Data for login $userLoginData');
       // controller.logiN(userLoginData['email'], userLoginData['password']);
@@ -53,26 +55,10 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.lightBlue,
-      //   centerTitle: true,
-      //   elevation: 0,
-      //   title: const Text(
-      //     "Sign In",
-      //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      //   ),
-      // ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         color: Colors.white,
-        // decoration: BoxDecoration(
-        //     gradient: LinearGradient(colors: [
-        //   hexStringToColor("CB2B93"),
-        //   hexStringToColor("9546C4"),
-        //   hexStringToColor("5E61F4")
-        // ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
@@ -199,29 +185,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                           BorderRadius.circular(30)))),
                     ),
                   ),
-                  // firebaseUIButton(context, "Sign In", () {
-                  //   FirebaseAuth.instance
-                  //       .signInWithEmailAndPassword(
-                  //           email: _emailTextController.text,
-                  //           password: _passwordTextController.text)
-                  //       .then((value) {
-                  //     Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (context) => HomeScreen()));
-                  //   }).onError((error, stackTrace) {
-                  //     validator:
-                  //     ((value) {
-                  //       if (value!.isEmpty ||
-                  //           !RegExp(r'^[a-z A-Z]').hasMatch(value)) {
-                  //         return "Enter Correct Name";
-                  //       } else {
-                  //         return null;
-                  //       }
-                  //     });
-                  //     print("Error ${error.toString()}");
-                  //   });
-                  // }),
+                 
                   signUpOption()
                 ],
               ),
@@ -285,12 +249,22 @@ class _SignInScreenState extends State<SignInScreen> {
           headers: {'Content-Type': 'application/json'},
           body: json.encode({'email': email, 'password': password}));
 
-      var store = await SharedPreferences.getInstance();
+      Map userDetails = jsonDecode(response.body);
+      Map user = userDetails['result'];
+
+      var store = await SharedPreferences.getInstance();//add when requried
 
       if (response.statusCode == 200) {
         print("Success");
-        store.setString('userData', json.encode(response.body));
-        print(response.body);
+
+        store.setString('userData', json.encode(user));
+       // print(store);
+
+        // String? data = store.getString('userData');      //get instance data 
+        // Map<String, dynamic> userdata = jsonDecode(data!);
+
+        // print(userdata["email"]);
+
         Get.off(() => HomeScreen());
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Login SuccessFully !'),
@@ -312,3 +286,5 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 }
+
+

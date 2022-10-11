@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_app/Pages/home.dart';
+import 'package:flutter_login_app/Pages/Home/home.dart';
 import 'package:flutter_login_app/api/signin.dart';
 import 'package:flutter_login_app/screens/main_app.dart';
 import 'package:flutter_login_app/screens/signin_screen.dart';

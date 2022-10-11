@@ -37,4 +37,5 @@ class Users {
     this.firstName = firstname;
     this.lastName = lastname;
   }
+  
 }

@@ -22,6 +22,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  badges:
+    dependency: "direct main"
+    description:
+      name: badges
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
+  binding:
+    dependency: "direct main"
+    description:
+      name: binding
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   bloc:
     dependency: transitive
     description:

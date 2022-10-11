@@ -19,13 +19,13 @@ class SignInApi extends ChangeNotifier {
   final String Defaultpassword = 'Flutter@123';
   final bool sos = true;
 
-  Users user = Users();
+  Users a = Users();
 
   static final googleSignIn = GoogleSignIn();
 
   GoogleSignInAccount? _user;
 
- // GoogleSignInAccount get user => _user!;
+  GoogleSignInAccount get user => _user!;
 
   Future SignInwithGoogle() async {
     try {
@@ -90,9 +90,11 @@ class SignInApi extends ChangeNotifier {
       RestApiTest(
           arr[0], arr[1], userData['email'], this.Defaultpassword, this.sos);
 
-      
+      // print(result.status);
+      // Get.to(() => HomeScreen());
     }
   }
+
 
 
   Future RestApiTest(
@@ -116,13 +118,14 @@ class SignInApi extends ChangeNotifier {
       Map user = userDetails['result'];
 
       var store = await SharedPreferences.getInstance();
-
       if (response.statusCode == 200) {
         print("Succesfully Logged in......!");
+          print(store);
         store.setString('userData', json.encode(user));
-        print(store);
-       
-
+        
+        // String? data = store.getString('userData');
+        // Map<String, dynamic> userdata = jsonDecode(data!);
+        // print(userdata);
         CommanDialog.hideLoading();
         Get.snackbar('Hi', 'Login SuccessFully !',
             backgroundColor: Colors.green, colorText: Colors.black);

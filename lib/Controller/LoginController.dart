@@ -17,6 +17,7 @@ class LoginController {
 
   static logOut() async {
     final store = await SharedPreferences.getInstance();
+     print(store);
     store.clear();
     if (FirebaseAuth.instance != null) {
       await FirebaseAuth.instance.signOut();

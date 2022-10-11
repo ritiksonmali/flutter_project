@@ -43,6 +43,8 @@ dependencies:
   http: ^0.13.5
   google_fonts: ^3.0.1
   get: ^4.6.5
+  binding: ^1.0.0
+  badges: ^2.0.3
   easy_localization: ^3.0.1
   flutter_gallery_assets: ^1.0.2
   auto_size_text: ^3.0.0
