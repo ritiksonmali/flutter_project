@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -10,12 +12,18 @@ import 'package:flutter_login_app/screens/signin_screen.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavBar extends StatelessWidget {
+  getdata() async {
+    var store = await SharedPreferences.getInstance();
+    // String? data = store.getString('userData');
+    // Map<String, dynamic> userdata = jsonDecode(data!);
+    // return userdata;
+  }
+
   // Url for Logout current user
   String url = 'http://10.0.2.2:8082/api/auth/signout';
-
-  // DataController controller = Get.put(DataController());
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +64,7 @@ class NavBar extends StatelessWidget {
             onTap: () {
               // final provider = Provider.of<SignInApi>(context, listen: false);
               // provider.logout(url);
+              print(getdata());
               LoginController.logOut();
               Get.off(() => Welcome());
             },
