@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/model/User.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
-import 'package:flutter_login_app/screens/reset_password.dart';
-import 'package:flutter_login_app/screens/signup_screen.dart';
-import 'package:flutter_login_app/utils/color_utils.dart';
+import 'package:flutter_login_app/screens/ResetPassword.dart';
+import 'package:flutter_login_app/screens/SignUp.dart';
+import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,11 +26,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
   bool isValid = false;
 
-  AuthController controller = Get.put(AuthController());
+  Users userdata = Users();
 
   login() {
     if (_formKey.currentState!.validate()) {
       print("Form is valid ");
+
       _formKey.currentState!.save();
       // print('Data for login $userLoginData');
       // controller.logiN(userLoginData['email'], userLoginData['password']);
@@ -53,26 +55,10 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.lightBlue,
-      //   centerTitle: true,
-      //   elevation: 0,
-      //   title: const Text(
-      //     "Sign In",
-      //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      //   ),
-      // ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         color: Colors.white,
-        // decoration: BoxDecoration(
-        //     gradient: LinearGradient(colors: [
-        //   hexStringToColor("CB2B93"),
-        //   hexStringToColor("9546C4"),
-        //   hexStringToColor("5E61F4")
-        // ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
@@ -199,29 +185,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                           BorderRadius.circular(30)))),
                     ),
                   ),
-                  // firebaseUIButton(context, "Sign In", () {
-                  //   FirebaseAuth.instance
-                  //       .signInWithEmailAndPassword(
-                  //           email: _emailTextController.text,
-                  //           password: _passwordTextController.text)
-                  //       .then((value) {
-                  //     Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (context) => HomeScreen()));
-                  //   }).onError((error, stackTrace) {
-                  //     validator:
-                  //     ((value) {
-                  //       if (value!.isEmpty ||
-                  //           !RegExp(r'^[a-z A-Z]').hasMatch(value)) {
-                  //         return "Enter Correct Name";
-                  //       } else {
-                  //         return null;
-                  //       }
-                  //     });
-                  //     print("Error ${error.toString()}");
-                  //   });
-                  // }),
+
                   signUpOption()
                 ],
               ),
@@ -285,19 +249,30 @@ class _SignInScreenState extends State<SignInScreen> {
           headers: {'Content-Type': 'application/json'},
           body: json.encode({'email': email, 'password': password}));
 
-      Map userDetails = jsonDecode(response.body);
-      Map user = userDetails['result'];
+      var userDetails = jsonDecode(response.body);
+      // Map user = userDetails['result'];
 
-      var store = await SharedPreferences.getInstance();
+      var store = await SharedPreferences.getInstance(); //add when requried
 
       if (response.statusCode == 200) {
         print("Success");
-
-        store.setString('userData', json.encode(user));
-
-        // String? data = store.getString('userData');
+        store.setString('userData', json.encode(userDetails['result']));
+        store.setString('id', json.encode(userDetails['result']['id']));
+        store.setString(
+            'firstname', json.encode(userDetails['result']['firstName']));
+        store.setString(
+            'lastname', json.encode(userDetails['result']['lastName']));
+        store.setString('email', json.encode(userDetails['result']['email']));
+        // var datas = store.getString("userData");
+        // var datass = jsonDecode(datas!);
+        // print(datass['email']);
+        // String? data = store.getString('userData');      //get instance data
         // Map<String, dynamic> userdata = jsonDecode(data!);
 
+        // print(userdata["email"]);
+        // userdata.getUsers(
+        //     user['id'], user['email'], user['firstName'], user['lastName']);
+        print(userDetails['result']['email']);
         Get.off(() => HomeScreen());
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Login SuccessFully !'),

@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_login_app/api/signin.dart';
-import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/Pages/home_screen.dart';
-import 'package:flutter_login_app/screens/signin_screen.dart';
-import 'package:flutter_login_app/screens/signup_screen.dart';
-import 'package:flutter_login_app/utils/color_utils.dart';
+import 'package:flutter_login_app/api/SignInAuto.dart';
+import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
+import 'package:flutter_login_app/screens/SignIn.dart';
+import 'package:flutter_login_app/screens/SignUp.dart';
+import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
@@ -45,14 +45,8 @@ class _WelcomeState extends State<Welcome> {
               child: Padding(
             padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
             child: Column(
-              // children: [
-              //   Text(
-              //     'Welcome to Home Page',
-              //     style: TextStyle(color: Colors.black, fontSize: 22),
-              //   ),
-              // ],
               children: <Widget>[
-                logoWidget('assets/pngegg.png'),
+                logoWidget('assets/logo.jpg'),
                 SizedBox(
                   height: 150,
                 ),
@@ -146,8 +140,6 @@ class _WelcomeState extends State<Welcome> {
                         style: TextStyle(color: Colors.black)),
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => SignUpScreen()));
                         Get.to(() => SignUpScreen());
                       },
                       child: const Text(

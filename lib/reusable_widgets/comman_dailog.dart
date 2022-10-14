@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class CommanDialog {
- static showLoading({String title = "Loading..."}) {
+  static showLoading({String title = "Loading..."}) {
     Get.dialog(
       Dialog(
         shape: RoundedRectangleBorder(
@@ -35,11 +35,11 @@ class CommanDialog {
     );
   }
 
- static hideLoading() {
+  static hideLoading() {
     Get.back();
   }
 
- static showErrorDialog(
+  static showErrorDialog(
       {String title = "Oops Error",
       String description = "Something went wrong "}) {
     Get.dialog(
@@ -75,6 +75,4 @@ class CommanDialog {
       barrierDismissible: false,
     );
   }
-
-
 }

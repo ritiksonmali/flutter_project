@@ -1,29 +1,41 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Controller/LoginController.dart';
-import 'package:flutter_login_app/api/signin.dart';
-import 'package:flutter_login_app/reusable_widgets/Data_controller.dart';
-import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
-import 'package:flutter_login_app/screens/signin_screen.dart';
+import 'package:flutter_login_app/Pages/Profile/EditProfilePage.dart';
+import 'package:flutter_login_app/Pages/Setting.dart';
+import 'package:flutter_login_app/Pages/home_screen.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class NavBar extends StatelessWidget {
-  getdata() async {
-    var store = await SharedPreferences.getInstance();
-    // String? data = store.getString('userData');
-    // Map<String, dynamic> userdata = jsonDecode(data!);
-    // return userdata;
+class Navbar extends StatefulWidget {
+  const Navbar({Key? key}) : super(key: key);
+
+  @override
+  State<Navbar> createState() => _NavbarState();
+}
+
+class _NavbarState extends State<Navbar> {
+  void test() async {
+    var store = await SharedPreferences.getInstance(); //add when requried
+    String? data = store.getString('userData');
+    Map<String, dynamic> userdata = jsonDecode(data!);
+    setState(() {
+      this.user = userdata;
+    });
   }
 
-  // Url for Logout current user
-  String url = 'http://10.0.2.2:8082/api/auth/signout';
+  Map<String, dynamic>? user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    test();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,40 +43,57 @@ class NavBar extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          UserAccountsDrawerHeader(
-            accountName: Text('User : xyz'),
-            accountEmail: Text('Email Id : example@gmail.com'),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Image.asset(
-                  "assets/profile.png",
-                  width: 90,
-                  height: 90,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+          SizedBox(
+            height: 20,
+          ),
+          // UserAccountsDrawerHeader(
+          //   decoration: BoxDecoration(color: Color.fromRGBO(217, 217, 217, 1)),
+          //   accountName: Text(
+          //       "user : ${user?['firstName']}" + " " + user?['lastName'],
+          //       style: TextStyle(color: Colors.black)),
+          //   accountEmail: Text("Email : ${user?['email']}",
+          //       style: TextStyle(color: Colors.black)),
+
+          //   currentAccountPicture: CircleAvatar(
+          //     child: ClipOval(
+          //       child: Container(
+          //         color: Colors.white,
+          //         child: Image.asset(
+          //           "assets/profile.png",
+          //           width: 90,
+          //           height: 90,
+          //           fit: BoxFit.scaleDown,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          //   // color: Colors.white,
+          // ),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text('Home'),
+            onTap: () {
+              Get.back();
+            },
           ),
           ListTile(
             leading: Icon(Icons.face),
             title: Text('Profile'),
-            onTap: (() => null),
+            onTap: () {
+              Get.to(() => EditProfilePage());
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Setting'),
+            onTap: () {
+              Get.to(() => SettingsPage());
+            },
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Sign Out'),
-            // onTap: () => FirebaseAuth.instance.signOut().then((value) {
-            //       print("Signed Out");
-            //       // Navigator.push(
-            //       //     context,
-            //       //     MaterialPageRoute(
-            //       //         builder: (context) => SignInScreen()));
-            //       Get.off(() => Welcome());
-            //     })
             onTap: () {
-              // final provider = Provider.of<SignInApi>(context, listen: false);
-              // provider.logout(url);
-              print(getdata());
               LoginController.logOut();
               Get.off(() => Welcome());
             },

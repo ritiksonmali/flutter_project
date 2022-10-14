@@ -19,8 +19,6 @@ class SignInApi extends ChangeNotifier {
   final String Defaultpassword = 'Flutter@123';
   final bool sos = true;
 
-  Users a = Users();
-
   static final googleSignIn = GoogleSignIn();
 
   GoogleSignInAccount? _user;
@@ -89,37 +87,12 @@ class SignInApi extends ChangeNotifier {
 
       RestApiTest(
           arr[0], arr[1], userData['email'], this.Defaultpassword, this.sos);
-
-      // print(result.status);
-      // Get.to(() => HomeScreen());
     }
   }
-
-  // Future logout(String url) async {
-  //   try {
-  //     await FirebaseAuth.instance.signOut();
-  //     await FacebookAuth.i.logOut();
-
-  //     await googleSignIn.signOut();
-
-  //     // await googleSignIn.disconnect();
-  //     await url;
-  //     print('logout success');
-
-  //     // await FacebookLogin().logOut();
-
-  //   } on Exception catch (e) {
-  //     print(e);
-  //     // TODO
-  //   }
-  // }
 
   Future RestApiTest(
       String firstname, lastname, email, password, bool sos) async {
     try {
-      print(firstname + " " + lastname + " " + email + " " + password);
-      print(sos);
-
       String url = 'http://10.0.2.2:8082/api/auth/signinwithsso';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
@@ -131,20 +104,22 @@ class SignInApi extends ChangeNotifier {
             'sos': sos,
           }));
 
-      Map userDetails = jsonDecode(response.body);
-      Map user = userDetails['result'];
+      var userDetails = jsonDecode(response.body);
 
       var store = await SharedPreferences.getInstance();
-
       if (response.statusCode == 200) {
         print("Succesfully Logged in......!");
-        store.setString('userData', json.encode(user));
-        // String? data = store.getString('userData');
-        // Map<String, dynamic> userdata = jsonDecode(data!);
-        // print(userdata);
+        store.setString('userData', json.encode(userDetails['result']));
+        store.setString('id', json.encode(userDetails['result']['id']));
+        store.setString(
+            'firstname', json.encode(userDetails['result']['firstName']));
+        store.setString(
+            'lastname', json.encode(userDetails['result']['lastName']));
+        store.setString('email', json.encode(userDetails['result']['email']));
+
         CommanDialog.hideLoading();
-        Get.snackbar('Hi', 'Login SuccessFully !',
-            backgroundColor: Colors.green, colorText: Colors.black);
+        // Get.snackbar('Hi', 'Login SuccessFully !',
+        //     backgroundColor: Colors.green, colorText: Colors.black);
         Get.off(() => HomeScreen());
       } else if (response.statusCode == 401) {
         Get.snackbar('Error', 'Email Already use for anothe account',
