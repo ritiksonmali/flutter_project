@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Pages/Address/AddAddress.dart';
 import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
 import 'package:flutter_login_app/Pages/Home/home.dart';
+import 'package:flutter_login_app/Pages/Order/Orders.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -98,7 +99,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             showpassword(context, "Change password"),
             // buildAccountOptionRow(context, "Change password"),
-            buildAccountOptionRow(context, "Address"),
+            AddressRow(context, "Address"),
+            OrdersRow(context, "Orders"),
             SizedBox(
               height: 40,
             ),
@@ -154,36 +156,38 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  GestureDetector buildAccountOptionRow(BuildContext context, String title) {
+  GestureDetector AddressRow(BuildContext context, String title) {
     return GestureDetector(
       onTap: () {
         Get.to(() => AddressDetails());
-        // showDialog(
-        //     context: context,
-        //     builder: (BuildContext context) {
-        //       return SingleChildScrollView(
-        //         child: Form(
-        //           child: AlertDialog(
-        //             title: Text(title),
-        //             content: Column(
-        //               mainAxisSize: MainAxisSize.min,
-        //               children: [
-        //                 Text("Option 1"),
-        //                 Text("Option 2"),
-        //                 Text("Option 3"),
-        //               ],
-        //             ),
-        //             actions: [
-        //               FlatButton(
-        //                   onPressed: () {
-        //                     Navigator.of(context).pop();
-        //                   },
-        //                   child: Text("Close")),
-        //             ],
-        //           ),
-        //         ),
-        //       );
-        //     });
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey,
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  GestureDetector OrdersRow(BuildContext context, String title) {
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => OrderPage());
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -328,7 +332,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ],
                     ),
                     actions: [
-                      FlatButton(
+                      TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -406,3 +410,60 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 }
+
+
+
+
+// GestureDetector buildAccountOptionRow(BuildContext context, String title) {
+//     return GestureDetector(
+//       onTap: () {
+//         Get.to(() => AddressDetails());
+//         // showDialog(
+//         //     context: context,
+//         //     builder: (BuildContext context) {
+//         //       return SingleChildScrollView(
+//         //         child: Form(
+//         //           child: AlertDialog(
+//         //             title: Text(title),
+//         //             content: Column(
+//         //               mainAxisSize: MainAxisSize.min,
+//         //               children: [
+//         //                 Text("Option 1"),
+//         //                 Text("Option 2"),
+//         //                 Text("Option 3"),
+//         //               ],
+//         //             ),
+//         //             actions: [
+//         //               FlatButton(
+//         //                   onPressed: () {
+//         //                     Navigator.of(context).pop();
+//         //                   },
+//         //                   child: Text("Close")),
+//         //             ],
+//         //           ),
+//         //         ),
+//         //       );
+//         //     });
+//       },
+//       child: Padding(
+//         padding: const EdgeInsets.symmetric(vertical: 8.0),
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             Text(
+//               title,
+//               style: TextStyle(
+//                 fontSize: 18,
+//                 fontWeight: FontWeight.w500,
+//                 color: Colors.grey,
+//               ),
+//             ),
+//             Icon(
+//               Icons.arrow_forward_ios,
+//               color: Colors.white,
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }

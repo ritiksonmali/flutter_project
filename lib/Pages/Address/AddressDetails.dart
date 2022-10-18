@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter_login_app/Pages/Address/AddAddress.dart';
-import 'package:flutter_login_app/Pages/Address/SingleAddress.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,14 +27,14 @@ class _AddressDetailsState extends State<AddressDetails> {
       "createdDate": "2022-10-10",
       "lastModifiedDate": "2022-10-10",
       "id": 4,
-      "address_line1": "Kalpataru Colony Karve Nagar Pune",
-      "address_line2": "Pune",
-      "pincode": 411052,
-      "city": "Pune",
-      "state": "Maharashtra",
-      "country": "India",
-      "telephone_no": "222111",
-      "mobile_no": "8530838580"
+      "address_line1": "Add Your Address",
+      "address_line2": "",
+      "pincode": "",
+      "city": "",
+      "state": "",
+      "country": "",
+      "telephone_no": "",
+      "mobile_no": ""
     }
   ];
 
@@ -68,7 +67,11 @@ class _AddressDetailsState extends State<AddressDetails> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: ListView.builder(
+        child: ListView.separated(
+          separatorBuilder: (context, index) => Divider(
+            color: Colors.black,
+            height: 20,
+          ),
           itemCount: address.length,
           itemBuilder: (context, index) {
             var alladdress = address[index];
