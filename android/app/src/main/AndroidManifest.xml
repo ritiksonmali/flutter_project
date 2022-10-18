@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_login_app">
     
+    <uses-permission android:name="andoid.permission.INTERNET"/>
    <application
         android:label="Login App"
         android:name="${applicationName}"

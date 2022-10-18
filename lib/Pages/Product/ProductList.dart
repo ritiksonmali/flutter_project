@@ -8,6 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:counter_button/counter_button.dart';
 import '../../screens/navbar.dart';
 import '../Home/Search.dart';
+import '../cart/cart_screen.dart';
 
 class ProductListPage extends StatefulWidget {
   ProductListPage({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class _ProductListState extends State<ProductListPage> {
                 child: IconButton(
                 icon: Icon(Icons.shopping_bag_outlined),
                 onPressed: () {
-                       Get.to(() => SearchPage());
+                       Get.to(() => CartScreen());
                  },
                 ),
                 badgeContent: Text("6",style: TextStyle(color: Colors.white),),
@@ -60,13 +61,44 @@ class _ProductListState extends State<ProductListPage> {
       ),
       body: Column(
         children: [
+           Padding(
+                padding: const EdgeInsets.only(top: 10,left: 10,right: 10,bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                   Row(
+                    children: <Widget>[
+                    Text("Sort by",style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600
+                    ),),
+                    SizedBox(width: 8,),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                     
+                      child: IconButton(
+                        icon:Icon(Icons.keyboard_arrow_down),
+                      onPressed: (() {
+                        
+                      }),
+                      ),
+                      
+                    )
+                  ],
+                )
+              ],
+            ),
+            ),
           Expanded(
             child: ListView.builder(
                itemCount: productName.length,
               itemBuilder: (context,index) {
               itemCount:  productImage.length;
+              
               return Card(
-                child: Column(children: [
+
+                child: Column(
+                  children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -176,8 +208,18 @@ class _ProductListState extends State<ProductListPage> {
           )
         ]
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        
+        onPressed: () {
+          Get.to(CartScreen());
+        },
+        label: const Text('     View Cart     ',style: TextStyle(color: Colors.white),
+          //iconTheme: IconThemeData(color: Colors.black)
+        ),
+        icon: const Icon(Icons.shopping_bag_outlined),
+        backgroundColor: Colors.black,
+      ),
+       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
-
-

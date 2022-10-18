@@ -1,6 +1,10 @@
+import 'package:counter_button/counter_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../ConstantUtil/colors.dart';
+import '../Home/Search.dart';
+import '../Payment/RazorPayPayment.dart';
 
 
 class CartScreen extends StatefulWidget {
@@ -48,7 +52,7 @@ class _CartScreenState extends State<CartScreen> {
               ),),),
         Column(
           children: List.generate(3, (index){
-            return Padding(
+          return Padding(
           padding: const EdgeInsets.only(left: 30,right: 30,bottom: 30),
           child: Row(
               children: <Widget>[
@@ -87,10 +91,25 @@ class _CartScreenState extends State<CartScreen> {
 
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Jorden",style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600
-                    ),),
+                    Row(
+                      children: [
+                        Text("Jorden",style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600
+                        ),),
+                         SizedBox(width: 40,),
+                     
+                           Container(
+                             child: IconButton(
+                                              icon : Icon(Icons.delete,color:Colors.black),
+                                               onPressed: ()  {
+                                              //  Get.to(() => SearchPage());//deletefunction
+                                               },
+                                              ),
+                          ),
+                        
+                      ],
+                    ),
                     SizedBox(height: 15,),
                    Row(
                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,11 +118,45 @@ class _CartScreenState extends State<CartScreen> {
                       fontSize: 15,
                       fontWeight: FontWeight.w500
                     ),),
-                    Text("x1",style: TextStyle(
-                      fontSize: 14,
-                      color: black.withOpacity(0.5),
-                      fontWeight: FontWeight.w500
-                    ),)
+                    Container(
+                      width: 80,
+                      height: 40,
+                                decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(35),
+                                        color: Colors.black,   ),  
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children:  [
+                                          Padding(
+                                         padding: EdgeInsets.zero,
+                                        child: SizedBox(
+                                          height: 50,
+                                          width: 35,
+                                          child: IconButton(
+                                            icon : Icon(Icons.remove,color:Colors.white),
+                                             onPressed: ()  {
+                                              Get.to(() => SearchPage());
+                                             },
+                                            ),
+                                        ),
+                                        ),
+                                      //  Obx(()=>Text("${myProductController.},
+                                        Text("1",style: TextStyle(color: Colors.white),),
+                                        Padding(
+                                        padding: EdgeInsets.zero,
+                                         child: SizedBox(
+                                          height: 50,
+                                          width: 30,
+                                           child: IconButton(
+                                            icon : Icon(Icons.add,color:Colors.white),
+                                             onPressed: ()  {
+                                              Get.to(() => SearchPage());
+                                             },
+                                            ),
+                                         ),
+                                      ),
+                                    ],   ), 
+                            ),
                    ],)
                   ],
                 ))
@@ -141,20 +194,12 @@ class _CartScreenState extends State<CartScreen> {
                       padding: const EdgeInsets.all(16.0),
                       textStyle: const TextStyle(fontSize: 20),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(RazorPayPaymentPage());
+                    },
                     child: const Text('CHECKOUT'),
                   ),
           ),
-          // child: Container(
-          //   height: 50,
-          //  child: Center(
-          //    child: Text("CHECKOUT",style: TextStyle(
-          //      color: white,
-          //      fontSize: 15,
-          //      fontWeight: FontWeight.w600
-          //    ),),
-          //  ),
-          // )
           ),
         
       ],
