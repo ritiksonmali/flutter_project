@@ -21,6 +21,8 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   File? PickedImage;
 
+  String? imageUrl;
+
   void test() async {
     var store = await SharedPreferences.getInstance(); //add when requried
     String? data = store.getString('userData');
@@ -40,7 +42,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       this.firstname = firstname;
       this.lastname = lastname;
       this.email = email;
-      // getprofileApi(id);
+      getprofileApi(id);
     });
   }
 
@@ -117,7 +119,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 fit: BoxFit.cover,
                               )
                             : Image.network(
-                                'https://upload.wikimedia.org/wikipedia/commons/5/5f/Alberto_conversi_profile_pic.jpg',
+                                imageUrl != null
+                                    ? 'http://10.0.2.2:8082/api/auth/serveprofilepicture/${imageUrl}'
+                                    : 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Alberto_conversi_profile_pic.jpg',
                                 width: 170,
                                 height: 170,
                                 fit: BoxFit.cover,
@@ -233,27 +237,30 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  // String? image;
+  String? image;
 
-  // Future getprofileApi(int id) async {
-  //   try {
-  //     String url = 'http://10.0.2.2:8082/api/auth/getprofilepicture/${id}';
-  //     http.Response response = await http.get(
-  //       Uri.parse(url),
-  //       headers: {'Content-Type': 'application/json'},
-  //     );
+  Future getprofileApi(int id) async {
+    try {
+      String url = 'http://10.0.2.2:8082/api/auth/getprofilepicture/${id}';
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
 
-  //     var body = jsonDecode(response.body);
+      var body = jsonDecode(response.body);
 
-  //     // Uri uris = Uri.dataFromString(body['image']);
-  //     PickedImage = File(jsonDecode(body['image']));
-  //     print(PickedImage);
-  //     // File.fromUri(Uri.dataFromString(body['image'], base64: true));
-  //     return PickedImage;
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
+      // Uri uris = Uri.dataFromString(body['image']);
+      String image = body['image'];
+      setState(() {
+        imageUrl = image;
+      });
+
+      // File.fromUri(Uri.dataFromString(body['image'], base64: true));
+      return imageUrl;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   Future updateUserApi(int id, String firstname, lastname, email) async {
     try {
@@ -300,7 +307,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       final tempImage = File(photo.path);
       setState(() {
         PickedImage = tempImage;
-        upload(PickedImage!);
+        upload(this.id!, PickedImage!);
       });
 
       Get.back();
@@ -341,8 +348,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Future upload(File imageFile) async {
-    String url = 'http://10.0.2.2:8082/api/auth/upload';
+  Future upload(int id, File imageFile) async {
+    String url = 'http://10.0.2.2:8082/api/auth/addprofile/${id}';
     var request = new http.MultipartRequest("POST", Uri.parse(url));
     request.files.add(http.MultipartFile(
         'image',
@@ -351,7 +358,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         filename: imageFile.path.split("/").last));
     var res = await request.send();
 
-    print("file uploaded");
     if (res.statusCode == 200) {
       print(res);
       print("image uploaded");

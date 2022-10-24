@@ -22,7 +22,7 @@ class _OrderPageState extends State<OrderPage> {
       appBar:
           PreferredSize(child: getAppBar(), preferredSize: Size.fromHeight(60)),
       body: getBody(),
-      bottomNavigationBar: getFooter(),
+      // bottomNavigationBar: getFooter(),
     );
   }
 
@@ -492,6 +492,26 @@ class _OrderPageState extends State<OrderPage> {
                           ],
                         ))
                       ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 30),
+                      child: Container(
+                        width: 150,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: secondary,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Center(
+                          child: Text(
+                            "Reorder",
+                            style: TextStyle(
+                                color: white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -503,22 +523,22 @@ class _OrderPageState extends State<OrderPage> {
     );
   }
 
-  Widget getFooter() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-      child: Container(
-        width: double.infinity,
-        height: 55,
-        decoration: BoxDecoration(
-            color: secondary, borderRadius: BorderRadius.circular(12)),
-        child: Center(
-          child: Text(
-            "Reorder",
-            style: TextStyle(
-                color: white, fontSize: 17, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget getFooter() {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+  //     child: Container(
+  //       width: double.infinity,
+  //       height: 55,
+  //       decoration: BoxDecoration(
+  //           color: secondary, borderRadius: BorderRadius.circular(12)),
+  //       child: Center(
+  //         child: Text(
+  //           "Reorder",
+  //           style: TextStyle(
+  //               color: white, fontSize: 17, fontWeight: FontWeight.w500),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -118,8 +116,6 @@ class SignInApi extends ChangeNotifier {
         store.setString('email', json.encode(userDetails['result']['email']));
 
         CommanDialog.hideLoading();
-        // Get.snackbar('Hi', 'Login SuccessFully !',
-        //     backgroundColor: Colors.green, colorText: Colors.black);
         Get.off(() => HomeScreen());
       } else if (response.statusCode == 401) {
         Get.snackbar('Error', 'Email Already use for anothe account',
