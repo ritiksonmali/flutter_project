@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_login_app/model/User.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,8 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   File? PickedImage;
+
+  String? imageUrl;
 
   void test() async {
     var store = await SharedPreferences.getInstance(); //add when requried
@@ -38,6 +42,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       this.firstname = firstname;
       this.lastname = lastname;
       this.email = email;
+      getprofileApi(id);
     });
   }
 
@@ -92,23 +97,36 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       width: 130,
                       height: 130,
                       decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 4,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(0, 10))
-                          ],
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
-                              ))),
+                        border: Border.all(
+                          width: 4,
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              color: Colors.black.withOpacity(0.1),
+                              offset: Offset(0, 10))
+                        ],
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipOval(
+                        child: PickedImage != null
+                            ? Image.file(
+                                PickedImage!,
+                                width: 170,
+                                height: 170,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(
+                                imageUrl != null
+                                    ? 'http://10.0.2.2:8082/api/auth/serveprofilepicture/${imageUrl}'
+                                    : 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Alberto_conversi_profile_pic.jpg',
+                                width: 170,
+                                height: 170,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
                     ),
                     Positioned(
                         bottom: 0,
@@ -143,7 +161,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               buildTextField(
                   "Firstname", this.firstname, false, firstnamecontrol),
-              buildTextField("lastname", this.lastname, false, lastnamecontrol),
+              buildTextField("Lastname", this.lastname, false, lastnamecontrol),
               buildTextField("E-mail", this.email, false, emailcontrol),
               // buildTextField("Password", "Piyush@1", true),
               // buildTextField("Location", "saitara, Nashik", false),
@@ -159,7 +177,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      firstnamecontrol.clear();
+                      lastnamecontrol.clear();
+                      emailcontrol.clear();
+                    },
                     child: Text("CANCEL",
                         style: TextStyle(
                             fontSize: 14,
@@ -185,12 +207,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         firstnamecontrol.clear();
                         lastnamecontrol.clear();
                         emailcontrol.clear();
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('Sorry User Data Alredy Updated'),
-                          backgroundColor: Colors.red,
-                        ));
-                      }
+                      } else {}
                       setState(() {
                         test();
                       });
@@ -220,6 +237,31 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
+  String? image;
+
+  Future getprofileApi(int id) async {
+    try {
+      String url = 'http://10.0.2.2:8082/api/auth/getprofilepicture/${id}';
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      var body = jsonDecode(response.body);
+
+      // Uri uris = Uri.dataFromString(body['image']);
+      String image = body['image'];
+      setState(() {
+        imageUrl = image;
+      });
+
+      // File.fromUri(Uri.dataFromString(body['image'], base64: true));
+      return imageUrl;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future updateUserApi(int id, String firstname, lastname, email) async {
     try {
       print(" " + firstname + " " + lastname + " " + email);
@@ -228,7 +270,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       http.Response response = await http.put(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
-            "email": email == null ? this.email : email,
+            "email": email,
             'firstName': firstname,
             'lastName': lastname,
           }));
@@ -245,8 +287,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         store.setString('email', jsonEncode(body['email']));
         // Get.off(() => SignInScreen());
         Navigator.of(context).pop();
-        CommanDialog.showErrorDialog(
-            description: "user update successfully....!", title: "Success");
       } else if (response.statusCode == 400) {
         CommanDialog.showErrorDialog(description: "something went wrong");
         print("something went wrong");
@@ -267,6 +307,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       final tempImage = File(photo.path);
       setState(() {
         PickedImage = tempImage;
+        upload(this.id!, PickedImage!);
       });
 
       Get.back();
@@ -285,19 +326,44 @@ class _EditProfilePageState extends State<EditProfilePage> {
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextFormField(
         controller: controllers,
-        obscureText: isPasswordTextField,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        cursorColor: Colors.black87,
+        style: TextStyle(color: Colors.black87),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.only(bottom: 3),
-            labelText: labelText,
             floatingLabelBehavior: FloatingLabelBehavior.always,
+            labelText: labelText,
             hintText: placeholder,
             hintStyle: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             )),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+          LengthLimitingTextInputFormatter(50)
+        ],
+        obscureText: isPasswordTextField,
       ),
     );
+  }
+
+  Future upload(int id, File imageFile) async {
+    String url = 'http://10.0.2.2:8082/api/auth/addprofile/${id}';
+    var request = new http.MultipartRequest("POST", Uri.parse(url));
+    request.files.add(http.MultipartFile(
+        'image',
+        File(imageFile.path).readAsBytes().asStream(),
+        File(imageFile.path).lengthSync(),
+        filename: imageFile.path.split("/").last));
+    var res = await request.send();
+
+    if (res.statusCode == 200) {
+      print(res);
+      print("image uploaded");
+    } else {
+      print("uploaded faild");
+    }
   }
 
   void imagePickerOption() {
@@ -317,7 +383,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Text(
-                    "Pic Image From",
+                    "Pick Image From",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),

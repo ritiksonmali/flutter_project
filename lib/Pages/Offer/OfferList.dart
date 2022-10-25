@@ -4,77 +4,30 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_login_app/Pages/Home/Search.dart';
 import 'package:flutter_login_app/Pages/Order/ItemData.dart';
-import 'package:flutter_login_app/Pages/Product/MyProductController.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import '../../screens/navbar.dart';
-import '../Home/Search.dart';
 import 'package:http/http.dart' as http;
 
-class ProductListPage extends StatefulWidget {
-  ProductListPage({Key? key}) : super(key: key);
-  final myProductController = Get.put(MyProductController());
+class OfferList extends StatefulWidget {
+  const OfferList({Key? key}) : super(key: key);
 
   @override
-  State<ProductListPage> createState() => _ProductListState();
+  State<OfferList> createState() => _OfferListState();
 }
 
-class _ProductListState extends State<ProductListPage> {
-  int index = 8;
-
-  List<String> productName = [
-    'Mango',
-    'Orange',
-    'Grapes',
-    'Banana',
-    'Chery',
-    'Peach',
-    'Mixed Fruit Basket',
-    'Mixed Fruit Basket'
-  ];
-  List<String> productUnit = [
-    '25%',
-    '36%',
-    '6%',
-    'Dozen',
-    'KG',
-    'KG',
-    'KG',
-    'KG'
-  ];
-  List<int> productPrice = [
-    10000,
-    20000,
-    20500,
-    25000,
-    30000,
-    35000,
-    35000,
-    36999
-  ];
-  List<String> productImage = [
-    'https://image.shutterstock.com/image-photo/mango-isolated-on-white-background-600w-610892249.jpg',
-    'https://image.shutterstock.com/image-photo/orange-fruit-slices-leaves-isolated-600w-1386912362.jpg',
-    'https://image.shutterstock.com/image-photo/green-grape-leaves-isolated-on-600w-533487490.jpg',
-    'https://media.istockphoto.com/photos/banana-picture-id1184345169?s=612x612',
-    'https://media.istockphoto.com/photos/cherry-trio-with-stem-and-leaf-picture-id157428769?s=612x612',
-    'https://media.istockphoto.com/photos/single-whole-peach-fruit-with-leaf-and-slice-isolated-on-white-picture-id1151868959?s=612x612',
-    'https://media.istockphoto.com/photos/fruit-background-picture-id529664572?s=612x612',
-    'https://media.istockphoto.com/photos/fruit-background-picture-id529664572?s=612x612',
-  ];
-
+class _OfferListState extends State<OfferList> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getproductlist();
+    getproductofferlist();
   }
 
-  getproductlist() async {
-    var productsfromApi = await getAllProductApi();
+  getproductofferlist() async {
+    var productsoffersfromApi = await productofferApi();
     setState(() {
-      allproducts = productsfromApi;
+      offeredproduct = productsoffersfromApi;
     });
   }
 
@@ -107,9 +60,9 @@ class _ProductListState extends State<ProductListPage> {
       body: Column(children: [
         Expanded(
             child: ListView.builder(
-                itemCount: allproducts.length,
+                itemCount: offeredproduct.length,
                 itemBuilder: (context, index) {
-                  var productinfo = allproducts[index];
+                  var offerproduct = offeredproduct[index];
                   // itemCount:
                   // productImage.length;
                   return Card(
@@ -124,7 +77,7 @@ class _ProductListState extends State<ProductListPage> {
                                 height: 100,
                                 width: 100,
                                 image: NetworkImage(
-                                    'http://10.0.2.2:8082/api/auth/serveproducts/${productinfo['imageUrl'].toString()}')
+                                    'http://10.0.2.2:8082/api/auth/serveproducts/${offerproduct['imageUrl'].toString()}')
                                 // image: AssetImage("assets/shoe_1.webp"),
                                 ),
                             SizedBox(width: 10),
@@ -134,14 +87,14 @@ class _ProductListState extends State<ProductListPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    productinfo['name'].toString(),
+                                    offerproduct['name'].toString(),
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    productinfo['price'].toString(),
+                                    offerproduct['price'].toString(),
                                     // "49999rs",
                                     style: TextStyle(
                                         decoration: TextDecoration.lineThrough,
@@ -150,7 +103,7 @@ class _ProductListState extends State<ProductListPage> {
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    productinfo['price'].toString() +
+                                    offerproduct['price'].toString() +
                                         "\n" +
                                         "rs 36% off",
                                     style: TextStyle(
@@ -161,7 +114,7 @@ class _ProductListState extends State<ProductListPage> {
                                     height: 5,
                                   ),
                                   Text(
-                                    productinfo['desc'].toString(),
+                                    offerproduct['desc'].toString(),
                                     // "Discription",
                                     style: TextStyle(
                                         fontSize: 16,
@@ -169,7 +122,7 @@ class _ProductListState extends State<ProductListPage> {
                                   ),
                                   Text(
                                     "only stock" +
-                                        productinfo['inventory']['quantity']
+                                        offerproduct['inventory']['quantity']
                                             .toString(),
                                     // "only stock 5",
                                     style: TextStyle(
@@ -198,12 +151,12 @@ class _ProductListState extends State<ProductListPage> {
                                     child: InkWell(
                                         onTap: () {
                                           print(index);
-                                          print(productinfo[index].toString());
-                                          print(productinfo[index].toString());
-                                          print(productinfo[index]);
+                                          // print(productinfo[index].toString());
+                                          // print(productinfo[index].toString());
+                                          // print(productinfo[index]);
                                           print('1');
-                                          print(productUnit[index].toString());
-                                          print(productImage[index].toString());
+                                          // print(productUnit[index].toString());
+                                          // print(productImage[index].toString());
                                         },
                                         child: Container(
                                           height: 40,
@@ -387,22 +340,15 @@ class _ProductListState extends State<ProductListPage> {
     );
   }
 
-  List allproducts = [];
-
-  Future getAllProductApi() async {
-    String url = 'http://10.0.2.2:8082/api/auth/inventoryofproducts';
+  List offeredproduct = [];
+  Future productofferApi() async {
+    String url = 'http://10.0.2.2:8082/api/auth/getproductbyoffer/1';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
-
     var body = jsonDecode(response.body);
-
-    // if (response.statusCode == 200) {
-    //   return AllProducts.fromJson(body);
-    // } else {
-    //   return AllProducts.fromJson(body);
-    // }
-    return body;
+    print(body['products']);
+    return body['products'];
   }
 }

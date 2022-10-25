@@ -67,6 +67,7 @@ dependencies:
   flutter_svg: ^1.1.5
   line_icons:
   animate_do: ^2.1.0
+  fluttertoast: ^8.1.1
 
   
 
@@ -99,6 +100,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/orders_image/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
