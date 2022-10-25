@@ -7,6 +7,7 @@ import 'package:flutter_login_app/Controller/PopularproductController.dart';
 import 'package:flutter_login_app/Pages/Category/CategoryProductList.dart';
 import 'package:flutter_login_app/Pages/Offer/OfferList.dart';
 import 'package:flutter_login_app/Pages/Order/ItemData.dart';
+import 'package:flutter_login_app/Pages/Product/PopularProductList.dart';
 import 'package:flutter_login_app/model/Category.dart';
 import 'package:flutter_login_app/model/CategoryProduct.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
@@ -207,7 +208,11 @@ class _HomePageState extends State<HomePage> {
                                 style: Theme.of(context).textTheme.subtitle1
                                 //  .copyWith(fontWeight: FontWeight.bold),
                                 )),
-                        Text("Show more")
+                        InkWell(
+                            onTap: () {
+                              Get.to(() => PopularProductList());
+                            },
+                            child: Text("Show more"))
                       ],
                     ),
                   ),
