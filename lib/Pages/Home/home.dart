@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Controller/CategoryController.dart';
+import 'package:flutter_login_app/Controller/PopularproductController.dart';
 import 'package:flutter_login_app/Pages/Category/CategoryProductList.dart';
 import 'package:flutter_login_app/Pages/Offer/OfferList.dart';
 import 'package:flutter_login_app/Pages/Order/ItemData.dart';
@@ -36,6 +37,8 @@ class _HomePageState extends State<HomePage> {
   bool flag = true;
 
   final CategoryController categoryController = Get.put(CategoryController());
+  final PopularProductController popularproductController =
+      Get.put(PopularProductController());
 
   @override
   void initState() {
@@ -48,12 +51,12 @@ class _HomePageState extends State<HomePage> {
   apiCall() async {
     // var categoryFromApi = await getCategoryApi();
     var allproductsfromapi = await getAllProductApi();
-    var popularproductFromApi = await getPopularProductApi(this.flag);
+    // var popularproductFromApi = await getPopularProductApi(this.flag);
     var offersfromapi = await getAllOffersApi();
     setState(() {
       // category = categoryFromApi;
       allproducts = allproductsfromapi;
-      popularproducts = popularproductFromApi;
+      // popularproducts = popularproductFromApi;
       offers = offersfromapi;
     });
   }
@@ -213,10 +216,10 @@ class _HomePageState extends State<HomePage> {
                     child: ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: popularproducts.length,
+                        itemCount: popularproductController.popular.length,
                         physics: ScrollPhysics(),
                         itemBuilder: (context, index) {
-                          var popular = popularproducts[index];
+                          var popular = popularproductController.popular[index];
                           return GestureDetector(
                             onTap: () => null,
                             child: Column(
@@ -236,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                                         image: DecorationImage(
                                           fit: BoxFit.cover,
                                           image: NetworkImage(
-                                              'http://10.0.2.2:8082/api/auth/serveproducts/${popular['imageUrl'].toString()}'),
+                                              'http://10.0.2.2:8082/api/auth/serveproducts/${popular.imageUrl.toString()}'),
                                           // AssetImage(
                                           //     "assets/shoe_1.webp")
                                         )),
@@ -246,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                                   height: 10,
                                 ),
                                 Text(
-                                  popular['name'],
+                                  popular.name,
                                 )
                               ],
                             ),

@@ -121,7 +121,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             : Image.network(
                                 imageUrl != null
                                     ? 'http://10.0.2.2:8082/api/auth/serveprofilepicture/${imageUrl}'
-                                    : 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Alberto_conversi_profile_pic.jpg',
+                                    : 'https://180dc.org/wp-content/uploads/2022/04/Blank-Avatar.png',
                                 width: 170,
                                 height: 170,
                                 fit: BoxFit.cover,
