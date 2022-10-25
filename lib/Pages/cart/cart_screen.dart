@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../ConstantUtil/colors.dart';
+import '../Payment/RazorPayPayment.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -152,7 +154,9 @@ Widget getBody() {
               padding: const EdgeInsets.all(16.0),
               textStyle: const TextStyle(fontSize: 20),
             ),
-            onPressed: () {},
+            onPressed: () {
+               Get.to(() => RazorPayPaymentPage());
+              },
             child: const Text('CHECKOUT'),
           ),
         ),
