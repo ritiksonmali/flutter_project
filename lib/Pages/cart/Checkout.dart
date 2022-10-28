@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Pages/Order/Orders.dart';
 import 'package:get/get.dart';
@@ -7,12 +8,15 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../ConstantUtil/colors.dart';
 import '../../utils/helper.dart';
+import '../Address/AddressDetails.dart';
 import '../Home/home_screen.dart';
+import '../sucessOrder/OrderPlaced.dart';
+import '../sucessOrder/orderFail.dart';
 
 
 class CheckoutScreen extends StatefulWidget {
-   const CheckoutScreen({Key? key}) : super(key: key);
-   static const routeName = '/checkout';
+  const CheckoutScreen({Key? key}) : super(key: key);
+  // static const routeName = '/checkout';
  
   @override
   _CheckoutScreenState createState() => _CheckoutScreenState();
@@ -36,10 +40,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     print(response.paymentId);
     print(response.toString());
     print("Payment Done");
+    Get.to(OrderPlacedScreen());
+
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print("Payment Fail");
+    print(response.toString());
+    Get.to(OrderfailScreen());
+
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -55,7 +64,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         backgroundColor: Colors.white,
          centerTitle: true,
         title: Text(
-              "Cheakout",
+              "Checkout",
               style: 
                   TextStyle(
                   color: Colors.black,
@@ -108,20 +117,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         child: TextButton(
                           onPressed: () {
-                              var options = {
-                    'key': "rzp_test_BHAChutrVpoEpO",
-                    // amount will be multiple of 100
-                    'amount': (10000).toString(), //So its pay 500
-                    'name': 'Piyush pagar',
-                    'description': 'Demo',
-                    'timeout': 300, // in seconds
-                    'prefill': {
-                      'contact': '8830218670',
-                      'email': 'piyushhh@gmail.com'
-                    }
-                  };
-                  _razorpay.open(options);
-                            
+                             Get.to(() => AddressDetails());
                         }, child: Text("change",
                          style: 
                           TextStyle(
@@ -148,7 +144,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                    child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
-                       Text("Payment Method",
+                       Text("Order Summary",
                         style: 
                         TextStyle(
                         color: Colors.grey[800],
@@ -158,6 +154,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal:10),
                         child: TextButton(onPressed: () {
+                             Get.to(() => OrderPage());
                           }, 
                           child: Row(
                             children: [
@@ -239,12 +236,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               Container(
                                  width: 15,
                                  height: 15,
-                                //  child: IconButton(
-                                //     icon: const Icon(Icons.sel),
-                                //     color: Colors.black,
-                                //        onPressed: () {},
-                                //     ),
-                                 
                                 decoration: ShapeDecoration(
                                   shape: CircleBorder
                                   (side:BorderSide(color: Colors.black)
@@ -388,113 +379,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                              child: SizedBox(
                               height: 50,
                               width: double.infinity,
-                              child:ElevatedButton(
-                                 style: ElevatedButton.styleFrom(
-                                    primary: Colors.black, // background
-                                   // foreground
-                                   ),
-                                onPressed: () {
-                                    showModalBottomSheet(
-                                    shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                   ),
-                                   isScrollControlled: true,
-                                   isDismissible: false,
-                            context: context,
-                            builder: (context) {
-                              return Container(
-                                height:800,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          icon: Icon(Icons.clear),
-                                        ),
-                                      ],
-                                    ),
-                                    Image.asset(                                    
-                                        "assets/vector4.webp",
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      "Thank You!",
-                                      style: TextStyle(
-                                        color: AppColor.primary,
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "for your order",
-                                      style: Helper.getTheme(context)
-                                          .headline4
-                                          ?.copyWith(color: AppColor.primary),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      child: Text(
-                                          "Your order is now being processed. We will let you know once the order is picked from the outlet. Check the status of your order"),
-                                    ),
-                                    SizedBox(
-                                      height: 60,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                      ),
-                                      child: SizedBox(
-                                        height: 50,
-                                        width: double.infinity,
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                         primary: Colors.black, 
-                                         ),
-                                          onPressed: () {
-                                            Get.to(() => OrderPage());
-                                          },
-                                          child: Text("Track My Order",
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {
-                                           Get.to(() => HomeScreen());
-                                        },
-                                        child: Text(
-                                          "Back To Home",
-                                          style: TextStyle(
-                                            color: AppColor.primary,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            });
-                      },
-                               
-                      child: Text("Place Order"),
+                              child:CupertinoButton(
+                                child: Text("Place Order"),
+                                color: Colors.black,
+                               onPressed: () {
+                  ///Make payment
+                  var options = {
+                    'key': "rzp_test_BHAChutrVpoEpO",
+                    // amount will be multiple of 100
+                    'amount':5000, //So its pay 500
+                    'name': 'Piyush pagar',
+                    'description': 'Demo',
+                    'timeout': 300, // in seconds
+                    'prefill': {
+                      'contact': '8830218670',
+                      'email': 'piyush@gmail.com'
+                    }
+                  };
+                  _razorpay.open(options);
+                },
+                  
                       ),
                       
                       ),
@@ -512,6 +416,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       
       ),
     );
+  }
+    @override
+  void dispose() {
+    // TODO: implement dispose
+    _razorpay.clear();
+    super.dispose();
   }
 }
 
