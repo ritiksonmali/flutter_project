@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
-import 'package:flutter_login_app/Pages/home_screen.dart';
 import 'package:flutter_login_app/screens/SignIn.dart';
 import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';

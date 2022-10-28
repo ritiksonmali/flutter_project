@@ -11,8 +11,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Controller/LoginController.dart';
-import '../screens/welcome.dart';
+import '../../Controller/LoginController.dart';
+import '../../screens/welcome.dart';
 
 class SettingsPage extends StatefulWidget {
   @override

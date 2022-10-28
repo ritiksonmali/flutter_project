@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login_app/model/User.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
-import 'package:flutter_login_app/Pages/home_screen.dart';
+import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/screens/ResetPassword.dart';
 import 'package:flutter_login_app/screens/SignUp.dart';
 import 'package:flutter_login_app/utils/ColorUtils.dart';

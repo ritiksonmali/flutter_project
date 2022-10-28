@@ -83,7 +83,7 @@ class _ProductListState extends State<ProductListPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Product List', style: TextStyle(color: Colors.black)),
+        title: Text('Product List', style: TextStyle(color: Colors.black, fontWeight: FontWeight.normal,)),
         iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
         actions: [
