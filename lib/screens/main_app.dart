@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Controller/LoginController.dart';
-import 'package:flutter_login_app/Pages/home_screen.dart';
+import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
 

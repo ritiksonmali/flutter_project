@@ -63,10 +63,13 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         endDrawer: Navbar(),
         appBar: AppBar(
-          title: Text(
-            'Shopping cart',
-            style: TextStyle(color: Colors.black),
-          ),
+          title: Image.asset('assets/logo11.jpg',
+          height: 90,
+          width: 120,),
+          // title: Text(
+          //   'Shopping cart',
+          //   style: TextStyle(color: Colors.black),
+          // ),
           iconTheme: IconThemeData(color: Colors.black),
           automaticallyImplyLeading: false,
           actions: [

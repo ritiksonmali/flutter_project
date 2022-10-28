@@ -1,7 +1,8 @@
 //import 'package:cart/db_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../cart_model.dart';
+
+import 'cart_model.dart';
 
 class CartProvider with ChangeNotifier{
 

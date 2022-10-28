@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../ConstantUtil/colors.dart';
 import '../Payment/RazorPayPayment.dart';
+import 'Checkout.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -21,6 +22,15 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         automaticallyImplyLeading: true,
+           centerTitle: true,
+        title: Text(
+              "My Bag",
+              style: 
+                  TextStyle(
+                  color: Colors.black,
+                    fontSize: 25,
+                  fontWeight: FontWeight.normal,),   
+                  ),
         actions: [
           IconButton(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -37,14 +47,8 @@ class _CartScreenState extends State<CartScreen> {
 
 Widget getBody() {
   return ListView(
+  
     children: <Widget>[
-      Padding(
-        padding: EdgeInsets.only(top: 30, left: 25, right: 25, bottom: 25),
-        child: Text(
-          "My Bag",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-        ),
-      ),
       Column(
         children: List.generate(3, (index) {
           return Padding(
@@ -155,7 +159,7 @@ Widget getBody() {
               textStyle: const TextStyle(fontSize: 20),
             ),
             onPressed: () {
-               Get.to(() => RazorPayPaymentPage());
+               Get.to(() => CheckoutScreen());
               },
             child: const Text('CHECKOUT'),
           ),

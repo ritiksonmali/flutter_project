@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_login_app/Pages/home_screen.dart';
+import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/api/SignInAuto.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/screens/SignIn.dart';

@@ -27,12 +27,10 @@ late   var _razorpay;
     print("paymentId");
     print(response.paymentId);
     print(response.toString());
-    // Do something when payment succeeds
     print("Payment Done");
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    // Do something when payment fails
     print("Payment Fail");
   }
 
