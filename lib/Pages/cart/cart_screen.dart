@@ -273,25 +273,25 @@ class _CartScreenState extends State<CartScreen> {
           SizedBox(
             height: 50,
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 30, right: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  "Total",
-                  style: TextStyle(
-                      fontSize: 22,
-                      color: black.withOpacity(0.5),
-                      fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  "\$ 508.00",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 30, right: 30),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: <Widget>[
+          //       Text(
+          //         "Total",
+          //         style: TextStyle(
+          //             fontSize: 22,
+          //             color: black.withOpacity(0.5),
+          //             fontWeight: FontWeight.w600),
+          //       ),
+          //       Text(
+          //         "\$ 508.00",
+          //         style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           SizedBox(
             height: 30,
           ),
@@ -306,7 +306,7 @@ class _CartScreenState extends State<CartScreen> {
                   textStyle: const TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  Get.to(RazorPayPaymentPage());
+                  Get.to(() => CheckoutScreen());
                 },
                 child: const Text(
                   'CHECKOUT',
