@@ -133,185 +133,60 @@ class _PopularProductListState extends State<PopularProductList> {
                                   //              progressColor: Colors.purpleAccent,
                                   //    ),
                                   Align(
-                                    alignment: Alignment.bottomRight,
+                                    alignment: Alignment.centerRight,
                                     child: InkWell(
-                                        onTap: () {
-                                          print(index);
-                                          // print(productinfo[index].toString());
-                                          // print(productinfo[index].toString());
-                                          // print(productinfo[index]);
-                                          print('1');
-                                          // print(productUnit[index].toString());
-                                          // print(productImage[index].toString());
-                                        },
-                                        child: Container(
-                                          height: 40,
-                                          width: 80,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Colors.black,
-                                          ),
-                                          child: Row(
-                                            // mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              itemData[index].ShouldVisible
-                                                  ? Center(
-                                                      child: Container(
-                                                      height: 30,
-                                                      width: 70,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(4),
-                                                          border: Border.all(
-                                                              color: Colors
-                                                                  .white70)),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
-                                                        children: <Widget>[
-                                                          InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  if (itemData[
-                                                                              index]
-                                                                          .Counter <
-                                                                      2) {
-                                                                    itemData[
-                                                                            index]
-                                                                        .ShouldVisible = !itemData[
-                                                                            index]
-                                                                        .ShouldVisible;
-                                                                  } else {
-                                                                    itemData[
-                                                                            index]
-                                                                        .Counter--;
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: Icon(
-                                                                Icons.remove,
-                                                                color: Colors
-                                                                    .green,
-                                                                size: 18,
-                                                              )),
-                                                          Text(
-                                                            '${itemData[index].Counter}',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white70),
-                                                          ),
-                                                          InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  itemData[
-                                                                          index]
-                                                                      .Counter++;
-                                                                });
-                                                              },
-                                                              child: Icon(
-                                                                Icons.add,
-                                                                color: Colors
-                                                                    .green,
-                                                                size: 18,
-                                                              )),
-                                                        ],
-                                                      ),
-                                                    ))
-                                                  : Center(
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.all(5),
-                                                        height: 30,
-                                                        width: 70,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4),
-                                                            border: Border.all(
-                                                                color: Colors
-                                                                    .white70)),
-                                                        child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: <Widget>[
-                                                            InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  itemData[
-                                                                          index]
-                                                                      .ShouldVisible = !itemData[
-                                                                          index]
-                                                                      .ShouldVisible;
-                                                                });
-                                                              },
-                                                              child: Text(
-                                                                'ADD',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white70),
-                                                              ),
-                                                            ),
-                                                            // InkWell(
-                                                            //     onTap: () {
-                                                            //       setState(() {
-                                                            //         itemData[
-                                                            //                 index]
-                                                            //             .ShouldVisible = !itemData[
-                                                            //                 index]
-                                                            //             .ShouldVisible;
-                                                            //       });
-                                                            //     },
-                                                            //     child: Center(
-                                                            //         child: Icon(
-                                                            //       Icons.add,
-                                                            //       color: Colors
-                                                            //           .green,
-                                                            //       size: 18,
-                                                            //     )))
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                              // Padding(
-                                              //   padding: EdgeInsets.zero,
-                                              //   child: IconButton(
-                                              //     icon: Icon(Icons.remove,
-                                              //         color: Colors.white),
-                                              //     onPressed: () {
+                                      onTap: () {
+                                        // print(index);
+                                        // print(index);
+                                        // print(productName[index].toString());
+                                        // print( productPrice[index].toString());
+                                        // print( productPrice[index]);
+                                        // print('1');
+                                        // print(productUnit[index].toString());
+                                        // print(productImage[index].toString());
 
-                                              //       Get.to(() => SearchPage());
-                                              //     },
-                                              //   ),
-                                              // ),
-                                              //  Obx(()=>Text("${myProductController.},
-                                              // Text(
-                                              //   "1",
-                                              //   style: TextStyle(
-                                              //       color: Colors.white),
-                                              // ),
-                                              // Padding(
-                                              //   padding: EdgeInsets.zero,
-                                              //   child: IconButton(
-                                              //     icon: Icon(Icons.add,
-                                              //         color: Colors.white),
-                                              //     onPressed: () {
-                                              //       Get.to(() => SearchPage());
-                                              //     },
-                                              //   ),
-                                              // ),
-                                            ],
+                                        // dbHelper!.insert(
+                                        //   Cart(
+                                        //       id: index,
+                                        //       productId: index.toString(),
+                                        //       productName: productName[index].toString(),
+                                        //       initialPrice: productPrice[index],
+                                        //       productPrice: productPrice[index],
+                                        //       quantity: 1,
+                                        //       unitTag: productUnit[index].toString(),
+                                        //       image: productImage[index].toString())
+                                        // ).then((value){
+
+                                        //   cart.addTotalPrice(double.parse(productPrice[index].toString()));
+                                        //   cart.addCounter();
+
+                                        //   final snackBar = SnackBar(backgroundColor: Colors.green,content: Text('Product is added to cart'), duration: Duration(seconds: 1),);
+
+                                        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                                        // }).onError((error, stackTrace){
+                                        //   print("error"+error.toString());
+                                        //   final snackBar = SnackBar(backgroundColor: Colors.red ,content: Text('Product is already added in cart'), duration: Duration(seconds: 1));
+
+                                        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                        // });
+                                      },
+                                      child: Container(
+                                        height: 35,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: const Center(
+                                          child: Text(
+                                            'Add to cart',
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ),
-                                        )),
+                                        ),
+                                      ),
+                                    ),
                                   )
                                 ],
                               ),

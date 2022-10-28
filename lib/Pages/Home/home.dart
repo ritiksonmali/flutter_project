@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/Controller/CartController.dart';
 import 'package:flutter_login_app/Controller/CategoryController.dart';
+import 'package:flutter_login_app/Controller/OfferController.dart';
 import 'package:flutter_login_app/Controller/PopularproductController.dart';
+import 'package:flutter_login_app/Controller/ProductController.dart';
 import 'package:flutter_login_app/Pages/Category/CategoryProductList.dart';
 import 'package:flutter_login_app/Pages/Offer/OfferList.dart';
 import 'package:flutter_login_app/Pages/Order/ItemData.dart';
@@ -35,9 +38,24 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey();
 
+  int? id;
+
+  void test() async {
+    var store = await SharedPreferences.getInstance(); //add when requried
+    var iddata = store.getString('id');
+    int id = jsonDecode(iddata!);
+
+    setState(() {
+      this.id = id;
+    });
+  }
+
   bool flag = true;
 
   final CategoryController categoryController = Get.put(CategoryController());
+
+  final ProductController productController = Get.put(ProductController());
+  final OfferController offerController = Get.put(OfferController());
   final PopularProductController popularproductController =
       Get.put(PopularProductController());
 
@@ -45,6 +63,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    test();
     // getCategoryApi();
     apiCall();
   }
@@ -53,12 +72,12 @@ class _HomePageState extends State<HomePage> {
     // var categoryFromApi = await getCategoryApi();
     var allproductsfromapi = await getAllProductApi();
     // var popularproductFromApi = await getPopularProductApi(this.flag);
-    var offersfromapi = await getAllOffersApi();
+    // var offersfromapi = await getAllOffersApi();
     setState(() {
       // category = categoryFromApi;
       allproducts = allproductsfromapi;
       // popularproducts = popularproductFromApi;
-      offers = offersfromapi;
+      // offers = offersfromapi;
     });
   }
 
@@ -88,11 +107,15 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                   icon: Icon(Icons.shopping_bag_outlined),
                   onPressed: () {
-                    Get.to(() => CartScreen());
+                    Get.to(
+                      () => CartScreen(),
+                      //  arguments: {"userId": this.id}
+                    );
                   },
                 ),
                 badgeContent: Text(
-                  "6",
+                  productController.count.toString(),
+                  // "3",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -168,21 +191,22 @@ class _HomePageState extends State<HomePage> {
                     height: 150,
                     child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: offers.length,
+                        itemCount: offerController.offer.length,
                         scrollDirection: Axis.horizontal,
                         physics: ScrollPhysics(),
                         itemBuilder: (context, index) {
-                          var offer = offers[index];
+                          var offer = offerController.offer[index];
                           return Container(
                             width: 400,
                             child: Card(
                               child: Container(
                                 child: InkWell(
                                   onTap: () {
-                                    Get.to(() => OfferList());
+                                    Get.to(() => OfferList(),
+                                        arguments: {"offerId": offer.id});
                                   },
                                   child: Image.network(
-                                    'http://10.0.2.2:8082/api/auth/serveproducts/${offer['imageUrl'].toString()}',
+                                    'http://10.0.2.2:8082/api/auth/serveproducts/${offer.imageUrl.toString()}',
                                     fit: BoxFit.cover,
                                   ),
                                   // Image.asset('assets/sale.webp',
@@ -292,8 +316,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Column(
-                      children: List.generate(allproducts.length, (index) {
-                    var allproduct = allproducts[index];
+                      children: List.generate(
+                          productController.productData.length, (index) {
+                    var allproduct = productController.productData[index];
                     return GestureDetector(
                       child: Padding(
                         padding: const EdgeInsets.all(6.0),
@@ -333,7 +358,7 @@ class _HomePageState extends State<HomePage> {
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
                                                 image: NetworkImage(
-                                                  'http://10.0.2.2:8082/api/auth/serveproducts/${allproduct['imageUrl'].toString()}',
+                                                  'http://10.0.2.2:8082/api/auth/serveproducts/${allproduct.imageUrl.toString()}',
                                                 ),
                                                 //  AssetImage(
                                                 //     "assets/images/" +
@@ -345,7 +370,7 @@ class _HomePageState extends State<HomePage> {
                                       height: 15,
                                     ),
                                     Text(
-                                      allproduct['name'],
+                                      allproduct.name,
                                       // products[index]['name'],
                                       style: TextStyle(
                                           fontSize: 17,
@@ -354,185 +379,41 @@ class _HomePageState extends State<HomePage> {
                                     SizedBox(
                                       height: 15,
                                     ),
-                                    Text(
-                                      "\$ " + allproduct['price'].toString(),
-                                      // "\$ " + products[index]['price'],
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    SizedBox(
-                                      height: 25,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: Container(
-                                        height: 40,
-                                        width: 80,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.black,
-                                        ),
-                                        child: Row(
-                                          // mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            itemData[index].ShouldVisible
-                                                ? Center(
-                                                    child: Container(
-                                                    height: 30,
-                                                    width: 70,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4),
-                                                        border: Border.all(
-                                                            color: Colors
-                                                                .white70)),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: <Widget>[
-                                                        InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                if (itemData[
-                                                                            index]
-                                                                        .Counter <
-                                                                    2) {
-                                                                  itemData[
-                                                                          index]
-                                                                      .ShouldVisible = !itemData[
-                                                                          index]
-                                                                      .ShouldVisible;
-                                                                } else {
-                                                                  itemData[
-                                                                          index]
-                                                                      .Counter--;
-                                                                }
-                                                              });
-                                                            },
-                                                            child: Icon(
-                                                              Icons.remove,
-                                                              color:
-                                                                  Colors.green,
-                                                              size: 18,
-                                                            )),
-                                                        Text(
-                                                          '${itemData[index].Counter}',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .white70),
-                                                        ),
-                                                        InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                itemData[index]
-                                                                    .Counter++;
-                                                              });
-                                                            },
-                                                            child: Icon(
-                                                              Icons.add,
-                                                              color:
-                                                                  Colors.green,
-                                                              size: 18,
-                                                            )),
-                                                      ],
-                                                    ),
-                                                  ))
-                                                : Center(
-                                                    child: Container(
-                                                      padding:
-                                                          EdgeInsets.all(5),
-                                                      height: 30,
-                                                      width: 70,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(4),
-                                                          border: Border.all(
-                                                              color: Colors
-                                                                  .white70)),
-                                                      child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                itemData[index]
-                                                                        .ShouldVisible =
-                                                                    !itemData[
-                                                                            index]
-                                                                        .ShouldVisible;
-                                                              });
-                                                            },
-                                                            child: Text(
-                                                              'ADD',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white70),
-                                                            ),
-                                                          ),
-                                                          // InkWell(
-                                                          //     onTap: () {
-                                                          //       setState(() {
-                                                          //         itemData[
-                                                          //                 index]
-                                                          //             .ShouldVisible = !itemData[
-                                                          //                 index]
-                                                          //             .ShouldVisible;
-                                                          //       });
-                                                          //     },
-                                                          //     child: Center(
-                                                          //         child: Icon(
-                                                          //       Icons.add,
-                                                          //       color: Colors
-                                                          //           .green,
-                                                          //       size: 18,
-                                                          //     )))
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                            // Padding(
-                                            //   padding: EdgeInsets.zero,
-                                            //   child: IconButton(
-                                            //     icon: Icon(Icons.remove,
-                                            //         color: Colors.white),
-                                            //     onPressed: () {
-
-                                            //       Get.to(() => SearchPage());
-                                            //     },
-                                            //   ),
-                                            // ),
-                                            //  Obx(()=>Text("${myProductController.},
-                                            // Text(
-                                            //   "1",
-                                            //   style: TextStyle(
-                                            //       color: Colors.white),
-                                            // ),
-                                            // Padding(
-                                            //   padding: EdgeInsets.zero,
-                                            //   child: IconButton(
-                                            //     icon: Icon(Icons.add,
-                                            //         color: Colors.white),
-                                            //     onPressed: () {
-                                            //       Get.to(() => SearchPage());
-                                            //     },
-                                            //   ),
-                                            // ),
-                                          ],
-                                        ),
+                                    Container(
+                                      padding: EdgeInsets.all(20),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Price : \$ " +
+                                                allproduct.price.toString(),
+                                            // "\$ " + products[index]['price'],
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              productController.addtoCart(
+                                                  this.id!, allproduct);
+                                              // cartController.addtoCart(
+                                              //     productController
+                                              //         .productData[index]);
+                                            },
+                                            style: TextButton.styleFrom(
+                                              backgroundColor: Colors.black,
+                                            ),
+                                            child: Text(
+                                              'Add to Card',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),

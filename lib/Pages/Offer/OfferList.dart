@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_login_app/Controller/OfferProductController.dart';
 import 'package:flutter_login_app/Pages/Home/Search.dart';
 import 'package:flutter_login_app/Pages/Order/ItemData.dart';
 import 'package:get/get.dart';
@@ -17,22 +18,31 @@ class OfferList extends StatefulWidget {
 }
 
 class _OfferListState extends State<OfferList> {
+  final OfferProductController offerProductController =
+      Get.put(OfferProductController());
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getproductofferlist();
+    // getproductofferlist();
   }
 
-  getproductofferlist() async {
-    var productsoffersfromApi = await productofferApi();
-    setState(() {
-      offeredproduct = productsoffersfromApi;
-    });
-  }
+  // getproductofferlist() async {
+  //   var productsoffersfromApi = await productofferApi();
+  //   setState(() {
+  //     offeredproduct = productsoffersfromApi;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
+    var offerId = Get.arguments;
+    print(offerId);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      offerProductController.productofferApi(offerId['offerId']);
+    });
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -58,11 +68,13 @@ class _OfferListState extends State<OfferList> {
         ],
       ),
       body: Column(children: [
-        Expanded(
-            child: ListView.builder(
-                itemCount: offeredproduct.length,
+        Expanded(child: GetBuilder<OfferProductController>(
+          builder: (controller) {
+            return ListView.builder(
+                itemCount: offerProductController.offeredProduct.length,
                 itemBuilder: (context, index) {
-                  var offerproduct = offeredproduct[index];
+                  var offerproduct =
+                      offerProductController.offeredProduct[index];
                   // itemCount:
                   // productImage.length;
                   return Card(
@@ -77,7 +89,7 @@ class _OfferListState extends State<OfferList> {
                                 height: 100,
                                 width: 100,
                                 image: NetworkImage(
-                                    'http://10.0.2.2:8082/api/auth/serveproducts/${offerproduct['imageUrl'].toString()}')
+                                    'http://10.0.2.2:8082/api/auth/serveproducts/${offerproduct.imageUrl.toString()}')
                                 // image: AssetImage("assets/shoe_1.webp"),
                                 ),
                             SizedBox(width: 10),
@@ -87,14 +99,14 @@ class _OfferListState extends State<OfferList> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    offerproduct['name'].toString(),
+                                    offerproduct.name.toString(),
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    offerproduct['price'].toString(),
+                                    offerproduct.price.toString(),
                                     // "49999rs",
                                     style: TextStyle(
                                         decoration: TextDecoration.lineThrough,
@@ -103,7 +115,7 @@ class _OfferListState extends State<OfferList> {
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    offerproduct['price'].toString() +
+                                    offerproduct.price.toString() +
                                         "\n" +
                                         "rs 36% off",
                                     style: TextStyle(
@@ -114,7 +126,7 @@ class _OfferListState extends State<OfferList> {
                                     height: 5,
                                   ),
                                   Text(
-                                    offerproduct['desc'].toString(),
+                                    offerproduct.desc.toString(),
                                     // "Discription",
                                     style: TextStyle(
                                         fontSize: 16,
@@ -122,7 +134,7 @@ class _OfferListState extends State<OfferList> {
                                   ),
                                   Text(
                                     "only stock" +
-                                        offerproduct['inventory']['quantity']
+                                        offerproduct.inventory.quantity
                                             .toString(),
                                     // "only stock 5",
                                     style: TextStyle(
@@ -335,20 +347,21 @@ class _OfferListState extends State<OfferList> {
                       ],
                     ),
                   );
-                }))
+                });
+          },
+        ))
       ]),
     );
   }
 
-  List offeredproduct = [];
-  Future productofferApi() async {
-    String url = 'http://10.0.2.2:8082/api/auth/getproductbyoffer/1';
-    http.Response response = await http.get(
-      Uri.parse(url),
-      headers: {'Content-Type': 'application/json'},
-    );
-    var body = jsonDecode(response.body);
-    print(body['products']);
-    return body['products'];
-  }
+  // List offeredproduct = [];
+  // Future productofferApi() async {
+  //   String url = 'http://10.0.2.2:8082/api/auth/getproductbyoffer/1';
+  //   http.Response response = await http.get(
+  //     Uri.parse(url),
+  //     headers: {'Content-Type': 'application/json'},
+  //   );
+  //   var body = jsonDecode(response.body);
+  //   return body['products'];
+  // }
 }

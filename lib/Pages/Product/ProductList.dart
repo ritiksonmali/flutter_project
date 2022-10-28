@@ -218,158 +218,32 @@ class _ProductListState extends State<ProductListPage> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              itemData[index].ShouldVisible
-                                                  ? Center(
-                                                      child: Container(
-                                                      height: 30,
-                                                      width: 70,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(4),
-                                                          border: Border.all(
-                                                              color: Colors
-                                                                  .white70)),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
-                                                        children: <Widget>[
-                                                          InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  if (itemData[
-                                                                              index]
-                                                                          .Counter <
-                                                                      2) {
-                                                                    itemData[
-                                                                            index]
-                                                                        .ShouldVisible = !itemData[
-                                                                            index]
-                                                                        .ShouldVisible;
-                                                                  } else {
-                                                                    itemData[
-                                                                            index]
-                                                                        .Counter--;
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: Icon(
-                                                                Icons.remove,
-                                                                color: Colors
-                                                                    .green,
-                                                                size: 18,
-                                                              )),
-                                                          Text(
-                                                            '${itemData[index].Counter}',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white70),
-                                                          ),
-                                                          InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  itemData[
-                                                                          index]
-                                                                      .Counter++;
-                                                                });
-                                                              },
-                                                              child: Icon(
-                                                                Icons.add,
-                                                                color: Colors
-                                                                    .green,
-                                                                size: 18,
-                                                              )),
-                                                        ],
-                                                      ),
-                                                    ))
-                                                  : Center(
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.all(5),
-                                                        height: 30,
-                                                        width: 70,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4),
-                                                            border: Border.all(
-                                                                color: Colors
-                                                                    .white70)),
-                                                        child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: <Widget>[
-                                                            InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  itemData[
-                                                                          index]
-                                                                      .ShouldVisible = !itemData[
-                                                                          index]
-                                                                      .ShouldVisible;
-                                                                });
-                                                              },
-                                                              child: Text(
-                                                                'ADD',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white70),
-                                                              ),
-                                                            ),
-                                                            // InkWell(
-                                                            //     onTap: () {
-                                                            //       setState(() {
-                                                            //         itemData[
-                                                            //                 index]
-                                                            //             .ShouldVisible = !itemData[
-                                                            //                 index]
-                                                            //             .ShouldVisible;
-                                                            //       });
-                                                            //     },
-                                                            //     child: Center(
-                                                            //         child: Icon(
-                                                            //       Icons.add,
-                                                            //       color: Colors
-                                                            //           .green,
-                                                            //       size: 18,
-                                                            //     )))
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                              // Padding(
-                                              //   padding: EdgeInsets.zero,
-                                              //   child: IconButton(
-                                              //     icon: Icon(Icons.remove,
-                                              //         color: Colors.white),
-                                              //     onPressed: () {
-
-                                              //       Get.to(() => SearchPage());
-                                              //     },
-                                              //   ),
-                                              // ),
+                                              Padding(
+                                                padding: EdgeInsets.zero,
+                                                child: IconButton(
+                                                  icon: Icon(Icons.remove,
+                                                      color: Colors.white),
+                                                  onPressed: () {
+                                                    Get.to(() => SearchPage());
+                                                  },
+                                                ),
+                                              ),
                                               //  Obx(()=>Text("${myProductController.},
-                                              // Text(
-                                              //   "1",
-                                              //   style: TextStyle(
-                                              //       color: Colors.white),
-                                              // ),
-                                              // Padding(
-                                              //   padding: EdgeInsets.zero,
-                                              //   child: IconButton(
-                                              //     icon: Icon(Icons.add,
-                                              //         color: Colors.white),
-                                              //     onPressed: () {
-                                              //       Get.to(() => SearchPage());
-                                              //     },
-                                              //   ),
-                                              // ),
+                                              Text(
+                                                "1",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.zero,
+                                                child: IconButton(
+                                                  icon: Icon(Icons.add,
+                                                      color: Colors.white),
+                                                  onPressed: () {
+                                                    Get.to(() => SearchPage());
+                                                  },
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         )),
