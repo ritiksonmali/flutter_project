@@ -66,37 +66,93 @@ class _AddressDetailsState extends State<AddressDetails> {
         },
       ),
       body: Container(
-        padding: EdgeInsets.all(20),
-        child: ListView.separated(
-          separatorBuilder: (context, index) => Divider(
-            color: Colors.black,
-            height: 20,
-          ),
-          itemCount: address.length,
-          itemBuilder: (context, index) {
-            var alladdress = address[index];
-            return ListTile(
-              title: Text(alladdress["address_line1"] +
-                  "\n" +
-                  alladdress["address_line2"] +
-                  "\n" +
-                  "City : " +
-                  alladdress["city"] +
-                  " "
-                      "Pincode : " +
-                  alladdress["pincode"].toString()),
-              subtitle: Text(alladdress["state"] +
-                  " " +
-                  alladdress["country"] +
-                  "\n" +
-                  "telephone / Mobile no : " +
-                  alladdress["telephone_no"] +
-                  " / " +
-                  alladdress["mobile_no"]),
-            );
-          },
-        ),
-      ),
+          padding: EdgeInsets.all(5),
+          child: ListView.builder(
+              itemCount: address.length,
+              itemBuilder: (context, index) {
+                var alladdress = address[index];
+                return Card(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  alladdress["address_line1"] +
+                                      "\n" +
+                                      alladdress["address_line2"] +
+                                      "\n" +
+                                      "City : " +
+                                      alladdress["city"] +
+                                      " "
+                                          "Pincode : " +
+                                      alladdress["pincode"].toString(),
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  alladdress["state"] +
+                                      " " +
+                                      alladdress["country"] +
+                                      "\n" +
+                                      "telephone / Mobile no : " +
+                                      alladdress["telephone_no"] +
+                                      " / " +
+                                      alladdress["mobile_no"],
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(20),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      alladdress['isSelected']
+                                          ? ElevatedButton(
+                                              onPressed: () {
+                                                // productController.addtoCart(
+                                                //     this.id!, allproduct);
+                                                // cartController.addtoCart(
+                                                //     productController
+                                                //         .productData[index]);
+                                              },
+                                              style: TextButton.styleFrom(
+                                                backgroundColor: Colors.black,
+                                              ),
+                                              child: Text(
+                                                'Select',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16),
+                                              ),
+                                            )
+                                          : Text("selected"),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              })),
     );
   }
 

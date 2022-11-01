@@ -33,6 +33,26 @@ class _CartScreenState extends State<CartScreen> {
   int counter = 0;
 
   List cartproducts = [];
+  var product = {
+    "id": 0,
+    "quantity": 0,
+    "product": {
+      "id": 0,
+      "name": '',
+      "desc": '',
+      "price": 0,
+      "imageUrl": '',
+      "status": '',
+      "ispopular": false,
+      "inventory": {
+        "createdDate": null,
+        "lastModifiedDate": null,
+        "id": 0,
+        "quantity": 0
+      }
+    }
+  };
+  var total;
 
   int? id;
 
@@ -47,7 +67,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future getCartproducts(userId) async {
-    print("fatchProduct $userId");
+    // print("fatchProduct $userId");
     // var postData = {"productid": id};
 
     CommanDialog.showLoading();
@@ -120,7 +140,14 @@ class _CartScreenState extends State<CartScreen> {
           ),
           Column(
             children: List.generate(cartproducts.length, (index) {
+              print(cartproducts);
               var cartdata = cartproducts[index];
+              total = cartproducts.length > 0
+                  ? cartproducts
+                      .map<int>((m) => m['product']['price'] * m['quantity'])
+                      .reduce((value, element) => value + element)
+                      .toStringAsFixed(2)
+                  : 0;
               return Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
                 child: Row(
@@ -196,6 +223,12 @@ class _CartScreenState extends State<CartScreen> {
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w500),
                             ),
+                            // Text(
+                            //   '${cartproducts.length > 0 ? cartproducts.map<int>((m) => m['product']['price'] * m['quantity']).reduce((value, element) => value + element).toStringAsFixed(2) : 0}',
+                            //   // "\$ 200",
+                            //   style: TextStyle(
+                            //       fontSize: 15, fontWeight: FontWeight.w500),
+                            // ),
                             Container(
                               width: 80,
                               height: 40,
@@ -223,6 +256,9 @@ class _CartScreenState extends State<CartScreen> {
                                             setState(() {
                                               if (cartdata['quantity'] == 1) {
                                                 cartproducts.removeAt(index);
+                                                if (cartproducts.isEmpty) {
+                                                  cartproducts.add(product);
+                                                }
                                               } else {
                                                 cartdata['quantity'] =
                                                     cartdata['quantity'] - 1;
@@ -283,25 +319,25 @@ class _CartScreenState extends State<CartScreen> {
           SizedBox(
             height: 30,
           ),
-          // Padding(
-          //   padding: EdgeInsets.only(left: 30, right: 30),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: <Widget>[
-          //       Text(
-          //         "Total",
-          //         style: TextStyle(
-          //             fontSize: 22,
-          //             color: black.withOpacity(0.5),
-          //             fontWeight: FontWeight.w600),
-          //       ),
-          //       Text(
-          //         "\$ 508.00",
-          //         style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          Padding(
+            padding: EdgeInsets.only(left: 30, right: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Total",
+                  style: TextStyle(
+                      fontSize: 22,
+                      color: black.withOpacity(0.5),
+                      fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  "\$ ${total}",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Container(
@@ -315,7 +351,7 @@ class _CartScreenState extends State<CartScreen> {
                 onPressed: cartproducts.isEmpty
                     ? null
                     : () {
-                        // Get.to(() => CheckoutScreen());
+                        Get.to(() => CheckoutScreen());
                       },
                 child: const Text(
                   'CHECKOUT',
