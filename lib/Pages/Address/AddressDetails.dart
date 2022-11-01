@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter_login_app/Pages/Address/AddAddress.dart';
+import 'package:flutter_login_app/Pages/cart/Checkout.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -121,9 +122,23 @@ class _AddressDetailsState extends State<AddressDetails> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      alladdress['isSelected']
-                                          ? ElevatedButton(
+                                      alladdress['isSelected'] == true
+                                          ? Text('selected')
+                                          : ElevatedButton(
                                               onPressed: () {
+                                                Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CheckoutScreen()), // this mymainpage is your page to refresh
+                                                  (Route<dynamic> route) =>
+                                                      false,
+                                                );
+                                                // Navigator.pop(
+                                                //     context,
+                                                //     MaterialPageRoute(
+                                                //         builder: (context) =>
+                                                //             CheckoutScreen()));
                                                 // productController.addtoCart(
                                                 //     this.id!, allproduct);
                                                 // cartController.addtoCart(
@@ -140,7 +155,6 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                     fontSize: 16),
                                               ),
                                             )
-                                          : Text("selected"),
                                     ],
                                   ),
                                 ),
