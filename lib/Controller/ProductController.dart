@@ -19,6 +19,19 @@ class ProductController extends GetxController {
   double get totalPrice => cartitem.fold(0, (sum, item) => sum + item.price);
   int get count => cartitem.length;
 
+  Future increasequantity(int userId, productId, String sum) async {
+    String url =
+        'http://10.0.2.2:8082/api/auth/addProductsInCart?userId=${userId}&productId=${productId}&sum=${sum}';
+    http.Response response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    var body = jsonDecode(response.body);
+
+    print(response.body);
+  }
+
   addtoCart(int userId, Product product) async {
     print(product.id);
     String url = 'http://10.0.2.2:8082/api/auth/addToCart/${userId}';

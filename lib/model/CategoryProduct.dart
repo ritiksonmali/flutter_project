@@ -62,7 +62,7 @@ class Inventory {
   dynamic createdDate;
   dynamic lastModifiedDate;
   int id;
-  String quantity;
+  int quantity;
 
   factory Inventory.fromJson(Map<String, dynamic> json) => Inventory(
         createdDate: json["createdDate"],

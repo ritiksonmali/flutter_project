@@ -30,6 +30,8 @@ class Product {
   String status;
   bool ispopular;
   Inventory inventory;
+  int counter = 1;
+  bool isAdded = false;
 
   factory Product.fromJson(dynamic json) => Product(
         id: json["id"],
@@ -65,7 +67,7 @@ class Inventory {
   dynamic createdDate;
   dynamic lastModifiedDate;
   int id;
-  String quantity;
+  int quantity;
 
   factory Inventory.fromJson(Map<String, dynamic> json) => Inventory(
         createdDate: json["createdDate"],

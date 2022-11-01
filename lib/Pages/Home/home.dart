@@ -39,6 +39,8 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey();
 
   int? id;
+  String add = "add";
+  String remove = "remove";
 
   void test() async {
     var store = await SharedPreferences.getInstance(); //add when requried
@@ -385,40 +387,138 @@ class _HomePageState extends State<HomePage> {
                                       height: 15,
                                     ),
                                     Container(
-                                      padding: EdgeInsets.all(20),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Price : \$ " +
-                                                allproduct.price.toString(),
-                                            // "\$ " + products[index]['price'],
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              productController.addtoCart(
-                                                  this.id!, allproduct);
-                                              // cartController.addtoCart(
-                                              //     productController
-                                              //         .productData[index]);
-                                            },
-                                            style: TextButton.styleFrom(
-                                              backgroundColor: Colors.black,
-                                            ),
-                                            child: Text(
-                                              'Add to Card',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                        padding: EdgeInsets.all(20),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Price : \$ " +
+                                                    allproduct.price.toString(),
+                                                // "\$ " + products[index]['price'],
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              productController
+                                                      .productData[index]
+                                                      .isAdded
+                                                  ? Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        IconButton(
+                                                          icon: Icon(
+                                                              Icons.remove),
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              productController
+                                                                  .increasequantity(
+                                                                      this.id!,
+                                                                      allproduct
+                                                                          .id,
+                                                                      this.remove);
+                                                              if (productController
+                                                                      .productData[
+                                                                          index]
+                                                                      .counter >
+                                                                  1) {
+                                                                productController
+                                                                    .productData[
+                                                                        index]
+                                                                    .counter--;
+                                                              } else {
+                                                                productController
+                                                                    .productData[
+                                                                        index]
+                                                                    .isAdded = false;
+                                                              }
+                                                            });
+                                                          },
+                                                          color: Colors.black,
+                                                        ),
+                                                        Text(productController
+                                                            .productData[index]
+                                                            .counter
+                                                            .toString()),
+                                                        IconButton(
+                                                          icon: Icon(Icons.add),
+                                                          color: Colors.black,
+                                                          onPressed: () {
+                                                            productController
+                                                                .increasequantity(
+                                                                    this.id!,
+                                                                    allproduct
+                                                                        .id,
+                                                                    this.add);
+                                                            setState(() {
+                                                              productController
+                                                                  .productData[
+                                                                      index]
+                                                                  .counter++;
+                                                            });
+                                                          },
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : ElevatedButton(
+                                                      onPressed: () {
+                                                        productController
+                                                            .increasequantity(
+                                                                this.id!,
+                                                                allproduct.id,
+                                                                this.add);
+                                                        setState(() {
+                                                          productController
+                                                              .productData[
+                                                                  index]
+                                                              .isAdded = true;
+                                                        });
+                                                      },
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            Colors.black,
+                                                      ),
+                                                      child:
+                                                          Text("Add to Cart"),
+                                                    ),
+                                            ])
+
+                                        // child: Row(
+                                        //   mainAxisAlignment:
+                                        //       MainAxisAlignment.spaceBetween,
+                                        //   children: [
+                                        //     Text(
+                                        //       "Price : \$ " +
+                                        //           allproduct.price.toString(),
+                                        //       // "\$ " + products[index]['price'],
+                                        //       style: TextStyle(
+                                        //           fontSize: 16,
+                                        //           fontWeight: FontWeight.w500),
+                                        //     ),
+                                        //     ElevatedButton(
+                                        //       onPressed: () {
+                                        //         productController.addtoCart(
+                                        //             this.id!, allproduct);
+                                        //         // cartController.addtoCart(
+                                        //         //     productController
+                                        //         //         .productData[index]);
+                                        //       },
+                                        //       style: TextButton.styleFrom(
+                                        //         backgroundColor: Colors.black,
+                                        //       ),
+                                        //       child: Text(
+                                        //         'Add to Card',
+                                        //         style: TextStyle(
+                                        //             fontWeight: FontWeight.bold,
+                                        //             fontSize: 16),
+                                        //       ),
+                                        //     )
+                                        //   ],
+                                        // ),
+                                        ),
                                   ],
                                 ),
                               ),

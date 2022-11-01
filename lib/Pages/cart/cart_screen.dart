@@ -29,6 +29,9 @@ class _CartScreenState extends State<CartScreen> {
   String remove = "remove";
   Int? count;
 
+  int maxCounter = 4;
+  int counter = 0;
+
   List cartproducts = [];
 
   int? id;
@@ -63,8 +66,6 @@ class _CartScreenState extends State<CartScreen> {
 
   apiCall() async {
     var allproductsfromapi = await getCartproducts(id);
-    // var popularproductFromApi = await getPopularProductApi(this.flag);
-    // var offersfromapi = await getAllOffersApi();
     setState(() {
       cartproducts = allproductsfromapi;
     });
@@ -220,8 +221,12 @@ class _CartScreenState extends State<CartScreen> {
                                                 cartdata['product']['id'],
                                                 this.remove);
                                             setState(() {
-                                              cartdata['quantity'] = count;
-                                              apiCall();
+                                              if (cartdata['quantity'] == 1) {
+                                                cartproducts.removeAt(index);
+                                              } else {
+                                                cartdata['quantity'] =
+                                                    cartdata['quantity'] - 1;
+                                              }
                                             });
                                           },
                                         ),
@@ -243,15 +248,20 @@ class _CartScreenState extends State<CartScreen> {
                                         icon: Icon(Icons.add,
                                             color: Colors.white),
                                         onPressed: () {
-                                          increasequantity(
-                                              this.id!,
-                                              cartdata['product']['id'],
-                                              this.add);
-                                          setState(() {
-                                            cartdata['quantity'] =
-                                                cartdata['quantity'] + 1;
-                                            apiCall();
-                                          });
+                                          if (cartdata['product']['inventory']
+                                                      ['quantity'] >
+                                                  cartdata['quantity'] &&
+                                              cartdata['quantity'] < 5) {
+                                            increasequantity(
+                                                this.id!,
+                                                cartdata['product']['id'],
+                                                this.add);
+                                            setState(() {
+                                              cartdata['quantity'] =
+                                                  cartdata['quantity'] + 1;
+                                              counter++;
+                                            });
+                                          }
 
                                           // Get.to(() => SearchPage());
                                         },
@@ -271,7 +281,7 @@ class _CartScreenState extends State<CartScreen> {
             }),
           ),
           SizedBox(
-            height: 50,
+            height: 30,
           ),
           // Padding(
           //   padding: EdgeInsets.only(left: 30, right: 30),
@@ -292,9 +302,6 @@ class _CartScreenState extends State<CartScreen> {
           //     ],
           //   ),
           // ),
-          SizedBox(
-            height: 30,
-          ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Container(
@@ -305,9 +312,11 @@ class _CartScreenState extends State<CartScreen> {
                   padding: const EdgeInsets.all(16.0),
                   textStyle: const TextStyle(fontSize: 20),
                 ),
-                onPressed: () {
-                  Get.to(() => CheckoutScreen());
-                },
+                onPressed: cartproducts.isEmpty
+                    ? null
+                    : () {
+                        // Get.to(() => CheckoutScreen());
+                      },
                 child: const Text(
                   'CHECKOUT',
                   style: TextStyle(color: Colors.white),
@@ -315,6 +324,9 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
           ),
+          SizedBox(
+            height: 20,
+          )
         ],
       ),
     );
@@ -452,7 +464,7 @@ Widget getBody() {
               textStyle: const TextStyle(fontSize: 20),
             ),
             onPressed: () {
-              Get.to(() => CheckoutScreen());
+              // Get.to(() => CheckoutScreen());
             },
             child: const Text('CHECKOUT'),
           ),
