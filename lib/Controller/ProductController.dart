@@ -8,6 +8,12 @@ class ProductController extends GetxController {
   List<Product> productData = [];
 
   @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+  }
+
+  @override
   void onReady() {
     // TODO: implement onReady
     super.onReady();
@@ -56,7 +62,6 @@ class ProductController extends GetxController {
     );
 
     var body = jsonDecode(response.body);
-
     if (response.statusCode == 200) {
       for (Map i in body['records']) {
         productData.add(Product.fromJson(i));

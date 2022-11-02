@@ -27,7 +27,12 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   late var _razorpay;
+  var total;
+  // int totalprice = 0;
+  double gst = 0;
+  double finalPrice = 0;
   var amountController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -108,13 +113,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 00),
                         child: SizedBox(
                           width: 230,
-                          child: Text(
-                            "538 sagar park laxmi Nagar Panchavati Nashik-422003",
-                            style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          child: SelectedAddress == null
+                              ? null
+                              : Text(
+                                  SelectedAddress.toString(),
+                                  // "538 sagar park laxmi Nagar Panchavati Nashik-422003",
+                                  style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
                         ),
                       ),
                       Container(
@@ -122,9 +130,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           color: Colors.grey[200],
                         ),
                         child: TextButton(
-                            onPressed: () {
-                              Get.to(() => AddressDetails());
+                            onPressed: () async {
+                              final value = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddressDetails()),
+                              );
+
+                              setState(() {
+                                apiCall();
+                              });
                             },
+                            // onPressed: () {
+
+                            //   Get.to(() => AddressDetails());
+                            // },
                             child: Text("change",
                                 style: TextStyle(
                                     color: Colors.black87,
@@ -228,23 +248,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Column(
                     children: List.generate(cartproducts.length, (index) {
                   var productdata = cartproducts[index];
+
+                  // totalprice =
+                  //     productdata['product']['price'] * productdata['quantity'];
+                  // print(((totalprice + 10) * 18) / 100);
+
+                  total = cartproducts.length > 0
+                      ? cartproducts
+                          .map<int>(
+                              (m) => m['product']['price'] * m['quantity'])
+                          .reduce((value, element) => value + element)
+                      : 0;
+                  int? totalPrice = int.tryParse(total.toString());
+                  gst = ((totalPrice! + 10) * 18) / 100;
+                  finalPrice = gst + totalPrice + 10;
                   return GestureDetector(
                     child: Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: InkWell(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (_) => ProductDetailPage(
-                          //             // id: products[index]['id'].toString(),
-                          //             // name: products[index]['name'],
-                          //             // img: products[index]['img'],
-                          //             // price: products[index]['price'],
-                          //             // mulImg: products[index]['mul_img'],
-                          //             // sizes: products[index]['sizes'],
-                          //             )));
-                        },
+                        onTap: () {},
                         child: Container(
                             child: Stack(
                           children: <Widget>[
@@ -341,7 +363,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         ),
                         Text(
-                          "\₹690",
+                          "\₹${total}",
                           style: TextStyle(
                               color: Colors.black87,
                               fontSize: 18,
@@ -385,7 +407,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         ),
                         Text(
-                          "\₹126",
+                          "\₹${gst}",
                           style: TextStyle(
                               color: Colors.black87,
                               fontSize: 18,
@@ -414,7 +436,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         ),
                         Text(
-                          "\₹826.00",
+                          "\₹${finalPrice}",
                           style: TextStyle(
                               color: Colors.black87,
                               fontSize: 18,
@@ -488,6 +510,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   List cartproducts = [];
 
   int? id;
+  bool isSelected = true;
+  String? SelectedAddress;
 
   void test() async {
     var store = await SharedPreferences.getInstance(); //add when requried
@@ -510,16 +534,44 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     var body = jsonDecode(response.body);
     CommanDialog.hideLoading();
-    print(body['totalCost']);
-    print(body['cartItems']);
+    // print(body['totalCost']);
+    // print(body['cartItems']);
 
     return body['cartItems'];
   }
 
   apiCall() async {
     var allproductsfromapi = await getCartproducts(id);
+    var SelectedAddressFromAPi = await getSelectedApi(id!, isSelected);
     setState(() {
       cartproducts = allproductsfromapi;
+      SelectedAddress = SelectedAddressFromAPi;
     });
+  }
+
+  getSelectedApi(int UserId, bool isSelected) async {
+    try {
+      String url =
+          'http://10.0.2.2:8082/api/auth/getSelectedAddress/${UserId}/${isSelected}';
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+      var body = jsonDecode(response.body);
+
+      return body['address_line1'] +
+          "\n" +
+          body['pincode'].toString() +
+          " " +
+          body['city'] +
+          "\n" +
+          body['state'] +
+          " " +
+          body['country'] +
+          "\n" +
+          body['mobile_no'];
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

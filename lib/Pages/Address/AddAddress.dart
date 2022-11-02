@@ -386,6 +386,7 @@ class _AddressState extends State<Address> {
             "address_line2": addressLine2,
             "city": city,
             "country": country,
+            "isSelected": false,
             "mobile_no": mobileno,
             "pincode": pincode,
             "state": state,

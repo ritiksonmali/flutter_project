@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter_login_app/Pages/Address/AddAddress.dart';
 import 'package:flutter_login_app/Pages/cart/Checkout.dart';
+import 'package:flutter_login_app/Pages/cart/cart_screen.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,7 @@ class AddressDetails extends StatefulWidget {
 }
 
 class _AddressDetailsState extends State<AddressDetails> {
+  int? userId;
   @override
   void initState() {
     // TODO: implement initState
@@ -23,21 +25,7 @@ class _AddressDetailsState extends State<AddressDetails> {
     test();
   }
 
-  List address = [
-    {
-      "createdDate": "2022-10-10",
-      "lastModifiedDate": "2022-10-10",
-      "id": 4,
-      "address_line1": "Add Your Address",
-      "address_line2": "",
-      "pincode": "",
-      "city": "",
-      "state": "",
-      "country": "",
-      "telephone_no": "",
-      "mobile_no": ""
-    }
-  ];
+  List address = [];
 
   @override
   Widget build(BuildContext context) {
@@ -126,24 +114,25 @@ class _AddressDetailsState extends State<AddressDetails> {
                                           ? Text('selected')
                                           : ElevatedButton(
                                               onPressed: () {
-                                                Navigator.pushAndRemoveUntil(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CheckoutScreen()), // this mymainpage is your page to refresh
-                                                  (Route<dynamic> route) =>
-                                                      false,
-                                                );
+                                                setState(() {
+                                                  checkAddressIsSelected(
+                                                      this.userId!,
+                                                      alladdress['id']);
+                                                });
+                                                // Navigator.pushAndRemoveUntil(
+                                                //   context,
+                                                //   MaterialPageRoute(
+                                                //       builder: (context) =>
+                                                //           CheckoutScreen()), // this mymainpage is your page to refresh
+                                                //   (Route<dynamic> route) =>
+                                                //       true,
+                                                // );
+                                                Navigator.pop(context);
                                                 // Navigator.pop(
                                                 //     context,
                                                 //     MaterialPageRoute(
                                                 //         builder: (context) =>
-                                                //             CheckoutScreen()));
-                                                // productController.addtoCart(
-                                                //     this.id!, allproduct);
-                                                // cartController.addtoCart(
-                                                //     productController
-                                                //         .productData[index]);
+                                                //             CartScreen()));
                                               },
                                               style: TextButton.styleFrom(
                                                 backgroundColor: Colors.black,
@@ -176,6 +165,7 @@ class _AddressDetailsState extends State<AddressDetails> {
     int id = jsonDecode(iddata!);
     var AddressFromApi = await getAddressApi(id);
     setState(() {
+      this.userId = id;
       address = AddressFromApi;
     });
   }
@@ -188,15 +178,21 @@ class _AddressDetailsState extends State<AddressDetails> {
         headers: {'Content-Type': 'application/json'},
       );
       var body = jsonDecode(response.body);
-      print(body);
       return body;
     } catch (e) {
       print(e.toString());
     }
   }
+
+  Future checkAddressIsSelected(int userId, addressId) async {
+    String url =
+        'http://10.0.2.2:8082/api/auth/updateaddressIsSelected/${addressId}/${userId}';
+    http.Response response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+  }
 }
-
-
 
 // body: ListView(
 //         children: [
@@ -206,6 +202,6 @@ class _AddressDetailsState extends State<AddressDetails> {
 //           Divider(
 //             height: 1,
 //           ),
-          
+
 //         ],
 //       ),
