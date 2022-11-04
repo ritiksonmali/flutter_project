@@ -606,7 +606,7 @@ class _HomePageState extends State<HomePage> {
   List allproducts = [];
 
   Future getAllProductApi() async {
-    String url = 'http://10.0.2.2:8082/api/auth/products';
+    String url = 'http://10.0.2.2:8082/api/auth/products/1';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

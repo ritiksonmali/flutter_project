@@ -46,12 +46,33 @@ class ProductController extends GetxController {
         body: json.encode({"product_id": product.id, "quantity": 1}));
 
     var body = jsonDecode(response.body);
-
+    print(body);
     if (response.statusCode == 200) {
       cartitem.add(product);
       print("Product Added in cart");
     }
   }
+
+
+  Future setPaymentDetails(String paymentId ,String paymentStatus,String orderId) async {
+    
+      String url = 'http://10.0.2.2:8082/setOrderPaymentStatus';
+      var response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            "orderId": orderId,
+            "paymentId":paymentId,
+            "paymentStatus":paymentStatus
+          }));
+            print("failed payment");
+      if (response.statusCode == 200) {
+        print("Success payment");
+       print(response.body);
+      } 
+  }
+
+
+
 
   Future getAllProducts() async {
     String url =
