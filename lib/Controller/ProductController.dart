@@ -78,22 +78,4 @@ class ProductController extends GetxController {
       return productData;
     }
   }
-
-  // Future getAllProductApi(int userId) async {
-  //   String url = 'http://10.0.2.2:8082/api/auth/products/${userId}';
-  //   http.Response response = await http.get(
-  //     Uri.parse(url),
-  //     headers: {'Content-Type': 'application/json'},
-  //   );
-
-  //   var body = jsonDecode(response.body);
-  //   if (response.statusCode == 200) {
-  //     for (Map i in body) {
-  //       DemoProduct.add(ProductModel.fromJson(i));
-  //     }
-  //     return productData;
-  //   } else {
-  //     return productData;
-  //   }
-  // }
 }
