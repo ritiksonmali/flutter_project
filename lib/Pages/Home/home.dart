@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
     int id = jsonDecode(iddata!);
-
+    // productController!.getAllProducts(id);
     setState(() {
       this.id = id;
     });
@@ -72,12 +72,12 @@ class _HomePageState extends State<HomePage> {
 
   apiCall() async {
     // var categoryFromApi = await getCategoryApi();
-    var allproductsfromapi = await getAllProductApi();
+    // var allproductsfromapi = await getAllProductApi();
     // var popularproductFromApi = await getPopularProductApi(this.flag);
     // var offersfromapi = await getAllOffersApi();
     setState(() {
       // category = categoryFromApi;
-      allproducts = allproductsfromapi;
+      // allproducts = allproductsfromapi;
       // popularproducts = popularproductFromApi;
       // offers = offersfromapi;
     });
@@ -114,10 +114,15 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                   icon: Icon(Icons.shopping_bag_outlined),
                   onPressed: () {
-                    Get.to(
-                      () => CartScreen(),
-                      //  arguments: {"userId": this.id}
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CartScreen()),
                     );
+                    // Get.to(
+                    //   () => CartScreen(),
+                    //  arguments: {"userId": this.id}
+                    // );
                   },
                 ),
                 badgeContent: Text(
@@ -330,19 +335,7 @@ class _HomePageState extends State<HomePage> {
                       child: Padding(
                         padding: const EdgeInsets.all(6.0),
                         child: InkWell(
-                          onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (_) => ProductDetailPage(
-                            //             // id: products[index]['id'].toString(),
-                            //             // name: products[index]['name'],
-                            //             // img: products[index]['img'],
-                            //             // price: products[index]['price'],
-                            //             // mulImg: products[index]['mul_img'],
-                            //             // sizes: products[index]['sizes'],
-                            //             )));
-                          },
+                          onTap: () {},
                           child: Container(
                               child: Stack(
                             children: <Widget>[
@@ -393,7 +386,7 @@ class _HomePageState extends State<HomePage> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "Price : \$ " +
+                                                "Price : \₹ " +
                                                     allproduct.price.toString(),
                                                 // "\$ " + products[index]['price'],
                                                 style: TextStyle(

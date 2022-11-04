@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
 import 'package:get/get.dart';
@@ -223,6 +224,10 @@ class _AddressState extends State<Address> {
                   }
                   return null;
                 },
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(6)
+                ],
                 obscureText: false,
               ),
               SizedBox(
@@ -323,6 +328,10 @@ class _AddressState extends State<Address> {
                   }
                   return null;
                 },
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(20)
+                ],
                 obscureText: false,
               ),
               SizedBox(
@@ -348,6 +357,10 @@ class _AddressState extends State<Address> {
                   }
                   return null;
                 },
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(10)
+                ],
                 obscureText: false,
               ),
             ],
@@ -396,10 +409,11 @@ class _AddressState extends State<Address> {
 
       if (response.statusCode == 200) {
         print("Success");
-        setState(() {
-          AddressDetails();
-        });
-        Get.back();
+        // setState(() {
+        //   AddressDetails();
+        // });
+        // Get.back();
+        Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('New Address Added SuccessFully !'),
           backgroundColor: Colors.green,

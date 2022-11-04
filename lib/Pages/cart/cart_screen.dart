@@ -80,7 +80,7 @@ class _CartScreenState extends State<CartScreen> {
 
     var body = jsonDecode(response.body);
     CommanDialog.hideLoading();
-    print(body['cartItems']);
+    // print(body['cartItems']);
 
     return body['cartItems'];
   }
@@ -115,14 +115,19 @@ class _CartScreenState extends State<CartScreen> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
+            Navigator.pop(context);
             // Get.back();
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      HomeScreen()), // this mymainpage is your page to refresh
-              (Route<dynamic> route) => false,
-            );
+            // Navigator.pushAndRemoveUntil(
+            //   context,
+            //   MaterialPageRoute(
+            //       builder: (context) =>
+            //           HomeScreen()), // this mymainpage is your page to refresh
+            //   (Route<dynamic> route) => false,
+            // );
+            // Navigator.pushReplacement(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (BuildContext context) => super.widget));
           },
           icon: Icon(
             Icons.arrow_back,
@@ -196,7 +201,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 Column(
                   children: List.generate(cartproducts.length, (index) {
-                    print(cartproducts);
+                    // print(cartproducts);
                     var cartdata = cartproducts[index];
                     total = cartproducts.length > 0
                         ? cartproducts
@@ -278,7 +283,8 @@ class _CartScreenState extends State<CartScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    cartdata['product']['price'].toString(),
+                                    "₹" +
+                                        cartdata['product']['price'].toString(),
                                     // "\$ 200",
                                     style: TextStyle(
                                         fontSize: 15,
@@ -398,7 +404,7 @@ class _CartScreenState extends State<CartScreen> {
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        "\$ ${total}",
+                        "\₹${total}",
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.w600),
                       ),
@@ -444,6 +450,7 @@ class _CartScreenState extends State<CartScreen> {
     );
 
     var body = jsonDecode(response.body);
+    print(body);
     setState(() {
       count = body['quantity'];
     });

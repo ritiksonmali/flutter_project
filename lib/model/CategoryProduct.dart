@@ -27,6 +27,8 @@ class ProductByCategory {
   String status;
   bool ispopular;
   Inventory inventory;
+  int counter = 1;
+  bool isAdded = false;
 
   factory ProductByCategory.fromJson(dynamic json) => ProductByCategory(
         id: json["id"],
