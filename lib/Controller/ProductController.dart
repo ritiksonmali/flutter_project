@@ -1,23 +1,28 @@
 import 'dart:convert';
 
 import 'package:flutter_login_app/model/Product.dart';
+import 'package:flutter_login_app/model/ProductModel.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductController extends GetxController {
-  List<Product> productData = [];
+  var productData = <ProductModel>[].obs;
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-  }
+  // List<ProductModel> DemoProduct = [];
 
   @override
   void onReady() {
     // TODO: implement onReady
     super.onReady();
-    getAllProducts();
+    test();
+  }
+
+  void test() async {
+    var store = await SharedPreferences.getInstance(); //add when requried
+    var iddata = store.getString('id');
+    int id = jsonDecode(iddata!);
+    getAllProducts(id);
   }
 
   List<Product> cartitem = List<Product>.empty().obs;
@@ -35,7 +40,7 @@ class ProductController extends GetxController {
 
     var body = jsonDecode(response.body);
 
-    print(response.body);
+    // print(response.body);
   }
 
   addtoCart(int userId, Product product) async {
@@ -53,9 +58,9 @@ class ProductController extends GetxController {
     }
   }
 
-  Future getAllProducts() async {
+  Future getAllProducts(int userId) async {
     String url =
-        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active';
+        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=${userId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -64,11 +69,31 @@ class ProductController extends GetxController {
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
       for (Map i in body['records']) {
-        productData.add(Product.fromJson(i));
+        productData.add(ProductModel.fromJson(i));
       }
+      // print(body['records']);
+      update();
       return productData;
     } else {
       return productData;
     }
   }
+
+  // Future getAllProductApi(int userId) async {
+  //   String url = 'http://10.0.2.2:8082/api/auth/products/${userId}';
+  //   http.Response response = await http.get(
+  //     Uri.parse(url),
+  //     headers: {'Content-Type': 'application/json'},
+  //   );
+
+  //   var body = jsonDecode(response.body);
+  //   if (response.statusCode == 200) {
+  //     for (Map i in body) {
+  //       DemoProduct.add(ProductModel.fromJson(i));
+  //     }
+  //     return productData;
+  //   } else {
+  //     return productData;
+  //   }
+  // }
 }

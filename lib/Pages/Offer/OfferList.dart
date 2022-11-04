@@ -106,7 +106,7 @@ class _OfferListState extends State<OfferList> {
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    offerproduct.price.toString(),
+                                    "₹" + offerproduct.price.toString(),
                                     // "49999rs",
                                     style: TextStyle(
                                         decoration: TextDecoration.lineThrough,
@@ -115,7 +115,8 @@ class _OfferListState extends State<OfferList> {
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    offerproduct.price.toString() +
+                                    "₹" +
+                                        offerproduct.price.toString() +
                                         "\n" +
                                         "rs 36% off",
                                     style: TextStyle(

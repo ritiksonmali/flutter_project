@@ -50,9 +50,20 @@ class _AddressDetailsState extends State<AddressDetails> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         child: Icon(Icons.add),
-        onPressed: () {
-          Get.to(() => Address());
+        onPressed: () async {
+          final value = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Address()),
+          );
+
+          setState(() {
+            test();
+          });
         },
+        // onPressed: () {
+
+        //   // Get.to(() => Address());
+        // },
       ),
       body: Container(
           padding: EdgeInsets.all(5),

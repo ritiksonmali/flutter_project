@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
 import 'package:flutter_login_app/Pages/Order/Order_json.dart';
 import 'package:flutter_login_app/Pages/Order/colors.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:http/http.dart' as http;
 
 class OrderPage extends StatefulWidget {
   const OrderPage({Key? key}) : super(key: key);
@@ -14,6 +18,17 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
+  Future getAllProducts(int userId) async {
+    String url =
+        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    var body = jsonDecode(response.body);
+  }
+
   int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -202,7 +217,7 @@ class _OrderPageState extends State<OrderPage> {
   Widget getListCurrentOrders() {
     var size = MediaQuery.of(context).size;
     return Column(
-      children: List.generate(currentOrderList.length, (index) {
+      children: List.generate(pastOrderList.length, (index) {
         return FadeIn(
           duration: Duration(milliseconds: 1000 * index),
           child: Padding(
@@ -220,12 +235,12 @@ class _OrderPageState extends State<OrderPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          currentOrderList[index]['date'],
+                          pastOrderList[index]['date'],
                           style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w500),
                         ),
                         Text(
-                          "Delivery Processing",
+                          "Delivered",
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -242,105 +257,124 @@ class _OrderPageState extends State<OrderPage> {
                           width: size.width * 0.6,
                           child: Row(
                             children: [
-                              Container(
-                                width: 90,
-                                height: 90,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: 10,
-                                      child: Container(
-                                        width: 80,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                                color:
-                                                    secondary.withOpacity(0.1)),
-                                            color: white),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 80,
-                                      height: 80,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  currentOrderList[index]
-                                                      ['image']),
-                                              fit: BoxFit.cover)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
                               Flexible(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      currentOrderList[index]['name'],
-                                      style: TextStyle(fontSize: 16),
-                                      maxLines: 2,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "\$",
-                                          style: TextStyle(
-                                              color: red,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          currentOrderList[index]['price'],
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
-                                    )
+                                    // Text(
+                                    //   pastOrderList[index]['name'] +
+                                    //       "×" +
+                                    //       pastOrderList[index]['rate'],
+                                    //   style: TextStyle(fontSize: 16),
+                                    //   maxLines: 10,
+                                    // ),
+                                    ListView.builder(
+                                        itemCount: 10,
+                                        physics: ClampingScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Text(
+                                              "product name " + "×" + "1");
+                                        }),
+                                    // Row(
+                                    //   children: [
+                                    //     Text(
+                                    //       "\$",
+                                    //       style: TextStyle(
+                                    //           color: red,
+                                    //           fontSize: 16,
+                                    //           fontWeight: FontWeight.w500),
+                                    //     ),
+                                    //     // Text(
+                                    //     //   pastOrderList[index]['price'],
+                                    //     //   style: TextStyle(
+                                    //     //       fontSize: 16,
+                                    //     //       fontWeight: FontWeight.w600),
+                                    //     // ),
+                                    //   ],
+                                    // )
                                   ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        Flexible(
-                            child: Row(
-                          children: [
-                            Container(
-                              width: 1,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                  color: secondary.withOpacity(0.15)),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Total Items: 1",
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                                Text(
-                                  currentOrderList[index]['time'],
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: secondary.withOpacity(0.5)),
-                                )
-                              ],
-                            )
-                          ],
-                        ))
+                        // Flexible(
+                        //     child: Row(
+                        //   children: [
+                        //     Container(
+                        //       width: 1,
+                        //       height: 60,
+                        //       decoration: BoxDecoration(
+                        //           color: secondary.withOpacity(0.15)),
+                        //     ),
+                        //     SizedBox(
+                        //       width: 5,
+                        //     ),
+                        //     Column(
+                        //       crossAxisAlignment: CrossAxisAlignment.start,
+                        //       children: [
+                        //         Text(
+                        //           "Total Items: 1",
+                        //           style: TextStyle(fontSize: 13),
+                        //         ),
+                        //         Text(
+                        //           pastOrderList[index]['time'],
+                        //           style: TextStyle(
+                        //               fontSize: 12,
+                        //               color: secondary.withOpacity(0.5)),
+                        //         )
+                        //       ],
+                        //     )
+                        //   ],
+                        // ))
                       ],
-                    )
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          pastOrderList[index]['price'],
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Get.to(() => OrderDetailsScreen());
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.black54,
+                          ),
+                          child: Text("Details"),
+                        ),
+                      ],
+                    ),
+                    // Row(
+                    //   children: [
+                    //     Padding(
+                    //       padding: const EdgeInsets.symmetric(
+                    //           horizontal: 20, vertical: 30),
+                    //       child: Container(
+                    //         width: 100,
+                    //         height: 40,
+                    //         decoration: BoxDecoration(
+                    //             color: secondary,
+                    //             borderRadius: BorderRadius.circular(12)),
+                    //         child: Center(
+                    //           child: Text(
+                    //             "Reorder",
+                    //             style: TextStyle(
+                    //                 color: white,
+                    //                 fontSize: 17,
+                    //                 fontWeight: FontWeight.w500),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
               ),
@@ -394,125 +428,124 @@ class _OrderPageState extends State<OrderPage> {
                           width: size.width * 0.6,
                           child: Row(
                             children: [
-                              Container(
-                                width: 90,
-                                height: 90,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: 10,
-                                      child: Container(
-                                        width: 80,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                                color:
-                                                    secondary.withOpacity(0.1)),
-                                            color: white),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 80,
-                                      height: 80,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  pastOrderList[index]
-                                                      ['image']),
-                                              fit: BoxFit.cover)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
                               Flexible(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      pastOrderList[index]['name'],
-                                      style: TextStyle(fontSize: 16),
-                                      maxLines: 2,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "\$",
-                                          style: TextStyle(
-                                              color: red,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          pastOrderList[index]['price'],
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
-                                    )
+                                    // Text(
+                                    //   pastOrderList[index]['name'] +
+                                    //       "×" +
+                                    //       pastOrderList[index]['rate'],
+                                    //   style: TextStyle(fontSize: 16),
+                                    //   maxLines: 10,
+                                    // ),
+                                    ListView.builder(
+                                        itemCount: 10,
+                                        physics: ClampingScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Text(
+                                              "product name " + "×" + "1");
+                                        }),
+                                    // Row(
+                                    //   children: [
+                                    //     Text(
+                                    //       "\$",
+                                    //       style: TextStyle(
+                                    //           color: red,
+                                    //           fontSize: 16,
+                                    //           fontWeight: FontWeight.w500),
+                                    //     ),
+                                    //     // Text(
+                                    //     //   pastOrderList[index]['price'],
+                                    //     //   style: TextStyle(
+                                    //     //       fontSize: 16,
+                                    //     //       fontWeight: FontWeight.w600),
+                                    //     // ),
+                                    //   ],
+                                    // )
                                   ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        Flexible(
-                            child: Row(
-                          children: [
-                            Container(
-                              width: 1,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                  color: secondary.withOpacity(0.15)),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Total Items: 1",
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                                Text(
-                                  pastOrderList[index]['time'],
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: secondary.withOpacity(0.5)),
-                                )
-                              ],
-                            )
-                          ],
-                        ))
+                        // Flexible(
+                        //     child: Row(
+                        //   children: [
+                        //     Container(
+                        //       width: 1,
+                        //       height: 60,
+                        //       decoration: BoxDecoration(
+                        //           color: secondary.withOpacity(0.15)),
+                        //     ),
+                        //     SizedBox(
+                        //       width: 5,
+                        //     ),
+                        //     Column(
+                        //       crossAxisAlignment: CrossAxisAlignment.start,
+                        //       children: [
+                        //         Text(
+                        //           "Total Items: 1",
+                        //           style: TextStyle(fontSize: 13),
+                        //         ),
+                        //         Text(
+                        //           pastOrderList[index]['time'],
+                        //           style: TextStyle(
+                        //               fontSize: 12,
+                        //               color: secondary.withOpacity(0.5)),
+                        //         )
+                        //       ],
+                        //     )
+                        //   ],
+                        // ))
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 30),
-                      child: Container(
-                        width: 150,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: secondary,
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Center(
-                          child: Text(
-                            "Reorder",
-                            style: TextStyle(
-                                color: white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500),
-                          ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          pastOrderList[index]['price'],
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
                         ),
-                      ),
-                    )
+                        ElevatedButton(
+                          onPressed: () {
+                            Get.to(() => OrderDetailsScreen());
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.black54,
+                          ),
+                          child: Text("Details"),
+                        ),
+                      ],
+                    ),
+                    // Row(
+                    //   children: [
+                    //     Padding(
+                    //       padding: const EdgeInsets.symmetric(
+                    //           horizontal: 20, vertical: 30),
+                    //       child: Container(
+                    //         width: 100,
+                    //         height: 40,
+                    //         decoration: BoxDecoration(
+                    //             color: secondary,
+                    //             borderRadius: BorderRadius.circular(12)),
+                    //         child: Center(
+                    //           child: Text(
+                    //             "Reorder",
+                    //             style: TextStyle(
+                    //                 color: white,
+                    //                 fontSize: 17,
+                    //                 fontWeight: FontWeight.w500),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
               ),

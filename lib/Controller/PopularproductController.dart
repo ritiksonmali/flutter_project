@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class PopularProductController extends GetxController {
-  List<PopularProduct> popular = [];
+  var popular = <PopularProduct>[].obs;
 
   @override
   void onReady() {
@@ -28,6 +28,7 @@ class PopularProductController extends GetxController {
       for (Map i in body['records']) {
         popular.add(PopularProduct.fromJson(i));
       }
+      update();
       return popular;
     } else {
       return popular;
