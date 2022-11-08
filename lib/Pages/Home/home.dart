@@ -201,36 +201,38 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     width: double.infinity,
                     height: 150,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: offerController.offer.length,
-                        scrollDirection: Axis.horizontal,
-                        physics: ScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          var offer = offerController.offer[index];
-                          return Container(
-                            width: 400,
-                            child: Card(
-                              child: Container(
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.to(() => OfferList(),
-                                        arguments: {"offerId": offer.id});
-                                  },
-                                  child: Image.network(
-                                    'http://10.0.2.2:8082/api/auth/serveproducts/${offer.imageUrl.toString()}',
-                                    fit: BoxFit.cover,
+                    child: GetBuilder<OfferController>(builder: (controller) {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: offerController.offer.length,
+                          scrollDirection: Axis.horizontal,
+                          physics: ScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            var offer = offerController.offer[index];
+                            return Container(
+                              width: 400,
+                              child: Card(
+                                child: Container(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.to(() => OfferList(),
+                                          arguments: {"offerId": offer.id});
+                                    },
+                                    child: Image.network(
+                                      'http://10.0.2.2:8082/api/auth/serveproducts/${offer.imageUrl.toString()}',
+                                      fit: BoxFit.cover,
+                                    ),
+                                    // Image.asset('assets/sale.webp',
+                                    //     fit: BoxFit.cover)
                                   ),
-                                  // Image.asset('assets/sale.webp',
-                                  //     fit: BoxFit.cover)
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                clipBehavior: Clip.antiAlias,
                               ),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              clipBehavior: Clip.antiAlias,
-                            ),
-                          );
-                        }),
+                            );
+                          });
+                    }),
                   ),
                   SizedBox(
                     height: 10,
@@ -254,48 +256,52 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(
                     height: 150,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: popularproductController.popular.length,
-                        physics: ScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          var popular = popularproductController.popular[index];
-                          return GestureDetector(
-                            onTap: () => null,
-                            child: Column(
-                              children: [
-                                Hero(
-                                  tag: "anim$index",
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                        right: 8, left: 8, top: 0, bottom: 0),
-                                    width: 100,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(14)),
-                                        color:
-                                            Color.fromARGB(255, 192, 193, 195),
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              'http://10.0.2.2:8082/api/auth/serveproducts/${popular.imageUrl.toString()}'),
-                                          // AssetImage(
-                                          //     "assets/shoe_1.webp")
-                                        )),
+                    child: GetBuilder<PopularProductController>(
+                        builder: (controller) {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: popularproductController.popular.length,
+                          physics: ScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            var popular =
+                                popularproductController.popular[index];
+                            return GestureDetector(
+                              onTap: () => null,
+                              child: Column(
+                                children: [
+                                  Hero(
+                                    tag: "anim$index",
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          right: 8, left: 8, top: 0, bottom: 0),
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(14)),
+                                          color: Color.fromARGB(
+                                              255, 192, 193, 195),
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                                'http://10.0.2.2:8082/api/auth/serveproducts/${popular.imageUrl.toString()}'),
+                                            // AssetImage(
+                                            //     "assets/shoe_1.webp")
+                                          )),
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  popular.name,
-                                )
-                              ],
-                            ),
-                          );
-                        }),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    popular.name,
+                                  )
+                                ],
+                              ),
+                            );
+                          });
+                    }),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -328,205 +334,228 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Column(
-                      children: List.generate(
-                          productController.productData.length, (index) {
-                    var allproduct = productController.productData[index];
-                    return GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: InkWell(
-                          onTap: () {},
-                          child: Container(
-                              child: Stack(
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: grey,
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          spreadRadius: 1,
-                                          color: black.withOpacity(0.1),
-                                          blurRadius: 2)
-                                    ]),
-                                child: Column(
-                                  children: <Widget>[
-                                    Center(
-                                      child: Container(
-                                        width: 280,
-                                        height: 180,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                  'http://10.0.2.2:8082/api/auth/serveproducts/${allproduct.imageUrl.toString()}',
+                    children: [
+                      GetBuilder<ProductController>(builder: (controller) {
+                        return ListView.builder(
+                            itemCount: productController.productData.length,
+                            physics: ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              var allproduct =
+                                  productController.productData[index];
+                              return GestureDetector(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                        child: Stack(
+                                      children: <Widget>[
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              color: grey,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    spreadRadius: 1,
+                                                    color:
+                                                        black.withOpacity(0.1),
+                                                    blurRadius: 2)
+                                              ]),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Center(
+                                                child: Container(
+                                                  margin:
+                                                      EdgeInsets.only(top: 30),
+                                                  width: 280,
+                                                  height: 180,
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                            'http://10.0.2.2:8082/api/auth/serveproducts/${allproduct.imageUrl.toString()}',
+                                                          ),
+                                                          //  AssetImage(
+                                                          //     "assets/images/" +
+                                                          //         products[index]['img']),
+                                                          fit: BoxFit.cover)),
                                                 ),
-                                                //  AssetImage(
-                                                //     "assets/images/" +
-                                                //         products[index]['img']),
-                                                fit: BoxFit.cover)),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    Text(
-                                      allproduct.name,
-                                      // products[index]['name'],
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    Container(
-                                        padding: EdgeInsets.all(20),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Price : \₹ " +
-                                                    allproduct.price.toString(),
-                                                // "\$ " + products[index]['price'],
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w500),
                                               ),
-                                              productController
-                                                      .productData[index]
-                                                      .isAdded
-                                                  ? Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: <Widget>[
-                                                        IconButton(
-                                                          icon: Icon(
-                                                              Icons.remove),
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              productController
-                                                                  .increasequantity(
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Text(
+                                                allproduct.name,
+                                                // products[index]['name'],
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Container(
+                                                  padding: EdgeInsets.all(20),
+                                                  child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "Price : \₹ " +
+                                                              allproduct.price
+                                                                  .toString(),
+                                                          // "\$ " + products[index]['price'],
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ),
+                                                        productController
+                                                                    .productData[
+                                                                        index]
+                                                                    .cartQauntity !=
+                                                                0
+                                                            ? Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: <
+                                                                    Widget>[
+                                                                  IconButton(
+                                                                    icon: Icon(Icons
+                                                                        .remove),
+                                                                    onPressed:
+                                                                        () {
+                                                                      setState(
+                                                                          () {
+                                                                        productController.increasequantity(
+                                                                            this.id!,
+                                                                            allproduct.id,
+                                                                            this.remove);
+                                                                        if (productController.productData[index].counter >
+                                                                            1) {
+                                                                          productController
+                                                                              .productData[index]
+                                                                              .counter--;
+                                                                        } else {
+                                                                          productController
+                                                                              .productData[index]
+                                                                              .isAdded = false;
+                                                                        }
+                                                                      });
+                                                                    },
+                                                                    color: Colors
+                                                                        .black,
+                                                                  ),
+                                                                  Text(productController
+                                                                      .productData[
+                                                                          index]
+                                                                      .counter
+                                                                      .toString()),
+                                                                  IconButton(
+                                                                    icon: Icon(
+                                                                        Icons
+                                                                            .add),
+                                                                    color: Colors
+                                                                        .black,
+                                                                    onPressed:
+                                                                        () {
+                                                                      productController.increasequantity(
+                                                                          this
+                                                                              .id!,
+                                                                          allproduct
+                                                                              .id,
+                                                                          this.add);
+                                                                      setState(
+                                                                          () {
+                                                                        productController
+                                                                            .productData[index]
+                                                                            .counter++;
+                                                                      });
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              )
+                                                            : ElevatedButton(
+                                                                onPressed: () {
+                                                                  productController.increasequantity(
                                                                       this.id!,
                                                                       allproduct
                                                                           .id,
-                                                                      this.remove);
-                                                              if (productController
-                                                                      .productData[
-                                                                          index]
-                                                                      .counter >
-                                                                  1) {
-                                                                productController
-                                                                    .productData[
-                                                                        index]
-                                                                    .counter--;
-                                                              } else {
-                                                                productController
-                                                                    .productData[
-                                                                        index]
-                                                                    .isAdded = false;
-                                                              }
-                                                            });
-                                                          },
-                                                          color: Colors.black,
-                                                        ),
-                                                        Text(productController
-                                                            .productData[index]
-                                                            .counter
-                                                            .toString()),
-                                                        IconButton(
-                                                          icon: Icon(Icons.add),
-                                                          color: Colors.black,
-                                                          onPressed: () {
-                                                            productController
-                                                                .increasequantity(
-                                                                    this.id!,
-                                                                    allproduct
-                                                                        .id,
-                                                                    this.add);
-                                                            setState(() {
-                                                              productController
-                                                                  .productData[
-                                                                      index]
-                                                                  .counter++;
-                                                            });
-                                                          },
-                                                        ),
-                                                      ],
-                                                    )
-                                                  : ElevatedButton(
-                                                      onPressed: () {
-                                                        productController
-                                                            .increasequantity(
-                                                                this.id!,
-                                                                allproduct.id,
-                                                                this.add);
-                                                        setState(() {
-                                                          productController
-                                                              .productData[
-                                                                  index]
-                                                              .isAdded = true;
-                                                        });
-                                                      },
-                                                      style:
-                                                          TextButton.styleFrom(
-                                                        backgroundColor:
-                                                            Colors.black,
-                                                      ),
-                                                      child:
-                                                          Text("Add to Cart"),
-                                                    ),
-                                            ])
+                                                                      this.add);
+                                                                  setState(() {
+                                                                    productController
+                                                                        .productData[
+                                                                            index]
+                                                                        .isAdded = true;
+                                                                  });
+                                                                },
+                                                                style: TextButton
+                                                                    .styleFrom(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .black,
+                                                                ),
+                                                                child: Text(
+                                                                    "Add to Cart"),
+                                                              ),
+                                                      ])
 
-                                        // child: Row(
-                                        //   mainAxisAlignment:
-                                        //       MainAxisAlignment.spaceBetween,
-                                        //   children: [
-                                        //     Text(
-                                        //       "Price : \$ " +
-                                        //           allproduct.price.toString(),
-                                        //       // "\$ " + products[index]['price'],
-                                        //       style: TextStyle(
-                                        //           fontSize: 16,
-                                        //           fontWeight: FontWeight.w500),
-                                        //     ),
-                                        //     ElevatedButton(
-                                        //       onPressed: () {
-                                        //         productController.addtoCart(
-                                        //             this.id!, allproduct);
-                                        //         // cartController.addtoCart(
-                                        //         //     productController
-                                        //         //         .productData[index]);
-                                        //       },
-                                        //       style: TextButton.styleFrom(
-                                        //         backgroundColor: Colors.black,
-                                        //       ),
-                                        //       child: Text(
-                                        //         'Add to Card',
-                                        //         style: TextStyle(
-                                        //             fontWeight: FontWeight.bold,
-                                        //             fontSize: 16),
-                                        //       ),
-                                        //     )
-                                        //   ],
-                                        // ),
+                                                  // child: Row(
+                                                  //   mainAxisAlignment:
+                                                  //       MainAxisAlignment.spaceBetween,
+                                                  //   children: [
+                                                  //     Text(
+                                                  //       "Price : \$ " +
+                                                  //           allproduct.price.toString(),
+                                                  //       // "\$ " + products[index]['price'],
+                                                  //       style: TextStyle(
+                                                  //           fontSize: 16,
+                                                  //           fontWeight: FontWeight.w500),
+                                                  //     ),
+                                                  //     ElevatedButton(
+                                                  //       onPressed: () {
+                                                  //         productController.addtoCart(
+                                                  //             this.id!, allproduct);
+                                                  //         // cartController.addtoCart(
+                                                  //         //     productController
+                                                  //         //         .productData[index]);
+                                                  //       },
+                                                  //       style: TextButton.styleFrom(
+                                                  //         backgroundColor: Colors.black,
+                                                  //       ),
+                                                  //       child: Text(
+                                                  //         'Add to Card',
+                                                  //         style: TextStyle(
+                                                  //             fontWeight: FontWeight.bold,
+                                                  //             fontSize: 16),
+                                                  //       ),
+                                                  //     )
+                                                  //   ],
+                                                  // ),
+                                                  ),
+                                            ],
+                                          ),
                                         ),
-                                  ],
+                                        Positioned(
+                                            right: 10,
+                                            child: IconButton(
+                                                icon: SvgPicture.asset(
+                                                    "assets/images/heart_icon.svg"),
+                                                onPressed: null)),
+                                      ],
+                                    )),
+                                  ),
                                 ),
-                              ),
-                              Positioned(
-                                  right: 10,
-                                  child: IconButton(
-                                      icon: SvgPicture.asset(
-                                          "assets/images/heart_icon.svg"),
-                                      onPressed: null)),
-                            ],
-                          )),
-                        ),
-                      ),
-                    );
-                  }))
+                              );
+                            });
+                      })
+                    ],
+                  )
                 ]),
               ),
             ],
@@ -599,7 +628,7 @@ class _HomePageState extends State<HomePage> {
   List allproducts = [];
 
   Future getAllProductApi() async {
-    String url = 'http://10.0.2.2:8082/api/auth/products';
+    String url = 'http://10.0.2.2:8082/api/auth/products/1';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

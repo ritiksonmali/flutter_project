@@ -322,12 +322,6 @@ class _AddressState extends State<Address> {
                       // fontWeight: FontWeight.bold,
                       color: Colors.black,
                     )),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(20)

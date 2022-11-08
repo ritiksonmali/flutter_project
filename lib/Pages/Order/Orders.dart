@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/Controller/OrderController.dart';
 import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
 import 'package:flutter_login_app/Pages/Order/Order_json.dart';
 import 'package:flutter_login_app/Pages/Order/colors.dart';
@@ -18,16 +19,7 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
-  Future getAllProducts(int userId) async {
-    String url =
-        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active';
-    http.Response response = await http.get(
-      Uri.parse(url),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    var body = jsonDecode(response.body);
-  }
+  final OrderController orderController = Get.put(OrderController());
 
   int pageIndex = 0;
   @override
@@ -36,7 +28,7 @@ class _OrderPageState extends State<OrderPage> {
       backgroundColor: primary,
       appBar:
           PreferredSize(child: getAppBar(), preferredSize: Size.fromHeight(60)),
-      body: getBody(),
+      body: getListCurrentOrders(),
       // bottomNavigationBar: getFooter(),
     );
   }
@@ -219,7 +211,7 @@ class _OrderPageState extends State<OrderPage> {
     return Column(
       children: List.generate(pastOrderList.length, (index) {
         return FadeIn(
-          duration: Duration(milliseconds: 1000 * index),
+          // duration: Duration(milliseconds: 1000 * index),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: Container(
@@ -269,15 +261,20 @@ class _OrderPageState extends State<OrderPage> {
                                     //   style: TextStyle(fontSize: 16),
                                     //   maxLines: 10,
                                     // ),
-                                    ListView.builder(
-                                        itemCount: 10,
-                                        physics: ClampingScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Text(
-                                              "product name " + "×" + "1");
-                                        }),
+                                    // ListView.builder(
+                                    //     itemCount:
+                                    //         orderController.orders.length,
+                                    //     physics: ClampingScrollPhysics(),
+                                    //     shrinkWrap: true,
+                                    //     itemBuilder:
+                                    //         (BuildContext context, int index) {
+                                    //       var order =
+                                    //           orderController.orders[index];
+                                    //       return Text(
+                                    //           order.product!.name.toString() +
+                                    //               " " +
+                                    //               order.quantity.toString());
+                                    //     }),
                                     // Row(
                                     //   children: [
                                     //     Text(

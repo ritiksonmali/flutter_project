@@ -58,6 +58,22 @@ class ProductController extends GetxController {
     }
   }
 
+  Future setPaymentDetails(
+      String paymentId, String paymentStatus, String orderId) async {
+    String url = 'http://10.0.2.2:8082/setOrderPaymentStatus';
+    var response = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          "orderId": orderId,
+          "paymentId": paymentId,
+          "paymentStatus": paymentStatus
+        }));
+    if (response.statusCode == 200) {
+      print("Success payment");
+      print(response.body);
+    }
+  }
+
   Future getAllProducts(int userId) async {
     String url =
         'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=${userId}';

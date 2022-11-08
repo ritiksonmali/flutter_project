@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
+import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/Pages/Setting/Setting.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -31,102 +33,100 @@ class _NavbarState extends State<Navbar> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: white,
-        leading:   IconButton(icon: Icon(Icons.close,color: black,),
-         onPressed: (){
+        leading: IconButton(
+            icon: Icon(
+              Icons.close,
+              color: black,
+            ),
+            onPressed: () {
               Navigator.pop(context);
             }),
       ),
       body: getBody(),
     );
   }
-  Widget getBody(){
+
+  Widget getBody() {
     return ListView(
       children: <Widget>[
-        Padding(padding: EdgeInsets.symmetric(horizontal: 30,vertical: 60),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:[
-             SizedBox(
-                height: 20,
-              ),
-                ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home',
-             style: TextStyle(
-                  fontSize: 30,
-                  color: black,
-                  fontWeight: FontWeight.w600),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 60),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+              height: 20,
             ),
-            onTap: () {
-              Get.back();
-            },
-          ),
-           SizedBox(
-                height: 35,
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text(
+                'Home',
+                style: TextStyle(
+                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
               ),
-          ListTile(
-            leading: Icon(Icons.face),
-            title: Text('Profile',
-             style: TextStyle(
-                  fontSize: 30,
-                  color: black,
-                  fontWeight: FontWeight.w600),
+              onTap: () {
+                Get.back();
+              },
             ),
-            onTap: () {
-              Get.to(() => EditProfilePage());
-            },
-          ),
-          SizedBox(
-                height: 35,
+            SizedBox(
+              height: 35,
+            ),
+            ListTile(
+              leading: Icon(Icons.face),
+              title: Text(
+                'Profile',
+                style: TextStyle(
+                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
               ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Orders',
-             style: TextStyle(
-                  fontSize: 30,
-                  color: black,
-                  fontWeight: FontWeight.w600),
+              onTap: () {
+                Get.to(() => EditProfilePage());
+              },
             ),
-            onTap: () {
-            Get.to(() => OrderPage());
-            },
-          ),
-          
-          SizedBox(
-                height: 35,
+            SizedBox(
+              height: 35,
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text(
+                'Orders',
+                style: TextStyle(
+                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
               ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Setting',
-             style: TextStyle(
-                  fontSize: 30,
-                  color: black,
-                  fontWeight: FontWeight.w600),
+              onTap: () {
+                Get.to(() => OrderScreen());
+              },
             ),
-            onTap: () {
-              Get.to(() => SettingsPage());
-            },
-          ),
-           SizedBox(
-                height: 35,
+            SizedBox(
+              height: 35,
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text(
+                'Setting',
+                style: TextStyle(
+                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
               ),
-          ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text('Sign Out',
-             style: TextStyle(
-                  fontSize: 30,
-                  color: black,
-                  fontWeight: FontWeight.w600),
+              onTap: () {
+                Get.to(() => SettingsPage());
+              },
             ),
-            onTap: () {
-              LoginController.logOut();
-              Get.off(() => Welcome());
-            },
-          ),
-
-          ]
-        ),
-    )],
+            SizedBox(
+              height: 35,
+            ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text(
+                'Sign Out',
+                style: TextStyle(
+                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                LoginController.logOut();
+                Get.off(() => Welcome());
+              },
+            ),
+          ]),
+        )
+      ],
     );
   }
   // void test() async {

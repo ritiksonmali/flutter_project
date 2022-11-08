@@ -1,18 +1,16 @@
 import 'dart:convert';
-import 'dart:ffi';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Pages/Order/Orders.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../ConstantUtil/colors.dart';
-import '../../utils/helper.dart';
+import '../../Controller/ProductController.dart';
 import '../Address/AddressDetails.dart';
-import '../Home/home_screen.dart';
 import '../sucessOrder/OrderPlaced.dart';
 import '../sucessOrder/orderFail.dart';
 import 'package:http/http.dart' as http;
@@ -26,8 +24,11 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  late var _razorpay;
+  final ProductController productController = Get.put(ProductController());
+  var _razorpay;
   var total;
+  var order_id;
+  var orderDetailResponse;
   // int totalprice = 0;
   double gst = 0;
   double finalPrice = 0;
@@ -45,9 +46,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    productController.setPaymentDetails(response.paymentId.toString(),
+        "SUCCESS".toString(), orderDetailResponse['orderId'].toString());
     print("paymentId");
     print(response.paymentId);
-    print(response.toString());
+    print(response.signature);
+    print(response.orderId);
     print("Payment Done");
     Get.to(OrderPlacedScreen());
 
@@ -55,6 +59,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
+    productController.setPaymentDetails("0", "FAILED", "si");
     print("Payment Fail");
     print(response.toString());
     Get.to(OrderfailScreen());
@@ -466,20 +471,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       child: Text("Place Order"),
                       color: Colors.black,
                       onPressed: () {
-                        ///Make payment
-                        var options = {
-                          'key': "rzp_test_BHAChutrVpoEpO",
-                          // amount will be multiple of 100
-                          'amount': 5000, //So its pay 500
-                          'name': 'Piyush pagar',
-                          'description': 'Demo',
-                          'timeout': 300, // in seconds
-                          'prefill': {
-                            'contact': '8830218670',
-                            'email': 'piyush@gmail.com'
-                          }
-                        };
-                        _razorpay.open(options);
+                        createNewOrder();
                       },
                     ),
                   ),
@@ -548,6 +540,56 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       SelectedAddress = SelectedAddressFromAPi;
     });
   }
+
+  Future createNewOrder() async {
+    String url = 'http://10.0.2.2:8082/createNewOrder';
+    var response = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({"user_id": this.id}));
+
+    if (response.statusCode == 200) {
+      print("Success");
+      print("working" + (response.body).toString());
+      orderDetailResponse = jsonDecode(response.body);
+      print(orderDetailResponse);
+      order_id = (orderDetailResponse['orderId']);
+      print(orderDetailResponse['totalPrice']);
+      String orderdata = orderDetailResponse['orderId'];
+      var options = {
+        'key': "rzp_test_BHAChutrVpoEpO",
+        'amount': orderDetailResponse['totalPrice'] * 100,
+        'name': 'Piyush pagar',
+        'description': orderdata, // in seconds
+        'prefill': {'contact': '8830218670', 'email': 'piyush@gmail.com'},
+      };
+      try {
+        _razorpay.open(options);
+      } catch (e) {
+        print(e.toString());
+      }
+      return orderDetailResponse;
+    }
+  }
+
+  //  Future setPaymentDetails(String paymentId ,String paymentStatus,orderId) async {
+  //   try {
+  //     String url = 'http://localhost:8082/setOrderPaymentStatus';
+  //     var response = await http.post(Uri.parse(url),
+  //         headers: {'Content-Type': 'application/json'},
+  //         body: json.encode({
+  //           "paymentId": paymentId,
+  //           "paymentStatus":paymentStatus,
+  //           "orderId":orderId
+  //         }));
+  //           print("Success payment");
+  //     if (response.statusCode == 200) {
+  //       print("Success payment");
+  //      print(response.body);
+  //     }
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
   getSelectedApi(int UserId, bool isSelected) async {
     try {

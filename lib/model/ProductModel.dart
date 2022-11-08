@@ -156,18 +156,21 @@ class Inventory {
     this.lastModifiedDate,
     required this.id,
     required this.quantity,
+    this.productId,
   });
 
   dynamic createdDate;
   dynamic lastModifiedDate;
   int id;
   int quantity;
+  dynamic productId;
 
   factory Inventory.fromJson(Map<String, dynamic> json) => Inventory(
         createdDate: json["createdDate"],
         lastModifiedDate: json["lastModifiedDate"],
         id: json["id"],
         quantity: json["quantity"],
+        productId: json["productId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -175,6 +178,7 @@ class Inventory {
         "lastModifiedDate": lastModifiedDate,
         "id": id,
         "quantity": quantity,
+        "productId": productId,
       };
 }
 
