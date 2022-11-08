@@ -3,8 +3,6 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -322,16 +320,7 @@ class _AddressState extends State<Address> {
                       // fontWeight: FontWeight.bold,
                       color: Colors.black,
                     )),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(20)
-                ],
+                
                 obscureText: false,
               ),
               SizedBox(

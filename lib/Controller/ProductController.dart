@@ -8,8 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductController extends GetxController {
   var productData = <ProductModel>[].obs;
-
-  // List<ProductModel> DemoProduct = [];
+  List QuantityResponse =[];
+   // List<ProductModel> DemoProduct = [];
 
   @override
   void onReady() {
@@ -22,7 +22,7 @@ class ProductController extends GetxController {
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
     int id = jsonDecode(iddata!);
-    getAllProducts(id);
+    getAllProducts();
   }
 
   List<Product> cartitem = List<Product>.empty().obs;
@@ -39,6 +39,18 @@ class ProductController extends GetxController {
     );
 
     var body = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      for (Map i in body['records']) {
+       // QuantityResponse.add();
+      }
+      // print(body['records']);
+      update();
+      return productData;
+    } else {
+      return productData;
+    }
+    
 
     // print(response.body);
   }
@@ -76,14 +88,16 @@ class ProductController extends GetxController {
   }
   
 
-  Future getAllProducts(int userId) async {
+  
+
+    Future getAllProducts() async {
     String url =
-        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=${userId}';
+        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=7';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
-
+  
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
       for (Map i in body['records']) {
@@ -96,6 +110,8 @@ class ProductController extends GetxController {
       return productData;
     }
   }
+
+  
 
  
 }

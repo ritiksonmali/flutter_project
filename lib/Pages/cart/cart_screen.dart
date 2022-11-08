@@ -1,17 +1,14 @@
 import 'dart:convert';
 import 'dart:ffi';
 
-import 'package:counter_button/counter_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_app/Controller/CartController.dart';
-import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
+import 'package:flutter_login_app/screens/navbar.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../ConstantUtil/colors.dart';
-import '../Home/Search.dart';
-import '../Payment/RazorPayPayment.dart';
+import '../../Controller/ProductController.dart';
 import 'Checkout.dart';
 
 class CartScreen extends StatefulWidget {
@@ -26,6 +23,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
 //   DBHelper? dbHelper = DBHelper();
 
+  final ProductController productController = Get.put(ProductController());
   String add = "add";
   String remove = "remove";
   Int? count;
@@ -146,7 +144,9 @@ class _CartScreenState extends State<CartScreen> {
           IconButton(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             icon: const Icon(Icons.menu),
-            onPressed: () {}, //=> _key.currentState!.openDrawer(),
+            onPressed: () {
+               Get.to(() => Navbar());
+            }, //=> _key.currentState!.openDrawer(),
           ),
         ],
         backgroundColor: Colors.white,
@@ -323,6 +323,10 @@ class _CartScreenState extends State<CartScreen> {
                                                   setState(() {
                                                     if (cartdata['quantity'] ==
                                                         1) {
+                                                          productController
+                                                                      .productData[
+                                                                          index]
+                                                                      .counter--;
                                                       cartproducts
                                                           .removeAt(index);
                                                       // if (cartproducts.isEmpty) {
@@ -332,6 +336,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       cartdata['quantity'] =
                                                           cartdata['quantity'] -
                                                               1;
+                                                       
                                                     }
                                                   });
                                                 },
@@ -340,9 +345,10 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                         ),
                                         //  Obx(()=>Text("${myProductController.},
-                                        Text(
-                                          cartdata['quantity'].toString(),
-                                          // "1",
+                                        
+                                           Text(
+                                            productController.productData[index].counter.toString(),
+                                          
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         Padding(
@@ -364,10 +370,15 @@ class _CartScreenState extends State<CartScreen> {
                                                       cartdata['product']['id'],
                                                       this.add);
                                                   setState(() {
+                                                     productController
+                                                                    .productData[
+                                                                        index]
+                                                                    .counter++;
                                                     cartdata['quantity'] =
                                                         cartdata['quantity'] +
                                                             1;
-                                                    counter++;
+                                                            
+                                                    
                                                   });
                                                 }
 
