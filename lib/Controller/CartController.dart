@@ -24,24 +24,6 @@ class CartController extends GetxController {
 
   List<CartProductData> cartproducts = [];
 
-  // List<Product> cartitem = [];
-
-  // addtoCart(int userId, Product product) async {
-  //   String url = 'http://10.0.2.2:8082/api/auth/addToCart/${userId}';
-  //   http.Response response = await http.post(Uri.parse(url),
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: json.encode({"product_id": product.id, "quantity": 1}));
-
-  //   var body = jsonDecode(response.body);
-
-  //   var store = await SharedPreferences.getInstance();
-  //   if (response.statusCode == 200) {
-  //     cartitem.add(product);
-  //      print("Product Added in cart");
-  //   }
-
-  // }
-
   Future getCartproducts(userId) async {
     print("fatchProduct $userId");
     // var postData = {"productid": id};

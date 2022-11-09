@@ -12,6 +12,8 @@ String orderHistoryToJson(List<OrderHistory> data) =>
 
 class OrderHistory {
   OrderHistory({
+    required this.createdDate,
+    required this.lastModifiedDate,
     required this.id,
     required this.orderItem,
     required this.address,
@@ -19,6 +21,8 @@ class OrderHistory {
     required this.orderStatus,
   });
 
+  DateTime createdDate;
+  DateTime lastModifiedDate;
   int id;
   List<OrderItem> orderItem;
   Address address;
@@ -26,6 +30,8 @@ class OrderHistory {
   String orderStatus;
 
   factory OrderHistory.fromJson(dynamic json) => OrderHistory(
+        createdDate: DateTime.parse(json["createdDate"]),
+        lastModifiedDate: DateTime.parse(json["createdDate"]),
         id: json["id"],
         orderItem: List<OrderItem>.from(
             json["orderItem"].map((x) => OrderItem.fromJson(x))),
@@ -35,6 +41,8 @@ class OrderHistory {
       );
 
   Map<String, dynamic> toJson() => {
+        "createdDate": createdDate,
+        "lastModifiedDate": lastModifiedDate,
         "id": id,
         "orderItem": List<dynamic>.from(orderItem.map((x) => x.toJson())),
         "address": address.toJson(),
@@ -88,10 +96,8 @@ class Address {
       );
 
   Map<String, dynamic> toJson() => {
-        "createdDate":
-            "${createdDate.year.toString().padLeft(4, '0')}-${createdDate.month.toString().padLeft(2, '0')}-${createdDate.day.toString().padLeft(2, '0')}",
-        "lastModifiedDate":
-            "${lastModifiedDate.year.toString().padLeft(4, '0')}-${lastModifiedDate.month.toString().padLeft(2, '0')}-${lastModifiedDate.day.toString().padLeft(2, '0')}",
+        "createdDate": createdDate.toIso8601String(),
+        "lastModifiedDate": lastModifiedDate.toIso8601String(),
         "id": id,
         "address_line1": addressLine1,
         "address_line2": addressLine2,
@@ -132,10 +138,8 @@ class OrderItem {
       );
 
   Map<String, dynamic> toJson() => {
-        "createdDate":
-            "${createdDate.year.toString().padLeft(4, '0')}-${createdDate.month.toString().padLeft(2, '0')}-${createdDate.day.toString().padLeft(2, '0')}",
-        "lastModifiedDate":
-            "${lastModifiedDate.year.toString().padLeft(4, '0')}-${lastModifiedDate.month.toString().padLeft(2, '0')}-${lastModifiedDate.day.toString().padLeft(2, '0')}",
+        "createdDate": createdDate.toIso8601String(),
+        "lastModifiedDate": lastModifiedDate.toIso8601String(),
         "id": id,
         "product": product.toJson(),
         "quantity": quantity,
@@ -212,8 +216,7 @@ class Inventory {
 
   Map<String, dynamic> toJson() => {
         "createdDate": createdDate,
-        "lastModifiedDate":
-            "${lastModifiedDate.year.toString().padLeft(4, '0')}-${lastModifiedDate.month.toString().padLeft(2, '0')}-${lastModifiedDate.day.toString().padLeft(2, '0')}",
+        "lastModifiedDate": lastModifiedDate.toIso8601String(),
         "id": id,
         "quantity": quantity,
         "productId": productId,

@@ -10,25 +10,29 @@ import 'package:http/http.dart' as http;
 class OrderController extends GetxController {
   var orders = <OrderHistory>[].obs;
   // List<SelectedOrder> Selectedorder = [];
-  var Selectedorder = <SelectedOrder>[].obs;
+  // var Selectedorder = <SelectedOrder>[].obs;
 
   @override
   void onReady() {
     // TODO: implement onReady
     super.onReady();
-    test();
+    getAllOrdersByUser();
   }
 
-  void test() async {
+  // Future<void> test() async {
+  //   CommanDialog.showLoading();
+  //   var store = await SharedPreferences.getInstance(); //add when requried
+  //   var iddata = store.getString('id');
+  //   int id = jsonDecode(iddata!);
+  //   getAllOrdersByUser(id);
+  // }
+
+  Future getAllOrdersByUser() async {
     CommanDialog.showLoading();
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
     int id = jsonDecode(iddata!);
-    getAllOrdersByUser(id);
-  }
-
-  Future getAllOrdersByUser(int userId) async {
-    String url = 'http://10.0.2.2:8082/getOrderDetailsbyuser/${userId}';
+    String url = 'http://10.0.2.2:8082/getOrderDetailsbyuser/${id}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -39,7 +43,6 @@ class OrderController extends GetxController {
       for (Map i in body) {
         orders.add(OrderHistory.fromJson(i));
       }
-      // print(body['orderItem']);
       CommanDialog.hideLoading();
       update();
       return orders;
@@ -49,23 +52,13 @@ class OrderController extends GetxController {
     }
   }
 
-  Future getOrderDetails(int orderId) async {
-    String url = 'http://10.0.2.2:8082/getOrderDetailsbyid/${orderId}';
+  Future setOrderCancelled(int orderId) async {
+    String url = 'http://10.0.2.2:8082/setOrderCancelled/${orderId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
-
     var body = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      for (Map i in body['orderItem']) {
-        Selectedorder.add(SelectedOrder.fromJson(i));
-      }
-      // print(body['orderItem']);
-      update();
-      return Selectedorder;
-    } else {
-      return Selectedorder;
-    }
+    return body;
   }
 }

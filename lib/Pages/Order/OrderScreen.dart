@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -7,6 +10,8 @@ import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
 import 'package:flutter_login_app/model/OrderHistory.dart';
 import 'package:flutter_login_app/Pages/Order/colors.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({Key? key}) : super(key: key);
@@ -16,7 +21,22 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  final OrderController orderController = Get.put(OrderController());
+  // final OrderController orderController = Get.put(OrderController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    test();
+  }
+
+  Future<void> test() async {
+    var store = await SharedPreferences.getInstance(); //add when requried
+    var iddata = store.getString('id');
+    int id = jsonDecode(iddata!);
+    // getAllOrdersByUser(id);
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -38,267 +58,241 @@ class _OrderScreenState extends State<OrderScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Your Orders",
-            style: TextStyle(fontSize: 18, color: Colors.black),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          GetX<OrderController>(builder: (controller) {
-            return ListView.builder(
-                itemCount: orderController.orders.length,
-                physics: ClampingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  var order = orderController.orders[index];
-                  return FadeIn(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Container(
-                        width: size.width,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: secondary.withOpacity(0.05)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "#Order-Id :" + order.id.toString(),
-                                    // currentOrderList[index]['date'],
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    order.orderStatus.toString(),
-                                    // "Delivery Processing",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              ListView.builder(
-                                  itemCount: orderController
-                                      .orders[index].orderItem.length,
-                                  physics: ClampingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder:
-                                      (BuildContext context, int position) {
-                                    var orderItems = orderController
-                                        .orders[index].orderItem[position];
-                                    // var total = orderController.orders[index]
-                                    //             .orderItem.length >
-                                    //         0
-                                    //     ? orderController
-                                    //         .orders[index].orderItem
-                                    //         .map<int>((m) =>
-                                    //             orderItems.product.price *
-                                    //             orderItems.quantity)
-                                    //         .reduce((value, element) =>
-                                    //             value + element)
-                                    //     : 0;
-                                    // int? totalPrice =
-                                    //     int.tryParse(total.toString());
-                                    // double gst =
-                                    //     ((totalPrice! + 10) * 18) / 100;
-                                    // double finalPrice = gst + totalPrice + 10;
-                                    // print(finalPrice);
-                                    return Row(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            GetX<OrderController>(
+                init: OrderController(),
+                builder: (controller) {
+                  return ListView.builder(
+                      itemCount: controller.orders.length,
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        var order = controller.orders[index];
+                        return FadeIn(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Container(
+                              width: size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: secondary.withOpacity(0.05)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Container(
-                                          width: size.width * 0.6,
-                                          child: Row(
+                                        Text(
+                                          "#Order Id: " + order.id.toString(),
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          order.orderStatus.toString(),
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: order.orderStatus !=
+                                                      "DELIVERED"
+                                                  ? Colors.red
+                                                  : Colors.green),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    ListView.builder(
+                                        itemCount: controller
+                                            .orders[index].orderItem.length,
+                                        physics: ClampingScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder: (BuildContext context,
+                                            int position) {
+                                          var orderItems = controller
+                                              .orders[index]
+                                              .orderItem[position];
+                                          return Row(
                                             children: [
-                                              // Container(
-                                              //   width: 90,
-                                              //   height: 90,
-                                              //   child: Stack(
-                                              //     children: [
-                                              //       Positioned(
-                                              //         top: 10,
-                                              //         child: Container(
-                                              //           width: 80,
-                                              //           height: 80,
-                                              //           decoration: BoxDecoration(
-                                              //               borderRadius:
-                                              //                   BorderRadius.circular(8),
-                                              //               border: Border.all(
-                                              //                   color:
-                                              //                       secondary.withOpacity(0.1)),
-                                              //               color: white),
-                                              //         ),
-                                              //       ),
-                                              //       Container(
-                                              //         width: 80,
-                                              //         height: 80,
-                                              //         decoration: BoxDecoration(
-                                              //             image: DecorationImage(
-                                              //                 image: AssetImage(
-                                              //                     currentOrderList[index]
-                                              //                         ['image']),
-                                              //                 fit: BoxFit.cover)),
-                                              //       ),
-                                              //     ],
-                                              //   ),
-                                              // ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Flexible(
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                              Container(
+                                                width: size.width * 0.6,
+                                                child: Row(
                                                   children: [
-                                                    Text(
-                                                      orderItems.product.name
-                                                          .toString(),
-                                                      // currentOrderList[index]['name'],
-                                                      style: TextStyle(
-                                                          fontSize: 16),
-                                                      maxLines: 2,
+                                                    SizedBox(
+                                                      width: 5,
                                                     ),
-                                                    // Row(
-                                                    //   children: [
-                                                    //     Text(
-                                                    //       "\$",
-                                                    //       style: TextStyle(
-                                                    //           color: red,
-                                                    //           fontSize: 16,
-                                                    //           fontWeight:
-                                                    //               FontWeight.w500),
-                                                    //     ),
-                                                    //     Text(
-                                                    //       orderItems.product!.price
-                                                    //           .toString(),
-                                                    //       // currentOrderList[index]['price'],
-                                                    //       style: TextStyle(
-                                                    //           fontSize: 16,
-                                                    //           fontWeight:
-                                                    //               FontWeight.w600),
-                                                    //     ),
-                                                    //   ],
-                                                    // )
+                                                    Flexible(
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            orderItems.product
+                                                                    .name
+                                                                    .toString() +
+                                                                " " +
+                                                                "× " +
+                                                                orderItems
+                                                                    .quantity
+                                                                    .toString(),
+                                                            // currentOrderList[index]['name'],
+                                                            style: TextStyle(
+                                                                fontSize: 16),
+                                                            maxLines: 2,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
                                             ],
-                                          ),
+                                          );
+                                        }),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Total : \₹" +
+                                              order.totalprice.toString(),
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
                                         ),
-                                        Flexible(
-                                          child: Row(
-                                            children: [
-                                              // Container(
-                                              //   width: 1,
-                                              //   height: 60,
-                                              //   decoration: BoxDecoration(
-                                              //       color: secondary
-                                              //           .withOpacity(0.15)),
-                                              // ),
-                                              SizedBox(
-                                                width: 5,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            order.orderStatus == "INPROGRESS"
+                                                ? Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 8.0),
+                                                    child: ElevatedButton(
+                                                      onPressed: () {
+                                                        controller
+                                                            .setOrderCancelled(
+                                                                order.id);
+                                                        controller.orders
+                                                            .clear();
+                                                        controller.onReady();
+                                                      },
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            Colors.black54,
+                                                      ),
+                                                      child: Text("Cancel"),
+                                                    ),
+                                                  )
+                                                : Text(''),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                controller.update();
+                                                Get.to(
+                                                    () => OrderDetailsScreen(),
+                                                    popGesture: true,
+                                                    arguments: {
+                                                      'orderItem': controller
+                                                          .orders[index]
+                                                          .orderItem,
+                                                      'orderId': controller
+                                                          .orders[index].id,
+                                                      'address': order.address
+                                                              .addressLine1 +
+                                                          "\n" +
+                                                          order.address
+                                                              .addressLine2 +
+                                                          "-" +
+                                                          order.address.pincode
+                                                              .toString() +
+                                                          "\n" +
+                                                          order.address.city +
+                                                          "\n" +
+                                                          order.address.state +
+                                                          " " +
+                                                          order
+                                                              .address.country +
+                                                          "\n" +
+                                                          order.address.mobileNo
+                                                              .toString(),
+                                                      'totalPrice': order
+                                                          .totalprice
+                                                          .toString()
+                                                    });
+                                              },
+                                              style: TextButton.styleFrom(
+                                                backgroundColor: Colors.black54,
                                               ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Total Items: " +
-                                                        orderItems.quantity
-                                                            .toString(),
-                                                    // "Total Items: 1",
-                                                    style:
-                                                        TextStyle(fontSize: 13),
-                                                  ),
-                                                  // Text(
-                                                  //   orderItems.createdDate
-                                                  //       .toString(),
-                                                  //   // currentOrderList[index]['time'],
-                                                  //   style: TextStyle(
-                                                  //       fontSize: 12,
-                                                  //       color: secondary
-                                                  //           .withOpacity(0.5)),
-                                                  // )
-                                                ],
-                                              )
-                                            ],
-                                          ),
+                                              child: Text("Details"),
+                                            ),
+                                          ],
                                         ),
                                       ],
-                                    );
-                                  }),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Total : \₹" + order.totalprice.toString(),
-                                    // pastOrderList[index]['price'],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Get.to(() => OrderDetailsScreen(),
-                                          popGesture: true,
-                                          arguments: {
-                                            'orderId': orderController
-                                                .orders[index].id,
-                                            'address':
-                                                order.address.addressLine1 +
-                                                    "\n" +
-                                                    order.address.addressLine2 +
-                                                    "-" +
-                                                    order.address.pincode
-                                                        .toString() +
-                                                    "\n" +
-                                                    order.address.city +
-                                                    "\n" +
-                                                    order.address.state +
-                                                    " " +
-                                                    order.address.country +
-                                                    "\n" +
-                                                    order.address.mobileNo
-                                                        .toString(),
-                                            'totalPrice':
-                                                order.totalprice.toString()
-                                          });
-                                    },
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.black54,
                                     ),
-                                    child: Text("Details"),
-                                  ),
-                                ],
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          order.createdDate != null
+                                              ? DateFormat('dd-MM-yyyy hh:mm a')
+                                                  .format(order.createdDate)
+                                              : "",
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  );
-                });
-          }),
-        ],
+                        );
+                      });
+                }),
+          ],
+        ),
       ),
     );
   }
+
+  List orders = [];
+
+  Future getAllOrdersByUser(int userId) async {
+    String url = 'http://10.0.2.2:8082/getOrderDetailsbyuser/${userId}';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    var body = jsonDecode(response.body);
+    return body;
+  }
+
+  //  Future setOrderCancelled(int orderId) async {
+  //   String url = 'http://10.0.2.2:8082/setOrderCancelled/{id}${orderId}';
+  //   http.Response response = await http.get(
+  //     Uri.parse(url),
+  //     headers: {'Content-Type': 'application/json'},
+  //   );
+
+  //   var body = jsonDecode(response.body);
+  //   return body;
+  // }
 }

@@ -15,8 +15,6 @@ import '../../ConstantUtil/colors.dart';
 import '../../utils/helper.dart';
 import '../Address/AddressDetails.dart';
 import '../Home/home_screen.dart';
-import '../sucessOrder/OrderPlaced.dart';
-import '../sucessOrder/orderFail.dart';
 import 'package:http/http.dart' as http;
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -28,19 +26,26 @@ class OrderDetailsScreen extends StatefulWidget {
 }
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
-  OrderDetailsController orderDetailsController =
-      Get.put(OrderDetailsController());
+  var total;
+  double gst = 0;
+  double finalPrice = 0;
+
+  var orderId = Get.arguments;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    apiCall();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var orderId = Get.arguments;
-    // print(orderId['totalPrice']);
-
-    double? total = double.tryParse(orderId['totalPrice']);
-    // print(total! - 10);
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      orderDetailsController.getOrderDetails(orderId['orderId']);
-    });
+    // double? total = double.tryParse(orderId['totalPrice']);
+    // print(total);
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   orderDetailsController.getOrderDetails(orderId['orderId']);
+    // });
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -193,111 +198,212 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   height: 10,
                 ),
                 Column(
-                  children: [
-                    GetBuilder<OrderDetailsController>(builder: (controller) {
-                      return ListView.builder(
-                          itemCount:
-                              orderDetailsController.Selectedorder.length,
-                          physics: ClampingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            var selected =
-                                orderDetailsController.Selectedorder[index];
-
-                            return GestureDetector(
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                      child: Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: grey,
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  spreadRadius: 1,
-                                                  color: black.withOpacity(0.1),
-                                                  blurRadius: 2)
-                                            ]),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Container(
-                                              padding: EdgeInsets.all(20),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    flex: 10,
-                                                    child: Text(
-                                                      selected.product!.name
-                                                          .toString(),
-                                                      // "\$ " + products[index]['price'],
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 10,
-                                                    child: Text(
-                                                      selected.quantity
-                                                          .toString(),
-                                                      // "\$ " + products[index]['price'],
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 10,
-                                                    child: Text(
-                                                      selected.product!.price
-                                                          .toString(),
-                                                      // "\$ " + products[index]['price'],
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
+                    children: List.generate(selectedOrder.length, (index) {
+                  var productdata = selectedOrder[index];
+                  total = selectedOrder.length > 0
+                      ? selectedOrder
+                          .map<int>(
+                              (m) => m['product']['price'] * m['quantity'])
+                          .reduce((value, element) => value + element)
+                      : 0;
+                  int? totalPrice = int.tryParse(total.toString());
+                  gst = ((totalPrice! * 0.18));
+                  finalPrice = gst + totalPrice + 10;
+                  return GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                            child: Stack(
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: grey,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        spreadRadius: 1,
+                                        color: black.withOpacity(0.1),
+                                        blurRadius: 2)
+                                  ]),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.all(20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 10,
+                                          child: Text(
+                                            productdata['product']['name']
+                                                .toString(),
+                                            // "\$ " + products[index]['price'],
+                                            style: TextStyle(
+                                                decoration: TextDecoration.none,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  )),
-                                ),
+                                        Expanded(
+                                          flex: 10,
+                                          child: Text(
+                                            productdata['quantity'].toString(),
+                                            // "\$ " + products[index]['price'],
+                                            style: TextStyle(
+                                                decoration: TextDecoration.none,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 10,
+                                          child: Text(
+                                            productdata['product']['price']
+                                                .toString(),
+                                            // "\$ " + products[index]['price'],
+                                            style: TextStyle(
+                                                decoration: TextDecoration.none,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            );
-                          });
-                    }),
-                  ],
-                ),
+                            ),
+                          ],
+                        )),
+                      ),
+                    ),
+                  );
+                })),
+                // Column(
+                //   children: [
+                //     GetBuilder<OrderDetailsController>(builder: (controller) {
+                //       return ListView.builder(
+                //           itemCount:
+                //               orderDetailsController.Selectedorder.length,
+                //           physics: ClampingScrollPhysics(),
+                //           shrinkWrap: true,
+                //           itemBuilder: (BuildContext context, int index) {
+                //             var total = orderDetailsController
+                //                         .Selectedorder.length >
+                //                     0
+                //                 ? orderDetailsController.Selectedorder.map<int>(
+                //                         (m) => m.product!.price! * m.quantity!)
+                //                     .reduce((value, element) => value + element)
+                //                 : 0;
+
+                //             int? totalPrice = int.tryParse(total.toString());
+                //             gst = ((totalPrice! + 10) * 18) / 100;
+                //             finalPrice = gst + totalPrice + 10;
+
+                //             print(total);
+                //             var selected =
+                //                 orderDetailsController.Selectedorder[index];
+
+                //             return GestureDetector(
+                //               child: Padding(
+                //                 padding: const EdgeInsets.all(6.0),
+                //                 child: InkWell(
+                //                   onTap: () {},
+                //                   child: Container(
+                //                       child: Stack(
+                //                     children: <Widget>[
+                //                       Container(
+                //                         decoration: BoxDecoration(
+                //                             color: grey,
+                //                             borderRadius:
+                //                                 BorderRadius.circular(20),
+                //                             boxShadow: [
+                //                               BoxShadow(
+                //                                   spreadRadius: 1,
+                //                                   color: black.withOpacity(0.1),
+                //                                   blurRadius: 2)
+                //                             ]),
+                //                         child: Column(
+                //                           children: <Widget>[
+                //                             Container(
+                //                               padding: EdgeInsets.all(20),
+                //                               child: Row(
+                //                                 mainAxisAlignment:
+                //                                     MainAxisAlignment
+                //                                         .spaceBetween,
+                //                                 children: <Widget>[
+                //                                   Expanded(
+                //                                     flex: 10,
+                //                                     child: Text(
+                //                                       selected.product!.name
+                //                                           .toString(),
+                //                                       // "\$ " + products[index]['price'],
+                //                                       style: TextStyle(
+                //                                           decoration:
+                //                                               TextDecoration
+                //                                                   .none,
+                //                                           fontSize: 16,
+                //                                           fontWeight:
+                //                                               FontWeight.w500),
+                //                                       textAlign:
+                //                                           TextAlign.center,
+                //                                     ),
+                //                                   ),
+                //                                   Expanded(
+                //                                     flex: 10,
+                //                                     child: Text(
+                //                                       selected.quantity
+                //                                           .toString(),
+                //                                       // "\$ " + products[index]['price'],
+                //                                       style: TextStyle(
+                //                                           decoration:
+                //                                               TextDecoration
+                //                                                   .none,
+                //                                           fontSize: 16,
+                //                                           fontWeight:
+                //                                               FontWeight.w500),
+                //                                       textAlign:
+                //                                           TextAlign.center,
+                //                                     ),
+                //                                   ),
+                //                                   Expanded(
+                //                                     flex: 10,
+                //                                     child: Text(
+                //                                       selected.product!.price
+                //                                           .toString(),
+                //                                       // "\$ " + products[index]['price'],
+                //                                       style: TextStyle(
+                //                                           decoration:
+                //                                               TextDecoration
+                //                                                   .none,
+                //                                           fontSize: 16,
+                //                                           fontWeight:
+                //                                               FontWeight.w500),
+                //                                       textAlign:
+                //                                           TextAlign.center,
+                //                                     ),
+                //                                   ),
+                //                                 ],
+                //                               ),
+                //                             ),
+                //                           ],
+                //                         ),
+                //                       ),
+                //                     ],
+                //                   )),
+                //                 ),
+                //               ),
+                //             );
+                //           });
+                //     }),
+                //   ],
+                // ),
                 SizedBox(
                   height: 10,
                 ),
@@ -312,76 +418,76 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(children: [
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text(
-                    //       "Sub Total",
-                    //       style: TextStyle(
-                    //         color: Colors.grey[800],
-                    //         fontSize: 18,
-                    //       ),
-                    //     ),
-                    //     Text(
-                    //       "\₹1000",
-                    //       style: TextStyle(
-                    //           color: Colors.black87,
-                    //           fontSize: 18,
-                    //           fontWeight: FontWeight.bold),
-                    //     ),
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text(
-                    //       "Delivery Cost",
-                    //       style: TextStyle(
-                    //         color: Colors.grey[800],
-                    //         fontSize: 18,
-                    //       ),
-                    //     ),
-                    //     Text(
-                    //       "\₹10",
-                    //       style: TextStyle(
-                    //           color: Colors.black87,
-                    //           fontSize: 18,
-                    //           fontWeight: FontWeight.bold),
-                    //     ),
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text(
-                    //       "Gst(18%)",
-                    //       style: TextStyle(
-                    //         color: Colors.grey[800],
-                    //         fontSize: 18,
-                    //       ),
-                    //     ),
-                    //     Text(
-                    //       "\₹300",
-                    //       style: TextStyle(
-                    //           color: Colors.black87,
-                    //           fontSize: 18,
-                    //           fontWeight: FontWeight.bold),
-                    //     ),
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: 5,
-                    // ),
-                    // Divider(
-                    //   height: 10,
-                    //   color: Color.fromARGB(255, 137, 136, 136),
-                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Sub Total",
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "\₹${total}",
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Delivery Cost",
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "\₹10",
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Gst(18%)",
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "\₹${gst}",
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Divider(
+                      height: 10,
+                      color: Color.fromARGB(255, 137, 136, 136),
+                    ),
                     SizedBox(
                       height: 5,
                     ),
@@ -396,7 +502,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ),
                         ),
                         Text(
-                          "\₹${orderId['totalPrice']}",
+                          "\₹${finalPrice}",
                           style: TextStyle(
                               color: Colors.black87,
                               fontSize: 18,
@@ -425,5 +531,24 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         ),
       ),
     );
+  }
+
+  apiCall() async {
+    var SelectedOrderFromAPi = await getOrderDetails(orderId['orderId']);
+    setState(() {
+      selectedOrder = SelectedOrderFromAPi;
+    });
+  }
+
+  List selectedOrder = [];
+
+  Future getOrderDetails(orderId) async {
+    String url = 'http://10.0.2.2:8082/getOrderDetailsbyid/${orderId}';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+    var body = jsonDecode(response.body);
+    return body['orderItem'];
   }
 }

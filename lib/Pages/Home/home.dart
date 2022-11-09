@@ -415,10 +415,9 @@ class _HomePageState extends State<HomePage> {
                                                                       .w500),
                                                         ),
                                                         productController
-                                                                    .productData[
-                                                                        index]
-                                                                    .cartQauntity !=
-                                                                0
+                                                                .productData[
+                                                                    index]
+                                                                .isAdded
                                                             ? Row(
                                                                 mainAxisSize:
                                                                     MainAxisSize

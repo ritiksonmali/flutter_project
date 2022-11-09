@@ -253,11 +253,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Column(
                     children: List.generate(cartproducts.length, (index) {
                   var productdata = cartproducts[index];
-
-                  // totalprice =
-                  //     productdata['product']['price'] * productdata['quantity'];
-                  // print(((totalprice + 10) * 18) / 100);
-
                   total = cartproducts.length > 0
                       ? cartproducts
                           .map<int>(
@@ -265,7 +260,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           .reduce((value, element) => value + element)
                       : 0;
                   int? totalPrice = int.tryParse(total.toString());
-                  gst = ((totalPrice! + 10) * 18) / 100;
+                  gst = ((totalPrice! * 0.18));
                   finalPrice = gst + totalPrice + 10;
                   return GestureDetector(
                     child: Padding(
