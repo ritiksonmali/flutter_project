@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/screens/navbar.dart';
@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../ConstantUtil/colors.dart';
 import '../../Controller/ProductController.dart';
+import '../Home/home_screen.dart';
 import 'Checkout.dart';
 
 class CartScreen extends StatefulWidget {
@@ -66,8 +67,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future getCartproducts(userId) async {
-    // print("fatchProduct $userId");
-    // var postData = {"productid": id};
+   
 
     CommanDialog.showLoading();
     String url = 'http://10.0.2.2:8082/api/auth/getcartitems/${userId}';
@@ -99,33 +99,26 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-//     final cart  = Provider.of<CartProvider>(context);
-//  var userId = Get.arguments;
-//     print(userId);
 
-//     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-//       cartController.getCartproducts(userId['userId']);
-//     });
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
-        automaticallyImplyLeading: true,
+        // automaticallyImplyLeading: true,
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
-            // Get.back();
-            // Navigator.pushAndRemoveUntil(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) =>
-            //           HomeScreen()), // this mymainpage is your page to refresh
-            //   (Route<dynamic> route) => false,
-            // );
-            // Navigator.pushReplacement(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (BuildContext context) => super.widget));
+            productController.getAllProducts();
+            
+            Timer(Duration(seconds: 10),(){
+               Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomeScreen()), // this mymainpage is your page to refresh
+              (Route<dynamic> route) => false,
+            );
+            });
+           
           },
           icon: Icon(
             Icons.arrow_back,
@@ -323,10 +316,6 @@ class _CartScreenState extends State<CartScreen> {
                                                   setState(() {
                                                     if (cartdata['quantity'] ==
                                                         1) {
-                                                          productController
-                                                                      .productData[
-                                                                          index]
-                                                                      .counter--;
                                                       cartproducts
                                                           .removeAt(index);
                                                       // if (cartproducts.isEmpty) {
@@ -336,18 +325,17 @@ class _CartScreenState extends State<CartScreen> {
                                                       cartdata['quantity'] =
                                                           cartdata['quantity'] -
                                                               1;
-                                                       
                                                     }
                                                   });
-                                                },
-                                              ),
+                                                }
+                                                  ),
                                             ),
                                           ),
                                         ),
                                         //  Obx(()=>Text("${myProductController.},
                                         
                                            Text(
-                                            productController.productData[index].counter.toString(),
+                                             cartdata['quantity'].toString(),
                                           
                                           style: TextStyle(color: Colors.white),
                                         ),
@@ -370,10 +358,6 @@ class _CartScreenState extends State<CartScreen> {
                                                       cartdata['product']['id'],
                                                       this.add);
                                                   setState(() {
-                                                     productController
-                                                                    .productData[
-                                                                        index]
-                                                                    .counter++;
                                                     cartdata['quantity'] =
                                                         cartdata['quantity'] +
                                                             1;

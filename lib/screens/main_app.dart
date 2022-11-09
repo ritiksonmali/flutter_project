@@ -1,11 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Controller/LoginController.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
+import 'package:get/get.dart';
+
+import '../Controller/ProductController.dart';
+import 'loading.dart';
 
 class Mainapp extends StatefulWidget {
   const Mainapp({Key? key}) : super(key: key);
@@ -15,13 +17,14 @@ class Mainapp extends StatefulWidget {
 }
 
 class _MainappState extends State<Mainapp> {
+    final ProductController productController = Get.put(ProductController());
   final logincontroller = LoginController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
           future: logincontroller.tryAutoLogin(),
-          builder: (context, authResult) {
+          builder: (context, authResult) {     
             if (authResult.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(
@@ -29,28 +32,30 @@ class _MainappState extends State<Mainapp> {
               );
             } else {
               if (authResult.data == true) {
-                return HomeScreen();
+                 productController.getAllProducts();
+                   Timer(Duration(seconds: 10),(){
+                  Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                  builder: (context) =>
+                      HomeScreen()), // this mymainpage is your page to refresh
+                   (Route<dynamic> route) => false,
+                  );
+               });
               }
-              return Welcome();
-            }
+                Timer(Duration(seconds: 20),(){
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) =>
+                       Welcome()), // this mymainpage is your page to refresh
+                      (Route<dynamic> route) => false,
+                    );
+                 });
+                 return LoadingScreen();
+              }
           }),
 
-      // body: StreamBuilder(
-      //     stream: FirebaseAuth.instance.authStateChanges(),
-      //     builder: (context, snapshot) {
-      //       if (snapshot.connectionState == ConnectionState.waiting) {
-      //         return Center(child: CircularProgressIndicator());
-      //       } else if (snapshot.hasData) {
-      //         return HomeScreen();
-      //       } else if (snapshot.hasError) {
-      //         return Center(
-      //             child: CommanDialog.showErrorDialog(
-      //                 description: 'Something Went Wrong'));
-      //       } else {
-      //         return Welcome();
-      //       }
-      //       // return Welcome();
-      //     }),
     );
   }
 }

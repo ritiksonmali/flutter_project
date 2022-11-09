@@ -26,6 +26,7 @@ class OfferController extends GetxController {
       for (Map i in body) {
         offer.add(Offer.fromJson(i));
       }
+      update();
       return offer;
     } else {
       return offer;

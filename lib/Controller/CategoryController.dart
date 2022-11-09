@@ -29,6 +29,7 @@ class CategoryController extends GetxController {
       for (Map i in body) {
         category.add(CategoryData.fromJson(i));
       }
+      update();
       return category;
     } else {
       return category;

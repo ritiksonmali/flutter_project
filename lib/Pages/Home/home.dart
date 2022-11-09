@@ -1,3 +1,5 @@
+
+import 'dart:async';
 import 'dart:convert';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
@@ -27,22 +29,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey();
-
+  
   int? id;
   String add = "add";
   String remove = "remove";
- 
+ int counter =1;
 
   void test() async {
-    
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
     int id = jsonDecode(iddata!);
-    // productController!.getAllProducts(id);
     setState(() {
       this.id = id;
       apiCall();
-      productController.getAllProducts();
     });
   }
 
@@ -57,21 +56,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     test();
   }
 
   apiCall() async {
-    // var categoryFromApi = await getCategoryApi();
-    // var allproductsfromapi = await getAllProductApi();
-    // var popularproductFromApi = await getPopularProductApi(this.flag);
-    // var offersfromapi = await getAllOffersApi();
     setState(() {
-      // category = categoryFromApi;
-      // allproducts = allproductsfromapi;
-      // popularproducts = popularproductFromApi;
-      // offers = offersfromapi;
     });
   }
 
@@ -85,10 +75,7 @@ class _HomePageState extends State<HomePage> {
             height: 90,
             width: 120,
           ),
-          // title: Text(
-          //   'Shopping cart',
-          //   style: TextStyle(color: Colors.black),
-          // ),
+          
           iconTheme: IconThemeData(color: Colors.black),
           automaticallyImplyLeading: false,
           actions: [
@@ -109,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const CartScreen()),
+                          builder: (context) =>  CartScreen()),
                     );
                     // Get.to(
                     //   () => CartScreen(),
@@ -134,396 +121,390 @@ class _HomePageState extends State<HomePage> {
           ],
           backgroundColor: Colors.white,
         ),
-        body: SingleChildScrollView(
-          child: RefreshIndicator(
-            onRefresh:productController.getAllProducts,
-            child: Column(
-              children: [
-                SingleChildScrollView(
-                  child: Column(children: [
-                    SizedBox(
-                      width: double.infinity,
-                      height: 100,
-                      child: GetBuilder<CategoryController>(
-                        builder: (controller) {
+        // body:  RefreshIndicator(
+        //         onRefresh:productController.getAllProducts,
+           body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SingleChildScrollView(
+                      child: Column(children: [
+                        SizedBox(
+                          width: double.infinity,
+                          height: 100,
+                          child: GetBuilder<CategoryController>(
+                            builder: (controller) {
+                              return ListView.builder(
+                                  // itemCount: _choices.length,
+                                  itemCount: categoryController.category.length,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  physics: ScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    var categories =
+                                        categoryController.category[index];
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.symmetric(horizontal: 2.0),
+                                      child: Container(
+                                        width: 80,
+                                        height: 80,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Get.to(() => CategoryProductList(),
+                                                arguments: {
+                                                  "categoryId": categories.id
+                                                });
+                                          },
+                                          child: Card(
+                                            color: Colors.white,
+                                            shadowColor: Colors.black,
+                                            child: Container(
+                                              //  child Icon
+                                              child: Center(
+                                                  child: Text(
+                                                // _choices[index].name
+                                                categories.title,
+                                                style: TextStyle(color: Colors.black),
+                                              )),
+                                            ),
+                                            shape: CircleBorder(),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                  ]),
+                       ),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 150,
+                        child: GetBuilder<OfferController>(builder: (controller) {
                           return ListView.builder(
-                              // itemCount: _choices.length,
-                              itemCount: categoryController.category.length,
-                              scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
+                              itemCount: offerController.offer.length,
+                              scrollDirection: Axis.horizontal,
                               physics: ScrollPhysics(),
                               itemBuilder: (context, index) {
-                                var categories =
-                                    categoryController.category[index];
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 2.0),
-                                  child: Container(
-                                    width: 80,
-                                    height: 80,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Get.to(() => CategoryProductList(),
-                                            arguments: {
-                                              "categoryId": categories.id
-                                            });
-                                      },
-                                      child: Card(
-                                        color: Colors.white,
-                                        shadowColor: Colors.black,
-                                        child: Container(
-                                          //  child Icon
-                                          child: Center(
-                                              child: Text(
-                                            // _choices[index].name
-                                            categories.title,
-                                            style: TextStyle(color: Colors.black),
-                                          )),
+                                var offer = offerController.offer[index];
+                                return Container(
+                                  width: 400,
+                                  child: Card(
+                                    child: Container(
+                                      child: InkWell(
+                                        onTap: () {
+                                          Get.to(() => OfferList(),
+                                              arguments: {"offerId": offer.id});
+                                        },
+                                        child: Image.network(
+                                          'http://10.0.2.2:8082/api/auth/serveproducts/${offer.imageUrl.toString()}',
+                                          fit: BoxFit.cover,
                                         ),
-                                        shape: CircleBorder(),
+                                        // Image.asset('assets/sale.webp',
+                                        //     fit: BoxFit.cover)
                                       ),
                                     ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.0)),
+                                    clipBehavior: Clip.antiAlias,
                                   ),
                                 );
                               });
-                        },
+                        }),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 150,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: offerController.offer.length,
-                          scrollDirection: Axis.horizontal,
-                          physics: ScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            var offer = offerController.offer[index];
-                            return Container(
-                              width: 400,
-                              child: Card(
-                                child: Container(
-                                  child: InkWell(
-                                    onTap: () {
-                                      Get.to(() => OfferList(),
-                                          arguments: {"offerId": offer.id});
-                                    },
-                                    child: Image.network(
-                                      'http://10.0.2.2:8082/api/auth/serveproducts/${offer.imageUrl.toString()}',
-                                      fit: BoxFit.cover,
-                                    ),
-                                    // Image.asset('assets/sale.webp',
-                                    //     fit: BoxFit.cover)
-                                  ),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0)),
-                                clipBehavior: Clip.antiAlias,
-                              ),
-                            );
-                          }),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Text("Popular Product",
-                                  style: Theme.of(context).textTheme.subtitle1
-                                  //  .copyWith(fontWeight: FontWeight.bold),
-                                  )),
-                          InkWell(
-                              onTap: () {
-                                Get.to(() => PopularProductList());
-                              },
-                              child: Text("Show more"))
-                        ],
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    SizedBox(
-                      height: 150,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: popularproductController.popular.length,
-                          physics: ScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            var popular = popularproductController.popular[index];
-                            return GestureDetector(
-                              onTap: () => null,
-                              child: Column(
-                                children: [
-                                  Hero(
-                                    tag: "anim$index",
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          right: 8, left: 8, top: 0, bottom: 0),
-                                      width: 100,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(14)),
-                                          color:
-                                              Color.fromARGB(255, 192, 193, 195),
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                'http://10.0.2.2:8082/api/auth/serveproducts/${popular.imageUrl.toString()}'),
-                                            // AssetImage(
-                                            //     "assets/shoe_1.webp")
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    popular.name,
-                                  )
-                                ],
-                              ),
-                            );
-                          }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 40, left: 30, right: 30, bottom: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "All Products",
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.w600),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                "Sort by",
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5),
-                                child: Icon(Icons.keyboard_arrow_down),
-                              )
-                            ],
-                          )
-                        ],
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Text("Popular Product",
+                                    style: Theme.of(context).textTheme.subtitle1
+                                    //  .copyWith(fontWeight: FontWeight.bold),
+                                    )),
+                            InkWell(
+                                onTap: () {
+                                  Get.to(() => PopularProductList());
+                                },
+                                child: Text("Show more"))
+                          ],
+                        ),
                       ),
-                    ),
-                    Column(
-                        children: List.generate(
-                            productController.productData.length, (index) {
-                      var allproduct = productController.productData[index];
-                      return GestureDetector(
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: InkWell(
-                            onTap: () {},
-                            child: Container(
-                                child: Stack(
-                              children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: grey,
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            spreadRadius: 1,
-                                            color: black.withOpacity(0.1),
-                                            blurRadius: 2)
-                                      ]),
+                      SizedBox(
+                        height: 150,
+                        child: GetBuilder<PopularProductController>(
+                            builder: (controller) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: popularproductController.popular.length,
+                              physics: ScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                var popular =
+                                    popularproductController.popular[index];
+                                return GestureDetector(
+                                  onTap: () => null,
                                   child: Column(
-                                    children: <Widget>[
-                                      Center(
+                                    children: [
+                                      Hero(
+                                        tag: "anim$index",
                                         child: Container(
-                                          width: 280,
-                                          height: 180,
+                                          margin: EdgeInsets.only(
+                                              right: 8, left: 8, top: 0, bottom: 0),
+                                          width: 100,
+                                          height: 100,
                                           decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(14)),
+                                              color:
+                                                  Color.fromARGB(255, 192, 193, 195),
                                               image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    'http://10.0.2.2:8082/api/auth/serveproducts/${allproduct.imageUrl.toString()}',
-                                                  ),
-                                                  //  AssetImage(
-                                                  //     "assets/images/" +
-                                                  //         products[index]['img']),
-                                                  fit: BoxFit.cover)),
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    'http://10.0.2.2:8082/api/auth/serveproducts/${popular.imageUrl.toString()}'),
+                                                // AssetImage(
+                                                //     "assets/shoe_1.webp")
+                                              )),
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 15,
+                                        height: 10,
                                       ),
                                       Text(
-                                        allproduct.name,
-                                        // products[index]['name'],
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      Container(
-                                          padding: EdgeInsets.all(20),
-                                          child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Price : \₹ " +
-                                                      allproduct.price.toString(),
-                                                  // "\$ " + products[index]['price'],
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                                productController
-                                                        .productData[index]
-                                                        .isAdded
-                                                    ? Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: <Widget>[
-                                                          IconButton(
-                                                            icon: Icon(
-                                                                Icons.remove),
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                productController
-                                                                    .increasequantity(
-                                                                        this.id!,
-                                                                        allproduct
-                                                                            .id,
-                                                                        this.remove);
-                                                                if (productController
-                                                                        .productData[
-                                                                            index]
-                                                                        .counter >
-                                                                    1) {
-                                                                  productController
-                                                                      .productData[
-                                                                          index]
-                                                                      .counter--;
-                                                                } else {
-                                                                  productController
-                                                                      .productData[
-                                                                          index]
-                                                                      .isAdded = false;
-                                                                }
-                                                              });
-                                                            },
-                                                            color: Colors.black,
-                                                          ),
-                                                          Text(productController
-                                                              .productData[index]
-                                                              .counter
-                                                              .toString()),
-                                                          IconButton(
-                                                            icon: Icon(Icons.add),
-                                                            color: Colors.black,
-                                                            onPressed: () {
-                                                              productController
-                                                                  .increasequantity(
-                                                                      this.id!,
-                                                                      allproduct
-                                                                          .id,
-                                                                      this.add);
-                                                              setState(() {
-                                                                productController
-                                                                    .productData[
-                                                                        index]
-                                                                    .counter++;
-                                                              });
-                                                            },
-                                                          ),
-                                                        ],
-                                                      )
-                                                    : ElevatedButton(
-                                                        onPressed: () {
-                                                          productController
-                                                              .increasequantity(
-                                                                  this.id!,
-                                                                  allproduct.id,
-                                                                  this.add);
-                                                          setState(() {
-                                                            productController
-                                                                .productData[
-                                                                    index]
-                                                                .isAdded = true;
-                                                          });
-                                                        },
-                                                        style:
-                                                            TextButton.styleFrom(
-                                                          backgroundColor:
-                                                              Colors.black,
-                                                        ),
-                                                        child:
-                                                            Text("Add to Cart"),
-                                                      ),
-                                              ])
-                                          ),
+                                        popular.name,
+                                      )
                                     ],
                                   ),
+                                );
+                              });
+                        }),
+                      ),
+                       SizedBox(
+                                  height: 2,
                                 ),
-                                Positioned(
-                                    right: 10,
-                                    child: IconButton(
-                                        icon: SvgPicture.asset(
-                                            "assets/images/heart_icon.svg"),
-                                        onPressed: null)),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 40, left: 30, right: 30, bottom: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              "All Products",
+                              style: TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.w600),
+                            ),
+                            
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  "Sort by",
+                                  style: TextStyle(
+                                      fontSize: 15, fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Icon(Icons.keyboard_arrow_down),
+                                )
                               ],
-                            )),
-                          ),
+                            )
+                          ],
                         ),
-                      );
-                    }))
-                  ]),
-                ),
-              ],
-            ),
-          ),
-       )
-        );
+                      ),
+                      Column(
+                        children: [
+                          GetBuilder<ProductController>(builder: (controller) {
+                            return ListView.builder(
+                                itemCount: productController.productResponseList.length,
+                                physics: ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return GestureDetector(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(6.0),
+                                      child: InkWell(
+                                        onTap: () {},
+                                        child: Container(
+                                            child: Stack(
+                                          children: <Widget>[
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: grey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        spreadRadius: 1,
+                                                        color:
+                                                            black.withOpacity(0.1),
+                                                        blurRadius: 2)
+                                                  ]),
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Center(
+                                                    child: Container(
+                                                      margin:
+                                                          EdgeInsets.only(top: 30),
+                                                      width: 280,
+                                                      height: 180,
+                                                      decoration: BoxDecoration(
+                                                          image: DecorationImage(
+                                                              image: NetworkImage(
+                                                                'http://10.0.2.2:8082/api/auth/serveproducts/${ productController.productResponseList[index]['imageUrl'].toString()}',
+                                                              ),
+                                                              //  AssetImage(
+                                                              //     "assets/images/" +
+                                                              //         products[index]['img']),
+                                                              fit: BoxFit.cover)),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  Text(
+                                                    productController.productResponseList[index]['name'].toString(),
+                                                    // products[index]['name'],
+                                                    style: TextStyle(
+                                                        fontSize: 17,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  Container(
+                                                      padding: EdgeInsets.all(20),
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            
+                                                            Text(
+                                                              "Price : \₹ " +
+                                                                  productController.productResponseList[index]['price'].toString(),
+                                                                     
+                                                              // "\$ " + products[index]['price'],
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                            //  productController.productResponseList[index]
+                                                            //['added'] !=false &&
+                                                          productController.productResponseList[index]['cartQauntity'] !=0 
+                                                            ? Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: <
+                                                                    Widget>[
+                                                                  IconButton(
+                                                                    icon: Icon(Icons
+                                                                        .remove),
+                                                                    onPressed:
+                                                                        () {
+                                                                      setState(
+                                                                          () {
+                                                                        productController.increasequantity(
+                                                                            this.id!,
+                                                                           productController.productResponseList[index]['id'],
+                                                                            this.remove);
+                                                                        if (productController.productResponseList[index]['cartQauntity'] >
+                                                                            1) {
+                                                                          productController.productResponseList[index]['cartQauntity']=productController.productResponseList[index]['cartQauntity']-1;
+                                                                        } else {
+                                                                           productController.productResponseList[index]['cartQauntity']=0;
+                                                                          productController
+                                                                              .productResponseList[index]['added']
+                                                                               = false;
+                                                                        }
+                                                                      });
+                                                                    },
+                                                                    color: Colors
+                                                                        .black,
+                                                                  ),
+                                                                  Text(  productController.productResponseList[index]['cartQauntity'].toString(),),
+                                                                  IconButton(
+                                                                    icon: Icon(
+                                                                        Icons
+                                                                            .add),
+                                                                    color: Colors
+                                                                        .black,
+                                                                    onPressed:
+                                                                        () {
+                                                                      productController.increasequantity(
+                                                                          this.id!,
+                                                                         productController.productResponseList[index]['id'],
+                                                                          this.add);
+                                                                      setState(
+                                                                          () {
+                                                                             productController.productResponseList[index]['cartQauntity']= productController.productResponseList[index]['cartQauntity']+1;
+                                                                      });
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              )
+                                                            : ElevatedButton(
+                                                                onPressed: () {
+                                                                  productController.increasequantity(
+                                                                      this.id!,
+                                                                      productController.productResponseList[index]['id'],
+                                                                      this.add);
+                                                                  setState(() {
+                                                                    productController
+                                                                        .productResponseList[index]['cartQauntity'] =1;
+                                                                    productController
+                                                                        .productResponseList[index]['added'] = true;
+                                                                  });
+                                                                },
+                                                                style: TextButton
+                                                                    .styleFrom(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .black,
+                                                                ),
+                                                                child: Text(
+                                                                    "Add to Cart"),
+                                                              ),
+                                                      ])
+
+                                                      ),
+                                                ],
+                                              ),
+                                            ),
+                                            Positioned(
+                                                right: 10,
+                                                child: IconButton(
+                                                    icon: SvgPicture.asset(
+                                                        "assets/images/heart_icon.svg"),
+                                                    onPressed: null)),
+                                          ],
+                                        )),
+                                      ),
+                                    ),
+                                  );
+                                });
+                          })
+                        ],
+                      )
+                    ]),
+              ),
+          //  ),
+     );   
   }
 
   // String? Category;
-  List<HomeItem> _choices = [
-    HomeItem("Men", Icon(Icons.person)),
-    HomeItem("Women", Icon(Icons.emoji_people_sharp)),
-    HomeItem("Fashion", Icon(Icons.shopping_bag)),
-    HomeItem("Baby", Icon(Icons.child_care)),
-    HomeItem("Kids", Icon(Icons.face_sharp))
-  ];
-
-  List category = [
-    // {
-    //   "createdDate": "2022-10-14",
-    //   "lastModifiedDate": "2022-10-14",
-    //   "id": 1,
-    //   "title": "Men",
-    //   "metatitle": "mens products",
-    //   "content": "All mens related products is here"
-    // },
-    // {
-    //   "createdDate": "2022-10-14",
-    //   "lastModifiedDate": "2022-10-14",
-    //   "id": 2,
-    //   "title": "Women",
-    //   "metatitle": "women products",
-    //   "content": "All women related products is here"
-    // }
-  ];
 
   Future getCategoryApi() async {
     try {

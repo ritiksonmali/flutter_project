@@ -46,21 +46,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    productController.setPaymentDetails(response.paymentId.toString(),"SUCCESS".toString(),orderDetailResponse['orderId'].toString());
+    productController.setPaymentDetails(response.paymentId.toString(),
+        "SUCCESS".toString(), orderDetailResponse['orderId'].toString());
     print("paymentId");
     print(response.paymentId);
     print(response.signature);
     print(response.orderId);
     print("Payment Done");
     Get.to(OrderPlacedScreen());
- 
-
 
     // paymentId payment Status orderId
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    productController.setPaymentDetails("0","FAILED","si");
+    productController.setPaymentDetails("0", "FAILED", "si");
     print("Payment Fail");
     print(response.toString());
     Get.to(OrderfailScreen());
@@ -542,49 +541,35 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     });
   }
 
-
   Future createNewOrder() async {
-    
-      String url = 'http://10.0.2.2:8082/createNewOrder';
-      var response = await http.post(Uri.parse(url),
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({
-              "user_id": this.id
-          }));
+    String url = 'http://10.0.2.2:8082/createNewOrder';
+    var response = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({"user_id": this.id}));
 
-      if (response.statusCode == 200) {
-        print("Success");
-        print("working"+(response.body).toString());
-         orderDetailResponse = jsonDecode(response.body);
-         print(orderDetailResponse);
-         order_id=(orderDetailResponse['orderId']);
-         print(orderDetailResponse['totalPrice']);
-         String orderdata=orderDetailResponse['orderId'];
-         var options = {
-                          'key': "rzp_test_BHAChutrVpoEpO",
-                          'amount':orderDetailResponse['totalPrice']*100,
-                          'name': 'Piyush pagar',
-                          'description': orderdata, // in seconds
-                          'prefill': {
-                            'contact': '8830218670',
-                            'email': 'piyush@gmail.com'
-                          },
-                         
-                        };
-                        try{
-                            _razorpay.open(options);
-                        } catch (e) {
-                           print(e.toString());
-                        }
-     return orderDetailResponse;  
+    if (response.statusCode == 200) {
+      print("Success");
+      print("working" + (response.body).toString());
+      orderDetailResponse = jsonDecode(response.body);
+      print(orderDetailResponse);
+      order_id = (orderDetailResponse['orderId']);
+      print(orderDetailResponse['totalPrice']);
+      String orderdata = orderDetailResponse['orderId'];
+      var options = {
+        'key': "rzp_test_BHAChutrVpoEpO",
+        'amount': orderDetailResponse['totalPrice'] * 100,
+        'name': 'Piyush pagar',
+        'description': orderdata, // in seconds
+        'prefill': {'contact': '8830218670', 'email': 'piyush@gmail.com'},
+      };
+      try {
+        _razorpay.open(options);
+      } catch (e) {
+        print(e.toString());
+      }
+      return orderDetailResponse;
+    }
   }
-}
-
-
-
-
-
-        
 
   //  Future setPaymentDetails(String paymentId ,String paymentStatus,orderId) async {
   //   try {
@@ -600,13 +585,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   //     if (response.statusCode == 200) {
   //       print("Success payment");
   //      print(response.body);
-  //     } 
+  //     }
   //   } catch (e) {
   //     print(e.toString());
   //   }
   // }
-
-
 
   getSelectedApi(int UserId, bool isSelected) async {
     try {
@@ -632,8 +615,5 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     } catch (e) {
       print(e.toString());
     }
-
-   
-}
-
+  }
 }

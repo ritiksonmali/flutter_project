@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter_login_app/ConstantUtil/globals.dart'as globals;
 import 'package:flutter_login_app/model/Product.dart';
 import 'package:flutter_login_app/model/ProductModel.dart';
 import 'package:get/get.dart';
@@ -7,21 +7,29 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductController extends GetxController {
-  var productData = <ProductModel>[].obs;
+  var productData = <ProductModel>[];
   List QuantityResponse =[];
-   // List<ProductModel> DemoProduct = [];
+  String stringResponse='';
+  List productResponseList=[];
+  late Map mapResponse;
+   // List<ProductModel> DemoProduct = [];{}
+   main()async {
+    var store = await SharedPreferences.getInstance(); //add when requried
+    var iddata = store.getString('id');
+    globals.currentUserId = jsonDecode(iddata!);  
+   }
 
   @override
   void onReady() {
     // TODO: implement onReady
     super.onReady();
-    test();
+    // test();
   }
 
   void test() async {
-    var store = await SharedPreferences.getInstance(); //add when requried
+     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
-    int id = jsonDecode(iddata!);
+    int user_id = jsonDecode(iddata!);  
     getAllProducts();
   }
 
@@ -70,27 +78,29 @@ class ProductController extends GetxController {
     }
   }
 
-   Future setPaymentDetails(String paymentId ,String paymentStatus,String orderId) async {
-    
-      String url = 'http://10.0.2.2:8082/setOrderPaymentStatus';
-      var response = await http.post(Uri.parse(url),
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({
-            "orderId": orderId,
-            "paymentId":paymentId,
-            "paymentStatus":paymentStatus
-          }));
-            print("failed payment");
-      if (response.statusCode == 200) {
-        print("Success payment");
-       print(response.body);
-      } 
+  Future setPaymentDetails(
+      String paymentId, String paymentStatus, String orderId) async {
+    String url = 'http://10.0.2.2:8082/setOrderPaymentStatus';
+    var response = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          "orderId": orderId,
+          "paymentId": paymentId,
+          "paymentStatus": paymentStatus
+        }));
+    if (response.statusCode == 200) {
+      print("Success payment");
+      print(response.body);
+    }
   }
-  
 
   
 
     Future getAllProducts() async {
+    var store = await SharedPreferences.getInstance(); //add when requried
+    var iddata = store.getString('id');
+    int user_id = jsonDecode(iddata!);  
+    // int user_id=globals.currentUserId;
     String url =
         'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=7';
     http.Response response = await http.get(
@@ -100,28 +110,19 @@ class ProductController extends GetxController {
   
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      for (Map i in body['records']) {
-        productData.add(ProductModel.fromJson(i));
-      }
+     stringResponse=response.body;
+     mapResponse=jsonDecode(response.body);
+     productResponseList=mapResponse['records'];
+        print("refresh********* done");
+      // for (Map i in body['records']) {
+      //   productData.add(ProductModel.fromJson(i));
+      //    print("refresh for loop");
+      // }
       // print(body['records']);
-      update();
+     // update();
       return productData;
     } else {
       return productData;
     }
   }
-
-  
-
- 
 }
-
-
-
-
-
-
-
-
-
-

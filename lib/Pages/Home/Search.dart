@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../ConstantUtil/colors.dart';
+import '../Order/OrderScreen.dart';
 
 
 class SearchPage extends StatefulWidget {
@@ -38,35 +41,46 @@ class _SearchPageState extends State<SearchPage> {
           iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
             title: Container(
+              width: 100,
+              height: 50,
               decoration: BoxDecoration(
-                  color: kFillColorThird,
-                  borderRadius: BorderRadius.circular(20)),
-              child: TextField(
-                controller: _textEditingController,
-                focusNode: _textFocusNode,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    hintText: 'Search here',
-                    contentPadding: EdgeInsets.all(8)),
-                onChanged: (value) {
-                  setState(() {
-                    foodListSearch = foodList
-                        .where(
-                            (element) => element.contains(value.toLowerCase()))
-                        .toList();
-                    if (_textEditingController!.text.isNotEmpty &&
-                        foodListSearch!.length == 0) {
-                      print('foodListSearch length ${foodListSearch!.length}');
-                    }
-                  });
-                },
+                  color: grey,
+                  borderRadius: BorderRadius.circular(30)),
+              child: Row(
+                children: [
+                  TextField(
+                    controller: _textEditingController,
+                    focusNode: _textFocusNode,
+                    cursorColor: Colors.black,
+                    decoration: InputDecoration(
+                        hintText: 'Search here',
+                        contentPadding: EdgeInsets.symmetric(  horizontal: 20,)),
+                    onChanged: (value) {
+                      setState(() {
+                        foodListSearch = foodList
+                            .where(
+                                (element) => element.contains(value.toLowerCase()))
+                            .toList();
+                        if (_textEditingController!.text.isNotEmpty &&
+                            foodListSearch!.length == 0) {
+                          print('foodListSearch length ${foodListSearch!.length}');
+                        }
+                      });
+                    },
+                  ),
+                ],
               ),
-            )),
+            ),
+              actions: [ IconButton(
+                    onPressed:  () {
+                           Get.to(() => OrderScreen());
+                       },
+                    icon:  Icon(
+                         Icons.search,
+                          color: black,
+                    ),
+                   ),
+        ] ),
         body: _textEditingController!.text.isNotEmpty &&
                 foodListSearch!.length == 0
             ? Center(

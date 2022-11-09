@@ -320,7 +320,10 @@ class _AddressState extends State<Address> {
                       // fontWeight: FontWeight.bold,
                       color: Colors.black,
                     )),
-                
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(20)
+                ],
                 obscureText: false,
               ),
               SizedBox(
