@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Pages/Address/AddAddress.dart';
 import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
 import 'package:flutter_login_app/Pages/Home/home.dart';
-import 'package:flutter_login_app/Pages/Order/Orders.dart';
+import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -187,7 +187,7 @@ class _SettingsPageState extends State<SettingsPage> {
   GestureDetector OrdersRow(BuildContext context, String title) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => OrderPage());
+        Get.to(() => OrderScreen());
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),

@@ -4,7 +4,6 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_login_app/Pages/Order/ItemData.dart';
 import 'package:flutter_login_app/Pages/Product/MyProductController.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -83,7 +82,11 @@ class _ProductListState extends State<ProductListPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Product List', style: TextStyle(color: Colors.black, fontWeight: FontWeight.normal,)),
+        title: Text('Product List',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.normal,
+            )),
         iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
         actions: [

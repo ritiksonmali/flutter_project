@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/api/SignInAuto.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
@@ -46,13 +47,13 @@ class _WelcomeState extends State<Welcome> {
             padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
             child: Column(
               children: <Widget>[
-                logoWidget('assets/logo.jpg'),
+                logoWidget('assets/logo111.png'),
                 SizedBox(
                   height: 150,
                 ),
                 ElevatedButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
                   ),

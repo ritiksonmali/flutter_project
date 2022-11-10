@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/model/User.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
@@ -166,7 +167,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: Text(
                         'Sign In',
                         style: const TextStyle(
-                            color: Colors.black87,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 16),
                       ),
@@ -174,9 +175,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
                             if (states.contains(MaterialState.pressed)) {
-                              return Colors.black26;
+                              return Colors.black;
                             }
-                            return Colors.green;
+                            return black;
                           }),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(

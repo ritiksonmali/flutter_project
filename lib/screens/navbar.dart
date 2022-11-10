@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,10 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../ConstantUtil/colors.dart';
-import '../Pages/Order/Orders.dart';
+import '../Controller/ProductController.dart';
+import '../Pages/Home/home.dart';
+import '../Pages/Home/home_screen.dart';
+import '../Pages/Order/OrderScreen.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({Key? key}) : super(key: key);
@@ -26,6 +30,7 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
+  final ProductController productController = Get.put(ProductController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,16 +62,25 @@ class _NavbarState extends State<Navbar> {
               height: 20,
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text(
-                'Home',
-                style: TextStyle(
-                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
-              ),
-              onTap: () {
-                Get.back();
-              },
-            ),
+                leading: Icon(Icons.home),
+                title: Text(
+                  'Home',
+                  style: TextStyle(
+                      fontSize: 30, color: black, fontWeight: FontWeight.w600),
+                ),
+                onTap: () {
+                  //  productController.getAllProducts();
+
+                  Timer(Duration(seconds: 10), () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomeScreen()), // this mymainpage is your page to refresh
+                      (Route<dynamic> route) => false,
+                    );
+                  });
+                }),
             SizedBox(
               height: 35,
             ),
@@ -129,87 +143,4 @@ class _NavbarState extends State<Navbar> {
       ],
     );
   }
-  // void test() async {
-  //   var store = await SharedPreferences.getInstance(); //add when requried
-  //   String? data = store.getString('userData');
-  //   Map<String, dynamic> userdata = jsonDecode(data!);
-  //   setState(() {
-  //     this.user = userdata;
-  //   });
-  // }
-
-  // Map<String, dynamic>? user;
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   test();
-  // }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Drawer(
-  //     child: ListView(
-  //       padding: EdgeInsets.zero,
-  //       children: [
-  //         SizedBox(
-  //           height: 20,
-  //         ),
-  //         // UserAccountsDrawerHeader(
-  //         //   decoration: BoxDecoration(color: Color.fromRGBO(217, 217, 217, 1)),
-  //         //   accountName: Text(
-  //         //       "user : ${user?['firstName']}" + " " + user?['lastName'],
-  //         //       style: TextStyle(color: Colors.black)),
-  //         //   accountEmail: Text("Email : ${user?['email']}",
-  //         //       style: TextStyle(color: Colors.black)),
-
-  //         //   currentAccountPicture: CircleAvatar(
-  //         //     child: ClipOval(
-  //         //       child: Container(
-  //         //         color: Colors.white,
-  //         //         child: Image.asset(
-  //         //           "assets/profile.png",
-  //         //           width: 90,
-  //         //           height: 90,
-  //         //           fit: BoxFit.scaleDown,
-  //         //         ),
-  //         //       ),
-  //         //     ),
-  //         //   ),
-  //         //   // color: Colors.white,
-  //         // ),
-  //         ListTile(
-  //           leading: Icon(Icons.home),
-  //           title: Text('Home'),
-  //           onTap: () {
-  //             Get.back();
-  //           },
-  //         ),
-  //         ListTile(
-  //           leading: Icon(Icons.face),
-  //           title: Text('Profile'),
-  //           onTap: () {
-  //             Get.to(() => EditProfilePage());
-  //           },
-  //         ),
-  //         ListTile(
-  //           leading: Icon(Icons.settings),
-  //           title: Text('Setting'),
-  //           onTap: () {
-  //             Get.to(() => SettingsPage());
-  //           },
-  //         ),
-  //         ListTile(
-  //           leading: Icon(Icons.exit_to_app),
-  //           title: Text('Sign Out'),
-  //           onTap: () {
-  //             LoginController.logOut();
-  //             Get.off(() => Welcome());
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_app/Pages/Order/Orders.dart';
+import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -187,7 +187,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: TextButton(
                             onPressed: () {
-                              Get.to(() => OrderPage());
+                              Get.to(() => OrderScreen());
                             },
                             child: Row(
                               children: [

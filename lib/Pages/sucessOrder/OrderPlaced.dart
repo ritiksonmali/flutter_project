@@ -8,7 +8,6 @@ import '../../ConstantUtil/colors.dart';
 import '../../screens/Navbar.dart';
 import '../../utils/helper.dart';
 import '../Home/home_screen.dart';
-import '../Order/Orders.dart';
 
 class OrderPlacedScreen extends StatefulWidget {
   const OrderPlacedScreen({Key? key}) : super(key: key);

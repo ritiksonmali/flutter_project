@@ -2,7 +2,7 @@
     package="com.example.flutter_login_app">
     
    <application
-        android:label="Login App"
+        android:label="ErgoMart"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
          <meta-data android:name="com.facebook.sdk.ApplicationId"

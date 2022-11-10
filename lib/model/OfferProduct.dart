@@ -26,6 +26,8 @@ class OfferProduct {
   String status;
   bool ispopular;
   Inventory inventory;
+  int counter = 1;
+  bool isAdded = false;
 
   factory OfferProduct.fromJson(dynamic json) => OfferProduct(
         id: json["id"],

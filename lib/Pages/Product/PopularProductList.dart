@@ -7,9 +7,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Controller/PopularproductController.dart';
 import 'package:flutter_login_app/Controller/ProductController.dart';
 import 'package:flutter_login_app/Pages/Home/Search.dart';
-import 'package:flutter_login_app/Pages/Order/ItemData.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../cart/cart_screen.dart';
 
 class PopularProductList extends StatefulWidget {
   const PopularProductList({Key? key}) : super(key: key);
@@ -57,7 +58,7 @@ class _PopularProductListState extends State<PopularProductList> {
               child: IconButton(
                 icon: Icon(Icons.shopping_bag_outlined),
                 onPressed: () {
-                  Get.to(() => SearchPage());
+                  Get.to(() => CartScreen());
                 },
               ),
               badgeContent: Text(

@@ -9,6 +9,7 @@ class CategoryProductcontroller extends GetxController {
   List<ProductByCategory> products = [];
 
   Future getDetails(id) async {
+    onReady();
     print("fatchProduct $id");
     // var postData = {"productid": id};
 

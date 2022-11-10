@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter_login_app/ConstantUtil/globals.dart' as globals;
 import 'package:flutter_login_app/model/Product.dart';
 import 'package:flutter_login_app/model/ProductModel.dart';
 import 'package:get/get.dart';
@@ -7,22 +7,30 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductController extends GetxController {
-  var productData = <ProductModel>[].obs;
-
-  // List<ProductModel> DemoProduct = [];
+  var productData = <ProductModel>[];
+  List QuantityResponse = [];
+  String stringResponse = '';
+  List productResponseList = [];
+  late Map mapResponse;
+  // List<ProductModel> DemoProduct = [];{}
+  main() async {
+    var store = await SharedPreferences.getInstance(); //add when requried
+    var iddata = store.getString('id');
+    globals.currentUserId = jsonDecode(iddata!);
+  }
 
   @override
   void onReady() {
     // TODO: implement onReady
     super.onReady();
-    test();
+    // test();
   }
 
   void test() async {
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
-    int id = jsonDecode(iddata!);
-    getAllProducts(id);
+    int user_id = jsonDecode(iddata!);
+    getAllProducts();
   }
 
   List<Product> cartitem = List<Product>.empty().obs;
@@ -39,6 +47,17 @@ class ProductController extends GetxController {
     );
 
     var body = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      for (Map i in body['records']) {
+        // QuantityResponse.add();
+      }
+      // print(body['records']);
+      update();
+      return productData;
+    } else {
+      return productData;
+    }
 
     // print(response.body);
   }
@@ -74,9 +93,13 @@ class ProductController extends GetxController {
     }
   }
 
-  Future getAllProducts(int userId) async {
+  Future getAllProducts() async {
+    var store = await SharedPreferences.getInstance(); //add when requried
+    var iddata = store.getString('id');
+    int user_id = jsonDecode(iddata!);
+    // int user_id=globals.currentUserId;
     String url =
-        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=${userId}';
+        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=${user_id}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -84,11 +107,16 @@ class ProductController extends GetxController {
 
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      for (Map i in body['records']) {
-        productData.add(ProductModel.fromJson(i));
-      }
+      stringResponse = response.body;
+      mapResponse = jsonDecode(response.body);
+      productResponseList = mapResponse['records'];
+      print("refresh********* done");
+      // for (Map i in body['records']) {
+      //   productData.add(ProductModel.fromJson(i));
+      //    print("refresh for loop");
+      // }
       // print(body['records']);
-      update();
+      // update();
       return productData;
     } else {
       return productData;

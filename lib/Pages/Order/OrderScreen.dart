@@ -5,13 +5,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_login_app/Controller/OrderController.dart';
+
 import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
-import 'package:flutter_login_app/model/OrderHistory.dart';
-import 'package:flutter_login_app/Pages/Order/colors.dart';
+import 'package:flutter_login_app/utils/colors.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../Controller/OrderController.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({Key? key}) : super(key: key);
@@ -185,13 +186,18 @@ class _OrderScreenState extends State<OrderScreen> {
                                                         const EdgeInsets.only(
                                                             right: 8.0),
                                                     child: ElevatedButton(
-                                                      onPressed: () {
+                                                      onPressed: () async {
                                                         controller
                                                             .setOrderCancelled(
                                                                 order.id);
-                                                        controller.orders
-                                                            .clear();
-                                                        controller.onReady();
+                                                        await Future.delayed(
+                                                            Duration(
+                                                                seconds: 2));
+                                                        setState(() {
+                                                          controller.orders
+                                                              .clear();
+                                                          controller.onReady();
+                                                        });
                                                       },
                                                       style:
                                                           TextButton.styleFrom(
@@ -284,15 +290,4 @@ class _OrderScreenState extends State<OrderScreen> {
     var body = jsonDecode(response.body);
     return body;
   }
-
-  //  Future setOrderCancelled(int orderId) async {
-  //   String url = 'http://10.0.2.2:8082/setOrderCancelled/{id}${orderId}';
-  //   http.Response response = await http.get(
-  //     Uri.parse(url),
-  //     headers: {'Content-Type': 'application/json'},
-  //   );
-
-  //   var body = jsonDecode(response.body);
-  //   return body;
-  // }
 }

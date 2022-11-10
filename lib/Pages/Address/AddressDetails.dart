@@ -124,12 +124,14 @@ class _AddressDetailsState extends State<AddressDetails> {
                                       alladdress['isSelected'] == true
                                           ? Text('selected')
                                           : ElevatedButton(
-                                              onPressed: () {
+                                              onPressed: () async {
                                                 setState(() {
                                                   checkAddressIsSelected(
                                                       this.userId!,
                                                       alladdress['id']);
                                                 });
+                                                await Future.delayed(
+                                                    Duration(seconds: 2));
                                                 // Navigator.pushAndRemoveUntil(
                                                 //   context,
                                                 //   MaterialPageRoute(
