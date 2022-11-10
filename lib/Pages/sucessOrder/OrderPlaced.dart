@@ -7,6 +7,7 @@ import '../../ConstantUtil/colors.dart';
 import '../../screens/Navbar.dart';
 import '../../utils/helper.dart';
 import '../Home/home_screen.dart';
+import '../Order/OrderDetails.dart';
 import '../Order/Orders.dart';
 
 class OrderPlacedScreen extends StatefulWidget {
@@ -85,7 +86,7 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
                                          primary: Colors.black, 
                                          ),
                                           onPressed: () {
-                                            Get.to(() => OrderPage());
+                                            Get.to(() => OrderDetailsScreen());
                                           },
                                           child: Text("Track My Order",
                                           ),

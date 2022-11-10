@@ -126,7 +126,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
         title: Text(
-          "My Bag",
+          "Cart",
           style: TextStyle(
             color: Colors.black,
             fontSize: 25,
@@ -184,13 +184,8 @@ class _CartScreenState extends State<CartScreen> {
             )
           : ListView(
               children: <Widget>[
-                Padding(
-                  padding:
-                      EdgeInsets.only(top: 30, left: 25, right: 25, bottom: 25),
-                  child: Text(
-                    "My Bag",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-                  ),
+                SizedBox(
+                  height: 30,
                 ),
                 Column(
                   children: List.generate(cartproducts.length, (index) {
@@ -283,17 +278,12 @@ class _CartScreenState extends State<CartScreen> {
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500),
                                   ),
-                                  // Text(
-                                  //   '${cartproducts.length > 0 ? cartproducts.map<int>((m) => m['product']['price'] * m['quantity']).reduce((value, element) => value + element).toStringAsFixed(2) : 0}',
-                                  //   // "\$ 200",
-                                  //   style: TextStyle(
-                                  //       fontSize: 15, fontWeight: FontWeight.w500),
-                                  // ),
+
                                   Container(
                                     width: 80,
                                     height: 40,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(35),
+                                      borderRadius: BorderRadius.circular(5),
                                       color: Colors.black,
                                     ),
                                     child: Row(
@@ -340,7 +330,7 @@ class _CartScreenState extends State<CartScreen> {
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.zero,
+                                          padding: EdgeInsets.only(right: 8),
                                           child: SizedBox(
                                             height: 50,
                                             width: 30,
@@ -406,10 +396,16 @@ class _CartScreenState extends State<CartScreen> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Container(
-                    color: Colors.black,
+                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.black,
+                                    ),
                     child: TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.black,
