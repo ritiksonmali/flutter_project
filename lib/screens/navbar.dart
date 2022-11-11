@@ -69,7 +69,7 @@ class _NavbarState extends State<Navbar> {
                       fontSize: 30, color: black, fontWeight: FontWeight.w600),
                 ),
                 onTap: () {
-                  //  productController.getAllProducts();
+                  productController.getAllProducts();
 
                   Timer(Duration(seconds: 10), () {
                     Navigator.pushAndRemoveUntil(

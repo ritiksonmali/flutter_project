@@ -47,14 +47,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     // });
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: black),
         automaticallyImplyLeading: true,
-        backgroundColor: Colors.white,
+        backgroundColor: white,
         centerTitle: true,
         title: Text(
           "Order Details",
           style: TextStyle(
-            color: Colors.black,
+            color: black,
             fontSize: 25,
             fontWeight: FontWeight.normal,
           ),
@@ -96,7 +96,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             orderId['address'],
                             // "538 sagar park laxmi Nagar Panchavati Nashik-422003",
                             style: TextStyle(
-                                color: Colors.black87,
+                                color: black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -111,7 +111,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 Container(
                   height: 15,
                   width: double.infinity,
-                  color: Colors.grey[200],
+                  color: grey,
                 ),
                 SizedBox(
                   height: 10,
@@ -284,132 +284,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     ),
                   );
                 })),
-                // Column(
-                //   children: [
-                //     GetBuilder<OrderDetailsController>(builder: (controller) {
-                //       return ListView.builder(
-                //           itemCount:
-                //               orderDetailsController.Selectedorder.length,
-                //           physics: ClampingScrollPhysics(),
-                //           shrinkWrap: true,
-                //           itemBuilder: (BuildContext context, int index) {
-                //             var total = orderDetailsController
-                //                         .Selectedorder.length >
-                //                     0
-                //                 ? orderDetailsController.Selectedorder.map<int>(
-                //                         (m) => m.product!.price! * m.quantity!)
-                //                     .reduce((value, element) => value + element)
-                //                 : 0;
-
-                //             int? totalPrice = int.tryParse(total.toString());
-                //             gst = ((totalPrice! + 10) * 18) / 100;
-                //             finalPrice = gst + totalPrice + 10;
-
-                //             print(total);
-                //             var selected =
-                //                 orderDetailsController.Selectedorder[index];
-
-                //             return GestureDetector(
-                //               child: Padding(
-                //                 padding: const EdgeInsets.all(6.0),
-                //                 child: InkWell(
-                //                   onTap: () {},
-                //                   child: Container(
-                //                       child: Stack(
-                //                     children: <Widget>[
-                //                       Container(
-                //                         decoration: BoxDecoration(
-                //                             color: grey,
-                //                             borderRadius:
-                //                                 BorderRadius.circular(20),
-                //                             boxShadow: [
-                //                               BoxShadow(
-                //                                   spreadRadius: 1,
-                //                                   color: black.withOpacity(0.1),
-                //                                   blurRadius: 2)
-                //                             ]),
-                //                         child: Column(
-                //                           children: <Widget>[
-                //                             Container(
-                //                               padding: EdgeInsets.all(20),
-                //                               child: Row(
-                //                                 mainAxisAlignment:
-                //                                     MainAxisAlignment
-                //                                         .spaceBetween,
-                //                                 children: <Widget>[
-                //                                   Expanded(
-                //                                     flex: 10,
-                //                                     child: Text(
-                //                                       selected.product!.name
-                //                                           .toString(),
-                //                                       // "\$ " + products[index]['price'],
-                //                                       style: TextStyle(
-                //                                           decoration:
-                //                                               TextDecoration
-                //                                                   .none,
-                //                                           fontSize: 16,
-                //                                           fontWeight:
-                //                                               FontWeight.w500),
-                //                                       textAlign:
-                //                                           TextAlign.center,
-                //                                     ),
-                //                                   ),
-                //                                   Expanded(
-                //                                     flex: 10,
-                //                                     child: Text(
-                //                                       selected.quantity
-                //                                           .toString(),
-                //                                       // "\$ " + products[index]['price'],
-                //                                       style: TextStyle(
-                //                                           decoration:
-                //                                               TextDecoration
-                //                                                   .none,
-                //                                           fontSize: 16,
-                //                                           fontWeight:
-                //                                               FontWeight.w500),
-                //                                       textAlign:
-                //                                           TextAlign.center,
-                //                                     ),
-                //                                   ),
-                //                                   Expanded(
-                //                                     flex: 10,
-                //                                     child: Text(
-                //                                       selected.product!.price
-                //                                           .toString(),
-                //                                       // "\$ " + products[index]['price'],
-                //                                       style: TextStyle(
-                //                                           decoration:
-                //                                               TextDecoration
-                //                                                   .none,
-                //                                           fontSize: 16,
-                //                                           fontWeight:
-                //                                               FontWeight.w500),
-                //                                       textAlign:
-                //                                           TextAlign.center,
-                //                                     ),
-                //                                   ),
-                //                                 ],
-                //                               ),
-                //                             ),
-                //                           ],
-                //                         ),
-                //                       ),
-                //                     ],
-                //                   )),
-                //                 ),
-                //               ),
-                //             );
-                //           });
-                //     }),
-                //   ],
-                // ),
                 SizedBox(
                   height: 10,
                 ),
                 Container(
                   height: 15,
                   width: double.infinity,
-                  color: Colors.grey[200],
+                  color: grey,
                 ),
                 SizedBox(
                   height: 10,
@@ -430,7 +311,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         Text(
                           "\₹${total}",
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -452,7 +333,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         Text(
                           "\₹10",
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -474,7 +355,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         Text(
                           "\₹${gst}",
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -503,7 +384,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         Text(
                           "\₹${finalPrice}",
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -517,7 +398,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 Container(
                   height: 10,
                   width: double.infinity,
-                  color: Colors.grey[200],
+                  color: grey,
                 ),
               ],
             )),

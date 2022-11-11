@@ -41,7 +41,7 @@ class _WelcomeState extends State<Welcome> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: Colors.white,
+          color: white,
           child: SingleChildScrollView(
               child: Padding(
             padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
@@ -63,7 +63,7 @@ class _WelcomeState extends State<Welcome> {
                     child: Text(
                       'Login',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: white,
                         fontSize: 28,
                         fontWeight: FontWeight.w500,
                       ),
@@ -84,7 +84,7 @@ class _WelcomeState extends State<Welcome> {
                       Flexible(
                         child: Container(
                           height: 1,
-                          color: Colors.grey,
+                          color: grey,
                         ),
                       ),
                       const Padding(
@@ -100,7 +100,7 @@ class _WelcomeState extends State<Welcome> {
                       Flexible(
                         child: Container(
                           height: 1,
-                          color: Colors.grey,
+                          color: grey,
                         ),
                       ),
                     ],
@@ -138,7 +138,7 @@ class _WelcomeState extends State<Welcome> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text("Don't have account?",
-                        style: TextStyle(color: Colors.black)),
+                        style: TextStyle(color: black)),
                     GestureDetector(
                       onTap: () {
                         Get.to(() => SignUpScreen());
@@ -146,7 +146,7 @@ class _WelcomeState extends State<Welcome> {
                       child: const Text(
                         " Sign Up",
                         style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                            color: black, fontWeight: FontWeight.bold),
                       ),
                     )
                   ],

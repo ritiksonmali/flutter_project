@@ -10,6 +10,7 @@ class ProductController extends GetxController {
   var productData = <ProductModel>[];
   List QuantityResponse = [];
   String stringResponse = '';
+  List productsearchResponseList = [];
   List productResponseList = [];
   late Map mapResponse;
   // List<ProductModel> DemoProduct = [];{}
@@ -46,18 +47,18 @@ class ProductController extends GetxController {
       headers: {'Content-Type': 'application/json'},
     );
 
-    var body = jsonDecode(response.body);
+    // var body = jsonDecode(response.body);
 
-    if (response.statusCode == 200) {
-      for (Map i in body['records']) {
-        // QuantityResponse.add();
-      }
-      // print(body['records']);
-      update();
-      return productData;
-    } else {
-      return productData;
-    }
+    // if (response.statusCode == 200) {
+    //   for (Map i in body) {
+    //     // QuantityResponse.add();
+    //   }
+    //   // print(body['records']);
+    //   update();
+    //   return productData;
+    // } else {
+    //   return productData;
+    // }
 
     // print(response.body);
   }
@@ -116,10 +117,42 @@ class ProductController extends GetxController {
       //    print("refresh for loop");
       // }
       // print(body['records']);
-      // update();
-      return productData;
+
+      return productResponseList;
     } else {
-      return productData;
+      return productResponseList;
+    }
+  }
+
+  Future getSearchProducts(String name) async {
+    var store = await SharedPreferences.getInstance(); //add when requried
+    var iddata = store.getString('id');
+    int user_id = jsonDecode(iddata!);
+    String data = name;
+    // int user_id=globals.currentUserId;
+    String url =
+        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=7&productname=${data}';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    var body = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      stringResponse = response.body;
+      mapResponse = jsonDecode(response.body);
+      productsearchResponseList = mapResponse['records'];
+      print("refresh search history");
+      print(productsearchResponseList);
+      // for (Map i in body['records']) {
+      //   productData.add(ProductModel.fromJson(i));
+      //    print("refresh for loop");
+      // }
+      // print(body['records']);
+
+      return productsearchResponseList;
+    } else {
+      return productsearchResponseList;
     }
   }
 }

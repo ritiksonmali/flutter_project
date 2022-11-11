@@ -99,7 +99,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: black),
         // automaticallyImplyLeading: true,
         centerTitle: true,
         leading: IconButton(
@@ -118,13 +118,13 @@ class _CartScreenState extends State<CartScreen> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: black,
           ),
         ),
         title: Text(
-          "My Bag",
+          "Cart",
           style: TextStyle(
-            color: Colors.black,
+            color: black,
             fontSize: 25,
             fontWeight: FontWeight.normal,
           ),
@@ -138,7 +138,7 @@ class _CartScreenState extends State<CartScreen> {
             }, //=> _key.currentState!.openDrawer(),
           ),
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: white,
       ),
       body: cartproducts.isEmpty
           ? Column(
@@ -161,9 +161,7 @@ class _CartScreenState extends State<CartScreen> {
                   'Your Cart Is Empty',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600),
+                      color: black, fontSize: 30, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: 20,
@@ -172,7 +170,7 @@ class _CartScreenState extends State<CartScreen> {
                   'Looks like You Didn\'t \n add anything in your cart yet',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.grey,
+                      color: Colors.grey[400],
                       fontSize: 20,
                       fontWeight: FontWeight.w600),
                 ),
@@ -180,13 +178,8 @@ class _CartScreenState extends State<CartScreen> {
             )
           : ListView(
               children: <Widget>[
-                Padding(
-                  padding:
-                      EdgeInsets.only(top: 30, left: 25, right: 25, bottom: 25),
-                  child: Text(
-                    "My Bag",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-                  ),
+                SizedBox(
+                  height: 30,
                 ),
                 Column(
                   children: List.generate(cartproducts.length, (index) {
@@ -256,7 +249,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                   // Container(
                                   //   child: IconButton(
-                                  //     icon: Icon(Icons.delete, color: Colors.black),
+                                  //     icon: Icon(Icons.delete, color: black),
                                   //     onPressed: () {
                                   //       //  Get.to(() => SearchPage());//deletefunction
                                   //     },
@@ -279,18 +272,12 @@ class _CartScreenState extends State<CartScreen> {
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500),
                                   ),
-                                  // Text(
-                                  //   '${cartproducts.length > 0 ? cartproducts.map<int>((m) => m['product']['price'] * m['quantity']).reduce((value, element) => value + element).toStringAsFixed(2) : 0}',
-                                  //   // "\$ 200",
-                                  //   style: TextStyle(
-                                  //       fontSize: 15, fontWeight: FontWeight.w500),
-                                  // ),
                                   Container(
                                     width: 80,
                                     height: 40,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(35),
-                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: black,
                                     ),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
@@ -303,7 +290,7 @@ class _CartScreenState extends State<CartScreen> {
                                               width: 35,
                                               child: IconButton(
                                                   icon: Icon(Icons.remove,
-                                                      color: Colors.white),
+                                                      color: white),
                                                   onPressed: () {
                                                     increasequantity(
                                                         this.id!,
@@ -334,16 +321,16 @@ class _CartScreenState extends State<CartScreen> {
 
                                         Text(
                                           cartdata['quantity'].toString(),
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(color: white),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.zero,
+                                          padding: EdgeInsets.only(right: 8),
                                           child: SizedBox(
                                             height: 50,
                                             width: 30,
                                             child: IconButton(
-                                              icon: Icon(Icons.add,
-                                                  color: Colors.white),
+                                              icon:
+                                                  Icon(Icons.add, color: white),
                                               onPressed: () {
                                                 if (cartdata['product']
                                                                 ['inventory']
@@ -401,13 +388,19 @@ class _CartScreenState extends State<CartScreen> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Container(
-                    color: Colors.black,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: black,
+                    ),
                     child: TextButton(
                       style: TextButton.styleFrom(
-                        backgroundColor: Colors.black,
+                        backgroundColor: black,
                         padding: const EdgeInsets.all(16.0),
                         textStyle: const TextStyle(fontSize: 20),
                       ),
@@ -418,7 +411,7 @@ class _CartScreenState extends State<CartScreen> {
                             },
                       child: const Text(
                         'CHECKOUT',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: white),
                       ),
                     ),
                   ),
@@ -556,10 +549,10 @@ Widget getBody() {
       Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Container(
-          color: Colors.black,
+          color: black,
           child: TextButton(
             style: TextButton.styleFrom(
-              backgroundColor: Colors.white,
+              backgroundColor: white,
               padding: const EdgeInsets.all(16.0),
               textStyle: const TextStyle(fontSize: 20),
             ),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,6 +15,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Controller/ProductController.dart';
+
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
 
@@ -22,6 +25,7 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final ProductController productController = Get.put(ProductController());
   final _formKey = GlobalKey<FormState>();
   Map<String, String> userLoginData = {"email": "", "password": ""};
 
@@ -32,7 +36,6 @@ class _SignInScreenState extends State<SignInScreen> {
   login() {
     if (_formKey.currentState!.validate()) {
       print("Form is valid ");
-
       _formKey.currentState!.save();
       // print('Data for login $userLoginData');
       // controller.logiN(userLoginData['email'], userLoginData['password']);
@@ -84,9 +87,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         labelText: 'Enter Email',
                         labelStyle: TextStyle(color: Colors.black54),
-                        // filled: true,
-                        // floatingLabelBehavior: FloatingLabelBehavior.never,
-                        // fillColor: Colors.white.withOpacity(0.3),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -264,21 +264,22 @@ class _SignInScreenState extends State<SignInScreen> {
         store.setString(
             'lastname', json.encode(userDetails['result']['lastName']));
         store.setString('email', json.encode(userDetails['result']['email']));
-        // var datas = store.getString("userData");
-        // var datass = jsonDecode(datas!);
-        // print(datass['email']);
-        // String? data = store.getString('userData');      //get instance data
-        // Map<String, dynamic> userdata = jsonDecode(data!);
-
-        // print(userdata["email"]);
-        // userdata.getUsers(
-        //     user['id'], user['email'], user['firstName'], user['lastName']);
         print(userDetails['result']['email']);
-        Get.off(() => HomeScreen());
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Login SuccessFully !'),
-          backgroundColor: Colors.green,
-        ));
+        productController.getAllProducts();
+
+        Timer(Duration(seconds: 2), () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    HomeScreen()), // this mymainpage is your page to refresh
+            (Route<dynamic> route) => false,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Login SuccessFully !'),
+            backgroundColor: Colors.green,
+          ));
+        });
       } else if (response.statusCode == 401) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Please Enter Valid Email and Password'),

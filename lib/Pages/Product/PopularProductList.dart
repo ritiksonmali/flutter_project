@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/Controller/PopularproductController.dart';
 import 'package:flutter_login_app/Controller/ProductController.dart';
 import 'package:flutter_login_app/Pages/Home/Search.dart';
@@ -20,7 +21,7 @@ class PopularProductList extends StatefulWidget {
 }
 
 class _PopularProductListState extends State<PopularProductList> {
-  final productController = Get.put(ProductController());
+  final ProductController productController = Get.put(ProductController());
   final PopularProductController popularproductController = Get.find();
 
   int? id;
@@ -47,36 +48,68 @@ class _PopularProductListState extends State<PopularProductList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text('Product List', style: TextStyle(color: Colors.black)),
-        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: white,
+        title: Text('Product List', style: TextStyle(color: black)),
+        iconTheme: IconThemeData(color: black),
         centerTitle: true,
         actions: [
-          Center(
-            child: Badge(
-              position: BadgePosition.topEnd(top: 0, end: 3),
-              child: IconButton(
-                icon: Icon(Icons.shopping_bag_outlined),
-                onPressed: () {
-                  Get.to(() => CartScreen());
-                },
-              ),
-              badgeContent: Text(
-                "6",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+          IconButton(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            icon: const Icon(Icons.search),
+            tooltip: 'Search',
+            onPressed: () {
+              Get.to(() => SearchPage());
+            },
           ),
+          // Center(
+          //   // child: Badge(
+          //   //   position: BadgePosition.topEnd(top: 0, end: 3),
+          //     child: IconButton(
+          //       icon: Icon(Icons.shopping_bag_outlined),
+          //       onPressed: () {
+          //         Get.to(() => CartScreen());
+          //       },
+          //     ),
+          //     // badgeContent: Text(
+          //     //   "6",
+          //     //   style: TextStyle(color: white),
+          //     //),
+          //  // ),
+          // ),
         ],
       ),
       body: Column(children: [
-        Expanded(child: GetX<PopularProductController>(builder: (controller) {
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              "Filter",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 1),
+              child: IconButton(
+                icon: const Icon(Icons.keyboard_arrow_down),
+                onPressed: () {},
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Expanded(
+            child: GetBuilder<PopularProductController>(builder: (controller) {
           return ListView.builder(
-              itemCount: controller.popular.length,
+              itemCount: productController.productResponseList.length,
               itemBuilder: (context, index) {
-                var popular = controller.popular[index];
+                var popular = productController.productResponseList[index];
                 // itemCount:
                 // productImage.length;
+
                 return Card(
                   child: Column(
                     children: [
@@ -89,7 +122,7 @@ class _PopularProductListState extends State<PopularProductList> {
                               height: 100,
                               width: 100,
                               image: NetworkImage(
-                                  'http://10.0.2.2:8082/api/auth/serveproducts/${popular.imageUrl.toString()}')
+                                  'http://10.0.2.2:8082/api/auth/serveproducts/${productController.productResponseList[index]['imageUrl'].toString()}')
                               // image: AssetImage("assets/shoe_1.webp"),
                               ),
                           SizedBox(width: 10),
@@ -99,14 +132,19 @@ class _PopularProductListState extends State<PopularProductList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  popular.name.toString(),
+                                  productController.productResponseList[index]
+                                          ['name']
+                                      .toString(),
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 SizedBox(height: 5),
                                 Text(
-                                  "₹" + popular.price.toString(),
+                                  "₹" +
+                                      productController
+                                          .productResponseList[index]['price']
+                                          .toString(),
                                   // "49999rs",
                                   style: TextStyle(
                                       decoration: TextDecoration.lineThrough,
@@ -116,7 +154,9 @@ class _PopularProductListState extends State<PopularProductList> {
                                 SizedBox(height: 5),
                                 Text(
                                   "₹" +
-                                      popular.price.toString() +
+                                      productController
+                                          .productResponseList[index]['price']
+                                          .toString() +
                                       "\n" +
                                       "rs 36% off",
                                   style: TextStyle(
@@ -127,101 +167,136 @@ class _PopularProductListState extends State<PopularProductList> {
                                   height: 5,
                                 ),
                                 Text(
-                                  popular.desc.toString(),
+                                  productController.productResponseList[index]
+                                          ['desc']
+                                      .toString(),
                                   // "Discription",
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500),
                                 ),
-                                Text(
-                                  "only stock" +
-                                      popular.inventory.quantity.toString(),
-                                  // "only stock 5",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.red),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Container(
-                                    padding: EdgeInsets.all(20),
-                                    child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          controller.popular[index].isAdded
-                                              ? Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: <Widget>[
-                                                    IconButton(
-                                                      icon: Icon(Icons.remove),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          productController
-                                                              .increasequantity(
-                                                                  this.id!,
-                                                                  popular.id,
-                                                                  this.remove);
-                                                          if (controller
-                                                                  .popular[
-                                                                      index]
-                                                                  .counter >
-                                                              1) {
-                                                            controller
-                                                                .popular[index]
-                                                                .counter--;
-                                                          } else {
-                                                            controller
-                                                                .popular[index]
-                                                                .isAdded = false;
-                                                          }
-                                                        });
-                                                      },
-                                                      color: Colors.black,
-                                                    ),
-                                                    Text(controller
-                                                        .popular[index].counter
-                                                        .toString()),
-                                                    IconButton(
-                                                      icon: Icon(Icons.add),
-                                                      color: Colors.black,
-                                                      onPressed: () {
-                                                        productController
-                                                            .increasequantity(
-                                                                this.id!,
-                                                                popular.id,
-                                                                this.add);
-                                                        setState(() {
-                                                          controller
-                                                              .popular[index]
-                                                              .counter++;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ],
-                                                )
-                                              : ElevatedButton(
-                                                  onPressed: () {
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 160),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: black,
+                                    ),
+                                    child: productController
+                                                    .productResponseList[index]
+                                                ['cartQauntity'] !=
+                                            0
+                                        ? Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              IconButton(
+                                                icon: Icon(Icons.remove),
+                                                onPressed: () {
+                                                  setState(() {
                                                     productController
                                                         .increasequantity(
                                                             this.id!,
-                                                            popular.id,
+                                                            productController
+                                                                    .productResponseList[
+                                                                index]['id'],
+                                                            this.remove);
+                                                    if (productController
+                                                                .productResponseList[
+                                                            index]['cartQauntity'] >
+                                                        1) {
+                                                      productController
+                                                                      .productResponseList[
+                                                                  index]
+                                                              ['cartQauntity'] =
+                                                          productController
+                                                                          .productResponseList[
+                                                                      index][
+                                                                  'cartQauntity'] -
+                                                              1;
+                                                    } else {
+                                                      productController
+                                                                  .productResponseList[
+                                                              index]
+                                                          ['cartQauntity'] = 0;
+                                                      productController
+                                                              .productResponseList[
+                                                          index]['added'] = false;
+                                                    }
+                                                  });
+                                                },
+                                                color: white,
+                                              ),
+                                              Text(
+                                                productController
+                                                    .productResponseList[index]
+                                                        ['cartQauntity']
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: white),
+                                              ),
+                                              IconButton(
+                                                icon: Icon(Icons.add),
+                                                color: white,
+                                                onPressed: () {
+                                                  if (productController.productResponseList[
+                                                                  index]
+                                                              ['cartQauntity'] <
+                                                          5 &&
+                                                      productController.productResponseList[
+                                                                      index]
+                                                                  ['inventory']
+                                                              ['quantity'] >
+                                                          productController
+                                                                      .productResponseList[
+                                                                  index][
+                                                              'cartQauntity']) {
+                                                    productController
+                                                        .increasequantity(
+                                                            this.id!,
+                                                            productController
+                                                                    .productResponseList[
+                                                                index]['id'],
                                                             this.add);
                                                     setState(() {
-                                                      controller.popular[index]
-                                                          .isAdded = true;
+                                                      productController
+                                                                      .productResponseList[
+                                                                  index]
+                                                              ['cartQauntity'] =
+                                                          productController
+                                                                          .productResponseList[
+                                                                      index][
+                                                                  'cartQauntity'] +
+                                                              1;
                                                     });
-                                                  },
-                                                  style: TextButton.styleFrom(
-                                                    backgroundColor:
-                                                        Colors.black,
-                                                  ),
-                                                  child: Text("Add to Cart"),
-                                                ),
-                                        ]))
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          )
+                                        : ElevatedButton(
+                                            onPressed: () {
+                                              productController.increasequantity(
+                                                  this.id!,
+                                                  productController
+                                                          .productResponseList[
+                                                      index]['id'],
+                                                  this.add);
+                                              setState(() {
+                                                productController
+                                                        .productResponseList[
+                                                    index]['cartQauntity'] = 1;
+                                                productController
+                                                        .productResponseList[
+                                                    index]['added'] = true;
+                                              });
+                                            },
+                                            style: TextButton.styleFrom(
+                                              backgroundColor: black,
+                                            ),
+                                            child: Text("Add to Cart"),
+                                          ),
+                                  ),
+                                ),
                               ],
                             ),
                           )
@@ -233,6 +308,17 @@ class _PopularProductListState extends State<PopularProductList> {
               });
         }))
       ]),
+      floatingActionButton: AnimatedOpacity(
+        duration: Duration(milliseconds: 1000),
+        opacity: 1.0,
+        child: FloatingActionButton(
+          onPressed: () {
+            Get.to(() => CartScreen());
+          },
+          child: Icon(Icons.shopping_bag_outlined),
+          backgroundColor: black,
+        ),
+      ),
     );
   }
 }

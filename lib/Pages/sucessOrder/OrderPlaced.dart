@@ -8,6 +8,7 @@ import '../../ConstantUtil/colors.dart';
 import '../../screens/Navbar.dart';
 import '../../utils/helper.dart';
 import '../Home/home_screen.dart';
+import '../Order/OrderDetails.dart';
 
 class OrderPlacedScreen extends StatefulWidget {
   const OrderPlacedScreen({Key? key}) : super(key: key);
@@ -80,7 +81,7 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
+                  primary: black,
                 ),
                 onPressed: () {
                   Get.to(() => OrderScreen());

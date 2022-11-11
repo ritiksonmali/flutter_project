@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/Pages/Address/AddAddress.dart';
 import 'package:flutter_login_app/Pages/cart/Checkout.dart';
 import 'package:flutter_login_app/Pages/cart/cart_screen.dart';
@@ -33,7 +34,7 @@ class _AddressDetailsState extends State<AddressDetails> {
       appBar: AppBar(
         title: Text(
           "Your Address",
-          style: TextStyle(fontSize: 18, color: Colors.black),
+          style: TextStyle(fontSize: 18, color: black),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
@@ -43,12 +44,12 @@ class _AddressDetailsState extends State<AddressDetails> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: black,
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
+        backgroundColor: black,
         child: Icon(Icons.add),
         onPressed: () async {
           final value = await Navigator.push(
@@ -148,7 +149,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                 //             CartScreen()));
                                               },
                                               style: TextButton.styleFrom(
-                                                backgroundColor: Colors.black,
+                                                backgroundColor: black,
                                               ),
                                               child: Text(
                                                 'Select',

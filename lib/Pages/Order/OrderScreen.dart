@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 
 import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
 import 'package:flutter_login_app/utils/colors.dart';
@@ -84,7 +85,7 @@ class _OrderScreenState extends State<OrderScreen> {
                               width: size.width,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
-                                  color: secondary.withOpacity(0.05)),
+                                  color: AppColor.secondary.withOpacity(0.05)),
                               child: Padding(
                                 padding: const EdgeInsets.all(15),
                                 child: Column(
@@ -201,8 +202,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                       },
                                                       style:
                                                           TextButton.styleFrom(
-                                                        backgroundColor:
-                                                            Colors.black54,
+                                                        backgroundColor: black,
                                                       ),
                                                       child: Text("Cancel"),
                                                     ),
@@ -244,7 +244,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                     });
                                               },
                                               style: TextButton.styleFrom(
-                                                backgroundColor: Colors.black54,
+                                                backgroundColor: black,
                                               ),
                                               child: Text("Details"),
                                             ),

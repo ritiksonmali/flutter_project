@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/Pages/Address/AddAddress.dart';
 import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
 import 'package:flutter_login_app/Pages/Home/home.dart';
@@ -68,32 +69,32 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: ListView(
           children: [
-            Text(
-              "Settings",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.person,
-                  color: Colors.black,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Account",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            Divider(
-              height: 15,
-              thickness: 2,
-            ),
+            // Text(
+            //   "Settings",
+            //   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+            // ),
+            // SizedBox(
+            //   height: 40,
+            // ),
+            // Row(
+            //   children: [
+            //     Icon(
+            //       Icons.person,
+            //       color: Colors.black,
+            //     ),
+            //     SizedBox(
+            //       width: 8,
+            //     ),
+            //     Text(
+            //       "Account",
+            //       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            //     ),
+            //   ],
+            // ),
+            // Divider(
+            //   height: 15,
+            //   thickness: 2,
+            // ),
             SizedBox(
               height: 10,
             ),
@@ -104,31 +105,31 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 40,
             ),
-            Row(
-              children: [
-                Icon(
-                  Icons.volume_up_outlined,
-                  color: Colors.black,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Notifications",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            Divider(
-              height: 15,
-              thickness: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            buildNotificationOptionRow("New for you", true),
-            buildNotificationOptionRow("Account activity", true),
-            buildNotificationOptionRow("Opportunity", false),
+            // Row(
+            //   children: [
+            //     Icon(
+            //       Icons.volume_up_outlined,
+            //       color: Colors.black,
+            //     ),
+            //     SizedBox(
+            //       width: 8,
+            //     ),
+            //     Text(
+            //       "Notifications",
+            //       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            //     ),
+            //   ],
+            // ),
+            // Divider(
+            //   height: 15,
+            //   thickness: 2,
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // buildNotificationOptionRow("New for you", true),
+            // buildNotificationOptionRow("Account activity", true),
+            // buildNotificationOptionRow("Opportunity", false),
           ],
         ),
       ),
@@ -171,7 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey,
+                color: black,
               ),
             ),
             Icon(
@@ -199,7 +200,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey,
+                color: black,
               ),
             ),
             Icon(
@@ -353,7 +354,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey,
+                color: black,
               ),
             ),
             Icon(

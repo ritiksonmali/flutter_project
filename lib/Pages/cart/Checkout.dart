@@ -73,14 +73,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: black),
         automaticallyImplyLeading: true,
-        backgroundColor: Colors.white,
+        backgroundColor: white,
         centerTitle: true,
         title: Text(
           "Checkout",
           style: TextStyle(
-            color: Colors.black,
+            color: black,
             fontSize: 25,
             fontWeight: FontWeight.normal,
           ),
@@ -124,7 +124,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   SelectedAddress.toString(),
                                   // "538 sagar park laxmi Nagar Panchavati Nashik-422003",
                                   style: TextStyle(
-                                      color: Colors.black87,
+                                      color: black,
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -132,7 +132,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                       Container(
                         decoration: new BoxDecoration(
-                          color: Colors.grey[200],
+                          color: grey,
                         ),
                         child: TextButton(
                             onPressed: () async {
@@ -152,7 +152,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             // },
                             child: Text("change",
                                 style: TextStyle(
-                                    color: Colors.black87,
+                                    color: black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold))),
                       ),
@@ -165,7 +165,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Container(
                   height: 15,
                   width: double.infinity,
-                  color: Colors.grey[200],
+                  color: grey,
                 ),
                 SizedBox(
                   height: 10,
@@ -344,7 +344,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Container(
                   height: 15,
                   width: double.infinity,
-                  color: Colors.grey[200],
+                  color: grey,
                 ),
                 SizedBox(
                   height: 10,
@@ -365,7 +365,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Text(
                           "\₹${total}",
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -387,7 +387,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Text(
                           "\₹10",
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -407,9 +407,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         ),
                         Text(
-                          "\₹${gst}",
+                          "\₹${gst.toStringAsFixed(2)}",
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -438,7 +438,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Text(
                           "\₹${finalPrice}",
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -452,7 +452,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Container(
                   height: 10,
                   width: double.infinity,
-                  color: Colors.grey[200],
+                  color: grey,
                 ),
                 SizedBox(
                   height: 20,
@@ -464,7 +464,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     width: double.infinity,
                     child: CupertinoButton(
                       child: Text("Place Order"),
-                      color: Colors.black,
+                      color: black,
                       onPressed: () {
                         createNewOrder();
                       },

@@ -91,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: Colors.white,
+          color: white,
           child: SingleChildScrollView(
               child: Padding(
             padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
@@ -195,7 +195,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         labelStyle: TextStyle(color: Colors.black54),
                         // filled: true,
                         // floatingLabelBehavior: FloatingLabelBehavior.never,
-                        // fillColor: Colors.white.withOpacity(0.3),
+                        // fillColor: white.withOpacity(0.3),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -239,7 +239,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         labelStyle: TextStyle(color: Colors.black54),
                         // filled: true,
                         // floatingLabelBehavior: FloatingLabelBehavior.never,
-                        // fillColor: Colors.white.withOpacity(0.3),
+                        // fillColor: white.withOpacity(0.3),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -277,7 +277,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         labelStyle: TextStyle(color: Colors.black54),
                         // filled: true,
                         // floatingLabelBehavior: FloatingLabelBehavior.never,
-                        // fillColor: Colors.white.withOpacity(0.3),
+                        // fillColor: white.withOpacity(0.3),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -320,7 +320,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: Text(
                         'Sign Up',
                         style: const TextStyle(
-                            color: Colors.white,
+                            color: white,
                             fontWeight: FontWeight.bold,
                             fontSize: 16),
                       ),
@@ -328,7 +328,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
                             if (states.contains(MaterialState.pressed)) {
-                              return Colors.white;
+                              return white;
                             }
                             return black;
                           }),
