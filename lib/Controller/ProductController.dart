@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter_login_app/ConstantUtil/globals.dart'as globals;
+import 'package:flutter_login_app/ConstantUtil/globals.dart' as globals;
 import 'package:flutter_login_app/model/Product.dart';
 import 'package:flutter_login_app/model/ProductModel.dart';
 import 'package:get/get.dart';
@@ -8,17 +8,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductController extends GetxController {
   var productData = <ProductModel>[];
-  List QuantityResponse =[];
-  String stringResponse='';
-  List productsearchResponseList=[];
-  List productResponseList=[];
+  List QuantityResponse = [];
+  String stringResponse = '';
+  List productsearchResponseList = [];
+  List productResponseList = [];
   late Map mapResponse;
-   // List<ProductModel> DemoProduct = [];{}
-   main()async {
+  // List<ProductModel> DemoProduct = [];{}
+  main() async {
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
-    globals.currentUserId = jsonDecode(iddata!);  
-   }
+    globals.currentUserId = jsonDecode(iddata!);
+  }
 
   @override
   void onReady() {
@@ -28,9 +28,9 @@ class ProductController extends GetxController {
   }
 
   void test() async {
-     var store = await SharedPreferences.getInstance(); //add when requried
+    var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
-    int user_id = jsonDecode(iddata!);  
+    int user_id = jsonDecode(iddata!);
     getAllProducts();
   }
 
@@ -47,19 +47,18 @@ class ProductController extends GetxController {
       headers: {'Content-Type': 'application/json'},
     );
 
-    var body = jsonDecode(response.body);
+    // var body = jsonDecode(response.body);
 
-    if (response.statusCode == 200) {
-      for (Map i in body['records']) {
-       // QuantityResponse.add();
-      }
-      // print(body['records']);
-      update();
-      return productData;
-    } else {
-      return productData;
-    }
-    
+    // if (response.statusCode == 200) {
+    //   for (Map i in body) {
+    //     // QuantityResponse.add();
+    //   }
+    //   // print(body['records']);
+    //   update();
+    //   return productData;
+    // } else {
+    //   return productData;
+    // }
 
     // print(response.body);
   }
@@ -95,45 +94,41 @@ class ProductController extends GetxController {
     }
   }
 
-  
-
-    Future getAllProducts() async {
+  Future getAllProducts() async {
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
-    int user_id = jsonDecode(iddata!);  
+    int user_id = jsonDecode(iddata!);
     // int user_id=globals.currentUserId;
     String url =
-        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=7';
+        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=${user_id}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
-  
+
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
-     stringResponse=response.body;
-     mapResponse=jsonDecode(response.body);
-     productResponseList=mapResponse['records'];
-        print("refresh********* done");
+      stringResponse = response.body;
+      mapResponse = jsonDecode(response.body);
+      productResponseList = mapResponse['records'];
+      print("refresh********* done");
       // for (Map i in body['records']) {
       //   productData.add(ProductModel.fromJson(i));
       //    print("refresh for loop");
       // }
       // print(body['records']);
-     
+
       return productResponseList;
     } else {
       return productResponseList;
     }
   }
 
-
-
-   Future getSearchProducts(String name)async {
+  Future getSearchProducts(String name) async {
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
-    int user_id = jsonDecode(iddata!);  
-    String data=name;
+    int user_id = jsonDecode(iddata!);
+    String data = name;
     // int user_id=globals.currentUserId;
     String url =
         'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=7&productname=${data}';
@@ -141,20 +136,20 @@ class ProductController extends GetxController {
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
-  
+
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
-     stringResponse=response.body;
-     mapResponse=jsonDecode(response.body);
-     productsearchResponseList=mapResponse['records'];
-        print("refresh search history");
-        print(productsearchResponseList);
+      stringResponse = response.body;
+      mapResponse = jsonDecode(response.body);
+      productsearchResponseList = mapResponse['records'];
+      print("refresh search history");
+      print(productsearchResponseList);
       // for (Map i in body['records']) {
       //   productData.add(ProductModel.fromJson(i));
       //    print("refresh for loop");
       // }
       // print(body['records']);
-     
+
       return productsearchResponseList;
     } else {
       return productsearchResponseList;
