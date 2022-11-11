@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Controller/OrderDetailsController.dart';
 import 'package:flutter_login_app/Pages/Order/Order_json.dart';
-import 'package:flutter_login_app/Pages/Order/Orders.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -15,8 +14,6 @@ import '../../ConstantUtil/colors.dart';
 import '../../utils/helper.dart';
 import '../Address/AddressDetails.dart';
 import '../Home/home_screen.dart';
-import '../sucessOrder/OrderPlaced.dart';
-import '../sucessOrder/orderFail.dart';
 import 'package:http/http.dart' as http;
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -28,29 +25,36 @@ class OrderDetailsScreen extends StatefulWidget {
 }
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
-  OrderDetailsController orderDetailsController =
-      Get.put(OrderDetailsController());
+  var total;
+  double gst = 0;
+  double finalPrice = 0;
+
+  var orderId = Get.arguments;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    apiCall();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var orderId = Get.arguments;
-    // print(orderId['totalPrice']);
-
-    double? total = double.tryParse(orderId['totalPrice']);
-    // print(total! - 10);
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      orderDetailsController.getOrderDetails(orderId['orderId']);
-    });
+    // double? total = double.tryParse(orderId['totalPrice']);
+    // print(total);
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   orderDetailsController.getOrderDetails(orderId['orderId']);
+    // });
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: black),
         automaticallyImplyLeading: true,
-        backgroundColor: Colors.white,
+        backgroundColor: white,
         centerTitle: true,
         title: Text(
           "Order Details",
           style: TextStyle(
-            color: Colors.black,
+            color: black,
             fontSize: 25,
             fontWeight: FontWeight.normal,
           ),
@@ -92,7 +96,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             orderId['address'],
                             // "538 sagar park laxmi Nagar Panchavati Nashik-422003",
                             style: TextStyle(
-                                color: Colors.black87,
+                                color: black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -107,7 +111,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 Container(
                   height: 15,
                   width: double.infinity,
-                  color: Colors.grey[200],
+                  color: grey,
                 ),
                 SizedBox(
                   height: 10,
@@ -129,7 +133,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: TextButton(
                             onPressed: () {
-                              Get.to(() => OrderPage());
+                              // Get.to(() => OrderPage());
                             },
                             child: Row(
                               children: [
@@ -193,118 +197,100 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   height: 10,
                 ),
                 Column(
-                  children: [
-                    GetBuilder<OrderDetailsController>(builder: (controller) {
-                      return ListView.builder(
-                          itemCount:
-                              orderDetailsController.Selectedorder.length,
-                          physics: ClampingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            var selected =
-                                orderDetailsController.Selectedorder[index];
-
-                            return GestureDetector(
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                      child: Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: grey,
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  spreadRadius: 1,
-                                                  color: black.withOpacity(0.1),
-                                                  blurRadius: 2)
-                                            ]),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Container(
-                                              padding: EdgeInsets.all(20),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    flex: 10,
-                                                    child: Text(
-                                                      selected.product!.name
-                                                          .toString(),
-                                                      // "\$ " + products[index]['price'],
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 10,
-                                                    child: Text(
-                                                      selected.quantity
-                                                          .toString(),
-                                                      // "\$ " + products[index]['price'],
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 10,
-                                                    child: Text(
-                                                      selected.product!.price
-                                                          .toString(),
-                                                      // "\$ " + products[index]['price'],
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
+                    children: List.generate(selectedOrder.length, (index) {
+                  var productdata = selectedOrder[index];
+                  total = selectedOrder.length > 0
+                      ? selectedOrder
+                          .map<int>(
+                              (m) => m['product']['price'] * m['quantity'])
+                          .reduce((value, element) => value + element)
+                      : 0;
+                  int? totalPrice = int.tryParse(total.toString());
+                  gst = ((totalPrice! * 0.18));
+                  finalPrice = gst + totalPrice + 10;
+                  return GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                            child: Stack(
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: grey,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        spreadRadius: 1,
+                                        color: black.withOpacity(0.1),
+                                        blurRadius: 2)
+                                  ]),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.all(20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 10,
+                                          child: Text(
+                                            productdata['product']['name']
+                                                .toString(),
+                                            // "\$ " + products[index]['price'],
+                                            style: TextStyle(
+                                                decoration: TextDecoration.none,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  )),
-                                ),
+                                        Expanded(
+                                          flex: 10,
+                                          child: Text(
+                                            productdata['quantity'].toString(),
+                                            // "\$ " + products[index]['price'],
+                                            style: TextStyle(
+                                                decoration: TextDecoration.none,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 10,
+                                          child: Text(
+                                            productdata['product']['price']
+                                                .toString(),
+                                            // "\$ " + products[index]['price'],
+                                            style: TextStyle(
+                                                decoration: TextDecoration.none,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            );
-                          });
-                    }),
-                  ],
-                ),
+                            ),
+                          ],
+                        )),
+                      ),
+                    ),
+                  );
+                })),
                 SizedBox(
                   height: 10,
                 ),
                 Container(
                   height: 15,
                   width: double.infinity,
-                  color: Colors.grey[200],
+                  color: grey,
                 ),
                 SizedBox(
                   height: 10,
@@ -312,76 +298,76 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(children: [
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text(
-                    //       "Sub Total",
-                    //       style: TextStyle(
-                    //         color: Colors.grey[800],
-                    //         fontSize: 18,
-                    //       ),
-                    //     ),
-                    //     Text(
-                    //       "\₹1000",
-                    //       style: TextStyle(
-                    //           color: Colors.black87,
-                    //           fontSize: 18,
-                    //           fontWeight: FontWeight.bold),
-                    //     ),
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text(
-                    //       "Delivery Cost",
-                    //       style: TextStyle(
-                    //         color: Colors.grey[800],
-                    //         fontSize: 18,
-                    //       ),
-                    //     ),
-                    //     Text(
-                    //       "\₹10",
-                    //       style: TextStyle(
-                    //           color: Colors.black87,
-                    //           fontSize: 18,
-                    //           fontWeight: FontWeight.bold),
-                    //     ),
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text(
-                    //       "Gst(18%)",
-                    //       style: TextStyle(
-                    //         color: Colors.grey[800],
-                    //         fontSize: 18,
-                    //       ),
-                    //     ),
-                    //     Text(
-                    //       "\₹300",
-                    //       style: TextStyle(
-                    //           color: Colors.black87,
-                    //           fontSize: 18,
-                    //           fontWeight: FontWeight.bold),
-                    //     ),
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: 5,
-                    // ),
-                    // Divider(
-                    //   height: 10,
-                    //   color: Color.fromARGB(255, 137, 136, 136),
-                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Sub Total",
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "\₹${total}",
+                          style: TextStyle(
+                              color: black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Delivery Cost",
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "\₹10",
+                          style: TextStyle(
+                              color: black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Gst(18%)",
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "\₹${gst}",
+                          style: TextStyle(
+                              color: black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Divider(
+                      height: 10,
+                      color: Color.fromARGB(255, 137, 136, 136),
+                    ),
                     SizedBox(
                       height: 5,
                     ),
@@ -396,9 +382,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ),
                         ),
                         Text(
-                          "\₹${orderId['totalPrice']}",
+                          "\₹${finalPrice}",
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -412,7 +398,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 Container(
                   height: 10,
                   width: double.infinity,
-                  color: Colors.grey[200],
+                  color: grey,
                 ),
               ],
             )),
@@ -425,5 +411,24 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         ),
       ),
     );
+  }
+
+  apiCall() async {
+    var SelectedOrderFromAPi = await getOrderDetails(orderId['orderId']);
+    setState(() {
+      selectedOrder = SelectedOrderFromAPi;
+    });
+  }
+
+  List selectedOrder = [];
+
+  Future getOrderDetails(orderId) async {
+    String url = 'http://10.0.2.2:8082/getOrderDetailsbyid/${orderId}';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+    var body = jsonDecode(response.body);
+    return body['orderItem'];
   }
 }

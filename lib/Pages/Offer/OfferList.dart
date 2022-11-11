@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Controller/OfferProductController.dart';
+import 'package:flutter_login_app/Controller/ProductController.dart';
 import 'package:flutter_login_app/Pages/Home/Search.dart';
 import 'package:flutter_login_app/Pages/Order/ItemData.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OfferList extends StatefulWidget {
   const OfferList({Key? key}) : super(key: key);
@@ -20,20 +22,27 @@ class OfferList extends StatefulWidget {
 class _OfferListState extends State<OfferList> {
   final OfferProductController offerProductController =
       Get.put(OfferProductController());
+  ProductController productController = Get.put(ProductController());
+
+  int? id;
+  String add = "add";
+  String remove = "remove";
+
+  void test() async {
+    var store = await SharedPreferences.getInstance(); //add when requried
+    var iddata = store.getString('id');
+    int id = jsonDecode(iddata!);
+    setState(() {
+      this.id = id;
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getproductofferlist();
+    test();
   }
-
-  // getproductofferlist() async {
-  //   var productsoffersfromApi = await productofferApi();
-  //   setState(() {
-  //     offeredproduct = productsoffersfromApi;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -143,203 +152,96 @@ class _OfferListState extends State<OfferList> {
                                         fontWeight: FontWeight.w500,
                                         color: Colors.red),
                                   ),
-
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  // CounterButton(
-                                  //           loading: false,
-                                  //            onChange: (int val) {
-                                  //                  setState(() {
-                                  //                    = val;
-                                  //               });
-                                  //             },
-                                  //           count: _counterValue,
-                                  //              countColor: Colors.purple,
-                                  //              buttonColor: Colors.purpleAccent,
-                                  //              progressColor: Colors.purpleAccent,
-                                  //    ),
-                                  Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: InkWell(
-                                        onTap: () {
-                                          print(index);
-                                          // print(productinfo[index].toString());
-                                          // print(productinfo[index].toString());
-                                          // print(productinfo[index]);
-                                          print('1');
-                                          // print(productUnit[index].toString());
-                                          // print(productImage[index].toString());
-                                        },
-                                        child: Container(
-                                          height: 40,
-                                          width: 80,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Colors.black,
-                                          ),
-                                          child: Row(
-                                            // mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              itemData[index].ShouldVisible
-                                                  ? Center(
-                                                      child: Container(
-                                                      height: 30,
-                                                      width: 70,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(4),
-                                                          border: Border.all(
-                                                              color: Colors
-                                                                  .white70)),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
-                                                        children: <Widget>[
-                                                          InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  if (itemData[
-                                                                              index]
-                                                                          .Counter <
-                                                                      2) {
-                                                                    itemData[
-                                                                            index]
-                                                                        .ShouldVisible = !itemData[
-                                                                            index]
-                                                                        .ShouldVisible;
-                                                                  } else {
-                                                                    itemData[
-                                                                            index]
-                                                                        .Counter--;
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: Icon(
-                                                                Icons.remove,
-                                                                color: Colors
-                                                                    .green,
-                                                                size: 18,
-                                                              )),
-                                                          Text(
-                                                            '${itemData[index].Counter}',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white70),
-                                                          ),
-                                                          InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  itemData[
-                                                                          index]
-                                                                      .Counter++;
-                                                                });
-                                                              },
-                                                              child: Icon(
-                                                                Icons.add,
-                                                                color: Colors
-                                                                    .green,
-                                                                size: 18,
-                                                              )),
-                                                        ],
+                                  Container(
+                                      padding: EdgeInsets.all(20),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            offerProductController
+                                                    .offeredProduct[index]
+                                                    .isAdded
+                                                ? Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      IconButton(
+                                                        icon:
+                                                            Icon(Icons.remove),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            productController
+                                                                .increasequantity(
+                                                                    this.id!,
+                                                                    offerproduct
+                                                                        .id,
+                                                                    this.remove);
+                                                            if (offerProductController
+                                                                    .offeredProduct[
+                                                                        index]
+                                                                    .counter >
+                                                                1) {
+                                                              offerProductController
+                                                                  .offeredProduct[
+                                                                      index]
+                                                                  .counter--;
+                                                            } else {
+                                                              offerProductController
+                                                                  .offeredProduct[
+                                                                      index]
+                                                                  .isAdded = false;
+                                                            }
+                                                          });
+                                                        },
+                                                        color: Colors.black,
                                                       ),
-                                                    ))
-                                                  : Center(
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.all(5),
-                                                        height: 30,
-                                                        width: 70,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4),
-                                                            border: Border.all(
-                                                                color: Colors
-                                                                    .white70)),
-                                                        child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: <Widget>[
-                                                            InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  itemData[
-                                                                          index]
-                                                                      .ShouldVisible = !itemData[
-                                                                          index]
-                                                                      .ShouldVisible;
-                                                                });
-                                                              },
-                                                              child: Text(
-                                                                'ADD',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white70),
-                                                              ),
-                                                            ),
-                                                            // InkWell(
-                                                            //     onTap: () {
-                                                            //       setState(() {
-                                                            //         itemData[
-                                                            //                 index]
-                                                            //             .ShouldVisible = !itemData[
-                                                            //                 index]
-                                                            //             .ShouldVisible;
-                                                            //       });
-                                                            //     },
-                                                            //     child: Center(
-                                                            //         child: Icon(
-                                                            //       Icons.add,
-                                                            //       color: Colors
-                                                            //           .green,
-                                                            //       size: 18,
-                                                            //     )))
-                                                          ],
-                                                        ),
+                                                      Text(
+                                                          offerProductController
+                                                              .offeredProduct[
+                                                                  index]
+                                                              .counter
+                                                              .toString()),
+                                                      IconButton(
+                                                        icon: Icon(Icons.add),
+                                                        color: Colors.black,
+                                                        onPressed: () {
+                                                          productController
+                                                              .increasequantity(
+                                                                  this.id!,
+                                                                  offerproduct
+                                                                      .id,
+                                                                  this.add);
+                                                          setState(() {
+                                                            offerProductController
+                                                                .offeredProduct[
+                                                                    index]
+                                                                .counter++;
+                                                          });
+                                                        },
                                                       ),
+                                                    ],
+                                                  )
+                                                : ElevatedButton(
+                                                    onPressed: () {
+                                                      productController
+                                                          .increasequantity(
+                                                              this.id!,
+                                                              offerproduct.id,
+                                                              this.add);
+                                                      setState(() {
+                                                        offerProductController
+                                                            .offeredProduct[
+                                                                index]
+                                                            .isAdded = true;
+                                                      });
+                                                    },
+                                                    style: TextButton.styleFrom(
+                                                      backgroundColor:
+                                                          Colors.black,
                                                     ),
-                                              // Padding(
-                                              //   padding: EdgeInsets.zero,
-                                              //   child: IconButton(
-                                              //     icon: Icon(Icons.remove,
-                                              //         color: Colors.white),
-                                              //     onPressed: () {
-
-                                              //       Get.to(() => SearchPage());
-                                              //     },
-                                              //   ),
-                                              // ),
-                                              //  Obx(()=>Text("${myProductController.},
-                                              // Text(
-                                              //   "1",
-                                              //   style: TextStyle(
-                                              //       color: Colors.white),
-                                              // ),
-                                              // Padding(
-                                              //   padding: EdgeInsets.zero,
-                                              //   child: IconButton(
-                                              //     icon: Icon(Icons.add,
-                                              //         color: Colors.white),
-                                              //     onPressed: () {
-                                              //       Get.to(() => SearchPage());
-                                              //     },
-                                              //   ),
-                                              // ),
-                                            ],
-                                          ),
-                                        )),
-                                  )
+                                                    child: Text("Add to Cart"),
+                                                  ),
+                                          ]))
                                 ],
                               ),
                             )

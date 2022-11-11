@@ -33,7 +33,7 @@ class ProductModel {
   Discount discount;
   Inventory inventory;
   Offer? offer;
-  int cartQauntity;
+  int? cartQauntity;
   int counter = 1;
   bool isAdded = false;
 

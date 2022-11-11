@@ -67,8 +67,6 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future getCartproducts(userId) async {
-   
-
     CommanDialog.showLoading();
     String url = 'http://10.0.2.2:8082/api/auth/getcartitems/${userId}';
     http.Response response = await http.get(
@@ -99,36 +97,34 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: black),
         // automaticallyImplyLeading: true,
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
             productController.getAllProducts();
-            
-            Timer(Duration(seconds: 10),(){
-               Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      HomeScreen()), // this mymainpage is your page to refresh
-              (Route<dynamic> route) => false,
-            );
+
+            Timer(Duration(seconds: 10), () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        HomeScreen()), // this mymainpage is your page to refresh
+                (Route<dynamic> route) => false,
+              );
             });
-           
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: black,
           ),
         ),
         title: Text(
           "Cart",
           style: TextStyle(
-            color: Colors.black,
+            color: black,
             fontSize: 25,
             fontWeight: FontWeight.normal,
           ),
@@ -138,11 +134,11 @@ class _CartScreenState extends State<CartScreen> {
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             icon: const Icon(Icons.menu),
             onPressed: () {
-               Get.to(() => Navbar());
+              Get.to(() => Navbar());
             }, //=> _key.currentState!.openDrawer(),
           ),
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: white,
       ),
       body: cartproducts.isEmpty
           ? Column(
@@ -155,7 +151,7 @@ class _CartScreenState extends State<CartScreen> {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: AssetImage('assets/cartempty.jpg'),
+                    image: AssetImage('assets/cartempty.png'),
                   )),
                 ),
                 SizedBox(
@@ -165,9 +161,7 @@ class _CartScreenState extends State<CartScreen> {
                   'Your Cart Is Empty',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600),
+                      color: black, fontSize: 30, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: 20,
@@ -176,7 +170,7 @@ class _CartScreenState extends State<CartScreen> {
                   'Looks like You Didn\'t \n add anything in your cart yet',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.grey,
+                      color: Colors.grey[400],
                       fontSize: 20,
                       fontWeight: FontWeight.w600),
                 ),
@@ -255,7 +249,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                   // Container(
                                   //   child: IconButton(
-                                  //     icon: Icon(Icons.delete, color: Colors.black),
+                                  //     icon: Icon(Icons.delete, color: black),
                                   //     onPressed: () {
                                   //       //  Get.to(() => SearchPage());//deletefunction
                                   //     },
@@ -278,13 +272,12 @@ class _CartScreenState extends State<CartScreen> {
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500),
                                   ),
-
                                   Container(
                                     width: 80,
                                     height: 40,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
-                                      color: Colors.black,
+                                      color: black,
                                     ),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
@@ -296,38 +289,39 @@ class _CartScreenState extends State<CartScreen> {
                                               height: 50,
                                               width: 35,
                                               child: IconButton(
-                                                icon: Icon(Icons.remove,
-                                                    color: Colors.white),
-                                                onPressed: () {
-                                                  increasequantity(
-                                                      this.id!,
-                                                      cartdata['product']['id'],
-                                                      this.remove);
-                                                  setState(() {
-                                                    if (cartdata['quantity'] ==
-                                                        1) {
-                                                      cartproducts
-                                                          .removeAt(index);
-                                                      // if (cartproducts.isEmpty) {
-                                                      //   cartproducts.add(product);
-                                                      // }
-                                                    } else {
-                                                      cartdata['quantity'] =
-                                                          cartdata['quantity'] -
-                                                              1;
-                                                    }
-                                                  });
-                                                }
-                                                  ),
+                                                  icon: Icon(Icons.remove,
+                                                      color: white),
+                                                  onPressed: () {
+                                                    increasequantity(
+                                                        this.id!,
+                                                        cartdata['product']
+                                                            ['id'],
+                                                        this.remove);
+                                                    setState(() {
+                                                      if (cartdata[
+                                                              'quantity'] ==
+                                                          1) {
+                                                        cartproducts
+                                                            .removeAt(index);
+                                                        // if (cartproducts.isEmpty) {
+                                                        //   cartproducts.add(product);
+                                                        // }
+                                                      } else {
+                                                        cartdata['quantity'] =
+                                                            cartdata[
+                                                                    'quantity'] -
+                                                                1;
+                                                      }
+                                                    });
+                                                  }),
                                             ),
                                           ),
                                         ),
                                         //  Obx(()=>Text("${myProductController.},
-                                        
-                                           Text(
-                                             cartdata['quantity'].toString(),
-                                          
-                                          style: TextStyle(color: Colors.white),
+
+                                        Text(
+                                          cartdata['quantity'].toString(),
+                                          style: TextStyle(color: white),
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(right: 8),
@@ -335,8 +329,8 @@ class _CartScreenState extends State<CartScreen> {
                                             height: 50,
                                             width: 30,
                                             child: IconButton(
-                                              icon: Icon(Icons.add,
-                                                  color: Colors.white),
+                                              icon:
+                                                  Icon(Icons.add, color: white),
                                               onPressed: () {
                                                 if (cartdata['product']
                                                                 ['inventory']
@@ -351,8 +345,6 @@ class _CartScreenState extends State<CartScreen> {
                                                     cartdata['quantity'] =
                                                         cartdata['quantity'] +
                                                             1;
-                                                            
-                                                    
                                                   });
                                                 }
 
@@ -403,12 +395,12 @@ class _CartScreenState extends State<CartScreen> {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Container(
                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.black,
-                                    ),
+                      borderRadius: BorderRadius.circular(5),
+                      color: black,
+                    ),
                     child: TextButton(
                       style: TextButton.styleFrom(
-                        backgroundColor: Colors.black,
+                        backgroundColor: black,
                         padding: const EdgeInsets.all(16.0),
                         textStyle: const TextStyle(fontSize: 20),
                       ),
@@ -419,7 +411,7 @@ class _CartScreenState extends State<CartScreen> {
                             },
                       child: const Text(
                         'CHECKOUT',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: white),
                       ),
                     ),
                   ),
@@ -557,10 +549,10 @@ Widget getBody() {
       Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Container(
-          color: Colors.black,
+          color: black,
           child: TextButton(
             style: TextButton.styleFrom(
-              backgroundColor: Colors.white,
+              backgroundColor: white,
               padding: const EdgeInsets.all(16.0),
               textStyle: const TextStyle(fontSize: 20),
             ),

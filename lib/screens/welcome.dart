@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/api/SignInAuto.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
@@ -40,19 +41,19 @@ class _WelcomeState extends State<Welcome> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: Colors.white,
+          color: white,
           child: SingleChildScrollView(
               child: Padding(
             padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
             child: Column(
               children: <Widget>[
-                logoWidget('assets/logo.jpg'),
+                logoWidget('assets/logo111.png'),
                 SizedBox(
                   height: 150,
                 ),
                 ElevatedButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
                   ),
@@ -62,7 +63,7 @@ class _WelcomeState extends State<Welcome> {
                     child: Text(
                       'Login',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: white,
                         fontSize: 28,
                         fontWeight: FontWeight.w500,
                       ),
@@ -83,7 +84,7 @@ class _WelcomeState extends State<Welcome> {
                       Flexible(
                         child: Container(
                           height: 1,
-                          color: Colors.grey,
+                          color: grey,
                         ),
                       ),
                       const Padding(
@@ -99,7 +100,7 @@ class _WelcomeState extends State<Welcome> {
                       Flexible(
                         child: Container(
                           height: 1,
-                          color: Colors.grey,
+                          color: grey,
                         ),
                       ),
                     ],
@@ -137,7 +138,7 @@ class _WelcomeState extends State<Welcome> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text("Don't have account?",
-                        style: TextStyle(color: Colors.black)),
+                        style: TextStyle(color: black)),
                     GestureDetector(
                       onTap: () {
                         Get.to(() => SignUpScreen());
@@ -145,7 +146,7 @@ class _WelcomeState extends State<Welcome> {
                       child: const Text(
                         " Sign Up",
                         style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                            color: black, fontWeight: FontWeight.bold),
                       ),
                     )
                   ],

@@ -21,7 +21,6 @@ import '../Controller/ProductController.dart';
 import '../Pages/Home/home.dart';
 import '../Pages/Home/home_screen.dart';
 import '../Pages/Order/OrderScreen.dart';
-import '../Pages/Order/Orders.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({Key? key}) : super(key: key);
@@ -63,27 +62,25 @@ class _NavbarState extends State<Navbar> {
               height: 20,
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text(
-                'Home',
-                style: TextStyle(
-                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
-              ),
-              onTap: () {
-               productController.getAllProducts();
-            
-            Timer(Duration(seconds: 10),(){
-               Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      HomeScreen()), // this mymainpage is your page to refresh
-              (Route<dynamic> route) => false,
-            );
-            });
-                           
-              }
-            ),
+                leading: Icon(Icons.home),
+                title: Text(
+                  'Home',
+                  style: TextStyle(
+                      fontSize: 30, color: black, fontWeight: FontWeight.w600),
+                ),
+                onTap: () {
+                  productController.getAllProducts();
+
+                  Timer(Duration(seconds: 10), () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomeScreen()), // this mymainpage is your page to refresh
+                      (Route<dynamic> route) => false,
+                    );
+                  });
+                }),
             SizedBox(
               height: 35,
             ),
@@ -146,5 +143,4 @@ class _NavbarState extends State<Navbar> {
       ],
     );
   }
-
 }

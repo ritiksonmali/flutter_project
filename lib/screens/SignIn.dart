@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/model/User.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
@@ -24,7 +25,7 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-    final ProductController productController = Get.put(ProductController());
+  final ProductController productController = Get.put(ProductController());
   final _formKey = GlobalKey<FormState>();
   Map<String, String> userLoginData = {"email": "", "password": ""};
 
@@ -166,7 +167,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: Text(
                         'Sign In',
                         style: const TextStyle(
-                            color: Colors.black87,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 16),
                       ),
@@ -174,9 +175,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
                             if (states.contains(MaterialState.pressed)) {
-                              return Colors.black26;
+                              return Colors.black;
                             }
-                            return Colors.green;
+                            return black;
                           }),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -265,20 +266,20 @@ class _SignInScreenState extends State<SignInScreen> {
         store.setString('email', json.encode(userDetails['result']['email']));
         print(userDetails['result']['email']);
         productController.getAllProducts();
-            
-            Timer(Duration(seconds: 5),(){
-               Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      HomeScreen()), // this mymainpage is your page to refresh
-              (Route<dynamic> route) => false,
-            );
-            });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Login SuccessFully !'),
-          backgroundColor: Colors.green,
-        ));
+
+        Timer(Duration(seconds: 2), () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    HomeScreen()), // this mymainpage is your page to refresh
+            (Route<dynamic> route) => false,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Login SuccessFully !'),
+            backgroundColor: Colors.green,
+          ));
+        });
       } else if (response.statusCode == 401) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Please Enter Valid Email and Password'),

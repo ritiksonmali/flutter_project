@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +62,7 @@ class _AddressState extends State<Address> {
       appBar: AppBar(
         title: Text(
           "Address",
-          style: TextStyle(fontSize: 18, color: Colors.black),
+          style: TextStyle(fontSize: 18, color: black),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
@@ -71,7 +72,7 @@ class _AddressState extends State<Address> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: black,
           ),
         ),
       ),
@@ -92,10 +93,10 @@ class _AddressState extends State<Address> {
             child: Text(
               "Add Address",
               style: TextStyle(
-                color: Colors.white,
+                color: white,
               ),
             ),
-            color: Colors.black,
+            color: black,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                 30,
@@ -150,13 +151,13 @@ class _AddressState extends State<Address> {
                 height: 10,
               ),
               Divider(
-                color: Colors.black,
+                color: black,
               ),
               TextFormField(
                 controller: addressLine1controller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: Colors.black87,
-                style: TextStyle(color: Colors.black87),
+                cursorColor: black,
+                style: TextStyle(color: black),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -164,7 +165,7 @@ class _AddressState extends State<Address> {
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: black,
                     )),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -180,8 +181,8 @@ class _AddressState extends State<Address> {
               TextFormField(
                 controller: addressLine2controller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: Colors.black87,
-                style: TextStyle(color: Colors.black87),
+                cursorColor: black,
+                style: TextStyle(color: black),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -189,7 +190,7 @@ class _AddressState extends State<Address> {
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: black,
                     )),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -205,8 +206,8 @@ class _AddressState extends State<Address> {
               TextFormField(
                 controller: pincodecontroller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: Colors.black87,
-                style: TextStyle(color: Colors.black87),
+                cursorColor: black,
+                style: TextStyle(color: black),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -214,7 +215,7 @@ class _AddressState extends State<Address> {
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: black,
                     )),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -234,8 +235,8 @@ class _AddressState extends State<Address> {
               TextFormField(
                 controller: citycontroller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: Colors.black87,
-                style: TextStyle(color: Colors.black87),
+                cursorColor: black,
+                style: TextStyle(color: black),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -243,7 +244,7 @@ class _AddressState extends State<Address> {
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: black,
                     )),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -259,8 +260,8 @@ class _AddressState extends State<Address> {
               TextFormField(
                 controller: statecontroller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: Colors.black87,
-                style: TextStyle(color: Colors.black87),
+                cursorColor: black,
+                style: TextStyle(color: black),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -268,7 +269,7 @@ class _AddressState extends State<Address> {
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: black,
                     )),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -284,8 +285,8 @@ class _AddressState extends State<Address> {
               TextFormField(
                 controller: countrycontroller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: Colors.black87,
-                style: TextStyle(color: Colors.black87),
+                cursorColor: black,
+                style: TextStyle(color: black),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -293,7 +294,7 @@ class _AddressState extends State<Address> {
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: black,
                     )),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -309,8 +310,8 @@ class _AddressState extends State<Address> {
               TextFormField(
                 controller: telephonenocontroller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: Colors.black87,
-                style: TextStyle(color: Colors.black87),
+                cursorColor: black,
+                style: TextStyle(color: black),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -318,7 +319,7 @@ class _AddressState extends State<Address> {
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: black,
                     )),
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
@@ -332,8 +333,8 @@ class _AddressState extends State<Address> {
               TextFormField(
                 controller: mobilenocontroller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: Colors.black87,
-                style: TextStyle(color: Colors.black87),
+                cursorColor: black,
+                style: TextStyle(color: black),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -341,7 +342,7 @@ class _AddressState extends State<Address> {
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: black,
                     )),
                 validator: (value) {
                   if (value == null || value.isEmpty) {

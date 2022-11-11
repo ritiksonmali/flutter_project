@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class OrderDetailsController extends GetxController {
-  // var Selectedorder = <SelectedOrder>[].obs;
-  List<SelectedOrder> Selectedorder = [];
+  var Selectedorder = <SelectedOrder>[].obs;
+  // List<SelectedOrder> Selectedorder = [];
 
   Future getOrderDetails(orderId) async {
     CommanDialog.showLoading();
