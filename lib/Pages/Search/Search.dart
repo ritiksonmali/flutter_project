@@ -1,14 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
 import '../../ConstantUtil/colors.dart';
 import '../../Controller/ProductController.dart';
-import '../../screens/Navbar.dart';
-import '../Order/OrderScreen.dart';
-import '../Search/SearchProductList.dart';
+import 'SearchProductList.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -36,11 +31,8 @@ class _SearchPageState extends State<SearchPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Search a product",
-                  style: TextStyle(
-                      color: black,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold),
+                  "Search product",
+                  style: Theme.of(context).textTheme.titleLarge  
                 ),
                 SizedBox(
                   height: 20,
@@ -61,11 +53,6 @@ class _SearchPageState extends State<SearchPage> {
                   child: FloatingActionButton.extended(
                     label: Text('Search'), // <-- Text
                     backgroundColor: black,
-                    icon: Icon(
-                      // <-- Icon
-                      Icons.search,
-                      size: 24.0,
-                    ),
                     onPressed: () {
                       productController.getSearchProducts(
                           _nameTextController.text.toLowerCase().toString());

@@ -73,11 +73,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    "Delivered Address",
-                    style: TextStyle(
-                      color: Colors.grey[800],
-                      fontSize: 15,
-                    ),
+                    "Address",
+                    style:Theme.of(context).textTheme.titleLarge
                   ),
                 ),
                 SizedBox(
@@ -95,10 +92,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           child: Text(
                             orderId['address'],
                             // "538 sagar park laxmi Nagar Panchavati Nashik-422003",
-                            style: TextStyle(
-                                color: black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.bodyMedium
                           ),
                         ),
                       ),
@@ -123,11 +117,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     children: [
                       Text(
                         "Order Summary",
-                        style: TextStyle(
-                          color: Colors.grey[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style:Theme.of(context).textTheme.titleLarge
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -159,11 +149,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           flex: 10,
                           child: Text(
                             "Product Name",
-                            style: TextStyle(
-                              decoration: TextDecoration.none,
-                              color: Colors.grey[800],
-                              fontSize: 15,
-                            ),
+                            style: Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -171,11 +157,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           flex: 10,
                           child: Text(
                             "Quantity",
-                            style: TextStyle(
-                              decoration: TextDecoration.none,
-                              color: Colors.grey[800],
-                              fontSize: 15,
-                            ),
+                            style:Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -183,11 +165,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           flex: 10,
                           child: Text(
                             "Price",
-                            style: TextStyle(
-                              decoration: TextDecoration.none,
-                              color: Colors.grey[800],
-                              fontSize: 15,
-                            ),
+                            style:Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -240,10 +218,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                             productdata['product']['name']
                                                 .toString(),
                                             // "\$ " + products[index]['price'],
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
+                                            style:Theme.of(context).textTheme.bodyMedium,
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -252,24 +227,17 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                           child: Text(
                                             productdata['quantity'].toString(),
                                             // "\$ " + products[index]['price'],
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
+                                            // style: Theme.of(context).textTheme.bodyMedium,
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
                                         Expanded(
-                                          flex: 10,
+                                          flex:10,
                                           child: Text(
-                                            productdata['product']['price']
+                                            productdata['product']['price'].toString()
                                                 .toString(),
-                                            // "\$ " + products[index]['price'],
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
-                                            textAlign: TextAlign.center,
+                                            style:Theme.of(context).textTheme.bodyMedium,
+                                             textAlign: TextAlign.center,
                                           ),
                                         ),
                                       ],
@@ -303,17 +271,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       children: [
                         Text(
                           "Sub Total",
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 18,
-                          ),
+                          style:  Theme.of(context).textTheme.titleMedium
                         ),
                         Text(
                           "\₹${total}",
-                          style: TextStyle(
-                              color: black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.titleMedium
                         ),
                       ],
                     ),
@@ -325,17 +287,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       children: [
                         Text(
                           "Delivery Cost",
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 18,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium
                         ),
                         Text(
                           "\₹10",
-                          style: TextStyle(
-                              color: black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                          style:  Theme.of(context).textTheme.titleMedium
                         ),
                       ],
                     ),
@@ -347,17 +303,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       children: [
                         Text(
                           "Gst(18%)",
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 18,
-                          ),
+                          style:  Theme.of(context).textTheme.titleMedium
                         ),
                         Text(
                           "\₹${gst}",
-                          style: TextStyle(
-                              color: black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                          style:  Theme.of(context).textTheme.titleMedium
                         ),
                       ],
                     ),
@@ -376,17 +326,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       children: [
                         Text(
                           "Total",
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 18,
-                          ),
+                          style:  Theme.of(context).textTheme.titleLarge
                         ),
                         Text(
                           "\₹${finalPrice}",
-                          style: TextStyle(
-                              color: black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                          style:  Theme.of(context).textTheme.titleLarge
                         ),
                       ],
                     ),

@@ -32,9 +32,14 @@ class _AddressDetailsState extends State<AddressDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          "Your Address",
-          style: TextStyle(fontSize: 18, color: black),
+          "Address",
+         style: TextStyle(
+            color: black,
+            fontSize: 25,
+            fontWeight: FontWeight.normal,
+          ),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
@@ -89,83 +94,102 @@ class _AddressDetailsState extends State<AddressDetails> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Text(
-                                  alladdress["address_line1"] +
-                                      "\n" +
-                                      alladdress["address_line2"] +
-                                      "\n" +
-                                      "City : " +
-                                      alladdress["city"] +
-                                      " "
-                                          "Pincode : " +
-                                      alladdress["pincode"].toString(),
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        alladdress["address_line1"] +
+                                            "\n" +
+                                            alladdress["address_line2"] +
+                                            "\n" +
+                                            alladdress["city"] ,
+                                        style: Theme.of(context).textTheme.bodyMedium
+                                      ),
+                                    ),
+                                  
+                                  IconButton(onPressed: () {
+
+                                  },
+                                  icon: Icon(
+                                      Icons.delete,
+                                      color: black,
+                                    ),)
+                                  ],
                                 ),
-                                SizedBox(height: 10),
-                                Text(
-                                  alladdress["state"] +
-                                      " " +
-                                      alladdress["country"] +
-                                      "\n" +
-                                      "telephone / Mobile no : " +
-                                      alladdress["telephone_no"] +
-                                      " / " +
-                                      alladdress["mobile_no"],
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(20),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      alladdress['isSelected'] == true
-                                          ? Text('selected')
-                                          : ElevatedButton(
-                                              onPressed: () async {
-                                                setState(() {
-                                                  checkAddressIsSelected(
-                                                      this.userId!,
-                                                      alladdress['id']);
-                                                });
-                                                await Future.delayed(
-                                                    Duration(seconds: 2));
-                                                // Navigator.pushAndRemoveUntil(
-                                                //   context,
-                                                //   MaterialPageRoute(
-                                                //       builder: (context) =>
-                                                //           CheckoutScreen()), // this mymainpage is your page to refresh
-                                                //   (Route<dynamic> route) =>
-                                                //       true,
-                                                // );
-                                                Navigator.pop(context);
-                                                // Navigator.pop(
-                                                //     context,
-                                                //     MaterialPageRoute(
-                                                //         builder: (context) =>
-                                                //             CartScreen()));
-                                              },
-                                              style: TextButton.styleFrom(
-                                                backgroundColor: black,
-                                              ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        alladdress["state"] +
+                                            " " +
+                                            alladdress["country"] +
+                                            "\n" +
+                                             alladdress["pincode"].toString()+
+                                             "\n"+
+                                            "Telephone :" +
+                                            alladdress["telephone_no"]+ "\n"+"Mobile no : "+
+                                            alladdress["mobile_no"],
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ),
+                                   
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                    padding:  const EdgeInsets.only( right: 10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        alladdress['isSelected'] == true
+                                            ? ElevatedButton(
                                               child: Text(
-                                                'Select',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              ),
+                                                  'Selected',
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
+                                                 style: TextButton.styleFrom(
+                                                  backgroundColor: black,
+                                                ),
+                                               onPressed: () {}
                                             )
-                                    ],
-                                  ),
+                                            : ElevatedButton(
+                                                onPressed: () async {
+                                                  setState(() {
+                                                    checkAddressIsSelected(
+                                                        this.userId!,
+                                                        alladdress['id']);
+                                                  });
+                                                  await Future.delayed(
+                                                      Duration(seconds: 2));
+                                                  Navigator.pop(context);
+                                                },
+                                                style: TextButton.styleFrom(
+                                                  backgroundColor: black,
+                                                ),
+                                                child: Text(
+                                                  'Select',
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
+                                              )
+                                      ],
+                                    ),
                                 ),
+                                  ),
+                                  ],
+                                ),
+                              
                               ],
                             ),
                           )
                         ],
-                      )
+                      ),
                     ],
                   ),
                 );

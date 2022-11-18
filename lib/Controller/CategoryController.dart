@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 
 class CategoryController extends GetxController {
   List<CategoryData> category = [];
+  List catagoryList = [];
+  late Map mapResponse;
 
   @override
   void onReady() {
@@ -26,8 +28,10 @@ class CategoryController extends GetxController {
     var body = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
+      catagoryList= jsonDecode(response.body);
+      print(catagoryList);
       for (Map i in body) {
-        category.add(CategoryData.fromJson(i));
+        category.add(CategoryData.fromJson(i)); 
       }
       update();
       return category;

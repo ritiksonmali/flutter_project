@@ -5,6 +5,9 @@ import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 
+import '../../ConstantUtil/colors.dart';
+import 'Otpverification.dart';
+
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
 
@@ -14,6 +17,7 @@ class ResetPassword extends StatefulWidget {
 
 class _ResetPasswordState extends State<ResetPassword> {
   final _formKey = GlobalKey<FormState>();
+  bool isVisible = false;
   TextEditingController _emailTextController = TextEditingController();
 
   Map<String, String> userLoginData = {"email": ""};
@@ -90,12 +94,18 @@ class _ResetPasswordState extends State<ResetPassword> {
                   const SizedBox(
                     height: 20,
                   ),
-                  firebaseUIButton(context, "Reset Password", () {
-                    FirebaseAuth.instance
-                        .sendPasswordResetEmail(
-                            email: _emailTextController.text)
-                        .then((value) => Navigator.of(context).pop());
-                  })
+                  FloatingActionButton.extended(
+                    label: Text('Reset Password'), // <-- Text
+                    backgroundColor: black,
+                    onPressed: () {
+                      Get.to(() => OtpVerification());
+                       
+
+      
+                     
+                    },
+                    
+                  ),              
                 ],
               ),
             ))),

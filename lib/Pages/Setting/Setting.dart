@@ -49,9 +49,14 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          "Settings",
-          style: TextStyle(fontSize: 18, color: Colors.black),
+          "Setting",
+         style: TextStyle(
+            color: black,
+            fontSize: 25,
+            fontWeight: FontWeight.normal,
+          ),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
@@ -241,11 +246,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               hintText: "Enter Old Password",
-                              hintStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              )),
+                              hintStyle: Theme.of(context).textTheme.bodyMedium,),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Required';
@@ -267,11 +268,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               hintText: "Enter New Password",
-                              hintStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              )),
+                              hintStyle:Theme.of(context).textTheme.bodyMedium,),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Required';
@@ -293,11 +290,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               hintText: "Confirm New Password",
-                              hintStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              )),
+                              hintStyle:Theme.of(context).textTheme.bodyMedium,),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Required';
@@ -313,32 +306,53 @@ class _SettingsPageState extends State<SettingsPage> {
                         SizedBox(
                           height: 20,
                         ),
-                        ElevatedButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Row(
+                            children: [
+                              ElevatedButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30.0)),
+                                ),
+                                child: Text(
+                                  "Submit",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      letterSpacing: 2.2,
+                                      color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  changepassword();
+                                },
+                              ),
+                               SizedBox(
+                               width: 55,
+                                ),
+                                  ElevatedButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30.0)),
+                                ),
+                                child: Text(
+                                  "Close",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      letterSpacing: 2.2,
+                                      color: Colors.white),
+                                ),
+                                onPressed: () {
+                                   Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
                           ),
-                          child: Text(
-                            "Submit",
-                            style: TextStyle(
-                                fontSize: 14,
-                                letterSpacing: 2.2,
-                                color: Colors.white),
-                          ),
-                          onPressed: () {
-                            changepassword();
-                          },
                         ),
                       ],
                     ),
-                    actions: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text("Close")),
-                    ],
+                   
                   ),
                 ),
               );
@@ -415,56 +429,3 @@ class _SettingsPageState extends State<SettingsPage> {
 
 
 
-// GestureDetector buildAccountOptionRow(BuildContext context, String title) {
-//     return GestureDetector(
-//       onTap: () {
-//         Get.to(() => AddressDetails());
-//         // showDialog(
-//         //     context: context,
-//         //     builder: (BuildContext context) {
-//         //       return SingleChildScrollView(
-//         //         child: Form(
-//         //           child: AlertDialog(
-//         //             title: Text(title),
-//         //             content: Column(
-//         //               mainAxisSize: MainAxisSize.min,
-//         //               children: [
-//         //                 Text("Option 1"),
-//         //                 Text("Option 2"),
-//         //                 Text("Option 3"),
-//         //               ],
-//         //             ),
-//         //             actions: [
-//         //               FlatButton(
-//         //                   onPressed: () {
-//         //                     Navigator.of(context).pop();
-//         //                   },
-//         //                   child: Text("Close")),
-//         //             ],
-//         //           ),
-//         //         ),
-//         //       );
-//         //     });
-//       },
-//       child: Padding(
-//         padding: const EdgeInsets.symmetric(vertical: 8.0),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             Text(
-//               title,
-//               style: TextStyle(
-//                 fontSize: 18,
-//                 fontWeight: FontWeight.w500,
-//                 color: Colors.grey,
-//               ),
-//             ),
-//             Icon(
-//               Icons.arrow_forward_ios,
-//               color: Colors.white,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }

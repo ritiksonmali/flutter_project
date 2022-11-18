@@ -5,17 +5,15 @@ import 'package:flutter_login_app/Controller/CategoryController.dart';
 import 'package:flutter_login_app/Controller/OfferController.dart';
 import 'package:flutter_login_app/Controller/PopularproductController.dart';
 import 'package:flutter_login_app/Controller/ProductController.dart';
-import 'package:flutter_login_app/Pages/Category/CategoryProductList.dart';
-import 'package:flutter_login_app/Pages/Offer/OfferList.dart';
 import 'package:flutter_login_app/Pages/Product/PopularProductList.dart';
 import 'package:flutter_login_app/screens/Navbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../ConstantUtil/colors.dart';
+import '../Filter/Filter.dart';
 import '../cart/cart_screen.dart';
-import 'HomeItem.dart';
-import 'Search.dart';
+import '../Search/Search.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
@@ -143,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                                       categories.title,
                                       textAlign: TextAlign.center,
                                       style:
-                                          TextStyle(color: black, fontSize: 12),
+                                         Theme.of(context).textTheme.bodyMedium
                                     )),
                                   ),
                                   shape: CircleBorder(),
@@ -204,15 +202,26 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               children: [
                 Expanded(
-                    child: Text("Popular Product",
-                        style: Theme.of(context).textTheme.subtitle1
-                        //  .copyWith(fontWeight: FontWeight.bold),
-                        )),
-                InkWell(
-                    onTap: () {
-                      Get.to(() => PopularProductList());
-                    },
-                    child: Text("Show more"))
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Popular Product",
+                            style: Theme.of(context).textTheme.titleLarge
+                            //  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                      ],
+                    )),
+                
+                     Padding(
+                       padding:const EdgeInsets.only(left: 40),
+                         child: TextButton( // <-- OutlinedButton
+                              onPressed: () {
+                                Get.to(() => PopularProductList());
+                              },
+                              child: Text('see more',
+                              style:Theme.of(context).textTheme.titleMedium),
+                           ),
+                     ),
               ],
             ),
           ),
@@ -255,6 +264,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Text(
                             popular.name,
+                              style:Theme.of(context).textTheme.bodyMedium,
                           )
                         ],
                       ),
@@ -267,30 +277,29 @@ class _HomePageState extends State<HomePage> {
           ),
           Padding(
             padding:
-                const EdgeInsets.only(top: 40, left: 30, right: 30, bottom: 20),
+                const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   "All Products",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                  style: Theme.of(context).textTheme.titleLarge  
                 ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      "Filter",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 1),
-                      child: Icon(Icons.keyboard_arrow_down),
-                    )
-                  ],
-                )
+                SizedBox(
+                  width: 150,
+                ),
+                 TextButton.icon( // <-- OutlinedButton
+                  onPressed: () {
+                     Get.to(() => FilterPage());
+                  },
+                  label: Text('Filter',
+                  style:Theme.of(context).textTheme.titleMedium),
+                  icon: Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 20.0,
+                  color: black,
+                  ),
+              ),
               ],
             ),
           ),
@@ -368,10 +377,7 @@ class _HomePageState extends State<HomePage> {
                                                           .toString(),
 
                                                   // "\$ " + products[index]['price'],
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                                  style:  Theme.of(context).textTheme.bodyMedium
                                                 ),
                                                 //  productController.productResponseList[index]
                                                 //['added'] !=false &&

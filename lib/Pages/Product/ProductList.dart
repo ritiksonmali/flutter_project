@@ -8,7 +8,7 @@ import 'package:flutter_login_app/Pages/Product/MyProductController.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../../screens/navbar.dart';
-import '../Home/Search.dart';
+import '../Search/Search.dart';
 import 'package:http/http.dart' as http;
 
 class ProductListPage extends StatefulWidget {

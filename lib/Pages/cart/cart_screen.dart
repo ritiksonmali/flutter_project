@@ -107,13 +107,7 @@ class _CartScreenState extends State<CartScreen> {
             productController.getAllProducts();
 
             Timer(Duration(seconds: 10), () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        HomeScreen()), // this mymainpage is your page to refresh
-                (Route<dynamic> route) => false,
-              );
+                 Get.to(() => HomeScreen());
             });
           },
           icon: Icon(
@@ -239,22 +233,14 @@ class _CartScreenState extends State<CartScreen> {
                                 children: [
                                   Text(
                                     cartdata['product']['name'],
-                                    // "Jorden",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w600
+                                      ),
                                   ),
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  // Container(
-                                  //   child: IconButton(
-                                  //     icon: Icon(Icons.delete, color: black),
-                                  //     onPressed: () {
-                                  //       //  Get.to(() => SearchPage());//deletefunction
-                                  //     },
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                               SizedBox(
@@ -268,9 +254,7 @@ class _CartScreenState extends State<CartScreen> {
                                     "₹" +
                                         cartdata['product']['price'].toString(),
                                     // "\$ 200",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
+                                    style:  Theme.of(context).textTheme.bodyMedium
                                   ),
                                   Container(
                                     width: 80,
@@ -375,15 +359,11 @@ class _CartScreenState extends State<CartScreen> {
                     children: <Widget>[
                       Text(
                         "Total",
-                        style: TextStyle(
-                            fontSize: 22,
-                            color: black.withOpacity(0.5),
-                            fontWeight: FontWeight.w600),
+                        style: Theme.of(context).textTheme.titleLarge
                       ),
                       Text(
                         "\₹${total}",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w600),
+                        style: Theme.of(context).textTheme.titleLarge
                       ),
                     ],
                   ),
@@ -410,7 +390,7 @@ class _CartScreenState extends State<CartScreen> {
                               Get.to(() => CheckoutScreen());
                             },
                       child: const Text(
-                        'CHECKOUT',
+                        'Checkout',
                         style: TextStyle(color: white),
                       ),
                     ),

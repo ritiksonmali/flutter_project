@@ -6,7 +6,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Controller/CategoryProductController.dart';
 import 'package:flutter_login_app/Controller/ProductController.dart';
-import 'package:flutter_login_app/Pages/Home/Search.dart';
+import 'package:flutter_login_app/Pages/Search/Search.dart';
 import 'package:flutter_login_app/Pages/Order/ItemData.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
