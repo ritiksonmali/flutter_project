@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_login_app/ConstantUtil/globals.dart' as globals;
 import 'package:flutter_login_app/model/Product.dart';
 import 'package:flutter_login_app/model/ProductModel.dart';
+import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,8 +12,9 @@ class ProductController extends GetxController {
   List QuantityResponse = [];
   String stringResponse = '';
   List productsearchResponseList = [];
-  List productResponseList = [];
+  List productResponseList = [].obs;
   late Map mapResponse;
+  int count = 0;
   // List<ProductModel> DemoProduct = [];{}
   main() async {
     var store = await SharedPreferences.getInstance(); //add when requried
@@ -25,6 +27,7 @@ class ProductController extends GetxController {
     // TODO: implement onReady
     super.onReady();
     // test();
+    getCount();
   }
 
   void test() async {
@@ -36,8 +39,8 @@ class ProductController extends GetxController {
 
   List<Product> cartitem = List<Product>.empty().obs;
 
-  double get totalPrice => cartitem.fold(0, (sum, item) => sum + item.price);
-  int get count => cartitem.length;
+  // double get totalPrice => cartitem.fold(0, (sum, item) => sum + item.price);
+  // int get count => cartitem.length;
 
   Future increasequantity(int userId, productId, String sum) async {
     String url =
@@ -117,7 +120,7 @@ class ProductController extends GetxController {
       //    print("refresh for loop");
       // }
       // print(body['records']);
-
+      update();
       return productResponseList;
     } else {
       return productResponseList;
@@ -153,6 +156,71 @@ class ProductController extends GetxController {
       return productsearchResponseList;
     } else {
       return productsearchResponseList;
+    }
+  }
+
+  Future getCount() async {
+    var store = await SharedPreferences.getInstance();
+    var iddata = store.getString('id');
+    int user_id = jsonDecode(iddata!);
+    String url = 'http://10.0.2.2:8082/api/auth/getCount/${user_id}';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+    var body = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      onInit();
+      count = body;
+      update();
+    }
+  }
+
+  Future getProductsByOffer(offerId) async {
+    productResponseList.clear();
+    var store = await SharedPreferences.getInstance();
+    var iddata = store.getString('id');
+    int user_id = jsonDecode(iddata!);
+    String url =
+        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&offerId=${offerId}&userId=${user_id}';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+    var body = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      productResponseList = body['records'];
+
+      update();
+      return productResponseList;
+    } else {
+      return productResponseList;
+    }
+  }
+
+  Future getProductsByCategory(categoryId) async {
+    productResponseList.clear();
+    var store = await SharedPreferences.getInstance();
+    var iddata = store.getString('id');
+    int user_id = jsonDecode(iddata!);
+    // productResponseList.clear();
+    CommanDialog.showLoading();
+    String url =
+        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&categoryId=${categoryId}&userId=${user_id}';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    var body = jsonDecode(response.body);
+    CommanDialog.hideLoading();
+    if (response.statusCode == 200) {
+      productResponseList = body['records'];
+      update();
+      return productResponseList;
+    } else {
+      return productResponseList;
     }
   }
 }

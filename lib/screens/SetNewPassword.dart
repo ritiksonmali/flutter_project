@@ -1,66 +1,35 @@
-import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
-import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
-import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
-import 'package:flutter_login_app/utils/ColorUtils.dart';
-import 'package:get/get.dart';
 
-class ResetPassword extends StatefulWidget {
-  const ResetPassword({Key? key}) : super(key: key);
+class SetNewPassword extends StatefulWidget {
+  const SetNewPassword({Key? key}) : super(key: key);
 
   @override
-  _ResetPasswordState createState() => _ResetPasswordState();
+  State<SetNewPassword> createState() => _SetNewPasswordState();
 }
 
-class _ResetPasswordState extends State<ResetPassword> {
-  bool isValid = false;
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController emailcontroller = TextEditingController();
-
-  Map<String, String> userLoginData = {"email": ""};
-
-  AuthController controller = Get.put(AuthController());
-
-  ForgetPassword() {
-    if (_formKey.currentState!.validate()) {
-      print("forget Password");
-      _formKey.currentState!.save();
-      print('Data for login $userLoginData');
-      controller.ForgetPassword(userLoginData['email']);
-    }
-  }
-
+class _SetNewPasswordState extends State<SetNewPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.white,
-            child: SingleChildScrollView(
-                child: Padding(
-              padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        color: Colors.white,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+                20, MediaQuery.of(context).size.height * 0.2, 20, 0),
+            child: Form(
               child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: 140,
-                  ),
-                  Text(
-                    'Reset Your Password',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
-                  ),
                   const SizedBox(
-                    height: 20,
+                    height: 150,
                   ),
                   TextFormField(
-                    controller: emailcontroller,
+                    // controller: _emailTextController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -86,27 +55,61 @@ class _ResetPasswordState extends State<ResetPassword> {
                       }
                       return null;
                     },
-                    onSaved: (value) {},
+
                     keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(
                     height: 20,
                   ),
+                  TextFormField(
+                    // controller: _passwordTextController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    cursorColor: Colors.black87,
+                    style: TextStyle(color: Colors.black87),
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.lock_outline,
+                          color: Colors.black87,
+                        ),
+                        labelText: 'Enter Password',
+                        labelStyle: TextStyle(color: Colors.black54),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.black)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.blue))),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password Required';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      // userLoginData['password'] = value!;
+                    },
+                    obscureText: true,
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Container(
-                    width: 200,
-                    height: 40,
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
                     margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(90)),
                     child: ElevatedButton(
                       onPressed: () {
-                        forgetPassword();
                         // login();
                       },
                       child: Text(
-                        'Forget Password',
+                        'Sign In',
                         style: const TextStyle(
-                            color: white,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 16),
                       ),
@@ -114,9 +117,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
                             if (states.contains(MaterialState.pressed)) {
-                              return Colors.black26;
+                              return Colors.black;
                             }
-                            return Colors.black;
+                            return black;
                           }),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -127,33 +130,10 @@ class _ResetPasswordState extends State<ResetPassword> {
                   ),
                 ],
               ),
-            ))),
+            ),
+          ),
+        ),
       ),
     );
-  }
-
-  void EmailValidation() {
-    setState(() {
-      isValid = EmailValidator.validate(emailcontroller.text.trim());
-    });
-  }
-
-  forgetPassword() {
-    if (_formKey.currentState!.validate()) {
-      print("Form is valid ");
-      _formKey.currentState!.save();
-      EmailValidation();
-      if (isValid == true) {
-        // RestApiTest(emailcontroller.text.toString(),
-        //     _passwordTextController.text.toString());
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please Enter Valid Email'),
-          backgroundColor: Colors.redAccent,
-        ));
-      }
-    } else {
-      print('Form is Not Valid');
-    }
   }
 }

@@ -57,6 +57,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     test();
+    productController.getAllProducts();
   }
 
   apiCall() async {
@@ -84,14 +85,32 @@ class _HomePageState extends State<HomePage> {
               Get.to(() => SearchPage());
             },
           ),
-          IconButton(
-            icon: Icon(Icons.shopping_bag_outlined),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CartScreen()),
-              );
-            },
+          // IconButton(
+          //   icon: Icon(Icons.shopping_bag_outlined),
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => CartScreen()),
+          //     );
+          //   },
+          // ),
+          Center(
+            child: Badge(
+              position: BadgePosition.topEnd(top: 0, end: 3),
+              child: IconButton(
+                icon: Icon(Icons.shopping_bag_outlined),
+                onPressed: () {
+                  Get.to(() => CartScreen());
+                },
+              ),
+              badgeContent:
+                  GetBuilder<ProductController>(builder: (controller) {
+                return Text(
+                  productController.count.toString(),
+                  style: TextStyle(color: white),
+                );
+              }),
+            ),
           ),
           IconButton(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -130,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                               height: 80,
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.to(() => PopularProductList(),
+                                  Get.to(() => CategoryProductList(),
                                       arguments: {"categoryId": categories.id});
                                 },
                                 child: Card(
@@ -178,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           child: InkWell(
                             onTap: () {
-                              Get.to(() => PopularProductList(),
+                              Get.to(() => OfferList(),
                                   arguments: {"offerId": offer.id});
                             },
                             child: Image.network(
@@ -289,7 +308,7 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 1),
                       child: Icon(Icons.keyboard_arrow_down),
-                    )
+                    ),
                   ],
                 )
               ],
@@ -418,6 +437,8 @@ class _HomePageState extends State<HomePage> {
                                                                         1;
                                                                   } else {
                                                                     productController
+                                                                        .onReady();
+                                                                    productController
                                                                             .productResponseList[index]
                                                                         [
                                                                         'cartQauntity'] = 0;
@@ -486,6 +507,8 @@ class _HomePageState extends State<HomePage> {
                                                                         index]['id'],
                                                                     this.add);
                                                             setState(() {
+                                                              productController
+                                                                  .onReady();
                                                               productController
                                                                           .productResponseList[
                                                                       index][

@@ -19,6 +19,7 @@ class _AddressState extends State<Address> {
   final _formKey3 = GlobalKey<FormState>();
 
   int? id;
+  final String status = "ACTIVE";
 
   void test() async {
     var store = await SharedPreferences.getInstance(); //add when requried
@@ -397,6 +398,7 @@ class _AddressState extends State<Address> {
             "pincode": pincode,
             "state": state,
             "telephone_no": telephoneno,
+            "status": status,
             "user_id": this.id
           }));
 

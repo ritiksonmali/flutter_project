@@ -105,6 +105,7 @@ class _CartScreenState extends State<CartScreen> {
         leading: IconButton(
           onPressed: () {
             productController.getAllProducts();
+            productController.getCount();
 
             Timer(Duration(seconds: 10), () {
               Navigator.pushAndRemoveUntil(

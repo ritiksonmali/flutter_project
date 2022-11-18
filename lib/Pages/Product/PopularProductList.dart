@@ -231,8 +231,7 @@ class _PopularProductListState extends State<PopularProductList> {
                                                     .productResponseList[index]
                                                         ['cartQauntity']
                                                     .toString(),
-                                                style: TextStyle(
-                                                    color: white),
+                                                style: TextStyle(color: white),
                                               ),
                                               IconButton(
                                                 icon: Icon(Icons.add),
