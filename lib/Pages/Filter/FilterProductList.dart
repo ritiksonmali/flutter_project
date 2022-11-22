@@ -11,17 +11,19 @@ import 'package:flutter_login_app/Pages/Order/ItemData.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Filter/Filter.dart';
+import '../../ConstantUtil/colors.dart';
+import '../../screens/Navbar.dart';
 import '../cart/cart_screen.dart';
+import 'Filter.dart';
 
-class SearchProductList extends StatefulWidget {
-  const SearchProductList({Key? key}) : super(key: key);
+class FilterProductList extends StatefulWidget {
+  const FilterProductList({Key? key}) : super(key: key);
 
   @override
-  State<SearchProductList> createState() => _SearchProductListState();
+  State<FilterProductList> createState() => _FilterProductListState();
 }
 
-class _SearchProductListState extends State<SearchProductList> {
+class _FilterProductListState extends State<FilterProductList> {
   final ProductController productController = Get.put(ProductController());
   final PopularProductController popularproductController = Get.find();
 
@@ -50,42 +52,52 @@ class _SearchProductListState extends State<SearchProductList> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Product List', style: TextStyle(color: Colors.black)),
+        title: Text('Product List',
+         style: TextStyle(color: Colors.black)),
         iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
+        actions: [
+          IconButton(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              Get.to(() => Navbar());
+            }, //=> _key.currentState!.openDrawer(),
+          ),
+        ],
        
       ),
       body: Column(children: [
-        Row(
+          Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Text(
-              "Filter",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              width: 8,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 1),
-              child: IconButton(
-                icon: const Icon(Icons.keyboard_arrow_down),
-                onPressed: () {
-                  Get.to(() => FilterPage());
-                },
+             Padding(
+              padding: const EdgeInsets.only(top: 0, left: 300, right: 0, bottom: 0),
+              child: TextButton.icon( // <-- OutlinedButton
+                    onPressed: () {
+                       Get.to(() => FilterPage());
+                    },
+                    label: Text('Filter',
+                    style:Theme.of(context).textTheme.titleMedium),
+                    icon: Icon(
+                    Icons.keyboard_arrow_down,
+                    size: 20.0,
+                    color: black,
+                    ),
               ),
-            )
+            ),
           ],
         ),
         Expanded(
            child: GetBuilder<PopularProductController>
            (builder: (controller) {
           return ListView.builder(
-               itemCount: productController.productsearchResponseList.length,
+               itemCount: productController.productFilterResponseList.length,
               itemBuilder: (context, index) {
-                var popular = productController.productsearchResponseList[index];
+                var popular = productController.productFilterResponseList[index];
                 // itemCount:
                 // productImage.length;
+                
                 
                 return Card(
                   child: Column(
@@ -99,7 +111,7 @@ class _SearchProductListState extends State<SearchProductList> {
                               height: 100,
                               width: 100,
                               image: NetworkImage(
-                                  'http://10.0.2.2:8082/api/auth/serveproducts/${productController.productsearchResponseList[index]['imageUrl'].toString()}')
+                                  'http://10.0.2.2:8082/api/auth/serveproducts/${productController.productFilterResponseList[index]['imageUrl'].toString()}')
                               // image: AssetImage("assets/shoe_1.webp"),
                               ),
                           SizedBox(width: 10),
@@ -109,14 +121,14 @@ class _SearchProductListState extends State<SearchProductList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                 productController.productsearchResponseList[index]['name'].toString(),
+                                 productController.productFilterResponseList[index]['name'].toString(),
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 SizedBox(height: 5),
                                 Text(
-                                  "₹" + productController.productsearchResponseList[index]['price'].toString(),
+                                  "₹" + productController.productFilterResponseList[index]['price'].toString(),
                                   // "49999rs",
                                   style: TextStyle(
                                       decoration: TextDecoration.lineThrough,
@@ -126,7 +138,7 @@ class _SearchProductListState extends State<SearchProductList> {
                                 SizedBox(height: 5),
                                 Text(
                                   "₹" +
-                                     productController.productsearchResponseList[index]['price'].toString() +
+                                     productController.productFilterResponseList[index]['price'].toString() +
                                       "\n" +
                                       "rs 36% off",
                                   style: TextStyle(
@@ -137,7 +149,7 @@ class _SearchProductListState extends State<SearchProductList> {
                                   height: 5,
                                 ),
                                 Text(
-                                  productController.productsearchResponseList[index]['desc'].toString(),
+                                  productController.productFilterResponseList[index]['desc'].toString(),
                                   // "Discription",
                                   style: TextStyle(
                                       fontSize: 16,
@@ -150,7 +162,7 @@ class _SearchProductListState extends State<SearchProductList> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: [
-                                          productController.productsearchResponseList[index]['cartQauntity'] !=0 
+                                          productController.productFilterResponseList[index]['cartQauntity'] !=0 
                                                             ? Row(
                                                                 mainAxisSize:
                                                                     MainAxisSize
@@ -166,15 +178,15 @@ class _SearchProductListState extends State<SearchProductList> {
                                                                           () {
                                                                         productController.increasequantity(
                                                                             this.id!,
-                                                                           productController.productsearchResponseList[index]['id'],
+                                                                           productController.productFilterResponseList[index]['id'],
                                                                             this.remove);
-                                                                        if (productController.productsearchResponseList[index]['cartQauntity'] >
+                                                                        if (productController.productFilterResponseList[index]['cartQauntity'] >
                                                                             1) {
-                                                                          productController.productsearchResponseList[index]['cartQauntity']=productController.productsearchResponseList[index]['cartQauntity']-1;
+                                                                          productController.productFilterResponseList[index]['cartQauntity']=productController.productFilterResponseList[index]['cartQauntity']-1;
                                                                         } else {
-                                                                           productController.productsearchResponseList[index]['cartQauntity']=0;
+                                                                           productController.productFilterResponseList[index]['cartQauntity']=0;
                                                                           productController
-                                                                              .productsearchResponseList[index]['added']
+                                                                              .productFilterResponseList[index]['added']
                                                                                = false;
                                                                         }
                                                                       });
@@ -182,7 +194,7 @@ class _SearchProductListState extends State<SearchProductList> {
                                                                     color: Colors
                                                                         .black,
                                                                   ),
-                                                                  Text(  productController.productsearchResponseList[index]['cartQauntity'].toString(),),
+                                                                  Text(  productController.productFilterResponseList[index]['cartQauntity'].toString(),),
                                                                   IconButton(
                                                                     icon: Icon(
                                                                         Icons
@@ -193,11 +205,11 @@ class _SearchProductListState extends State<SearchProductList> {
                                                                         () {
                                                                       productController.increasequantity(
                                                                           this.id!,
-                                                                         productController.productsearchResponseList[index]['id'],
+                                                                         productController.productFilterResponseList[index]['id'],
                                                                           this.add);
                                                                       setState(
                                                                           () {
-                                                                             productController.productsearchResponseList[index]['cartQauntity']= productController.productsearchResponseList[index]['cartQauntity']+1;
+                                                                             productController.productFilterResponseList[index]['cartQauntity']= productController.productFilterResponseList[index]['cartQauntity']+1;
                                                                       });
                                                                     },
                                                                   ),
@@ -207,13 +219,13 @@ class _SearchProductListState extends State<SearchProductList> {
                                                                 onPressed: () {
                                                                   productController.increasequantity(
                                                                       this.id!,
-                                                                      productController.productsearchResponseList[index]['id'],
+                                                                      productController.productFilterResponseList[index]['id'],
                                                                       this.add);
                                                                   setState(() {
                                                                     productController
-                                                                        .productsearchResponseList[index]['cartQauntity'] =1;
+                                                                        .productFilterResponseList[index]['cartQauntity'] =1;
                                                                     productController
-                                                                        .productsearchResponseList[index]['added'] = true;
+                                                                        .productFilterResponseList[index]['added'] = true;
                                                                   });
                                                                 },
                                                                 style: TextButton

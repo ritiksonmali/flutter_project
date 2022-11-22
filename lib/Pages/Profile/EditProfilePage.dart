@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import '../../ConstantUtil/colors.dart';
 import '../Home/home_screen.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -59,17 +60,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         title: Text('Profile', style: TextStyle(color: black)),
+        iconTheme: IconThemeData(color: black),
+        centerTitle: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Get.to(() => HomeScreen());
-          },
-        ),
+        
       ),
       body: Container(
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
@@ -79,12 +75,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
           },
           child: ListView(
             children: [
-              Text(
-                "Edit Profile",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-              ),
               SizedBox(
-                height: 15,
+                height: 5,
               ),
               Center(
                 child: Stack(

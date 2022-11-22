@@ -39,9 +39,14 @@ class _AddressDetailsState extends State<AddressDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          "Your Address",
-          style: TextStyle(fontSize: 18, color: black),
+          "Address",
+          style: TextStyle(
+            color: black,
+            fontSize: 25,
+            fontWeight: FontWeight.normal,
+          ),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
@@ -187,7 +192,11 @@ class _AddressDetailsState extends State<AddressDetails> {
                                               MainAxisAlignment.end,
                                           children: [
                                             alladdress['isSelected'] == true
-                                                ? Text('selected')
+                                                ? Text('Selected',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16))
                                                 : ElevatedButton(
                                                     onPressed: () async {
                                                       setState(() {

@@ -14,9 +14,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../ConstantUtil/colors.dart';
+import '../Filter/Filter.dart';
 import '../cart/cart_screen.dart';
-import 'HomeItem.dart';
-import 'Search.dart';
+import '../Search/Search.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
@@ -58,6 +58,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     test();
     productController.getAllProducts();
+    productController.getCount();
   }
 
   apiCall() async {
@@ -148,8 +149,19 @@ class _HomePageState extends State<HomePage> {
                               width: 80,
                               height: 80,
                               child: GestureDetector(
-                                onTap: () {
-                                  Get.to(() => CategoryProductList(),
+                                onTap: () async {
+                                  productController.getFilterProducts(
+                                      '',
+                                      '',
+                                      10000,
+                                      0,
+                                      '',
+                                      categories.id.toString(),
+                                      '',
+                                      '');
+                                  await Future.delayed(Duration(seconds: 2));
+
+                                  Get.to(() => PopularProductList(),
                                       arguments: {"categoryId": categories.id});
                                 },
                                 child: Card(
@@ -159,12 +171,12 @@ class _HomePageState extends State<HomePage> {
                                     //  child Icon
                                     child: Center(
                                         child: Text(
-                                      // _choices[index].name
-                                      categories.title,
-                                      textAlign: TextAlign.center,
-                                      style:
-                                          TextStyle(color: black, fontSize: 12),
-                                    )),
+                                            // _choices[index].name
+                                            categories.title,
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium)),
                                   ),
                                   shape: CircleBorder(),
                                 ),
@@ -196,8 +208,11 @@ class _HomePageState extends State<HomePage> {
                       child: Card(
                         child: Container(
                           child: InkWell(
-                            onTap: () {
-                              Get.to(() => OfferList(),
+                            onTap: () async {
+                              productController.getFilterProducts('', '', 10000,
+                                  0, '', '', offer.id.toString(), '');
+                              await Future.delayed(Duration(seconds: 2));
+                              Get.to(() => PopularProductList(),
                                   arguments: {"offerId": offer.id});
                             },
                             child: Image.network(
@@ -224,15 +239,29 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               children: [
                 Expanded(
-                    child: Text("Popular Product",
-                        style: Theme.of(context).textTheme.subtitle1
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Popular Product",
+                        style: Theme.of(context).textTheme.titleLarge
                         //  .copyWith(fontWeight: FontWeight.bold),
-                        )),
-                InkWell(
-                    onTap: () {
+                        ),
+                  ],
+                )),
+                Padding(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: TextButton(
+                    // <-- OutlinedButton
+                    onPressed: () async {
+                      productController.getFilterProducts(
+                          '', '', 10000, 0, '', '', '', '');
+                      await Future.delayed(Duration(seconds: 2));
                       Get.to(() => PopularProductList());
                     },
-                    child: Text("Show more"))
+                    child: Text('see more',
+                        style: Theme.of(context).textTheme.titleMedium),
+                  ),
+                ),
               ],
             ),
           ),
@@ -275,6 +304,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Text(
                             popular.name,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           )
                         ],
                       ),
@@ -287,30 +317,28 @@ class _HomePageState extends State<HomePage> {
           ),
           Padding(
             padding:
-                const EdgeInsets.only(top: 40, left: 30, right: 30, bottom: 20),
+                const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  "All Products",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                Text("All Products",
+                    style: Theme.of(context).textTheme.titleLarge),
+                SizedBox(
+                  width: 150,
                 ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      "Filter",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 1),
-                      child: Icon(Icons.keyboard_arrow_down),
-                    ),
-                  ],
-                )
+                TextButton.icon(
+                  // <-- OutlinedButton
+                  onPressed: () {
+                    Get.to(() => FilterPage());
+                  },
+                  label: Text('Filter',
+                      style: Theme.of(context).textTheme.titleMedium),
+                  icon: Icon(
+                    Icons.keyboard_arrow_down,
+                    size: 20.0,
+                    color: black,
+                  ),
+                ),
               ],
             ),
           ),
@@ -381,18 +409,16 @@ class _HomePageState extends State<HomePage> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  "Price : \₹ " +
-                                                      productController
-                                                          .productResponseList[
-                                                              index]['price']
-                                                          .toString(),
+                                                    "Price : \₹ " +
+                                                        productController
+                                                            .productResponseList[
+                                                                index]['price']
+                                                            .toString(),
 
-                                                  // "\$ " + products[index]['price'],
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
+                                                    // "\$ " + products[index]['price'],
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium),
                                                 //  productController.productResponseList[index]
                                                 //['added'] !=false &&
                                                 Container(
@@ -532,12 +558,12 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 ),
-                                Positioned(
-                                    right: 10,
-                                    child: IconButton(
-                                        icon: SvgPicture.asset(
-                                            "assets/images/heart_icon.svg"),
-                                        onPressed: null)),
+                                // Positioned(
+                                //     right: 10,
+                                //     child: IconButton(
+                                //         icon: SvgPicture.asset(
+                                //             "assets/images/heart_icon.svg"),
+                                //         onPressed: null)),
                               ],
                             )),
                           ),

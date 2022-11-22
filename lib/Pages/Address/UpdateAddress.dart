@@ -56,32 +56,41 @@ class _UpdateAddressState extends State<UpdateAddress> {
           height: 48,
           child: MaterialButton(
             onPressed: () {
-              updateAddress(
-                  address['addressId'],
-                  addressLine1controller.text.isEmpty
-                      ? address['addressline1']
-                      : addressLine1controller.text.toString(),
-                  addressLine2controller.text.isEmpty
-                      ? address['addressline2']
-                      : addressLine2controller.text.toString(),
-                  citycontroller.text.isEmpty
-                      ? address['city']
-                      : citycontroller.text.toString(),
-                  countrycontroller.text.isEmpty
-                      ? address['country']
-                      : countrycontroller.text.toString(),
-                  mobilenocontroller.text.isEmpty
-                      ? address['mobileno']
-                      : mobilenocontroller.text.toString(),
-                  telephonenocontroller.text.isEmpty
-                      ? address['telephoneno']
-                      : telephonenocontroller.text.toString(),
-                  statecontroller.text.isEmpty
-                      ? address['state']
-                      : statecontroller.text.toString(),
-                  pincodecontroller.text.isEmpty
-                      ? int.parse(address['pincode'])
-                      : int.parse(pincodecontroller.text.toString()));
+              if (addressLine1controller.text.isNotEmpty ||
+                  addressLine2controller.text.isNotEmpty ||
+                  citycontroller.text.isNotEmpty ||
+                  countrycontroller.text.isNotEmpty ||
+                  mobilenocontroller.text.isNotEmpty ||
+                  telephonenocontroller.text.isNotEmpty ||
+                  statecontroller.text.isNotEmpty ||
+                  pincodecontroller.text.isNotEmpty) {
+                updateAddress(
+                    address['addressId'],
+                    addressLine1controller.text.isEmpty
+                        ? address['addressline1']
+                        : addressLine1controller.text.toString(),
+                    addressLine2controller.text.isEmpty
+                        ? address['addressline2']
+                        : addressLine2controller.text.toString(),
+                    citycontroller.text.isEmpty
+                        ? address['city']
+                        : citycontroller.text.toString(),
+                    countrycontroller.text.isEmpty
+                        ? address['country']
+                        : countrycontroller.text.toString(),
+                    mobilenocontroller.text.isEmpty
+                        ? address['mobileno']
+                        : mobilenocontroller.text.toString(),
+                    telephonenocontroller.text.isEmpty
+                        ? address['telephoneno']
+                        : telephonenocontroller.text.toString(),
+                    statecontroller.text.isEmpty
+                        ? address['state']
+                        : statecontroller.text.toString(),
+                    pincodecontroller.text.isEmpty
+                        ? int.parse(address['pincode'])
+                        : int.parse(pincodecontroller.text.toString()));
+              }
             },
             child: Text(
               "Update Address",
@@ -107,18 +116,219 @@ class _UpdateAddressState extends State<UpdateAddress> {
               SizedBox(
                 height: 20,
               ),
-              buildTextField("AddressLine1", address['addressline1'],
-                  addressLine1controller),
-              buildTextField("AddressLine2", address['addressline2'],
-                  addressLine2controller),
-              buildTextField("Pincode", address['pincode'], pincodecontroller),
-              buildTextField("City", address['city'], citycontroller),
-              buildTextField("State", address['state'], statecontroller),
-              buildTextField("Country", address['country'], countrycontroller),
-              buildTextField("Telephone Number", address['telephoneno'],
-                  telephonenocontroller),
-              buildTextField(
-                  "Mobile Number", address['mobileno'], mobilenocontroller),
+              // buildTextField("AddressLine1", address['addressline1'],
+              //     addressLine1controller),
+              // buildTextField("AddressLine2", address['addressline2'],
+              //     addressLine2controller),
+              // buildTextField("Pincode", address['pincode'], pincodecontroller),
+              // buildTextField("City", address['city'], citycontroller),
+              // buildTextField("State", address['state'], statecontroller),
+              // buildTextField("Country", address['country'], countrycontroller),
+              // buildTextField("Telephone Number", address['telephoneno'],
+              //     telephonenocontroller),
+              // buildTextField(
+              //     "Mobile Number", address['mobileno'], mobilenocontroller),
+              TextFormField(
+                controller: addressLine1controller,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                cursorColor: black,
+                style: TextStyle(color: black),
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: "Address line 1",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['addressline1'],
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                      color: black,
+                    )),
+                obscureText: false,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: addressLine2controller,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                cursorColor: black,
+                style: TextStyle(color: black),
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: "Address line 2",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['addressline2'],
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                      color: black,
+                    )),
+                obscureText: false,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: pincodecontroller,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                cursorColor: black,
+                style: TextStyle(color: black),
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: "Pincode",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['pincode'],
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                      color: black,
+                    )),
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(6)
+                ],
+                obscureText: false,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: citycontroller,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                cursorColor: black,
+                style: TextStyle(color: black),
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: "City",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['city'],
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                      color: black,
+                    )),
+                obscureText: false,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: statecontroller,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                cursorColor: black,
+                style: TextStyle(color: black),
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: "State",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['state'],
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                      color: black,
+                    )),
+                obscureText: false,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: countrycontroller,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                cursorColor: black,
+                style: TextStyle(color: black),
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: "Country",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['country'],
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                      color: black,
+                    )),
+                obscureText: false,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: telephonenocontroller,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                cursorColor: black,
+                style: TextStyle(color: black),
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: "Telephone number",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['telephoneno'],
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                      color: black,
+                    )),
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(20)
+                ],
+                obscureText: false,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: mobilenocontroller,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                cursorColor: black,
+                style: TextStyle(color: black),
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: "Mobile number",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['mobileno'],
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                      color: black,
+                    )),
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(10)
+                ],
+                obscureText: false,
+              ),
             ],
           ),
         ),

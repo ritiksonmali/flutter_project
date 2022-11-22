@@ -7,6 +7,9 @@ import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 
+import '../../ConstantUtil/colors.dart';
+import 'Otpverification.dart';
+
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
 
@@ -17,7 +20,8 @@ class ResetPassword extends StatefulWidget {
 class _ResetPasswordState extends State<ResetPassword> {
   bool isValid = false;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailcontroller = TextEditingController();
+  bool isVisible = false;
+  TextEditingController _emailTextController = TextEditingController();
 
   Map<String, String> userLoginData = {"email": ""};
 
@@ -60,7 +64,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     height: 20,
                   ),
                   TextFormField(
-                    controller: emailcontroller,
+                    controller: _emailTextController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -92,68 +96,17 @@ class _ResetPasswordState extends State<ResetPassword> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    width: 200,
-                    height: 40,
-                    margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(90)),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        forgetPassword();
-                        // login();
-                      },
-                      child: Text(
-                        'Forget Password',
-                        style: const TextStyle(
-                            color: white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith((states) {
-                            if (states.contains(MaterialState.pressed)) {
-                              return Colors.black26;
-                            }
-                            return Colors.black;
-                          }),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(30)))),
-                    ),
+                  FloatingActionButton.extended(
+                    label: Text('Reset Password'), // <-- Text
+                    backgroundColor: black,
+                    onPressed: () {
+                      Get.to(() => OtpVerification());
+                    },
                   ),
                 ],
               ),
             ))),
       ),
     );
-  }
-
-  void EmailValidation() {
-    setState(() {
-      isValid = EmailValidator.validate(emailcontroller.text.trim());
-    });
-  }
-
-  forgetPassword() {
-    if (_formKey.currentState!.validate()) {
-      print("Form is valid ");
-      _formKey.currentState!.save();
-      EmailValidation();
-      if (isValid == true) {
-        // RestApiTest(emailcontroller.text.toString(),
-        //     _passwordTextController.text.toString());
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please Enter Valid Email'),
-          backgroundColor: Colors.redAccent,
-        ));
-      }
-    } else {
-      print('Form is Not Valid');
-    }
   }
 }

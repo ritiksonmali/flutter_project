@@ -108,13 +108,7 @@ class _CartScreenState extends State<CartScreen> {
             productController.getCount();
 
             Timer(Duration(seconds: 10), () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        HomeScreen()), // this mymainpage is your page to refresh
-                (Route<dynamic> route) => false,
-              );
+              Get.to(() => HomeScreen());
             });
           },
           icon: Icon(
@@ -238,24 +232,17 @@ class _CartScreenState extends State<CartScreen> {
                             children: <Widget>[
                               Row(
                                 children: [
-                                  Text(
-                                    cartdata['product']['name'],
-                                    // "Jorden",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
+                                  Expanded(
+                                    child: Text(
+                                      cartdata['product']['name'],
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  // Container(
-                                  //   child: IconButton(
-                                  //     icon: Icon(Icons.delete, color: black),
-                                  //     onPressed: () {
-                                  //       //  Get.to(() => SearchPage());//deletefunction
-                                  //     },
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                               SizedBox(
@@ -266,13 +253,13 @@ class _CartScreenState extends State<CartScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    "₹" +
-                                        cartdata['product']['price'].toString(),
-                                    // "\$ 200",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                                      "₹" +
+                                          cartdata['product']['price']
+                                              .toString(),
+                                      // "\$ 200",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
                                   Container(
                                     width: 80,
                                     height: 40,
@@ -374,18 +361,10 @@ class _CartScreenState extends State<CartScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        "Total",
-                        style: TextStyle(
-                            fontSize: 22,
-                            color: black.withOpacity(0.5),
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        "\₹${total}",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w600),
-                      ),
+                      Text("Total",
+                          style: Theme.of(context).textTheme.titleLarge),
+                      Text("\₹${total}",
+                          style: Theme.of(context).textTheme.titleLarge),
                     ],
                   ),
                 ),
@@ -411,7 +390,7 @@ class _CartScreenState extends State<CartScreen> {
                               Get.to(() => CheckoutScreen());
                             },
                       child: const Text(
-                        'CHECKOUT',
+                        'Checkout',
                         style: TextStyle(color: white),
                       ),
                     ),

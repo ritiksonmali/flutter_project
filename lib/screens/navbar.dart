@@ -63,11 +63,8 @@ class _NavbarState extends State<Navbar> {
             ),
             ListTile(
                 leading: Icon(Icons.home),
-                title: Text(
-                  'Home',
-                  style: TextStyle(
-                      fontSize: 30, color: black, fontWeight: FontWeight.w600),
-                ),
+                title:
+                    Text('Home', style: Theme.of(context).textTheme.headline6),
                 onTap: () {
                   productController.getAllProducts();
 
@@ -86,11 +83,8 @@ class _NavbarState extends State<Navbar> {
             ),
             ListTile(
               leading: Icon(Icons.face),
-              title: Text(
-                'Profile',
-                style: TextStyle(
-                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
-              ),
+              title:
+                  Text('Profile', style: Theme.of(context).textTheme.headline6),
               onTap: () {
                 Get.to(() => EditProfilePage());
               },
@@ -100,11 +94,8 @@ class _NavbarState extends State<Navbar> {
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text(
-                'Orders',
-                style: TextStyle(
-                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
-              ),
+              title:
+                  Text('Orders', style: Theme.of(context).textTheme.headline6),
               onTap: () {
                 Get.to(() => OrderScreen());
               },
@@ -114,11 +105,8 @@ class _NavbarState extends State<Navbar> {
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text(
-                'Setting',
-                style: TextStyle(
-                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
-              ),
+              title:
+                  Text('Setting', style: Theme.of(context).textTheme.headline6),
               onTap: () {
                 Get.to(() => SettingsPage());
               },
@@ -128,11 +116,8 @@ class _NavbarState extends State<Navbar> {
             ),
             ListTile(
               leading: Icon(Icons.exit_to_app),
-              title: Text(
-                'Sign Out',
-                style: TextStyle(
-                    fontSize: 30, color: black, fontWeight: FontWeight.w600),
-              ),
+              title: Text('Sign Out',
+                  style: Theme.of(context).textTheme.headline6),
               onTap: () {
                 LoginController.logOut();
                 Get.off(() => Welcome());

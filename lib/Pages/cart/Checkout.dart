@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -98,13 +99,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "Delivery Address",
-                    style: TextStyle(
-                      color: Colors.grey[800],
-                      fontSize: 15,
-                    ),
-                  ),
+                  child: Text("Delivery Address",
+                      style: Theme.of(context).textTheme.titleMedium),
                 ),
                 SizedBox(
                   height: 10,
@@ -119,15 +115,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         child: SizedBox(
                           width: 230,
                           child: SelectedAddress == null
-                              ? null
-                              : Text(
-                                  SelectedAddress.toString(),
+                              ? Text('Select Your Address')
+                              : Text(SelectedAddress.toString(),
                                   // "538 sagar park laxmi Nagar Panchavati Nashik-422003",
-                                  style: TextStyle(
-                                      color: black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                                  style: Theme.of(context).textTheme.bodyLarge),
                         ),
                       ),
                       Container(
@@ -135,7 +126,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           color: grey,
                         ),
                         child: TextButton(
+                            style: TextButton.styleFrom(backgroundColor: black),
                             onPressed: () async {
+                              await Future.delayed(Duration(seconds: 1));
                               final value = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -150,11 +143,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                             //   Get.to(() => AddressDetails());
                             // },
-                            child: Text("change",
-                                style: TextStyle(
-                                    color: black,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold))),
+                            child:
+                                Text("Select", style: TextStyle(color: white))),
                       ),
                     ],
                   ),
@@ -175,14 +165,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Order Summary",
-                        style: TextStyle(
-                          color: Colors.grey[800],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                      Text("Order Summary",
+                          style: Theme.of(context).textTheme.titleMedium),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: TextButton(
@@ -190,15 +174,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               Get.to(() => OrderScreen());
                             },
                             child: Row(
-                              children: [
-                                // Icon(Icons.add),
-                                // Text("Add Cart",
-                                // style:
-                                //   TextStyle(
-                                //     fontSize: 15,
-                                //     fontWeight: FontWeight.bold)
-                                //     ),
-                              ],
+                              children: [],
                             )),
                       ),
                     ],
@@ -213,11 +189,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           flex: 10,
                           child: Text(
                             "Product Name",
-                            style: TextStyle(
-                              decoration: TextDecoration.none,
-                              color: Colors.grey[800],
-                              fontSize: 15,
-                            ),
+                            style: Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -225,11 +197,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           flex: 10,
                           child: Text(
                             "Quantity",
-                            style: TextStyle(
-                              decoration: TextDecoration.none,
-                              color: Colors.grey[800],
-                              fontSize: 15,
-                            ),
+                            style: Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -237,11 +205,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           flex: 10,
                           child: Text(
                             "Price",
-                            style: TextStyle(
-                              decoration: TextDecoration.none,
-                              color: Colors.grey[800],
-                              fontSize: 15,
-                            ),
+                            style: Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -294,10 +258,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             productdata['product']['name']
                                                 .toString(),
                                             // "\$ " + products[index]['price'],
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -306,10 +269,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           child: Text(
                                             productdata['quantity'].toString(),
                                             // "\$ " + products[index]['price'],
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -319,10 +281,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             productdata['product']['price']
                                                 .toString(),
                                             // "\$ " + products[index]['price'],
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -355,20 +316,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Sub Total",
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          "\₹${total}",
-                          style: TextStyle(
-                              color: black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        Text("Sub Total",
+                            style: Theme.of(context).textTheme.titleMedium),
+                        Text("\₹${total}",
+                            style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                     SizedBox(
@@ -377,20 +328,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Delivery Cost",
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          "\₹10",
-                          style: TextStyle(
-                              color: black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        Text("Delivery Cost",
+                            style: Theme.of(context).textTheme.titleMedium),
+                        Text("\₹10",
+                            style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                     SizedBox(
@@ -399,20 +340,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Gst(18%)",
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          "\₹${gst.toStringAsFixed(2)}",
-                          style: TextStyle(
-                              color: black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        Text("Gst(18%)",
+                            style: Theme.of(context).textTheme.titleMedium),
+                        Text("\₹${gst.toStringAsFixed(2)}",
+                            style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                     SizedBox(
@@ -428,20 +359,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Total",
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          "\₹${finalPrice}",
-                          style: TextStyle(
-                              color: black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        Text("Total",
+                            style: Theme.of(context).textTheme.titleMedium),
+                        Text("\₹${finalPrice}",
+                            style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                     SizedBox(
@@ -466,7 +387,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       child: Text("Place Order"),
                       color: black,
                       onPressed: () {
-                        createNewOrder();
+                        if (SelectedAddress != null) {
+                          createNewOrder();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Please Select Your Address'),
+                            backgroundColor: Colors.redAccent,
+                          ));
+                        }
                       },
                     ),
                   ),

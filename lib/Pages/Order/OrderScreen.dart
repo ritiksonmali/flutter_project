@@ -45,9 +45,12 @@ class _OrderScreenState extends State<OrderScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Order History",
-          style: TextStyle(fontSize: 18, color: Colors.black),
-        ),
+          "Order History",style:TextStyle(
+            color: black,
+            fontSize: 25,
+            fontWeight: FontWeight.normal,
+          ),),
+          centerTitle: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
         leading: IconButton(
@@ -96,10 +99,10 @@ class _OrderScreenState extends State<OrderScreen> {
                                       children: [
                                         Text(
                                           "#Order Id: " + order.id.toString(),
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500),
+                                      style: TextStyle( fontSize: 20,
+                                           fontWeight: FontWeight.w500,),
                                         ),
+                                        
                                         Text(
                                           order.orderStatus.toString(),
                                           style: TextStyle(
@@ -109,7 +112,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                                       "DELIVERED"
                                                   ? Colors.red
                                                   : Colors.green),
-                                        )
+                                        ),
+                                        
                                       ],
                                     ),
                                     SizedBox(
@@ -153,9 +157,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                     .quantity
                                                                     .toString(),
                                                             // currentOrderList[index]['name'],
-                                                            style: TextStyle(
-                                                                fontSize: 16),
-                                                            maxLines: 2,
+                                                            style:Theme.of(context).textTheme.bodyMedium,
                                                           ),
                                                         ],
                                                       ),
@@ -173,9 +175,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                         Text(
                                           "Total : \₹" +
                                               order.totalprice.toString(),
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600),
+                                          style: TextStyle( fontSize: 20,
+                                           fontWeight: FontWeight.w500,),
+                                          
                                         ),
                                         Row(
                                           mainAxisAlignment:
@@ -261,6 +263,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                               ? DateFormat('dd-MM-yyyy hh:mm a')
                                                   .format(order.createdDate)
                                               : "",
+                                              style:Theme.of(context).textTheme.bodyMedium,
                                         ),
                                       ],
                                     ),
