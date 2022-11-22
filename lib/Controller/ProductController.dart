@@ -152,7 +152,7 @@ class ProductController extends GetxController {
     var iddata = store.getString('id');
     int userId = jsonDecode(iddata!);
     print("running");
-    String url ='http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&maxprice=${maxPrice}&minprice=${minPrice}&ispopular=${isPopular}&sorting=${sortColumn}&Asc=${highToLow}&userId=${userId}&categoryId=${CatagoryId}';
+    String url ='http://localhost:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&productname=app&categoryId=${CatagoryId}&maxprice=${maxPrice}&minprice=100&offerId=1&ispopular=${isPopular}&sorting=${sortColumn}&Asc=${highToLow}&userId=${userId}';
      http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
