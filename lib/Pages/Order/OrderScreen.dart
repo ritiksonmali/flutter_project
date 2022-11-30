@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 
 import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
+import 'package:flutter_login_app/screens/navbar.dart';
 import 'package:flutter_login_app/utils/colors.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -45,12 +46,14 @@ class _OrderScreenState extends State<OrderScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Order History",style:TextStyle(
+          "Order History",
+          style: TextStyle(
             color: black,
             fontSize: 25,
             fontWeight: FontWeight.normal,
-          ),),
-          centerTitle: true,
+          ),
+        ),
+        centerTitle: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
         leading: IconButton(
@@ -62,6 +65,15 @@ class _OrderScreenState extends State<OrderScreen> {
             color: Colors.black,
           ),
         ),
+        actions: [
+          IconButton(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              Get.to(() => Navbar());
+            }, //=> _key.currentState!.openDrawer(),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -99,10 +111,11 @@ class _OrderScreenState extends State<OrderScreen> {
                                       children: [
                                         Text(
                                           "#Order Id: " + order.id.toString(),
-                                      style: TextStyle( fontSize: 20,
-                                           fontWeight: FontWeight.w500,),
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
-                                        
                                         Text(
                                           order.orderStatus.toString(),
                                           style: TextStyle(
@@ -113,7 +126,6 @@ class _OrderScreenState extends State<OrderScreen> {
                                                   ? Colors.red
                                                   : Colors.green),
                                         ),
-                                        
                                       ],
                                     ),
                                     SizedBox(
@@ -157,7 +169,10 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                     .quantity
                                                                     .toString(),
                                                             // currentOrderList[index]['name'],
-                                                            style:Theme.of(context).textTheme.bodyMedium,
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium,
                                                           ),
                                                         ],
                                                       ),
@@ -175,9 +190,10 @@ class _OrderScreenState extends State<OrderScreen> {
                                         Text(
                                           "Total : \₹" +
                                               order.totalprice.toString(),
-                                          style: TextStyle( fontSize: 20,
-                                           fontWeight: FontWeight.w500,),
-                                          
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
                                         Row(
                                           mainAxisAlignment:
@@ -263,7 +279,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                               ? DateFormat('dd-MM-yyyy hh:mm a')
                                                   .format(order.createdDate)
                                               : "",
-                                              style:Theme.of(context).textTheme.bodyMedium,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
                                         ),
                                       ],
                                     ),

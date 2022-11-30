@@ -4,6 +4,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
+import 'package:flutter_login_app/ConstantUtil/globals.dart';
+import 'package:flutter_login_app/Controller/PushNotificationController.dart';
 import 'package:flutter_login_app/model/User.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
@@ -26,10 +28,13 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final ProductController productController = Get.put(ProductController());
+  final PushNotificationController pushNotificationController =
+      Get.put(PushNotificationController());
   final _formKey = GlobalKey<FormState>();
   Map<String, String> userLoginData = {"email": "", "password": ""};
 
   bool isValid = false;
+  String deviceType = 'Android';
 
   Users userdata = Users();
 
@@ -252,7 +257,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
       var userDetails = jsonDecode(response.body);
       // Map user = userDetails['result'];
+      // List<String> roles = userDetails['roles'];
 
+      // print(userDetails['result']['role']);
       var store = await SharedPreferences.getInstance(); //add when requried
 
       if (response.statusCode == 200) {
@@ -265,8 +272,13 @@ class _SignInScreenState extends State<SignInScreen> {
             'lastname', json.encode(userDetails['result']['lastName']));
         store.setString('email', json.encode(userDetails['result']['email']));
         print(userDetails['result']['email']);
+        store.setString('role', json.encode(userDetails['result']['role']));
+        String? roleFrompreference = store.getString('role');
+        role = jsonDecode(roleFrompreference!);
+        print("Role is " + role);
         productController.getAllProducts();
-
+        pushNotificationController.sendNotificationData(
+            DeviceToken, deviceType);
         Timer(Duration(seconds: 2), () {
           Navigator.pushAndRemoveUntil(
             context,

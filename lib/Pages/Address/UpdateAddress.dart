@@ -147,6 +147,12 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       // fontWeight: FontWeight.bold,
                       color: black,
                     )),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Required';
+                  }
+                  return null;
+                },
                 obscureText: false,
               ),
               SizedBox(

@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
+import 'package:flutter_login_app/Pages/Order/Order_json.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -34,6 +36,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   double gst = 0;
   double finalPrice = 0;
   var amountController = TextEditingController();
+  String? valueChoose;
+
+  List listItemSorting = [
+    '09:00',
+    '02:00',
+    '05:00',
+    '08:00',
+  ];
+
+  DateTime date = DateTime.now();
+  late var formattedDate;
+
+  String? CurrentDate;
 
   @override
   void initState() {
@@ -44,6 +59,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
     test();
+    formattedDate = DateFormat('d-MMM-yy').format(date);
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
@@ -72,6 +88,43 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    CurrentDate = DateFormat('dd-MM-yyyy').format(date);
+    String finalDate = CurrentDate! + " " + "09:00";
+    DateTime DateFromPicker = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate);
+    String finalDate1 = CurrentDate! + " " + "14:00";
+    DateTime DateFromPicker1 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate1);
+    String finalDate2 = CurrentDate! + " " + "17:00";
+    DateTime DateFromPicker2 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate2);
+    String finalDate3 = CurrentDate! + " " + "20:00";
+    DateTime DateFromPicker3 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate3);
+    String finalDate4 = CurrentDate! + " " + "00:00";
+    DateTime DateFromPicker4 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate4);
+    if (now.isAfter(DateFromPicker) && now.isBefore(DateFromPicker1)) {
+      listItemSorting = [
+        '02:00',
+        '05:00',
+        '08:00',
+      ];
+    } else if (now.isAfter(DateFromPicker1) && now.isBefore(DateFromPicker2)) {
+      listItemSorting = [
+        '05:00',
+        '08:00',
+      ];
+    } else if (now.isAfter(DateFromPicker2) && now.isBefore(DateFromPicker3)) {
+      listItemSorting = [
+        '08:00',
+      ];
+    } else if (now.isAfter(DateFromPicker3)) {
+      listItemSorting = [];
+    } else {
+      listItemSorting = [
+        '09:00',
+        '02:00',
+        '05:00',
+        '08:00',
+      ];
+    }
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: black),
@@ -145,6 +198,114 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             // },
                             child:
                                 Text("Select", style: TextStyle(color: white))),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 15,
+                  width: double.infinity,
+                  color: grey,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text("Schedule Date and Time",
+                      style: Theme.of(context).textTheme.titleMedium),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            // padding: EdgeInsets.only(top: 10, bottom: 10),
+                            primary: Colors.black),
+                        child: Text(formattedDate),
+                        onPressed: () async {
+                          await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate:
+                                DateTime.now().subtract(Duration(days: 0)),
+                            lastDate: DateTime(2030),
+                          ).then((selectedDate) {
+                            if (selectedDate != null) {
+                              setState(() {
+                                // valueChoose = null;
+                                date = selectedDate;
+                                formattedDate =
+                                    DateFormat('d-MMM-yy').format(selectedDate);
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        super.widget);
+                                // print(date);
+                                // print(formattedDate);
+                              });
+                            }
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            padding: EdgeInsets.only(left: 20, right: 20),
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                border:
+                                    Border.all(color: Colors.grey, width: 1),
+                                borderRadius: BorderRadius.circular(15)),
+                            child: DropdownButton(
+                              hint: Padding(
+                                padding: const EdgeInsets.only(top: 14),
+                                child: Text("Select",
+                                    style: TextStyle(color: white)),
+                              ),
+                              dropdownColor: Colors.white,
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                color: white,
+                              ),
+                              iconSize: 20,
+                              isExpanded: true,
+                              value: valueChoose,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  valueChoose = newValue as String;
+                                  print("Choosed Value is :${valueChoose}");
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          super.widget);
+                                });
+                              },
+                              selectedItemBuilder: (BuildContext context) {
+                                return listItemSorting.map((value) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 14),
+                                    child: Text(
+                                      value,
+                                      style: const TextStyle(color: white),
+                                    ),
+                                  );
+                                }).toList();
+                              },
+                              items: listItemSorting.map((valueItem) {
+                                return DropdownMenuItem(
+                                    value: valueItem, child: Text(valueItem));
+                              }).toList(),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -388,7 +549,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       color: black,
                       onPressed: () {
                         if (SelectedAddress != null) {
-                          createNewOrder();
+                          if (formattedDate != null && valueChoose != null) {
+                            String finalDate =
+                                CurrentDate! + " " + valueChoose! + ":00";
+
+                            // DateTime DatePicker =
+                            //     DateFormat('dd-MM-yyyy hh:mm').parse(finalDate);
+                            // print(DatePicker);
+                            createNewOrder(finalDate);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Please Select Date and Time Slot'),
+                              backgroundColor: Colors.redAccent,
+                            ));
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text('Please Select Your Address'),
@@ -464,11 +638,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     });
   }
 
-  Future createNewOrder() async {
+  Future createNewOrder(String dateTime) async {
+    // DateFormat dateFormat = DateFormat("dd-MM-yyyy hh:mm:ss a");
+    // dateFormat.format(dateTime);
     String url = 'http://10.0.2.2:8082/createNewOrder';
     var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({"user_id": this.id}));
+        body: json.encode({"user_id": this.id, "dateTime": dateTime}));
 
     if (response.statusCode == 200) {
       print("Success");

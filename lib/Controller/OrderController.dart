@@ -9,8 +9,8 @@ import 'package:http/http.dart' as http;
 
 class OrderController extends GetxController {
   var orders = <OrderHistory>[].obs;
-  // List<SelectedOrder> Selectedorder = [];
-  // var Selectedorder = <SelectedOrder>[].obs;
+  // var allOrders = <OrderHistory>[].obs;
+  var allOrders = [].obs;
 
   @override
   void onReady() {
@@ -18,14 +18,6 @@ class OrderController extends GetxController {
     super.onReady();
     getAllOrdersByUser();
   }
-
-  // Future<void> test() async {
-  //   CommanDialog.showLoading();
-  //   var store = await SharedPreferences.getInstance(); //add when requried
-  //   var iddata = store.getString('id');
-  //   int id = jsonDecode(iddata!);
-  //   getAllOrdersByUser(id);
-  // }
 
   Future getAllOrdersByUser() async {
     CommanDialog.showLoading();
@@ -60,5 +52,28 @@ class OrderController extends GetxController {
     );
     var body = jsonDecode(response.body);
     return body;
+  }
+
+  Future getAllOrders() async {
+    CommanDialog.showLoading();
+    String url = 'http://10.0.2.2:8082/getAllOrders';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+    CommanDialog.hideLoading();
+    var body = jsonDecode(response.body);
+    print(body);
+    if (response.statusCode == 200) {
+      for (Map i in body) {
+        orders.add(OrderHistory.fromJson(i));
+      }
+      CommanDialog.hideLoading();
+      update();
+      return orders;
+    } else {
+      CommanDialog.hideLoading();
+      return orders;
+    }
   }
 }

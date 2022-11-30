@@ -2,8 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/ConstantUtil/globals.dart';
+import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
 import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
+import 'package:flutter_login_app/Pages/Order/OrderScreenDeliveryManager.dart';
 import 'package:flutter_login_app/Pages/Setting/Setting.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -13,6 +16,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Controller/LoginController.dart';
 import 'package:flutter_login_app/Pages/Profile/EditProfilePage.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -58,9 +62,9 @@ class _NavbarState extends State<Navbar> {
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 60),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            SizedBox(
-              height: 20,
-            ),
+            // SizedBox(
+            //   height: 20,
+            // ),
             ListTile(
                 leading: Icon(Icons.home),
                 title:
@@ -92,12 +96,39 @@ class _NavbarState extends State<Navbar> {
             SizedBox(
               height: 35,
             ),
+            role == "DELIVERY_MANAGER"
+                ? Padding(
+                    padding: const EdgeInsets.only(bottom: 35),
+                    child: ListTile(
+                      leading: Icon(Icons.history_edu),
+                      title: Text('Delivery',
+                          style: Theme.of(context).textTheme.headline6),
+                      onTap: () {
+                        Get.to(() => OrderScreenDeliveryManager());
+                      },
+                    ),
+                  )
+                : SizedBox(),
+            // SizedBox(
+            //   height: 35,
+            // ),
             ListTile(
-              leading: Icon(Icons.settings),
+              leading: Icon(Icons.history_edu),
               title:
                   Text('Orders', style: Theme.of(context).textTheme.headline6),
               onTap: () {
                 Get.to(() => OrderScreen());
+              },
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            ListTile(
+              leading: Icon(FontAwesomeIcons.locationDot),
+              title:
+                  Text('Address', style: Theme.of(context).textTheme.headline6),
+              onTap: () {
+                Get.to(() => AddressDetails());
               },
             ),
             SizedBox(
@@ -118,9 +149,14 @@ class _NavbarState extends State<Navbar> {
               leading: Icon(Icons.exit_to_app),
               title: Text('Sign Out',
                   style: Theme.of(context).textTheme.headline6),
-              onTap: () {
+              onTap: () async {
+                pushNotificationController.setNotifiedUserStatus();
+                await Future.delayed(Duration(seconds: 10));
                 LoginController.logOut();
-                Get.off(() => Welcome());
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => Welcome()),
+                    (Route<dynamic> route) => false);
+                // Get.off(() => Welcome());
               },
             ),
           ]),
