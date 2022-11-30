@@ -14,6 +14,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../ConstantUtil/globals.dart';
+
 class AddressDetails extends StatefulWidget {
   const AddressDetails({Key? key}) : super(key: key);
 
@@ -265,7 +267,7 @@ class _AddressDetailsState extends State<AddressDetails> {
 
   getAddressApi(int id) async {
     try {
-      String url = 'http://158.85.243.11:8082/api/auth/getaddressbyuser/${id}';
+      String url = serverUrl+'api/auth/getaddressbyuser/${id}';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -279,7 +281,7 @@ class _AddressDetailsState extends State<AddressDetails> {
 
   Future checkAddressIsSelected(int userId, addressId) async {
     String url =
-        'http://158.85.243.11:8082/api/auth/updateaddressIsSelected/${addressId}/${userId}';
+        serverUrl+'api/auth/updateaddressIsSelected/${addressId}/${userId}';
     http.Response response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

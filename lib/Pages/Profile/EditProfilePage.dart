@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../ConstantUtil/colors.dart';
+import '../../ConstantUtil/globals.dart';
 import '../Home/home_screen.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -108,7 +109,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               )
                             : Image.network(
                                 imageUrl != null
-                                    ? 'http://158.85.243.11:8082/api/auth/serveprofilepicture/${imageUrl}'
+                                    ? serverUrl+'api/auth/serveprofilepicture/${imageUrl}'
                                     : 'https://180dc.org/wp-content/uploads/2022/04/Blank-Avatar.png',
                                 width: 170,
                                 height: 170,
@@ -229,7 +230,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future getprofileApi(int id) async {
     try {
-      String url = 'http://158.85.243.11:8082/api/auth/getprofilepicture/${id}';
+      String url = serverUrl+'api/auth/getprofilepicture/${id}';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -254,7 +255,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     try {
       print(" " + firstname + " " + lastname + " " + email);
 
-      String url = 'http://158.85.243.11:8082/api/auth/updateuser/${id}';
+      String url = serverUrl+'api/auth/updateuser/${id}';
       http.Response response = await http.put(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -337,7 +338,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Future upload(int id, File imageFile) async {
-    String url = 'http://158.85.243.11:8082/api/auth/addprofile/${id}';
+    String url = serverUrl+'api/auth/addprofile/${id}';
     var request = new http.MultipartRequest("POST", Uri.parse(url));
     request.files.add(http.MultipartFile(
         'image',

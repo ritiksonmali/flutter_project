@@ -6,6 +6,8 @@ import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../ConstantUtil/globals.dart';
+
 class CategoryController extends GetxController {
   List<CategoryData> category = [];
   List catagoryList = [];
@@ -19,7 +21,7 @@ class CategoryController extends GetxController {
   }
 
   Future getCategoryApi() async {
-    String url = 'http://158.85.243.11:8082/api/auth/category';
+    String url = serverUrl+'api/auth/category';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../ConstantUtil/globals.dart';
 import '../../Controller/OrderController.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -284,7 +285,7 @@ class _OrderScreenState extends State<OrderScreen> {
   List orders = [];
 
   Future getAllOrdersByUser(int userId) async {
-    String url = 'http://158.85.243.11:8082/getOrderDetailsbyuser/${userId}';
+    String url = serverUrl+'getOrderDetailsbyuser/${userId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

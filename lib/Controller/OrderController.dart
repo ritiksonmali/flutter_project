@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../ConstantUtil/globals.dart';
+
 class OrderController extends GetxController {
   var orders = <OrderHistory>[].obs;
   // List<SelectedOrder> Selectedorder = [];
@@ -32,7 +34,7 @@ class OrderController extends GetxController {
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
     int id = jsonDecode(iddata!);
-    String url = 'http://158.85.243.11:8082/getOrderDetailsbyuser/${id}';
+    String url = serverUrl+'getOrderDetailsbyuser/${id}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -53,7 +55,7 @@ class OrderController extends GetxController {
   }
 
   Future setOrderCancelled(int orderId) async {
-    String url = 'http://158.85.243.11:8082/setOrderCancelled/${orderId}';
+    String url = serverUrl+'setOrderCancelled/${orderId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

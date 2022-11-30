@@ -20,7 +20,7 @@
 //     var iddata = store.getString('id');
 //     int user_id = jsonDecode(iddata!);
 //     String url =
-//         'http://158.85.243.11:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&offerId=${offerId}&userId=${user_id}';
+//         serverUrl+'api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&offerId=${offerId}&userId=${user_id}';
 //     http.Response response = await http.get(
 //       Uri.parse(url),
 //       headers: {'Content-Type': 'application/json'},

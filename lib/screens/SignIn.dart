@@ -15,6 +15,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../ConstantUtil/globals.dart';
 import '../Controller/ProductController.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -245,7 +246,7 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       print(email + " " + password);
 
-      String url = 'http://158.85.243.11:8082/api/auth/signin';
+      String url = serverUrl+'api/auth/signin';
       var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({'email': email, 'password': password}));

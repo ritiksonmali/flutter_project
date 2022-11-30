@@ -18,6 +18,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../ConstantUtil/globals.dart';
+
 class OfferList extends StatefulWidget {
   const OfferList({Key? key}) : super(key: key);
 
@@ -162,7 +164,7 @@ class _OfferListState extends State<OfferList> {
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                                'http://158.85.243.11:8082/api/auth/serveproducts/${productController.productResponseList[index]['imageUrl'].toString()}'),
+                                                serverUrl+'api/auth/serveproducts/${productController.productResponseList[index]['imageUrl'].toString()}'),
                                             // image: AssetImage("assets/shoe_1.webp"),
                                             fit: BoxFit.cover)),
                                   ),
@@ -423,7 +425,7 @@ class _OfferListState extends State<OfferList> {
 
   // List offeredproduct = [];
   // Future productofferApi() async {
-  //   String url = 'http://158.85.243.11:8082/api/auth/getproductbyoffer/1';
+  //   String url = serverUrl+'api/auth/getproductbyoffer/1';
   //   http.Response response = await http.get(
   //     Uri.parse(url),
   //     headers: {'Content-Type': 'application/json'},

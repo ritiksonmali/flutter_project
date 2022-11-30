@@ -11,6 +11,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../ConstantUtil/globals.dart';
+
 class SignInApi extends ChangeNotifier {
 //  default password and sso flag for google and facebook login
   final String Defaultpassword = 'Flutter@123';
@@ -90,7 +92,7 @@ class SignInApi extends ChangeNotifier {
   Future RestApiTest(
       String firstname, lastname, email, password, bool sos) async {
     try {
-      String url = 'http://158.85.243.11:8082/api/auth/signinwithsso';
+      String url = serverUrl+'api/auth/signinwithsso';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({

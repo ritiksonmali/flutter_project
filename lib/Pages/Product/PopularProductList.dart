@@ -13,6 +13,7 @@ import 'package:flutter_login_app/Pages/Search/Search.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../ConstantUtil/globals.dart';
 import '../../screens/Navbar.dart';
 import '../Filter/Filter.dart';
 import '../cart/cart_screen.dart';
@@ -154,7 +155,7 @@ class _PopularProductListState extends State<PopularProductList> {
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                                'http://158.85.243.11:8082/api/auth/serveproducts/${productController.productFilterResponseList[index]['imageUrl'].toString()}'),
+                                                serverUrl+'api/auth/serveproducts/${productController.productFilterResponseList[index]['imageUrl'].toString()}'),
                                             // image: AssetImage("assets/shoe_1.webp"),
                                             fit: BoxFit.cover)),
                                   ),

@@ -14,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../ConstantUtil/colors.dart';
+import '../../ConstantUtil/globals.dart';
 import '../Filter/Filter.dart';
 import '../cart/cart_screen.dart';
 import '../Search/Search.dart';
@@ -216,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                                   arguments: {"offerId": offer.id});
                             },
                             child: Image.network(
-                              'http://158.85.243.11:8082/api/auth/serveproducts/${offer.imageUrl.toString()}',
+                              serverUrl+'api/auth/serveproducts/${offer.imageUrl.toString()}',
                               fit: BoxFit.cover,
                             ),
                             // Image.asset('assets/sale.webp',
@@ -293,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                        'http://158.85.243.11:8082/api/auth/serveproducts/${popular.imageUrl.toString()}'),
+                                        serverUrl+'api/auth/serveproducts/${popular.imageUrl.toString()}'),
                                     // AssetImage(
                                     //     "assets/shoe_1.webp")
                                   )),
@@ -378,7 +379,7 @@ class _HomePageState extends State<HomePage> {
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
                                                   image: NetworkImage(
-                                                    'http://158.85.243.11:8082/api/auth/serveproducts/${productController.productResponseList[index]['imageUrl'].toString()}',
+                                                    serverUrl+'api/auth/serveproducts/${productController.productResponseList[index]['imageUrl'].toString()}',
                                                   ),
                                                   //  AssetImage(
                                                   //     "assets/images/" +
@@ -583,7 +584,7 @@ class _HomePageState extends State<HomePage> {
 
   Future getCategoryApi() async {
     try {
-      String url = 'http://158.85.243.11:8082/api/auth/category';
+      String url = serverUrl+'api/auth/category';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -599,7 +600,7 @@ class _HomePageState extends State<HomePage> {
   List popularproducts = [];
 
   Future getPopularProductApi(bool flag) async {
-    String url = 'http://158.85.243.11:8082/api/auth/popularproducts/${flag}';
+    String url = serverUrl+'api/auth/popularproducts/${flag}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -618,7 +619,7 @@ class _HomePageState extends State<HomePage> {
   List allproducts = [];
 
   Future getAllProductApi() async {
-    String url = 'http://158.85.243.11:8082/api/auth/products/1';
+    String url = serverUrl+'api/auth/products/1';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -636,7 +637,7 @@ class _HomePageState extends State<HomePage> {
 
   List offers = [];
   Future getAllOffersApi() async {
-    String url = 'http://158.85.243.11:8082/api/auth/offers';
+    String url = serverUrl+'api/auth/offers';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

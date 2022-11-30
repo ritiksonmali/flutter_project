@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../ConstantUtil/globals.dart';
+
 class CartController extends GetxController {
   @override
   void onReady() {
@@ -29,7 +31,7 @@ class CartController extends GetxController {
     // var postData = {"productid": id};
 
     CommanDialog.showLoading();
-    String url = 'http://158.85.243.11:8082/api/auth/getcartitems/${userId}';
+    String url = serverUrl+'api/auth/getcartitems/${userId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
