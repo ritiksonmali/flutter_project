@@ -1,5 +1,7 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/utils/ColorUtils.dart';
@@ -16,6 +18,7 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
+  bool isValid = false;
   final _formKey = GlobalKey<FormState>();
   bool isVisible = false;
   TextEditingController _emailTextController = TextEditingController();
@@ -61,6 +64,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     height: 20,
                   ),
                   TextFormField(
+                    controller: _emailTextController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -86,9 +90,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                       }
                       return null;
                     },
-                    onSaved: (value) {
-                      userLoginData['email'] = value!;
-                    },
+                    onSaved: (value) {},
                     keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(
@@ -99,13 +101,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                     backgroundColor: black,
                     onPressed: () {
                       Get.to(() => OtpVerification());
-                       
-
-      
-                     
                     },
-                    
-                  ),              
+                  ),
                 ],
               ),
             ))),

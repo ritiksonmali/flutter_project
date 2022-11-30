@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Controller/CategoryController.dart';
 import 'package:flutter_login_app/Controller/OfferController.dart';
 import 'package:flutter_login_app/Controller/PopularproductController.dart';
 import 'package:flutter_login_app/Controller/ProductController.dart';
+import 'package:flutter_login_app/Pages/Category/CategoryProductList.dart';
+import 'package:flutter_login_app/Pages/Offer/OfferList.dart';
 import 'package:flutter_login_app/Pages/Product/PopularProductList.dart';
 import 'package:flutter_login_app/screens/Navbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -54,6 +57,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     test();
+    productController.getAllProducts();
+    productController.getCount();
   }
 
   apiCall() async {
@@ -81,14 +86,32 @@ class _HomePageState extends State<HomePage> {
               Get.to(() => SearchPage());
             },
           ),
-          IconButton(
-            icon: Icon(Icons.shopping_bag_outlined),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CartScreen()),
-              );
-            },
+          // IconButton(
+          //   icon: Icon(Icons.shopping_bag_outlined),
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => CartScreen()),
+          //     );
+          //   },
+          // ),
+          Center(
+            child: Badge(
+              position: BadgePosition.topEnd(top: 0, end: 3),
+              child: IconButton(
+                icon: Icon(Icons.shopping_bag_outlined),
+                onPressed: () {
+                  Get.to(() => CartScreen());
+                },
+              ),
+              badgeContent:
+                  GetBuilder<ProductController>(builder: (controller) {
+                return Text(
+                  productController.count.toString(),
+                  style: TextStyle(color: white),
+                );
+              }),
+            ),
           ),
           IconButton(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -126,7 +149,18 @@ class _HomePageState extends State<HomePage> {
                               width: 80,
                               height: 80,
                               child: GestureDetector(
-                                onTap: () {
+                                onTap: () async {
+                                  productController.getFilterProducts(
+                                      '',
+                                      '',
+                                      10000,
+                                      0,
+                                      '',
+                                      categories.id.toString(),
+                                      '',
+                                      '');
+                                  await Future.delayed(Duration(seconds: 2));
+
                                   Get.to(() => PopularProductList(),
                                       arguments: {"categoryId": categories.id});
                                 },
@@ -137,12 +171,12 @@ class _HomePageState extends State<HomePage> {
                                     //  child Icon
                                     child: Center(
                                         child: Text(
-                                      // _choices[index].name
-                                      categories.title,
-                                      textAlign: TextAlign.center,
-                                      style:
-                                         Theme.of(context).textTheme.bodyMedium
-                                    )),
+                                            // _choices[index].name
+                                            categories.title,
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium)),
                                   ),
                                   shape: CircleBorder(),
                                 ),
@@ -174,12 +208,15 @@ class _HomePageState extends State<HomePage> {
                       child: Card(
                         child: Container(
                           child: InkWell(
-                            onTap: () {
+                            onTap: () async {
+                              productController.getFilterProducts('', '', 10000,
+                                  0, '', '', offer.id.toString(), '');
+                              await Future.delayed(Duration(seconds: 2));
                               Get.to(() => PopularProductList(),
                                   arguments: {"offerId": offer.id});
                             },
                             child: Image.network(
-                              'http://10.0.2.2:8082/api/auth/serveproducts/${offer.imageUrl.toString()}',
+                              'http://158.85.243.11:8082/api/auth/serveproducts/${offer.imageUrl.toString()}',
                               fit: BoxFit.cover,
                             ),
                             // Image.asset('assets/sale.webp',
@@ -203,25 +240,28 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Popular Product",
-                            style: Theme.of(context).textTheme.titleLarge
-                            //  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                      ],
-                    )),
-                
-                     Padding(
-                       padding:const EdgeInsets.only(left: 40),
-                         child: TextButton( // <-- OutlinedButton
-                              onPressed: () {
-                                Get.to(() => PopularProductList());
-                              },
-                              child: Text('see more',
-                              style:Theme.of(context).textTheme.titleMedium),
-                           ),
-                     ),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Popular Product",
+                        style: Theme.of(context).textTheme.titleLarge
+                        //  .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                  ],
+                )),
+                Padding(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: TextButton(
+                    // <-- OutlinedButton
+                    onPressed: () async {
+                      productController.getFilterProducts(
+                          '', '', 10000, 0, '', '', '', '');
+                      await Future.delayed(Duration(seconds: 2));
+                      Get.to(() => PopularProductList());
+                    },
+                    child: Text('see more',
+                        style: Theme.of(context).textTheme.titleMedium),
+                  ),
+                ),
               ],
             ),
           ),
@@ -253,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                        'http://10.0.2.2:8082/api/auth/serveproducts/${popular.imageUrl.toString()}'),
+                                        'http://158.85.243.11:8082/api/auth/serveproducts/${popular.imageUrl.toString()}'),
                                     // AssetImage(
                                     //     "assets/shoe_1.webp")
                                   )),
@@ -264,7 +304,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Text(
                             popular.name,
-                              style:Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           )
                         ],
                       ),
@@ -281,25 +321,24 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  "All Products",
-                  style: Theme.of(context).textTheme.titleLarge  
-                ),
+                Text("All Products",
+                    style: Theme.of(context).textTheme.titleLarge),
                 SizedBox(
                   width: 150,
                 ),
-                 TextButton.icon( // <-- OutlinedButton
+                TextButton.icon(
+                  // <-- OutlinedButton
                   onPressed: () {
-                     Get.to(() => FilterPage());
+                    Get.to(() => FilterPage());
                   },
                   label: Text('Filter',
-                  style:Theme.of(context).textTheme.titleMedium),
+                      style: Theme.of(context).textTheme.titleMedium),
                   icon: Icon(
-                  Icons.keyboard_arrow_down,
-                  size: 20.0,
-                  color: black,
+                    Icons.keyboard_arrow_down,
+                    size: 20.0,
+                    color: black,
                   ),
-              ),
+                ),
               ],
             ),
           ),
@@ -339,7 +378,7 @@ class _HomePageState extends State<HomePage> {
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
                                                   image: NetworkImage(
-                                                    'http://10.0.2.2:8082/api/auth/serveproducts/${productController.productResponseList[index]['imageUrl'].toString()}',
+                                                    'http://158.85.243.11:8082/api/auth/serveproducts/${productController.productResponseList[index]['imageUrl'].toString()}',
                                                   ),
                                                   //  AssetImage(
                                                   //     "assets/images/" +
@@ -370,15 +409,16 @@ class _HomePageState extends State<HomePage> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  "Price : \₹ " +
-                                                      productController
-                                                          .productResponseList[
-                                                              index]['price']
-                                                          .toString(),
+                                                    "Price : \₹ " +
+                                                        productController
+                                                            .productResponseList[
+                                                                index]['price']
+                                                            .toString(),
 
-                                                  // "\$ " + products[index]['price'],
-                                                  style:  Theme.of(context).textTheme.bodyMedium
-                                                ),
+                                                    // "\$ " + products[index]['price'],
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium),
                                                 //  productController.productResponseList[index]
                                                 //['added'] !=false &&
                                                 Container(
@@ -422,6 +462,8 @@ class _HomePageState extends State<HomePage> {
                                                                             'cartQauntity'] -
                                                                         1;
                                                                   } else {
+                                                                    productController
+                                                                        .onReady();
                                                                     productController
                                                                             .productResponseList[index]
                                                                         [
@@ -492,6 +534,8 @@ class _HomePageState extends State<HomePage> {
                                                                     this.add);
                                                             setState(() {
                                                               productController
+                                                                  .onReady();
+                                                              productController
                                                                           .productResponseList[
                                                                       index][
                                                                   'cartQauntity'] = 1;
@@ -514,12 +558,12 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 ),
-                                Positioned(
-                                    right: 10,
-                                    child: IconButton(
-                                        icon: SvgPicture.asset(
-                                            "assets/images/heart_icon.svg"),
-                                        onPressed: null)),
+                                // Positioned(
+                                //     right: 10,
+                                //     child: IconButton(
+                                //         icon: SvgPicture.asset(
+                                //             "assets/images/heart_icon.svg"),
+                                //         onPressed: null)),
                               ],
                             )),
                           ),
@@ -539,7 +583,7 @@ class _HomePageState extends State<HomePage> {
 
   Future getCategoryApi() async {
     try {
-      String url = 'http://10.0.2.2:8082/api/auth/category';
+      String url = 'http://158.85.243.11:8082/api/auth/category';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -555,7 +599,7 @@ class _HomePageState extends State<HomePage> {
   List popularproducts = [];
 
   Future getPopularProductApi(bool flag) async {
-    String url = 'http://10.0.2.2:8082/api/auth/popularproducts/${flag}';
+    String url = 'http://158.85.243.11:8082/api/auth/popularproducts/${flag}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -574,7 +618,7 @@ class _HomePageState extends State<HomePage> {
   List allproducts = [];
 
   Future getAllProductApi() async {
-    String url = 'http://10.0.2.2:8082/api/auth/products/1';
+    String url = 'http://158.85.243.11:8082/api/auth/products/1';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -592,7 +636,7 @@ class _HomePageState extends State<HomePage> {
 
   List offers = [];
   Future getAllOffersApi() async {
-    String url = 'http://10.0.2.2:8082/api/auth/offers';
+    String url = 'http://158.85.243.11:8082/api/auth/offers';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

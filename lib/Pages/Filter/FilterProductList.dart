@@ -111,7 +111,7 @@ class _FilterProductListState extends State<FilterProductList> {
                               height: 100,
                               width: 100,
                               image: NetworkImage(
-                                  'http://10.0.2.2:8082/api/auth/serveproducts/${productController.productFilterResponseList[index]['imageUrl'].toString()}')
+                                  'http://158.85.243.11:8082/api/auth/serveproducts/${productController.productFilterResponseList[index]['imageUrl'].toString()}')
                               // image: AssetImage("assets/shoe_1.webp"),
                               ),
                           SizedBox(width: 10),

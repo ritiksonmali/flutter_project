@@ -1,51 +1,25 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
+import 'package:flutter_login_app/Controller/AddressController.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
-class Address extends StatefulWidget {
-  const Address({Key? key}) : super(key: key);
+class UpdateAddress extends StatefulWidget {
+  const UpdateAddress({Key? key}) : super(key: key);
 
   @override
-  State<Address> createState() => _AddressState();
+  State<UpdateAddress> createState() => _UpdateAddressState();
 }
 
-class _AddressState extends State<Address> {
-  final _formKey3 = GlobalKey<FormState>();
-
-  int? id;
+class _UpdateAddressState extends State<UpdateAddress> {
+  final _formKey4 = GlobalKey<FormState>();
+  var address = Get.arguments;
   final String status = "ACTIVE";
-
-  void test() async {
-    var store = await SharedPreferences.getInstance(); //add when requried
-    var iddata = store.getString('id');
-    int id = jsonDecode(iddata!);
-
-    setState(() {
-      this.id = id;
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    test();
-  }
-
-  List dropDownListData = [
-    {"title": "HOME", "value": "1"},
-    {"title": "OFFICE", "value": "2"},
-    {"title": "Other", "value": "3"},
-  ];
-
-  String defaultValue = "";
-
+  AddressController addressController = Get.find();
   TextEditingController addressLine1controller = new TextEditingController();
   TextEditingController addressLine2controller = new TextEditingController();
   TextEditingController citycontroller = new TextEditingController();
@@ -54,15 +28,15 @@ class _AddressState extends State<Address> {
   TextEditingController mobilenocontroller = new TextEditingController();
   TextEditingController telephonenocontroller = new TextEditingController();
   TextEditingController pincodecontroller = new TextEditingController();
-
-  var ValueChoose;
-
   @override
   Widget build(BuildContext context) {
+    print(address['isselected']);
+    print(address['addressId']);
+    print(address['userId']);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Address",
+          "Update Your Address",
           style: TextStyle(fontSize: 18, color: black),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -82,17 +56,44 @@ class _AddressState extends State<Address> {
           height: 48,
           child: MaterialButton(
             onPressed: () {
-              addpassword();
-              if (defaultValue == "") {
-                print("Please select a Address Type");
-              } else {
-                print("user selected Address Type $defaultValue");
+              if (addressLine1controller.text.isNotEmpty ||
+                  addressLine2controller.text.isNotEmpty ||
+                  citycontroller.text.isNotEmpty ||
+                  countrycontroller.text.isNotEmpty ||
+                  mobilenocontroller.text.isNotEmpty ||
+                  telephonenocontroller.text.isNotEmpty ||
+                  statecontroller.text.isNotEmpty ||
+                  pincodecontroller.text.isNotEmpty) {
+                updateAddress(
+                    address['addressId'],
+                    addressLine1controller.text.isEmpty
+                        ? address['addressline1']
+                        : addressLine1controller.text.toString(),
+                    addressLine2controller.text.isEmpty
+                        ? address['addressline2']
+                        : addressLine2controller.text.toString(),
+                    citycontroller.text.isEmpty
+                        ? address['city']
+                        : citycontroller.text.toString(),
+                    countrycontroller.text.isEmpty
+                        ? address['country']
+                        : countrycontroller.text.toString(),
+                    mobilenocontroller.text.isEmpty
+                        ? address['mobileno']
+                        : mobilenocontroller.text.toString(),
+                    telephonenocontroller.text.isEmpty
+                        ? address['telephoneno']
+                        : telephonenocontroller.text.toString(),
+                    statecontroller.text.isEmpty
+                        ? address['state']
+                        : statecontroller.text.toString(),
+                    pincodecontroller.text.isEmpty
+                        ? int.parse(address['pincode'])
+                        : int.parse(pincodecontroller.text.toString()));
               }
-              print("hello");
-              // checkoutProvider.validator(context, myType);
             },
             child: Text(
-              "Add Address",
+              "Update Address",
               style: TextStyle(
                 color: white,
               ),
@@ -109,51 +110,24 @@ class _AddressState extends State<Address> {
           horizontal: 20,
         ),
         child: Form(
-          key: _formKey3,
+          key: _formKey4,
           child: ListView(
             children: [
               SizedBox(
                 height: 20,
               ),
-              InputDecorator(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      // borderRadius: BorderRadius.circular(15.0)
-                      ),
-                  contentPadding: const EdgeInsets.all(10),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                      isDense: true,
-                      value: defaultValue,
-                      isExpanded: true,
-                      menuMaxHeight: 350,
-                      items: [
-                        const DropdownMenuItem(
-                            child: Text(
-                              "Select Address Type",
-                            ),
-                            value: ""),
-                        ...dropDownListData
-                            .map<DropdownMenuItem<String>>((data) {
-                          return DropdownMenuItem(
-                              child: Text(data['title']), value: data['value']);
-                        }).toList(),
-                      ],
-                      onChanged: (value) {
-                        print("selected Value $value");
-                        setState(() {
-                          defaultValue = value!;
-                        });
-                      }),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: black,
-              ),
+              // buildTextField("AddressLine1", address['addressline1'],
+              //     addressLine1controller),
+              // buildTextField("AddressLine2", address['addressline2'],
+              //     addressLine2controller),
+              // buildTextField("Pincode", address['pincode'], pincodecontroller),
+              // buildTextField("City", address['city'], citycontroller),
+              // buildTextField("State", address['state'], statecontroller),
+              // buildTextField("Country", address['country'], countrycontroller),
+              // buildTextField("Telephone Number", address['telephoneno'],
+              //     telephonenocontroller),
+              // buildTextField(
+              //     "Mobile Number", address['mobileno'], mobilenocontroller),
               TextFormField(
                 controller: addressLine1controller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -162,22 +136,21 @@ class _AddressState extends State<Address> {
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Address line 1",
+                    labelText: "Address line 1",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['addressline1'],
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
                       color: black,
                     )),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
                 obscureText: false,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               TextFormField(
                 controller: addressLine2controller,
@@ -187,22 +160,21 @@ class _AddressState extends State<Address> {
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Address line 2",
+                    labelText: "Address line 2",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['addressline2'],
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
                       color: black,
                     )),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
                 obscureText: false,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               TextFormField(
                 controller: pincodecontroller,
@@ -212,18 +184,17 @@ class _AddressState extends State<Address> {
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Pincode",
+                    labelText: "Pincode",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['pincode'],
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
                       color: black,
                     )),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(6)
@@ -231,7 +202,7 @@ class _AddressState extends State<Address> {
                 obscureText: false,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               TextFormField(
                 controller: citycontroller,
@@ -241,22 +212,21 @@ class _AddressState extends State<Address> {
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "City",
+                    labelText: "City",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['city'],
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
                       color: black,
                     )),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
                 obscureText: false,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               TextFormField(
                 controller: statecontroller,
@@ -266,22 +236,21 @@ class _AddressState extends State<Address> {
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "State",
+                    labelText: "State",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['state'],
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
                       color: black,
                     )),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
                 obscureText: false,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               TextFormField(
                 controller: countrycontroller,
@@ -291,22 +260,21 @@ class _AddressState extends State<Address> {
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Country",
+                    labelText: "Country",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['country'],
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
                       color: black,
                     )),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
                 obscureText: false,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               TextFormField(
                 controller: telephonenocontroller,
@@ -316,7 +284,12 @@ class _AddressState extends State<Address> {
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Telephone number",
+                    labelText: "Telephone number",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['telephoneno'],
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
@@ -329,7 +302,7 @@ class _AddressState extends State<Address> {
                 obscureText: false,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               TextFormField(
                 controller: mobilenocontroller,
@@ -339,18 +312,17 @@ class _AddressState extends State<Address> {
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Mobile number",
+                    labelText: "Mobile number",
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    hintText: address['mobileno'],
                     hintStyle: TextStyle(
                       fontSize: 16,
                       // fontWeight: FontWeight.bold,
                       color: black,
                     )),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(10)
@@ -364,53 +336,63 @@ class _AddressState extends State<Address> {
     );
   }
 
-  addpassword() {
-    if (_formKey3.currentState!.validate()) {
-      print("Form is valid ");
-      _formKey3.currentState!.save();
-      addNewAddress(
-          addressLine1controller.text.toString(),
-          addressLine2controller.text.toString(),
-          citycontroller.text.toString(),
-          countrycontroller.text.toString(),
-          mobilenocontroller.text.toString(),
-          telephonenocontroller.text.toString(),
-          statecontroller.text.toString(),
-          int.parse(pincodecontroller.text.toString()));
-    } else {
-      print('Form is Not Valid');
-    }
+  Widget buildTextField(
+      String labelText, var placeholder, TextEditingController controllers) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: TextFormField(
+        controller: controllers,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        cursorColor: Colors.black87,
+        style: TextStyle(color: Colors.black87),
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.only(bottom: 3),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            labelText: labelText,
+            labelStyle: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
+            hintText: placeholder,
+            hintStyle: TextStyle(
+              fontSize: 16,
+              // fontWeight: FontWeight.bold,
+              color: Colors.black,
+            )),
+        // inputFormatters: <TextInputFormatter>[
+        //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+        //   LengthLimitingTextInputFormatter(50)
+        // ],
+      ),
+    );
   }
 
-  Future addNewAddress(String addressLine1, addressLine2, city, country,
-      mobileno, telephoneno, state, int pincode) async {
+  Future updateAddress(int addressId, String addressLine1, addressLine2, city,
+      country, mobileno, telephoneno, state, int pincode) async {
     try {
-      String url = 'http://158.85.243.11:8082/api/auth/addaddress';
-      var response = await http.post(Uri.parse(url),
+      String url = 'http://158.85.243.11:8082/api/auth/updateAddress/${addressId}';
+      var response = await http.put(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
             "address_line1": addressLine1,
             "address_line2": addressLine2,
             "city": city,
             "country": country,
-            "isSelected": false,
+            "isSelected": address['isselected'],
             "mobile_no": mobileno,
             "pincode": pincode,
             "state": state,
             "telephone_no": telephoneno,
             "status": status,
-            "user_id": this.id
           }));
 
       if (response.statusCode == 200) {
         print("Success");
-        // setState(() {
-        //   AddressDetails();
-        // });
-        // Get.back();
-        Navigator.pop(context);
+        addressController.getAddressApi();
+        await Future.delayed(Duration(seconds: 2));
+        Get.back();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('New Address Added SuccessFully !'),
+          content: Text('Address Updated SuccessFully'),
           backgroundColor: Colors.green,
         ));
       } else if (response.statusCode == 401) {
@@ -422,7 +404,6 @@ class _AddressState extends State<Address> {
       } else if (response.statusCode == 400) {
         print("Bad Request");
       } else {
-        print(this.id);
         printError();
       }
     } catch (e) {

@@ -68,7 +68,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Future getCartproducts(userId) async {
     CommanDialog.showLoading();
-    String url = 'http://10.0.2.2:8082/api/auth/getcartitems/${userId}';
+    String url = 'http://158.85.243.11:8082/api/auth/getcartitems/${userId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -105,9 +105,10 @@ class _CartScreenState extends State<CartScreen> {
         leading: IconButton(
           onPressed: () {
             productController.getAllProducts();
+            productController.getCount();
 
             Timer(Duration(seconds: 10), () {
-                 Get.to(() => HomeScreen());
+              Get.to(() => HomeScreen());
             });
           },
           icon: Icon(
@@ -213,7 +214,7 @@ class _CartScreenState extends State<CartScreen> {
                                       decoration: BoxDecoration(
                                           image: DecorationImage(
                                               image: NetworkImage(
-                                                  'http://10.0.2.2:8082/api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
+                                                  'http://158.85.243.11:8082/api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
                                               // image: AssetImage("assets/shoe_1.webp"),
                                               fit: BoxFit.cover)),
                                     ),
@@ -231,12 +232,13 @@ class _CartScreenState extends State<CartScreen> {
                             children: <Widget>[
                               Row(
                                 children: [
-                                  Text(
-                                    cartdata['product']['name'],
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600
-                                      ),
+                                  Expanded(
+                                    child: Text(
+                                      cartdata['product']['name'],
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 10,
@@ -251,11 +253,13 @@ class _CartScreenState extends State<CartScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    "₹" +
-                                        cartdata['product']['price'].toString(),
-                                    // "\$ 200",
-                                    style:  Theme.of(context).textTheme.bodyMedium
-                                  ),
+                                      "₹" +
+                                          cartdata['product']['price']
+                                              .toString(),
+                                      // "\$ 200",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
                                   Container(
                                     width: 80,
                                     height: 40,
@@ -357,14 +361,10 @@ class _CartScreenState extends State<CartScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        "Total",
-                        style: Theme.of(context).textTheme.titleLarge
-                      ),
-                      Text(
-                        "\₹${total}",
-                        style: Theme.of(context).textTheme.titleLarge
-                      ),
+                      Text("Total",
+                          style: Theme.of(context).textTheme.titleLarge),
+                      Text("\₹${total}",
+                          style: Theme.of(context).textTheme.titleLarge),
                     ],
                   ),
                 ),
@@ -406,7 +406,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Future increasequantity(int userId, productId, String sum) async {
     String url =
-        'http://10.0.2.2:8082/api/auth/addProductsInCart?userId=${userId}&productId=${productId}&sum=${sum}';
+        'http://158.85.243.11:8082/api/auth/addProductsInCart?userId=${userId}&productId=${productId}&sum=${sum}';
     http.Response response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

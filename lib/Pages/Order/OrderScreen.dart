@@ -284,7 +284,7 @@ class _OrderScreenState extends State<OrderScreen> {
   List orders = [];
 
   Future getAllOrdersByUser(int userId) async {
-    String url = 'http://10.0.2.2:8082/getOrderDetailsbyuser/${userId}';
+    String url = 'http://158.85.243.11:8082/getOrderDetailsbyuser/${userId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

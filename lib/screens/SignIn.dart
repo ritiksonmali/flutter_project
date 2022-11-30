@@ -245,7 +245,7 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       print(email + " " + password);
 
-      String url = 'http://10.0.2.2:8082/api/auth/signin';
+      String url = 'http://158.85.243.11:8082/api/auth/signin';
       var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({'email': email, 'password': password}));

@@ -15,7 +15,7 @@ class OfferController extends GetxController {
   }
 
   Future getAllOffersApi() async {
-    String url = 'http://10.0.2.2:8082/api/auth/offers';
+    String url = 'http://158.85.243.11:8082/api/auth/offers';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

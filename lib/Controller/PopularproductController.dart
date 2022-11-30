@@ -16,7 +16,7 @@ class PopularProductController extends GetxController {
 
   Future getPopularProducts() async {
     String url =
-        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&ispopular=true';
+        'http://158.85.243.11:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&ispopular=true';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

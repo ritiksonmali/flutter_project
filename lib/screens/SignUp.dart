@@ -355,7 +355,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future RestApiTest(
       String firstname, lastname, email, password, bool sos) async {
     try {
-      String url = 'http://10.0.2.2:8082/api/auth/signup';
+      String url = 'http://158.85.243.11:8082/api/auth/signup';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({

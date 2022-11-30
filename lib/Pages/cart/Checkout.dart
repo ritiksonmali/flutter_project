@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -98,10 +99,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "Delivery Address",
-                     style: Theme.of(context).textTheme.titleMedium
-                  ),
+                  child: Text("Delivery Address",
+                      style: Theme.of(context).textTheme.titleMedium),
                 ),
                 SizedBox(
                   height: 10,
@@ -116,12 +115,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         child: SizedBox(
                           width: 230,
                           child: SelectedAddress == null
-                              ? null
-                              : Text(
-                                  SelectedAddress.toString(),
+                              ? Text('Select Your Address')
+                              : Text(SelectedAddress.toString(),
                                   // "538 sagar park laxmi Nagar Panchavati Nashik-422003",
-                                  style:Theme.of(context).textTheme.bodyLarge
-                                ),
+                                  style: Theme.of(context).textTheme.bodyLarge),
                         ),
                       ),
                       Container(
@@ -129,7 +126,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           color: grey,
                         ),
                         child: TextButton(
+                            style: TextButton.styleFrom(backgroundColor: black),
                             onPressed: () async {
+                              await Future.delayed(Duration(seconds: 1));
                               final value = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -144,8 +143,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                             //   Get.to(() => AddressDetails());
                             // },
-                            child: Text("Select",
-                                style: Theme.of(context).textTheme.bodyMedium)),
+                            child:
+                                Text("Select", style: TextStyle(color: white))),
                       ),
                     ],
                   ),
@@ -166,10 +165,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Order Summary",
-                        style: Theme.of(context).textTheme.titleMedium
-                      ),
+                      Text("Order Summary",
+                          style: Theme.of(context).textTheme.titleMedium),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: TextButton(
@@ -177,9 +174,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               Get.to(() => OrderScreen());
                             },
                             child: Row(
-                              children: [
-                              
-                              ],
+                              children: [],
                             )),
                       ),
                     ],
@@ -194,7 +189,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           flex: 10,
                           child: Text(
                             "Product Name",
-                            style:Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -263,7 +258,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             productdata['product']['name']
                                                 .toString(),
                                             // "\$ " + products[index]['price'],
-                                            style: Theme.of(context).textTheme.bodyMedium,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -272,7 +269,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           child: Text(
                                             productdata['quantity'].toString(),
                                             // "\$ " + products[index]['price'],
-                                            style: Theme.of(context).textTheme.bodyMedium,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -282,7 +281,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             productdata['product']['price']
                                                 .toString(),
                                             // "\$ " + products[index]['price'],
-                                            style:Theme.of(context).textTheme.bodyMedium,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -315,14 +316,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Sub Total",
-                          style: Theme.of(context).textTheme.titleMedium
-                        ),
-                        Text(
-                          "\₹${total}",
-                          style: Theme.of(context).textTheme.titleMedium
-                        ),
+                        Text("Sub Total",
+                            style: Theme.of(context).textTheme.titleMedium),
+                        Text("\₹${total}",
+                            style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                     SizedBox(
@@ -331,14 +328,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Delivery Cost",
-                         style: Theme.of(context).textTheme.titleMedium
-                        ),
-                        Text(
-                          "\₹10",
-                          style: Theme.of(context).textTheme.titleMedium
-                        ),
+                        Text("Delivery Cost",
+                            style: Theme.of(context).textTheme.titleMedium),
+                        Text("\₹10",
+                            style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                     SizedBox(
@@ -347,14 +340,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Gst(18%)",
-                        style: Theme.of(context).textTheme.titleMedium
-                        ),
-                        Text(
-                          "\₹${gst.toStringAsFixed(2)}",
-                          style: Theme.of(context).textTheme.titleMedium
-                        ),
+                        Text("Gst(18%)",
+                            style: Theme.of(context).textTheme.titleMedium),
+                        Text("\₹${gst.toStringAsFixed(2)}",
+                            style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                     SizedBox(
@@ -370,14 +359,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Total",
-                          style: Theme.of(context).textTheme.titleMedium
-                        ),
-                        Text(
-                          "\₹${finalPrice}",
-                         style: Theme.of(context).textTheme.titleMedium
-                        ),
+                        Text("Total",
+                            style: Theme.of(context).textTheme.titleMedium),
+                        Text("\₹${finalPrice}",
+                            style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                     SizedBox(
@@ -402,7 +387,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       child: Text("Place Order"),
                       color: black,
                       onPressed: () {
-                        createNewOrder();
+                        if (SelectedAddress != null) {
+                          createNewOrder();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Please Select Your Address'),
+                            backgroundColor: Colors.redAccent,
+                          ));
+                        }
                       },
                     ),
                   ),
@@ -449,7 +441,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Future getCartproducts(userId) async {
     print("fatchProduct $userId");
     CommanDialog.showLoading();
-    String url = 'http://10.0.2.2:8082/api/auth/getcartitems/${userId}';
+    String url = 'http://158.85.243.11:8082/api/auth/getcartitems/${userId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -473,7 +465,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future createNewOrder() async {
-    String url = 'http://10.0.2.2:8082/createNewOrder';
+    String url = 'http://158.85.243.11:8082/createNewOrder';
     var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({"user_id": this.id}));
@@ -525,7 +517,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   getSelectedApi(int UserId, bool isSelected) async {
     try {
       String url =
-          'http://10.0.2.2:8082/api/auth/getSelectedAddress/${UserId}/${isSelected}';
+          'http://158.85.243.11:8082/api/auth/getSelectedAddress/${UserId}/${isSelected}';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},

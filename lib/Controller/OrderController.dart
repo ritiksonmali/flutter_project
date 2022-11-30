@@ -32,7 +32,7 @@ class OrderController extends GetxController {
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
     int id = jsonDecode(iddata!);
-    String url = 'http://10.0.2.2:8082/getOrderDetailsbyuser/${id}';
+    String url = 'http://158.85.243.11:8082/getOrderDetailsbyuser/${id}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -53,7 +53,7 @@ class OrderController extends GetxController {
   }
 
   Future setOrderCancelled(int orderId) async {
-    String url = 'http://10.0.2.2:8082/setOrderCancelled/${orderId}';
+    String url = 'http://158.85.243.11:8082/setOrderCancelled/${orderId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

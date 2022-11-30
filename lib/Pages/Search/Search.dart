@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/Pages/Product/PopularProductList.dart';
 import 'package:get/get.dart';
 import '../../ConstantUtil/colors.dart';
 import '../../Controller/ProductController.dart';
@@ -30,10 +31,8 @@ class _SearchPageState extends State<SearchPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Search product",
-                  style: Theme.of(context).textTheme.titleLarge  
-                ),
+                Text("Search product",
+                    style: Theme.of(context).textTheme.titleLarge),
                 SizedBox(
                   height: 20,
                 ),
@@ -54,11 +53,24 @@ class _SearchPageState extends State<SearchPage> {
                     label: Text('Search'), // <-- Text
                     backgroundColor: black,
                     onPressed: () {
-                      productController.getSearchProducts(
+                      productController.productFilterResponseList.clear();
+                      productController.getFilterProducts(
+                          '',
+                          '',
+                          10000,
+                          0,
+                          '',
+                          '',
+                          '',
                           _nameTextController.text.toLowerCase().toString());
                       Timer(Duration(seconds: 3), () {
-                        Get.to(() => SearchProductList());
+                        Get.to(() => PopularProductList());
                       });
+                      // productController.getSearchProducts(
+                      //     _nameTextController.text.toLowerCase().toString());
+                      // Timer(Duration(seconds: 3), () {
+                      //   Get.to(() => SearchProductList());
+                      // });
                     },
                   ),
                 ),
