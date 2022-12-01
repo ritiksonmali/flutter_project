@@ -4,6 +4,8 @@ import 'package:flutter_login_app/model/PopularProduct.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../ConstantUtil/globals.dart';
+
 class PopularProductController extends GetxController {
   var popular = <PopularProduct>[].obs;
 
@@ -16,7 +18,7 @@ class PopularProductController extends GetxController {
 
   Future getPopularProducts() async {
     String url =
-        'http://10.0.2.2:8082/api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&ispopular=true';
+        serverUrl+'api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&ispopular=true';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

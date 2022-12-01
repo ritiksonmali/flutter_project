@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Controller/LoginController.dart';
+import 'package:flutter_login_app/Controller/PopularproductController.dart';
 import 'package:flutter_login_app/Controller/PushNotificationController.dart';
 import 'package:flutter_login_app/Notification/LocalNotificationService.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
@@ -24,6 +25,8 @@ class _MainappState extends State<Mainapp> {
   String deviceTokenToSendPushNotification = '';
 
   String deviceType = "Android";
+  final PopularProductController popularproductController =
+      Get.put(PopularProductController());
   final ProductController productController = Get.put(ProductController());
   final PushNotificationController pushNotificationController =
       Get.put(PushNotificationController());

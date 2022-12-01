@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../ConstantUtil/globals.dart';
+
 class Address extends StatefulWidget {
   const Address({Key? key}) : super(key: key);
 
@@ -385,7 +387,7 @@ class _AddressState extends State<Address> {
   Future addNewAddress(String addressLine1, addressLine2, city, country,
       mobileno, telephoneno, state, int pincode) async {
     try {
-      String url = 'http://10.0.2.2:8082/api/auth/addaddress';
+      String url = serverUrl+'api/auth/addaddress';
       var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../ConstantUtil/globals.dart';
+
 class AddressController extends GetxController {
   @override
   void onReady() {
@@ -19,7 +21,7 @@ class AddressController extends GetxController {
       var store = await SharedPreferences.getInstance(); //add when requried
       var iddata = store.getString('id');
       int id = jsonDecode(iddata!);
-      String url = 'http://10.0.2.2:8082/api/auth/getaddressbyuser/${id}';
+      String url = serverUrl+'api/auth/getaddressbyuser/${id}';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -37,7 +39,7 @@ class AddressController extends GetxController {
   Future setAddressStatusInactive(int addressId) async {
     print('addressid :${addressId}');
     String url =
-        'http://10.0.2.2:8082/api/auth/setAddressStatusInactive/${addressId}';
+        serverUrl+'api/auth/setAddressStatusInactive/${addressId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

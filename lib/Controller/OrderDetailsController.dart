@@ -5,13 +5,15 @@ import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../ConstantUtil/globals.dart';
+
 class OrderDetailsController extends GetxController {
   var Selectedorder = <SelectedOrder>[].obs;
   // List<SelectedOrder> Selectedorder = [];
 
   Future getOrderDetails(orderId) async {
     CommanDialog.showLoading();
-    String url = 'http://10.0.2.2:8082/getOrderDetailsbyid/${orderId}';
+    String url = serverUrl+'getOrderDetailsbyid/${orderId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

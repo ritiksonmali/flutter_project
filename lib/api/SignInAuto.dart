@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_login_app/Controller/PushNotificationController.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
@@ -11,10 +12,16 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../ConstantUtil/globals.dart';
+
 class SignInApi extends ChangeNotifier {
+  final PushNotificationController pushNotificationController =
+      Get.put(PushNotificationController());
 //  default password and sso flag for google and facebook login
   final String Defaultpassword = 'Flutter@123';
   final bool sos = true;
+
+  String deviceType = 'Android';
 
   static final googleSignIn = GoogleSignIn();
 
@@ -90,7 +97,7 @@ class SignInApi extends ChangeNotifier {
   Future RestApiTest(
       String firstname, lastname, email, password, bool sos) async {
     try {
-      String url = 'http://10.0.2.2:8082/api/auth/signinwithsso';
+      String url = serverUrl + 'api/auth/signinwithsso';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -113,11 +120,17 @@ class SignInApi extends ChangeNotifier {
         store.setString(
             'lastname', json.encode(userDetails['result']['lastName']));
         store.setString('email', json.encode(userDetails['result']['email']));
+        store.setString('role', json.encode(userDetails['result']['role']));
+        String? roleFrompreference = store.getString('role');
+        role = jsonDecode(roleFrompreference!);
+        print("Role is " + role);
+        pushNotificationController.sendNotificationData(
+            DeviceToken, deviceType);
 
         CommanDialog.hideLoading();
         Get.off(() => HomeScreen());
       } else if (response.statusCode == 401) {
-        Get.snackbar('Error', 'Email Already use for anothe account',
+        Get.snackbar('Error', 'Email Already use for another account',
             backgroundColor: Colors.redAccent, colorText: Colors.black);
         print("Please Enter Valid Email and Password");
       } else if (response.statusCode == 400) {

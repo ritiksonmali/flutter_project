@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Controller/AllOrdersForDeliveryManager.dart';
 import 'package:flutter_login_app/Controller/OrderDetailsController.dart';
 import 'package:flutter_login_app/Pages/Order/Order_json.dart';
@@ -414,7 +415,7 @@ class _OrderDetailsDeliveryManagerState
   List selectedOrder = [];
 
   Future getOrderDetails(orderId) async {
-    String url = 'http://10.0.2.2:8082/getOrderDetailsbyid/${orderId}';
+    String url = serverUrl + 'getOrderDetailsbyid/${orderId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

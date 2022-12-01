@@ -11,6 +11,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../ConstantUtil/colors.dart';
+import '../../ConstantUtil/globals.dart';
 import '../../utils/helper.dart';
 import '../Address/AddressDetails.dart';
 import '../Home/home_screen.dart';
@@ -350,7 +351,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   List selectedOrder = [];
 
   Future getOrderDetails(orderId) async {
-    String url = 'http://10.0.2.2:8082/getOrderDetailsbyid/${orderId}';
+    String url = serverUrl+'getOrderDetailsbyid/${orderId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

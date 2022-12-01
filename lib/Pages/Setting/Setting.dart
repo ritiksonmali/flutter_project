@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../ConstantUtil/globals.dart';
 import '../../Controller/LoginController.dart';
 import '../../screens/welcome.dart';
 
@@ -396,7 +397,7 @@ class _SettingsPageState extends State<SettingsPage> {
     try {
       print(oldpassword + " " + newpassword);
 
-      String url = 'http://10.0.2.2:8082/api/auth/resetpassword';
+      String url = serverUrl+'api/auth/resetpassword';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({

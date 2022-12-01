@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../ConstantUtil/colors.dart';
+import '../../ConstantUtil/globals.dart';
 import '../../Controller/ProductController.dart';
 import '../Address/AddressDetails.dart';
 import '../sucessOrder/OrderPlaced.dart';
@@ -615,7 +616,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Future getCartproducts(userId) async {
     print("fatchProduct $userId");
     CommanDialog.showLoading();
-    String url = 'http://10.0.2.2:8082/api/auth/getcartitems/${userId}';
+    String url = serverUrl + 'api/auth/getcartitems/${userId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -641,7 +642,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Future createNewOrder(String dateTime) async {
     // DateFormat dateFormat = DateFormat("dd-MM-yyyy hh:mm:ss a");
     // dateFormat.format(dateTime);
-    String url = 'http://10.0.2.2:8082/createNewOrder';
+    String url = serverUrl + 'createNewOrder';
     var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({"user_id": this.id, "dateTime": dateTime}));
@@ -672,7 +673,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   //  Future setPaymentDetails(String paymentId ,String paymentStatus,orderId) async {
   //   try {
-  //     String url = 'http://localhost:8082/setOrderPaymentStatus';
+  //     String url = serverUrl+'setOrderPaymentStatus';
   //     var response = await http.post(Uri.parse(url),
   //         headers: {'Content-Type': 'application/json'},
   //         body: json.encode({
@@ -693,7 +694,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   getSelectedApi(int UserId, bool isSelected) async {
     try {
       String url =
-          'http://10.0.2.2:8082/api/auth/getSelectedAddress/${UserId}/${isSelected}';
+          serverUrl + 'api/auth/getSelectedAddress/${UserId}/${isSelected}';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},

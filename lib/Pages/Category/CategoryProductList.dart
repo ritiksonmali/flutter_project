@@ -29,6 +29,8 @@ class _CategoryProductListState extends State<CategoryProductList> {
   String add = "add";
   String remove = "remove";
   var categoryId = Get.arguments;
+  
+  get serverUrl => null;
 
   void test() async {
     var store = await SharedPreferences.getInstance(); //add when requried
@@ -151,7 +153,7 @@ class _CategoryProductListState extends State<CategoryProductList> {
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                                'http://10.0.2.2:8082/api/auth/serveproducts/${productController.productResponseList[index]['imageUrl'].toString()}'),
+                                                serverUrl+'api/auth/serveproducts/${productController.productResponseList[index]['imageUrl'].toString()}'),
                                             // image: AssetImage("assets/shoe_1.webp"),
                                             fit: BoxFit.cover)),
                                   ),

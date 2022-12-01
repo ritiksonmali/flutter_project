@@ -12,6 +12,8 @@ import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../ConstantUtil/globals.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
@@ -355,7 +357,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future RestApiTest(
       String firstname, lastname, email, password, bool sos) async {
     try {
-      String url = 'http://10.0.2.2:8082/api/auth/signup';
+      String url = serverUrl+'api/auth/signup';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/model/AllOrdersDeliveryManager.dart';
 import 'package:flutter_login_app/model/OrderHistory.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
@@ -20,7 +21,7 @@ class AllOrdersForDeliveryManager extends GetxController {
 
   Future getAllOrders() async {
     CommanDialog.showLoading();
-    String url = 'http://10.0.2.2:8082/getAllOrders';
+    String url = serverUrl + 'getAllOrders';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -42,7 +43,7 @@ class AllOrdersForDeliveryManager extends GetxController {
   }
 
   Future uploadImage(int orderId, File imageFile) async {
-    String url = 'http://10.0.2.2:8082/addImageForPerOrder/${orderId}';
+    String url = serverUrl + 'addImageForPerOrder/${orderId}';
     var request = new http.MultipartRequest("POST", Uri.parse(url));
     request.files.add(http.MultipartFile(
         'image',
@@ -61,7 +62,7 @@ class AllOrdersForDeliveryManager extends GetxController {
   }
 
   Future setOrderDelivered(int orderId) async {
-    String url = 'http://10.0.2.2:8082/setOrderDeliveted/${orderId}';
+    String url = serverUrl + 'setOrderDeliveted/${orderId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Pages/Product/MyProductController.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import '../../ConstantUtil/globals.dart';
 import '../../screens/navbar.dart';
 import '../Search/Search.dart';
 import 'package:http/http.dart' as http;
@@ -127,7 +128,7 @@ class _ProductListState extends State<ProductListPage> {
                                 height: 100,
                                 width: 100,
                                 image: NetworkImage(
-                                    'http://10.0.2.2:8082/api/auth/serveproducts/${productinfo['imageUrl'].toString()}')
+                                    serverUrl+'api/auth/serveproducts/${productinfo['imageUrl'].toString()}')
                                 // image: AssetImage("assets/shoe_1.webp"),
                                 ),
                             SizedBox(width: 10),
@@ -267,7 +268,7 @@ class _ProductListState extends State<ProductListPage> {
   List allproducts = [];
 
   Future getAllProductApi() async {
-    String url = 'http://10.0.2.2:8082/api/auth/inventoryofproducts';
+    String url = serverUrl+'api/auth/inventoryofproducts';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

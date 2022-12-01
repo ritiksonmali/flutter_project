@@ -8,6 +8,8 @@ import 'package:flutter_login_app/Controller/AddressController.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../ConstantUtil/globals.dart';
+
 class UpdateAddress extends StatefulWidget {
   const UpdateAddress({Key? key}) : super(key: key);
 
@@ -376,7 +378,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
   Future updateAddress(int addressId, String addressLine1, addressLine2, city,
       country, mobileno, telephoneno, state, int pincode) async {
     try {
-      String url = 'http://10.0.2.2:8082/api/auth/updateAddress/${addressId}';
+      String url = serverUrl+'api/auth/updateAddress/${addressId}';
       var response = await http.put(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({

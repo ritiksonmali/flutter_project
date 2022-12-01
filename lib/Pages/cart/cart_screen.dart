@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../ConstantUtil/colors.dart';
+import '../../ConstantUtil/globals.dart';
 import '../../Controller/ProductController.dart';
 import '../Home/home_screen.dart';
 import 'Checkout.dart';
@@ -68,7 +69,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Future getCartproducts(userId) async {
     CommanDialog.showLoading();
-    String url = 'http://10.0.2.2:8082/api/auth/getcartitems/${userId}';
+    String url = serverUrl + 'api/auth/getcartitems/${userId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -101,7 +102,7 @@ class _CartScreenState extends State<CartScreen> {
       onWillPop: () async {
         productController.getAllProducts();
         productController.getCount();
-        Timer(Duration(seconds: 5), () {
+        Timer(Duration(seconds: 3), () {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -121,7 +122,7 @@ class _CartScreenState extends State<CartScreen> {
             onPressed: () {
               productController.getAllProducts();
               productController.getCount();
-              Timer(Duration(seconds: 5), () {
+              Timer(Duration(seconds: 3), () {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
@@ -235,8 +236,8 @@ class _CartScreenState extends State<CartScreen> {
                                         height: 70,
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
-                                                image: NetworkImage(
-                                                    'http://10.0.2.2:8082/api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
+                                                image: NetworkImage(serverUrl +
+                                                    'api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
                                                 // image: AssetImage("assets/shoe_1.webp"),
                                                 fit: BoxFit.cover)),
                                       ),
@@ -431,8 +432,8 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future increasequantity(int userId, productId, String sum) async {
-    String url =
-        'http://10.0.2.2:8082/api/auth/addProductsInCart?userId=${userId}&productId=${productId}&sum=${sum}';
+    String url = serverUrl +
+        'api/auth/addProductsInCart?userId=${userId}&productId=${productId}&sum=${sum}';
     http.Response response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

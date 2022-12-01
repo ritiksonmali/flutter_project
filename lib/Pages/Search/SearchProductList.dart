@@ -11,6 +11,7 @@ import 'package:flutter_login_app/Pages/Order/ItemData.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../ConstantUtil/globals.dart';
 import '../Filter/Filter.dart';
 import '../cart/cart_screen.dart';
 
@@ -99,7 +100,7 @@ class _SearchProductListState extends State<SearchProductList> {
                               height: 100,
                               width: 100,
                               image: NetworkImage(
-                                  'http://10.0.2.2:8082/api/auth/serveproducts/${productController.productsearchResponseList[index]['imageUrl'].toString()}')
+                                  serverUrl+'api/auth/serveproducts/${productController.productsearchResponseList[index]['imageUrl'].toString()}')
                               // image: AssetImage("assets/shoe_1.webp"),
                               ),
                           SizedBox(width: 10),
