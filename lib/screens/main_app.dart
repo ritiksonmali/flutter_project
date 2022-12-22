@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Controller/LoginController.dart';
+import 'package:flutter_login_app/Controller/OfferController.dart';
 import 'package:flutter_login_app/Controller/PopularproductController.dart';
 import 'package:flutter_login_app/Controller/PushNotificationController.dart';
 import 'package:flutter_login_app/Notification/LocalNotificationService.dart';
@@ -25,8 +26,10 @@ class _MainappState extends State<Mainapp> {
   String deviceTokenToSendPushNotification = '';
 
   String deviceType = "Android";
+
   final PopularProductController popularproductController =
       Get.put(PopularProductController());
+  final OfferController offerController = Get.put(OfferController());
   final ProductController productController = Get.put(ProductController());
   final PushNotificationController pushNotificationController =
       Get.put(PushNotificationController());
@@ -100,7 +103,7 @@ class _MainappState extends State<Mainapp> {
                 pushNotificationController.sendNotificationData(
                     deviceTokenToSendPushNotification, deviceType);
 
-                productController.getAllProducts();
+                // productController.getAllProducts();
                 Timer(Duration(seconds: 10), () {
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -111,7 +114,7 @@ class _MainappState extends State<Mainapp> {
                   );
                 });
               } else {
-                Timer(Duration(seconds: 20), () {
+                Timer(Duration(seconds: 10), () {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(

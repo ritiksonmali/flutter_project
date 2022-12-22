@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart' as globals;
 import 'package:flutter_login_app/model/Product.dart';
 import 'package:flutter_login_app/model/ProductModel.dart';
@@ -19,6 +20,9 @@ class ProductController extends GetxController {
   // List productResponseList = [];
   late Map mapResponse;
   int count = 0;
+
+  bool _isLoadMoreRunning = false;
+  ScrollController scrollController = new ScrollController();
   // List<ProductModel> DemoProduct = [];{}
   main() async {
     var store = await SharedPreferences.getInstance(); //add when requried
@@ -34,12 +38,12 @@ class ProductController extends GetxController {
     getCount();
   }
 
-  void test() async {
-    var store = await SharedPreferences.getInstance(); //add when requried
-    var iddata = store.getString('id');
-    int user_id = jsonDecode(iddata!);
-    getAllProducts();
-  }
+  // void test() async {
+  //   var store = await SharedPreferences.getInstance(); //add when requried
+  //   var iddata = store.getString('id');
+  //   int user_id = jsonDecode(iddata!);
+  //   getAllProducts();
+  // }
 
   List<Product> cartitem = List<Product>.empty().obs;
 
@@ -47,8 +51,8 @@ class ProductController extends GetxController {
   // int get count => cartitem.length;
 
   Future increasequantity(int userId, productId, String sum) async {
-    String url =
-        serverUrl+'api/auth/addProductsInCart?userId=${userId}&productId=${productId}&sum=${sum}';
+    String url = serverUrl +
+        'api/auth/addProductsInCart?userId=${userId}&productId=${productId}&sum=${sum}';
     http.Response response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -72,7 +76,7 @@ class ProductController extends GetxController {
 
   addtoCart(int userId, Product product) async {
     print(product.id);
-    String url = serverUrl+'api/auth/addToCart/${userId}';
+    String url = serverUrl + 'api/auth/addToCart/${userId}';
     http.Response response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({"product_id": product.id, "quantity": 1}));
@@ -85,15 +89,18 @@ class ProductController extends GetxController {
     }
   }
 
-  Future setPaymentDetails(
-      String paymentId, String paymentStatus, String orderId) async {
-    String url = serverUrl+'setOrderPaymentStatus';
+  Future setPaymentDetails(String paymentId, String paymentStatus,
+      String orderId, bool check) async {
+    print(paymentId + paymentStatus + orderId);
+    print(check);
+    String url = serverUrl + 'setOrderPaymentStatus';
     var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           "orderId": orderId,
           "paymentId": paymentId,
-          "paymentStatus": paymentStatus
+          "paymentStatus": paymentStatus,
+          "iswallet": check
         }));
     if (response.statusCode == 200) {
       print("Success payment");
@@ -106,8 +113,8 @@ class ProductController extends GetxController {
     var iddata = store.getString('id');
     int user_id = jsonDecode(iddata!);
     // int user_id=globals.currentUserId;
-    String url =
-        serverUrl+'api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=${user_id}';
+    String url = serverUrl +
+        'api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=5&status=active&userId=${user_id}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -136,8 +143,8 @@ class ProductController extends GetxController {
     var iddata = store.getString('id');
     int user_id = jsonDecode(iddata!);
     String data = name;
-    String url =
-        serverUrl+'api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=${user_id}&productname=${data}';
+    String url = serverUrl +
+        'api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&userId=${user_id}&productname=${data}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -166,13 +173,14 @@ class ProductController extends GetxController {
       String sortColumn,
       String CatagoryId,
       String offerId,
-      String productName) async {
+      String productName,
+      String productId) async {
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
     int userId = jsonDecode(iddata!);
     print("running");
-    String url =
-        serverUrl+'api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&maxprice=${maxPrice}&minprice=${minPrice}&ispopular=${isPopular}&sorting=${sortColumn}&Asc=${highToLow}&userId=${userId}&categoryId=${CatagoryId}&offerId=${offerId}&productname=${productName}';
+    String url = serverUrl +
+        'api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=5&status=active&maxprice=${maxPrice}&minprice=${minPrice}&ispopular=${isPopular}&sorting=${sortColumn}&Asc=${highToLow}&userId=${userId}&categoryId=${CatagoryId}&offerId=${offerId}&productname=${productName}&productId=${productId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -195,7 +203,7 @@ class ProductController extends GetxController {
     var store = await SharedPreferences.getInstance();
     var iddata = store.getString('id');
     int user_id = jsonDecode(iddata!);
-    String url = serverUrl+'api/auth/getCount/${user_id}';
+    String url = serverUrl + 'api/auth/getCount/${user_id}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       create: (context) => SignInApi(),
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Shopping Cart',
+        title: 'ErgoMart',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Pages/Product/PopularProductList.dart';
+import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import '../../ConstantUtil/colors.dart';
 import '../../Controller/ProductController.dart';
@@ -53,18 +54,31 @@ class _SearchPageState extends State<SearchPage> {
                     label: Text('Search'), // <-- Text
                     backgroundColor: black,
                     onPressed: () {
+                      CommanDialog.showLoading();
                       productController.productFilterResponseList.clear();
-                      productController.getFilterProducts(
-                          '',
-                          '',
-                          10000,
-                          0,
-                          '',
-                          '',
-                          '',
-                          _nameTextController.text.toLowerCase().toString());
-                      Timer(Duration(seconds: 3), () {
-                        Get.to(() => PopularProductList());
+                      // productController.getFilterProducts(
+                      //     '',
+                      //     '',
+                      //     10000,
+                      //     0,
+                      //     '',
+                      //     '',
+                      //     '',
+                      //     _nameTextController.text.toLowerCase().toString(),
+                      //     '');
+                      Timer(Duration(seconds: 2), () {
+                        Get.to(() => PopularProductList(), arguments: {
+                          "categoryId": '',
+                          "offerId": '',
+                          "productId": '',
+                          'isPopular': '',
+                          'highToLow': '',
+                          'maxPrice': 10000,
+                          'minPrice': 0,
+                          'sortColumn': '',
+                          'productName':
+                              _nameTextController.text.toLowerCase().toString(),
+                        });
                       });
                       // productController.getSearchProducts(
                       //     _nameTextController.text.toLowerCase().toString());

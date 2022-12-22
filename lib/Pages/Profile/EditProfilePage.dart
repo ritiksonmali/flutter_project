@@ -61,12 +61,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         title: Text('Profile', style: TextStyle(color: black)),
+        title: Text('Profile', style: TextStyle(color: black)),
         iconTheme: IconThemeData(color: black),
         centerTitle: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
-        
       ),
       body: Container(
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
@@ -109,7 +108,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               )
                             : Image.network(
                                 imageUrl != null
-                                    ? serverUrl+'api/auth/serveprofilepicture/${imageUrl}'
+                                    ? serverUrl +
+                                        'api/auth/serveprofilepicture/${imageUrl}'
                                     : 'https://180dc.org/wp-content/uploads/2022/04/Blank-Avatar.png',
                                 width: 170,
                                 height: 170,
@@ -230,7 +230,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future getprofileApi(int id) async {
     try {
-      String url = serverUrl+'api/auth/getprofilepicture/${id}';
+      String url = serverUrl + 'api/auth/getprofilepicture/${id}';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -239,8 +239,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
       var body = jsonDecode(response.body);
 
       // Uri uris = Uri.dataFromString(body['image']);
-      String image = body['image'];
+
       setState(() {
+        String image = body['image'];
         imageUrl = image;
       });
 
@@ -255,7 +256,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     try {
       print(" " + firstname + " " + lastname + " " + email);
 
-      String url = serverUrl+'api/auth/updateuser/${id}';
+      String url = serverUrl + 'api/auth/updateuser/${id}';
       http.Response response = await http.put(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -323,9 +324,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: labelText,
             hintText: placeholder,
+            // prefixText: placeholder,
             hintStyle: TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.bold,
+              // fontWeight: FontWeight.bold,
               color: Colors.black,
             )),
         inputFormatters: <TextInputFormatter>[
@@ -338,7 +340,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Future upload(int id, File imageFile) async {
-    String url = serverUrl+'api/auth/addprofile/${id}';
+    String url = serverUrl + 'api/auth/addprofile/${id}';
     var request = new http.MultipartRequest("POST", Uri.parse(url));
     request.files.add(http.MultipartFile(
         'image',

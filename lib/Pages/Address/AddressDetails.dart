@@ -107,7 +107,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                         "\n" +
                                         "City : " +
                                         alladdress["city"] +
-                                        " "
+                                        "\n"
                                             "Pincode : " +
                                         alladdress["pincode"].toString(),
                                     style: TextStyle(
@@ -126,7 +126,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                         alladdress["mobile_no"],
                                     style: TextStyle(
                                         fontSize: 16,
-                                        fontWeight: FontWeight.w400),
+                                        fontWeight: FontWeight.w500),
                                   ),
                                   Row(
                                     mainAxisAlignment:
@@ -267,7 +267,7 @@ class _AddressDetailsState extends State<AddressDetails> {
 
   getAddressApi(int id) async {
     try {
-      String url = serverUrl+'api/auth/getaddressbyuser/${id}';
+      String url = serverUrl + 'api/auth/getaddressbyuser/${id}';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -281,7 +281,7 @@ class _AddressDetailsState extends State<AddressDetails> {
 
   Future checkAddressIsSelected(int userId, addressId) async {
     String url =
-        serverUrl+'api/auth/updateaddressIsSelected/${addressId}/${userId}';
+        serverUrl + 'api/auth/updateaddressIsSelected/${addressId}/${userId}';
     http.Response response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

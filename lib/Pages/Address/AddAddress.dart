@@ -41,8 +41,8 @@ class _AddressState extends State<Address> {
   }
 
   List dropDownListData = [
-    {"title": "HOME", "value": "1"},
-    {"title": "OFFICE", "value": "2"},
+    {"title": "Home", "value": "1"},
+    {"title": "Office", "value": "2"},
     {"title": "Other", "value": "3"},
   ];
 
@@ -162,14 +162,36 @@ class _AddressState extends State<Address> {
                 cursorColor: black,
                 style: TextStyle(color: black),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Address line 1",
-                    hintStyle: TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.bold,
-                      color: black,
-                    )),
+                  contentPadding: EdgeInsets.only(bottom: 3),
+                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                  label: Row(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                            text: 'Address line 1',
+                            style: TextStyle(
+                              fontSize: 16,
+                              // fontWeight: FontWeight.bold,
+                              color: black,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
+                    ],
+                  ),
+                  // hintText: "Address line 1",
+                  // hintStyle: TextStyle(
+                  //   fontSize: 16,
+                  //   // fontWeight: FontWeight.bold,
+                  //   color: black,
+                  // )
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Required';
@@ -187,14 +209,36 @@ class _AddressState extends State<Address> {
                 cursorColor: black,
                 style: TextStyle(color: black),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Address line 2",
-                    hintStyle: TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.bold,
-                      color: black,
-                    )),
+                  contentPadding: EdgeInsets.only(bottom: 3),
+                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                  label: Row(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                            text: 'Address line 2',
+                            style: TextStyle(
+                              fontSize: 16,
+                              // fontWeight: FontWeight.bold,
+                              color: black,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
+                    ],
+                  ),
+                  // hintText: "Address line 2",
+                  // hintStyle: TextStyle(
+                  //   fontSize: 16,
+                  //   // fontWeight: FontWeight.bold,
+                  //   color: black,
+                  // )
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Required';
@@ -212,14 +256,36 @@ class _AddressState extends State<Address> {
                 cursorColor: black,
                 style: TextStyle(color: black),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Pincode",
-                    hintStyle: TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.bold,
-                      color: black,
-                    )),
+                  contentPadding: EdgeInsets.only(bottom: 3),
+                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                  label: Row(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                            text: 'Pincode',
+                            style: TextStyle(
+                              fontSize: 16,
+                              // fontWeight: FontWeight.bold,
+                              color: black,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
+                    ],
+                  ),
+                  // hintText: "Pincode",
+                  // hintStyle: TextStyle(
+                  //   fontSize: 16,
+                  //   // fontWeight: FontWeight.bold,
+                  //   color: black,
+                  // )
+                ),
                 validator: (value) {
                   if (value!.length != 6)
                     return 'Pincode must be of 6 digit';
@@ -241,14 +307,36 @@ class _AddressState extends State<Address> {
                 cursorColor: black,
                 style: TextStyle(color: black),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "City",
-                    hintStyle: TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.bold,
-                      color: black,
-                    )),
+                  contentPadding: EdgeInsets.only(bottom: 3),
+                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                  label: Row(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                            text: 'City',
+                            style: TextStyle(
+                              fontSize: 16,
+                              // fontWeight: FontWeight.bold,
+                              color: black,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
+                    ],
+                  ),
+                  // hintText: "City",
+                  // hintStyle: TextStyle(
+                  //   fontSize: 16,
+                  //   // fontWeight: FontWeight.bold,
+                  //   color: black,
+                  // )
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Required';
@@ -266,14 +354,36 @@ class _AddressState extends State<Address> {
                 cursorColor: black,
                 style: TextStyle(color: black),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "State",
-                    hintStyle: TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.bold,
-                      color: black,
-                    )),
+                  contentPadding: EdgeInsets.only(bottom: 3),
+                  // floatingLabelBehavior: FloatingLabelBehavior.always,.
+                  label: Row(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                            text: 'State',
+                            style: TextStyle(
+                              fontSize: 16,
+                              // fontWeight: FontWeight.bold,
+                              color: black,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
+                    ],
+                  ),
+                  //   hintText: "State",
+                  //   hintStyle: TextStyle(
+                  //     fontSize: 16,
+                  //     // fontWeight: FontWeight.bold,
+                  //     color: black,
+                  //   )
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Required';
@@ -291,14 +401,36 @@ class _AddressState extends State<Address> {
                 cursorColor: black,
                 style: TextStyle(color: black),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Country",
-                    hintStyle: TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.bold,
-                      color: black,
-                    )),
+                  contentPadding: EdgeInsets.only(bottom: 3),
+                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                  label: Row(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                            text: 'Country',
+                            style: TextStyle(
+                              fontSize: 16,
+                              // fontWeight: FontWeight.bold,
+                              color: black,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
+                    ],
+                  ),
+                  // hintText: "Country",
+                  // hintStyle: TextStyle(
+                  //   fontSize: 16,
+                  //   // fontWeight: FontWeight.bold,
+                  //   color: black,
+                  // )
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Required';
@@ -316,17 +448,32 @@ class _AddressState extends State<Address> {
                 cursorColor: black,
                 style: TextStyle(color: black),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Telephone number",
-                    hintStyle: TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.bold,
-                      color: black,
-                    )),
+                  contentPadding: EdgeInsets.only(bottom: 3),
+                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                  label: Row(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          text: 'Telephone Number',
+                          style: TextStyle(
+                            fontSize: 16,
+                            // fontWeight: FontWeight.bold,
+                            color: black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  // hintText: "Telephone number",
+                  // hintStyle: TextStyle(
+                  //   fontSize: 16,
+                  //   // fontWeight: FontWeight.bold,
+                  //   color: black,
+                  // )
+                ),
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(20)
+                  LengthLimitingTextInputFormatter(11)
                 ],
                 obscureText: false,
               ),
@@ -339,14 +486,36 @@ class _AddressState extends State<Address> {
                 cursorColor: black,
                 style: TextStyle(color: black),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Mobile number",
-                    hintStyle: TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.bold,
-                      color: black,
-                    )),
+                  contentPadding: EdgeInsets.only(bottom: 3),
+                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                  label: Row(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                            text: 'Mobile Number',
+                            style: TextStyle(
+                              fontSize: 16,
+                              // fontWeight: FontWeight.bold,
+                              color: black,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
+                    ],
+                  ),
+                  // hintText: "Mobile number",
+                  // hintStyle: TextStyle(
+                  //   fontSize: 16,
+                  //   // fontWeight: FontWeight.bold,
+                  //   color: black,
+                  // )
+                ),
                 validator: (value) {
                   if (value!.length != 10)
                     return 'Mobile Number must be of 10 digit';
@@ -387,7 +556,7 @@ class _AddressState extends State<Address> {
   Future addNewAddress(String addressLine1, addressLine2, city, country,
       mobileno, telephoneno, state, int pincode) async {
     try {
-      String url = serverUrl+'api/auth/addaddress';
+      String url = serverUrl + 'api/auth/addaddress';
       var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({

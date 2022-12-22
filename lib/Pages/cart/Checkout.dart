@@ -7,7 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/Pages/Order/Order_json.dart';
+import 'package:flutter_login_app/Pages/Wallet/WalletScreen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,17 +35,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   var total;
   var order_id;
   var orderDetailResponse;
+  bool? check = false;
+  double WalletAmount = 0.00;
+  double amountCutFromWallet = 0.00;
+  double demoprice = 0.00;
+  double finalPrice = 0;
   // int totalprice = 0;
   double gst = 0;
-  double finalPrice = 0;
+
   var amountController = TextEditingController();
   String? valueChoose;
 
   List listItemSorting = [
-    '09:00',
-    '02:00',
-    '05:00',
-    '08:00',
+    '09:00 AM',
+    '02:00 PM',
+    '05:00 PM',
+    '08:00 PM',
   ];
 
   DateTime date = DateTime.now();
@@ -64,23 +71,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    productController.setPaymentDetails(response.paymentId.toString(),
-        "SUCCESS".toString(), orderDetailResponse['orderId'].toString());
+    productController.setPaymentDetails(
+        response.paymentId.toString(),
+        "SUCCESS".toString(),
+        orderDetailResponse['orderId'].toString(),
+        check!);
     print("paymentId");
     print(response.paymentId);
     print(response.signature);
     print(response.orderId);
     print("Payment Done");
-    Get.to(OrderPlacedScreen());
+    Get.to(() => OrderPlacedScreen());
 
     // paymentId payment Status orderId
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    productController.setPaymentDetails("0", "FAILED", "si");
+    productController.setPaymentDetails(
+        "0", "FAILED", orderDetailResponse['orderId'].toString(), check!);
     print("Payment Fail");
     print(response.toString());
-    Get.to(OrderfailScreen());
+    Get.to(() => OrderfailScreen());
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -103,27 +114,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     DateTime DateFromPicker4 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate4);
     if (now.isAfter(DateFromPicker) && now.isBefore(DateFromPicker1)) {
       listItemSorting = [
-        '02:00',
-        '05:00',
-        '08:00',
+        '02:00 PM',
+        '05:00 PM',
+        '08:00 PM',
       ];
     } else if (now.isAfter(DateFromPicker1) && now.isBefore(DateFromPicker2)) {
       listItemSorting = [
-        '05:00',
-        '08:00',
+        '05:00 PM',
+        '08:00 PM',
       ];
     } else if (now.isAfter(DateFromPicker2) && now.isBefore(DateFromPicker3)) {
       listItemSorting = [
-        '08:00',
+        '08:00 PM',
       ];
     } else if (now.isAfter(DateFromPicker3)) {
       listItemSorting = [];
     } else {
       listItemSorting = [
-        '09:00',
-        '02:00',
-        '05:00',
-        '08:00',
+        '09:00 AM',
+        '02:00 PM',
+        '05:00 PM',
+        '08:00 PM',
       ];
     }
     return Scaffold(
@@ -266,44 +277,58 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 border:
                                     Border.all(color: Colors.grey, width: 1),
                                 borderRadius: BorderRadius.circular(15)),
-                            child: DropdownButton(
-                              hint: Padding(
-                                padding: const EdgeInsets.only(top: 14),
-                                child: Text("Select",
-                                    style: TextStyle(color: white)),
-                              ),
-                              dropdownColor: Colors.white,
-                              icon: Icon(
-                                Icons.arrow_drop_down,
-                                color: white,
-                              ),
-                              iconSize: 20,
-                              isExpanded: true,
-                              value: valueChoose,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  valueChoose = newValue as String;
-                                  print("Choosed Value is :${valueChoose}");
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          super.widget);
-                                });
+                            child: GestureDetector(
+                              onTap: () {
+                                if (listItemSorting.isEmpty) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    duration: Duration(seconds: 1),
+                                    content: Text(
+                                        'There is no time slot available for today please select another days time slot'),
+                                    backgroundColor: Colors.redAccent,
+                                  ));
+                                }
                               },
-                              selectedItemBuilder: (BuildContext context) {
-                                return listItemSorting.map((value) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 14),
-                                    child: Text(
-                                      value,
-                                      style: const TextStyle(color: white),
-                                    ),
-                                  );
-                                }).toList();
-                              },
-                              items: listItemSorting.map((valueItem) {
-                                return DropdownMenuItem(
-                                    value: valueItem, child: Text(valueItem));
-                              }).toList(),
+                              child: DropdownButton(
+                                underline: SizedBox(),
+                                hint: Padding(
+                                  padding: const EdgeInsets.only(top: 14),
+                                  child: Text("Select",
+                                      style: TextStyle(color: white)),
+                                ),
+                                dropdownColor: Colors.white,
+                                icon: Icon(
+                                  Icons.arrow_drop_down,
+                                  color: white,
+                                ),
+                                iconSize: 20,
+                                isExpanded: true,
+                                value: valueChoose,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    valueChoose = newValue as String;
+                                    print("Choosed Value is :${valueChoose}");
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            super.widget);
+                                  });
+                                },
+                                selectedItemBuilder: (BuildContext context) {
+                                  return listItemSorting.map((value) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 14),
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(color: white),
+                                      ),
+                                    );
+                                  }).toList();
+                                },
+                                items: listItemSorting.map((valueItem) {
+                                  return DropdownMenuItem(
+                                      value: valueItem, child: Text(valueItem));
+                                }).toList(),
+                              ),
                             ),
                           ),
                         ),
@@ -387,7 +412,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       : 0;
                   int? totalPrice = int.tryParse(total.toString());
                   gst = ((totalPrice! * 0.18));
-                  finalPrice = gst + totalPrice + 10;
+                  if (check == false) {
+                    finalPrice = gst + totalPrice + 10;
+                  }
+
                   return GestureDetector(
                     child: Padding(
                       padding: const EdgeInsets.all(6.0),
@@ -474,6 +502,132 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text("Wallet",
+                      style: Theme.of(context).textTheme.titleMedium),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Checkbox(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          activeColor: black,
+                          checkColor: white,
+                          //only check box
+                          value: check, //unchecked
+                          onChanged: (bool? value) {
+                            setState(() {
+                              if (WalletAmount != 0.00) {
+                                check = value;
+                                if (check == true) {
+                                  if (WalletAmount >= finalPrice) {
+                                    // finalPrice = WalletAmount - finalPrice;
+                                    // print(WalletAmount);
+                                    // print(finalPrice);
+                                    double difference =
+                                        WalletAmount - finalPrice;
+                                    double gap = WalletAmount - difference;
+                                    double finalValue = finalPrice - gap;
+                                    finalPrice = finalValue.abs();
+                                    amountCutFromWallet = gap.abs();
+                                  } else {
+                                    double difference =
+                                        finalPrice - WalletAmount;
+                                    double gap = finalPrice - difference;
+                                    print(difference);
+                                    finalPrice = finalPrice - WalletAmount;
+                                    amountCutFromWallet = gap.abs();
+                                  }
+                                } else {}
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: 'Low Balance',
+                                    gravity: ToastGravity.BOTTOM_RIGHT,
+                                    fontSize: 18,
+                                    backgroundColor: Colors.red,
+                                    textColor: white);
+                              }
+                            });
+                          }),
+                      Expanded(
+                        child: Text(
+                          "Do you want to use wallet amount for payment ?",
+                          style: TextStyle(
+                            color: black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  // margin: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    "\₹ ${WalletAmount.toStringAsFixed(2)}",
+                                    style: TextStyle(
+                                        color: black,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                ),
+                                Center(
+                                  child: Text(
+                                    "Wallet Balance",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 11,
+                                        color: WalletAmount == 0
+                                            ? Colors.red
+                                            : Colors.green),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TextButton(
+                                style: TextButton.styleFrom(
+                                    backgroundColor: black),
+                                onPressed: () async {
+                                  Get.to(() => WalletScreen());
+                                },
+                                child: Text("Add Money",
+                                    style: TextStyle(color: white))),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 15,
+                  width: double.infinity,
+                  color: grey,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -511,6 +665,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     SizedBox(
                       height: 5,
                     ),
+                    check == true
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Wallet Amount",
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium),
+                              Text(
+                                  "\- ₹${amountCutFromWallet.toStringAsFixed(2)}",
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium),
+                            ],
+                          )
+                        : SizedBox(),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Divider(
                       height: 10,
                       color: Color.fromARGB(255, 137, 136, 136),
@@ -523,7 +694,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       children: [
                         Text("Total",
                             style: Theme.of(context).textTheme.titleMedium),
-                        Text("\₹${finalPrice}",
+                        Text("\₹${finalPrice.toStringAsFixed(2)}",
                             style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
@@ -551,13 +722,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       onPressed: () {
                         if (SelectedAddress != null) {
                           if (formattedDate != null && valueChoose != null) {
-                            String finalDate =
-                                CurrentDate! + " " + valueChoose! + ":00";
-
-                            // DateTime DatePicker =
-                            //     DateFormat('dd-MM-yyyy hh:mm').parse(finalDate);
-                            // print(DatePicker);
-                            createNewOrder(finalDate);
+                            DateTime finalDate =
+                                DateFormat('dd-MM-yyyy hh:mm aa')
+                                    .parse(CurrentDate! + " " + valueChoose!);
+                            createNewOrder(
+                                DateFormat('dd-MM-yyyy HH:mm:ss')
+                                    .format(finalDate),
+                                check!);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text('Please Select Date and Time Slot'),
@@ -607,6 +778,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     var store = await SharedPreferences.getInstance(); //add when requried
     var iddata = store.getString('id');
     int id = jsonDecode(iddata!);
+    getWalletByUser(id);
     setState(() {
       this.id = id;
       apiCall();
@@ -639,13 +811,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     });
   }
 
-  Future createNewOrder(String dateTime) async {
+  Future createNewOrder(String dateTime, bool check) async {
     // DateFormat dateFormat = DateFormat("dd-MM-yyyy hh:mm:ss a");
     // dateFormat.format(dateTime);
     String url = serverUrl + 'createNewOrder';
     var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({"user_id": this.id, "dateTime": dateTime}));
+        body: json.encode(
+            {"user_id": this.id, "dateTime": dateTime, "wallet": check}));
 
     if (response.statusCode == 200) {
       print("Success");
@@ -653,17 +826,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       orderDetailResponse = jsonDecode(response.body);
       print(orderDetailResponse);
       order_id = (orderDetailResponse['orderId']);
-      print(orderDetailResponse['totalPrice']);
+      print(orderDetailResponse['totalPrice'] * 100);
+      double value = orderDetailResponse['totalPrice'] * 100;
+      String value1 = value.toStringAsFixed(2);
+      print(value1);
       String orderdata = orderDetailResponse['orderId'];
       var options = {
         'key': "rzp_test_BHAChutrVpoEpO",
-        'amount': orderDetailResponse['totalPrice'] * 100,
+        'amount': value1,
         'name': 'Piyush pagar',
         'description': orderdata, // in seconds
         'prefill': {'contact': '8830218670', 'email': 'piyush@gmail.com'},
       };
       try {
-        _razorpay.open(options);
+        if (orderDetailResponse['totalPrice'] != 0) {
+          _razorpay.open(options);
+        } else {
+          setPaymentDetails('', "SUCCESS".toString(),
+              orderDetailResponse['orderId'].toString(), check);
+        }
       } catch (e) {
         print(e.toString());
       }
@@ -671,25 +852,31 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
   }
 
-  //  Future setPaymentDetails(String paymentId ,String paymentStatus,orderId) async {
-  //   try {
-  //     String url = serverUrl+'setOrderPaymentStatus';
-  //     var response = await http.post(Uri.parse(url),
-  //         headers: {'Content-Type': 'application/json'},
-  //         body: json.encode({
-  //           "paymentId": paymentId,
-  //           "paymentStatus":paymentStatus,
-  //           "orderId":orderId
-  //         }));
-  //           print("Success payment");
-  //     if (response.statusCode == 200) {
-  //       print("Success payment");
-  //      print(response.body);
-  //     }
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
+  Future setPaymentDetails(
+      String paymentId, String paymentStatus, orderId, bool check) async {
+    try {
+      String url = serverUrl + 'setOrderPaymentStatus';
+      var response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            "paymentId": paymentId,
+            "paymentStatus": paymentStatus,
+            "orderId": orderId,
+            "iswallet": check
+          }));
+      print("Success payment");
+      var body = jsonDecode(response.body);
+      if (body['status'] == 200) {
+        Get.to(() => OrderPlacedScreen());
+        print("Success payment");
+        print(response.body);
+      } else {
+        Get.to(() => OrderfailScreen());
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   getSelectedApi(int UserId, bool isSelected) async {
     try {
@@ -714,6 +901,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           body['mobile_no'];
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future getWalletByUser(int id) async {
+    String url = serverUrl + 'api/auth/getWalletbyuser/${id}';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      var body = jsonDecode(response.body);
+      setState(() {
+        WalletAmount = body['amount'];
+      });
+    } else {
+      // print(response.body);
+      print('failed');
     }
   }
 }
