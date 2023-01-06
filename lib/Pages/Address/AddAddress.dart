@@ -221,10 +221,10 @@ class _AddressState extends State<Address> {
                       color: black,
                     )),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
+                  if (value!.length != 6)
+                    return 'Pincode must be of 6 digit';
+                  else
+                    return null;
                 },
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
@@ -348,10 +348,10 @@ class _AddressState extends State<Address> {
                       color: black,
                     )),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
+                  if (value!.length != 10)
+                    return 'Mobile Number must be of 10 digit';
+                  else
+                    return null;
                 },
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,

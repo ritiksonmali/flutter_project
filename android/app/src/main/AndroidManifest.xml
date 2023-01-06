@@ -44,7 +44,10 @@
               android:value="flutter_login_app"/>
             <meta-data
               android:name="com.google.firebase.messaging.default_notification_icon"
-              android:resource="@drawable/logo111"/>
+              android:resource="@drawable/ic_notification"/>
+            <meta-data
+              android:name="com.google.firebase.messaging.default_notification_color"
+              android:resource="@color/colorPrimary" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

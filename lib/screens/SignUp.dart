@@ -373,6 +373,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
         print("response body is :" + response.body);
         Get.off(() => SignInScreen());
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('SignUp SuccessFully'),
+          backgroundColor: Colors.green,
+        ));
       } else if (response.statusCode == 400) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Email is already in use !'),

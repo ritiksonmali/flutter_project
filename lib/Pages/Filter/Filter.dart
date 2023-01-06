@@ -27,17 +27,18 @@ class _FilterPageState extends State<FilterPage> {
   late var categories = categoryController.category[lenghtCatagory];
 //  Map<String, int> listItem = {'Men': 1, 'Women': 2, 'Fashion': 3,'kid': 4, 'Baby': 5, 'Fruit': 6};
   List listItem = [
-    'Men',
-    'Women',
-    'Fashion',
-    'kid',
-    'Baby',
-    'Fruit',
+    'Fruit and Vegetables',
+    'Dairy',
+    'Chocolate and snacks',
+    'Home Essencials',
+    'Personal Care',
+    'Cleaning Essencials',
   ];
   int startValue = 0;
   int endValue = 1500;
   RangeValues _currentRangeValues = const RangeValues(0, 1500);
   String? valueChoose;
+  String categoryId = '';
   List listItemSorting = [
     'Low to High Price',
     'High to Low Price',
@@ -45,7 +46,7 @@ class _FilterPageState extends State<FilterPage> {
   bool? check1 = false;
   bool highToLow = false;
   String sortColumn = "";
-  String catagoryId = '';
+  // String catagoryId = '';
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +132,7 @@ class _FilterPageState extends State<FilterPage> {
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey, width: 1),
                       borderRadius: BorderRadius.circular(15)),
-                  child: DropdownButton(
+                  child: DropdownButton<String>(
                     hint: Text("Select",
                         style: Theme.of(context).textTheme.bodyMedium),
                     dropdownColor: Colors.white,
@@ -139,15 +140,17 @@ class _FilterPageState extends State<FilterPage> {
                     iconSize: 20,
                     isExpanded: true,
                     value: valueChoose,
-                    onChanged: (newValue) {
+                    onChanged: (String? newValue) {
                       setState(() {
                         valueChoose = newValue as String;
-                        //catagoryId=valueChoose;
+                        categoryId = newValue as String;
+                        print(valueChoose);
                       });
                     },
-                    items: listItem.map((valueItem) {
-                      return DropdownMenuItem(
-                          value: valueItem, child: Text(valueItem));
+                    items: categoryController.category.map((valueItem) {
+                      return DropdownMenuItem<String>(
+                          value: valueItem.id.toString(),
+                          child: Text(valueItem.title.toString()));
                     }).toList(),
                   ),
                 ),
@@ -234,11 +237,11 @@ class _FilterPageState extends State<FilterPage> {
                     if (check1.toString() == 'true') {
                       print('loop1');
                       productController.getFilterProducts('true', 'true',
-                          endValue, startValue, sortColumn, catagoryId, '', '');
+                          endValue, startValue, sortColumn, categoryId, '', '');
                     } else {
                       print('loop2');
                       productController.getFilterProducts('', 'true', endValue,
-                          startValue, sortColumn, catagoryId, '', '');
+                          startValue, sortColumn, categoryId, '', '');
                     }
                   } else {
                     print('loop3');
@@ -250,13 +253,13 @@ class _FilterPageState extends State<FilterPage> {
                           endValue,
                           startValue,
                           sortColumn,
-                          catagoryId,
+                          categoryId,
                           '',
                           '');
                     } else {
                       print('loop4');
                       productController.getFilterProducts('', 'false', endValue,
-                          startValue, sortColumn, catagoryId, '', '');
+                          startValue, sortColumn, categoryId, '', '');
                     }
                   }
                   Timer(Duration(seconds: 5), () {
