@@ -193,6 +193,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
+                                              SizedBox(
+                                                height: 10,
+                                              ),
                                               Text(
                                                 "Total : \₹" +
                                                     order.totalprice.toString(),
@@ -202,18 +205,23 @@ class _OrderScreenState extends State<OrderScreen> {
                                                 ),
                                               ),
                                               SizedBox(
-                                                height: 5,
+                                                height: 10,
                                               ),
                                               order.priceCutFromWallet != 0.0
-                                                  ? Text(
-                                                      "Wallet : - \₹" +
-                                                          order
-                                                              .priceCutFromWallet
-                                                              .toString(),
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                                  ? Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 10),
+                                                      child: Text(
+                                                        "Wallet : \₹" +
+                                                            order
+                                                                .priceCutFromWallet
+                                                                .toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
                                                       ),
                                                     )
                                                   : SizedBox(),
@@ -278,24 +286,29 @@ class _OrderScreenState extends State<OrderScreen> {
                                                               .priceCutFromWallet,
                                                       'orderId': controller
                                                           .orders[index].id,
-                                                      'address': order.address
+                                                      'address': order
+                                                              .addressResponse
                                                               .addressLine1 +
                                                           "\n" +
-                                                          order.address
+                                                          order.addressResponse
                                                               .addressLine2 +
                                                           "-" +
-                                                          order.address.pincode
+                                                          order.addressResponse
+                                                              .pincode
                                                               .toString() +
                                                           "\n" +
-                                                          order.address.city +
+                                                          order.addressResponse
+                                                              .city +
                                                           "\n" +
-                                                          order.address.state +
+                                                          order.addressResponse
+                                                              .state +
                                                           " " +
-                                                          order
-                                                              .address.country +
-                                                          "\n" +
-                                                          order.address.mobileNo
-                                                              .toString(),
+                                                          order.addressResponse
+                                                              .country,
+                                                      //     +
+                                                      // "\n" +
+                                                      // order.address.mobileNo
+                                                      //     .toString(),
                                                       'totalPrice': order
                                                           .totalprice
                                                           .toString()
@@ -311,7 +324,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                       ],
                                     ),
                                     SizedBox(
-                                      height: 2,
+                                      height: 5,
                                     ),
                                     Row(
                                       mainAxisAlignment:

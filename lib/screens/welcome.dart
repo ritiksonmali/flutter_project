@@ -49,7 +49,7 @@ class _WelcomeState extends State<Welcome> {
               children: <Widget>[
                 logoWidget('assets/logo111.png'),
                 SizedBox(
-                  height: 150,
+                  height: MediaQuery.of(context).size.height * 0.2,
                 ),
                 ElevatedButton(
                   style: TextButton.styleFrom(

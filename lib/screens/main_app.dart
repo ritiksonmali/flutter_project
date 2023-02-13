@@ -1,8 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
+import 'package:flutter_login_app/Controller/CategoryController.dart';
+import 'package:flutter_login_app/Controller/LocalImagesController.dart';
 import 'package:flutter_login_app/Controller/LoginController.dart';
 import 'package:flutter_login_app/Controller/OfferController.dart';
 import 'package:flutter_login_app/Controller/PopularproductController.dart';
@@ -11,6 +16,7 @@ import 'package:flutter_login_app/Notification/LocalNotificationService.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../Controller/ProductController.dart';
 import 'loading.dart';
@@ -26,10 +32,12 @@ class _MainappState extends State<Mainapp> {
   String deviceTokenToSendPushNotification = '';
 
   String deviceType = "Android";
-
+  LocalImagesController localImagesController =
+      Get.put(LocalImagesController());
   final PopularProductController popularproductController =
       Get.put(PopularProductController());
   final OfferController offerController = Get.put(OfferController());
+  final CategoryController categoryController = Get.put(CategoryController());
   final ProductController productController = Get.put(ProductController());
   final PushNotificationController pushNotificationController =
       Get.put(PushNotificationController());
@@ -38,6 +46,7 @@ class _MainappState extends State<Mainapp> {
   @override
   void initState() {
     super.initState();
+    // localImagesController.getAllProductImages();
 
     FirebaseMessaging.instance.getInitialMessage().then(
       (message) {
@@ -102,19 +111,41 @@ class _MainappState extends State<Mainapp> {
                 print('called');
                 pushNotificationController.sendNotificationData(
                     deviceTokenToSendPushNotification, deviceType);
+                // localImagesController.getAllProductCompressedImages();
+                // localImagesController.getAllProductImages();
+                productController.getAllProducts();
+                List<FileSystemEntity> dirContents = directory.listSync();
 
-                // productController.getAllProducts();
-                Timer(Duration(seconds: 10), () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            HomeScreen()), // this mymainpage is your page to refresh
-                    (Route<dynamic> route) => false,
-                  );
-                });
+                if (dirContents.length == 0
+                    // &&iscompressedImagesAdded == true &&
+                    //     isImagesAdded == true
+                    ) {
+                  print('Directory is empty');
+                  Timer(Duration(seconds: 1), () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomeScreen()), // this mymainpage is your page to refresh
+                      (Route<dynamic> route) => false,
+                    );
+                  });
+                } else {
+                  print('Directory is not empty');
+                  Timer(Duration(seconds: 1), () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomeScreen()), // this mymainpage is your page to refresh
+                      (Route<dynamic> route) => false,
+                    );
+                  });
+                }
               } else {
-                Timer(Duration(seconds: 10), () {
+                // localImagesController.getAllProductCompressedImages();
+                // localImagesController.getAllProductImages();
+                Timer(Duration(seconds: 1), () {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(

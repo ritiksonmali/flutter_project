@@ -68,7 +68,18 @@ class AllOrdersForDeliveryManager extends GetxController {
       headers: {'Content-Type': 'application/json'},
     );
     var body = jsonDecode(response.body);
-    print(body);
+    print(body['orderStatus']);
+    if (response.statusCode == 200) {
+      if (body['orderStatus'] == 'DELIVERED') {
+        print('Called');
+        String url = serverUrl +
+            'api/auth/sendNotificationToDeliveredOrder?orderId=${orderId}';
+        http.Response response1 = await http.post(
+          Uri.parse(url),
+          headers: {'Content-Type': 'application/json'},
+        );
+      }
+    }
     return body;
   }
 }

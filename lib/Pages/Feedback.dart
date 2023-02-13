@@ -126,8 +126,29 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   style: TextStyle(),
                   decoration: InputDecoration(
                     filled: true,
-                    hintText: 'Enter message title',
-                    labelStyle: TextStyle(color: Colors.black54),
+                    // hintText: 'Enter message title',
+                    label: Row(
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                              text: 'Enter message title',
+                              style: TextStyle(
+                                fontSize: 16,
+                                // fontWeight: FontWeight.bold,
+                                color: black,
+                              ),
+                              children: [
+                                TextSpan(
+                                    text: '*',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold))
+                              ]),
+                        ),
+                      ],
+                    ),
+                    // labelStyle: TextStyle(color: Colors.black54),
                     border: OutlineInputBorder(),
                   ),
                   textInputAction: TextInputAction.done,
@@ -149,8 +170,32 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   controller: bodyController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.multiline,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your feedback here',
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    alignLabelWithHint: true,
+
+                    label: Row(
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                              text: 'Enter your feedback here',
+                              style: TextStyle(
+                                fontSize: 16,
+                                // fontWeight: FontWeight.bold,
+                                color: black,
+                              ),
+                              children: [
+                                TextSpan(
+                                    text: '*',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold))
+                              ]),
+                        ),
+                      ],
+                    ),
+                    // hintText: 'Enter your feedback here',
                     filled: true,
                   ),
                   maxLines: 5,

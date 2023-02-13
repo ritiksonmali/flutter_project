@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,20 +16,22 @@ class AddressController extends GetxController {
   }
 
   List address = [].obs;
+  var isloading = true.obs;
+  List countryCityStateData = [].obs;
 
   getAddressApi() async {
     try {
       var store = await SharedPreferences.getInstance(); //add when requried
       var iddata = store.getString('id');
       int id = jsonDecode(iddata!);
-      String url = serverUrl+'api/auth/getaddressbyuser/${id}';
+      String url = serverUrl + 'api/auth/getaddressbyuser/${id}';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
       );
       var body = jsonDecode(response.body);
       address = body;
-      print(body);
+      isloading = false.obs;
       update();
       return address;
     } catch (e) {
@@ -38,12 +41,30 @@ class AddressController extends GetxController {
 
   Future setAddressStatusInactive(int addressId) async {
     print('addressid :${addressId}');
-    String url =
-        serverUrl+'api/auth/setAddressStatusInactive/${addressId}';
+    String url = serverUrl + 'api/auth/setAddressStatusInactive/${addressId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
     print(response.body);
+  }
+
+  getCountryCityState(String parent, String type) async {
+    try {
+      String url = serverUrl +
+          'api/auth/getCountryStateCity?parent=${parent}&type=${type}';
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+      var body = jsonDecode(response.body);
+      print(body['results']);
+      countryCityStateData = body['results'];
+      isloading = false.obs;
+      update();
+      return countryCityStateData;
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

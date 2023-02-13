@@ -1,13 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/ConstantUtil/globals.dart';
+import 'package:flutter_login_app/Controller/LocalImagesController.dart';
 import 'package:flutter_login_app/Notification/LocalNotificationService.dart';
-import 'package:flutter_login_app/Pages/Home/home.dart';
 import 'package:flutter_login_app/api/SignInAuto.dart';
 import 'package:flutter_login_app/screens/main_app.dart';
-import 'package:flutter_login_app/screens/SignIn.dart';
-import 'package:flutter_login_app/screens/welcome.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
@@ -15,12 +15,17 @@ Future<void> backgroundHandler(RemoteMessage message) async {
   print(message.notification!.title);
 }
 
+LocalImagesController localImagesController = Get.put(LocalImagesController());
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   LocalNotificationService.initialize();
-  runApp(const MyApp());
+  directory = await getApplicationDocumentsDirectory();
+  localImagesController.getAllProductCompressedImages().then((value) async {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

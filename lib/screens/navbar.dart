@@ -9,7 +9,7 @@ import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreenDeliveryManager.dart';
 import 'package:flutter_login_app/Pages/Setting/Setting.dart';
-import 'package:flutter_login_app/Pages/Subscribe/ProductDetails.dart';
+import 'package:flutter_login_app/Pages/Subscribe/SubscriptionOrders.dart';
 import 'package:flutter_login_app/Pages/Wallet/WalletScreen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_svg/svg.dart';
@@ -103,7 +103,7 @@ class _NavbarState extends State<Navbar> {
                 ? Padding(
                     padding: const EdgeInsets.only(bottom: 35),
                     child: ListTile(
-                      leading: Icon(Icons.history_edu),
+                      leading: Icon(Icons.delivery_dining_sharp),
                       title: Text('Delivery',
                           style: Theme.of(context).textTheme.headline6),
                       onTap: () {
@@ -154,6 +154,17 @@ class _NavbarState extends State<Navbar> {
                   Text('Wallet', style: Theme.of(context).textTheme.headline6),
               onTap: () {
                 Get.to(() => WalletScreen());
+              },
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            ListTile(
+              leading: Icon(Icons.subscriptions),
+              title: Text('Subscription',
+                  style: Theme.of(context).textTheme.headline6),
+              onTap: () {
+                Get.to(() => SubscriptionOrderDetails());
               },
             ),
             SizedBox(

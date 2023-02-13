@@ -31,13 +31,12 @@ class OrderController extends GetxController {
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
-
+    CommanDialog.hideLoading();
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
       for (Map i in body) {
         orders.add(OrderHistory.fromJson(i));
       }
-      CommanDialog.hideLoading();
       update();
       return orders;
     } else {

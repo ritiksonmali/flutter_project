@@ -6,6 +6,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_login_app/Controller/PushNotificationController.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
+import 'package:flutter_login_app/screens/mobileNumber.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -50,7 +51,6 @@ class SignInApi extends ChangeNotifier {
       String a = str.toString();
 
       var splituser = a.split(' ');
-
       if (userCredential.user != null) {
         CommanDialog.showLoading();
         await Future.delayed(Duration(seconds: 8));
@@ -99,8 +99,7 @@ class SignInApi extends ChangeNotifier {
       String firstname, lastname, email, password, bool sos) async {
     try {
       if (email != null) {
-        String url =
-            'http://158.85.243.11:8082/ergomart/api/auth/signinwithsso';
+        String url = serverUrl + 'api/auth/signinwithsso';
         http.Response response = await http.post(Uri.parse(url),
             headers: {'Content-Type': 'application/json'},
             body: json.encode({
@@ -129,10 +128,17 @@ class SignInApi extends ChangeNotifier {
           role = jsonDecode(roleFrompreference!);
           print("Role is " + role);
           pushNotificationController.sendNotificationData(
-              DeviceToken, deviceType);
-
+              deviceToken, deviceType);
           CommanDialog.hideLoading();
-          Get.off(() => HomeScreen());
+          if (userDetails['result']['new'] == true) {
+            Get.to(() => MobileNumberScreen(),
+                arguments: {'uId': userDetails['result']['id']});
+          } else {
+            Get.off(() => HomeScreen());
+          }
+
+          // CommanDialog.hideLoading();
+          // Get.off(() => HomeScreen());
         } else if (response.statusCode == 401) {
           Get.snackbar('Error', 'Email Already use for another account',
               backgroundColor: Colors.redAccent, colorText: Colors.black);

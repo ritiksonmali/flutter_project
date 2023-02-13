@@ -278,7 +278,7 @@ class _SignInScreenState extends State<SignInScreen> {
         print("Role is " + role);
         // productController.getAllProducts();
         pushNotificationController.sendNotificationData(
-            DeviceToken, deviceType);
+            deviceToken, deviceType);
         Timer(Duration(seconds: 2), () {
           Navigator.pushAndRemoveUntil(
             context,

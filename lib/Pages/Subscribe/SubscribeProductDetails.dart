@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,18 +18,21 @@ import 'package:flutter_login_app/Pages/Wallet/Walletjson.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/screens/navbar.dart';
 import 'package:get/get.dart';
+import 'package:image_fade/image_fade.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({Key? key}) : super(key: key);
+class SubscribeProductDetails extends StatefulWidget {
+  const SubscribeProductDetails({Key? key}) : super(key: key);
 
   @override
-  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+  State<SubscribeProductDetails> createState() =>
+      _SubscribeProductDetailsState();
 }
 
-class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
+  var argument = Get.arguments;
   ProductController productController = Get.put(ProductController());
   SubscribeProductController subscribeProductController =
       Get.put(SubscribeProductController());
@@ -80,6 +84,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     var iddata = store.getString('id');
     int id = jsonDecode(iddata!);
     setState(() {
+      subscribeProductController.getProductByIdandUserId(argument['proId']);
       this.id = id;
       apiCall();
     });
@@ -200,14 +205,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Column(
         children: [
           getImages(),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // getSubscribe(),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // getListPastOrders()
         ],
       ),
     );
@@ -222,7 +219,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             shrinkWrap: true,
             itemCount: subscribeProductController.subscribeProdutList.length,
             // scrollDirection: Axis.horizontal,
-            physics: ScrollPhysics(),
+            physics: const ScrollPhysics(),
             itemBuilder: (context, index) {
               var product =
                   subscribeProductController.subscribeProdutList[index];
@@ -230,19 +227,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 children: [
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 30),
                       width: 280,
                       height: 180,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                serverUrl +
-                                    'api/auth/serveproducts/${product['imageUrl'].toString()}',
-                              ),
-                              fit: BoxFit.cover)),
+                      child: ImageFade(
+                          image: NetworkImage(serverUrl +
+                              'api/auth/serveproducts/${product['imageUrl'].toString()}'),
+                          fit: BoxFit.cover,
+                          // scale: 2,
+                          placeholder: Image.file(
+                            fit: BoxFit.cover,
+                            File(
+                                '${directory.path}/compress${product['imageUrl'].toString()}'),
+                            gaplessPlayback: true,
+                          )),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -256,7 +257,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           children: [
                             Text(product['name'].toString(),
                                 style: Theme.of(context).textTheme.titleLarge),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -750,14 +751,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             ),
                                           ],
                                         ),
-                                        // SizedBox(
-                                        //   height: 10,
-                                        // ),
-                                        // const Divider(
-                                        //   thickness: 1,
-                                        //   height: 10,
-                                        //   color: black,
-                                        // ),
                                         selectEveryDay == true ||
                                                 check2nd == true ||
                                                 check3rd == true ||
@@ -973,7 +966,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 00),
                                         child: SizedBox(
-                                          width: 230,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
                                           child: SelectedAddress == null
                                               ? Text('Select Your Address')
                                               : Text(SelectedAddress.toString(),
@@ -985,7 +981,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       ),
                                       TextButton(
                                           style: TextButton.styleFrom(
-                                              backgroundColor: black),
+                                              backgroundColor: black,
+                                              minimumSize: size * 0.02),
                                           onPressed: () async {
                                             await Future.delayed(
                                                 Duration(seconds: 1));
@@ -1333,9 +1330,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           "\n" +
           body['state'] +
           " " +
-          body['country'] +
-          "\n" +
-          body['mobile_no'];
+          body['country'];
     } catch (e) {
       print(e.toString());
     }
