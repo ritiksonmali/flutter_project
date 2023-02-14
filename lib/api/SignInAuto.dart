@@ -38,7 +38,6 @@ class SignInApi extends ChangeNotifier {
       }
 
       final googleAuth = await googleUser?.authentication;
-
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
@@ -54,7 +53,9 @@ class SignInApi extends ChangeNotifier {
 
       if (userCredential.user != null) {
         CommanDialog.showLoading();
-        RestApiTest(splituser[0], splituser[1], userCredential.user?.email,
+        await Future.delayed(Duration(seconds: 8));
+        print(splituser[0] + splituser[1]);
+        RestApiTest(splituser[0], splituser[1], googleUser!.email,
             this.Defaultpassword, this.sos);
         // Get.to(() => HomeScreen());
       } else {
@@ -83,7 +84,7 @@ class SignInApi extends ChangeNotifier {
     if (result.status == LoginStatus.success) {
       CommanDialog.showLoading();
       final userData = await FacebookAuth.i.getUserData();
-      // print(userData);
+      print(userData);
       String str = userData['name'];
 
       //split string
@@ -97,46 +98,59 @@ class SignInApi extends ChangeNotifier {
   Future RestApiTest(
       String firstname, lastname, email, password, bool sos) async {
     try {
-      String url = serverUrl + 'api/auth/signinwithsso';
-      http.Response response = await http.post(Uri.parse(url),
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({
-            'firstName': firstname,
-            'lastName': lastname,
-            'email': email,
-            'password': this.Defaultpassword,
-            'sos': sos,
-          }));
+      if (email != null) {
+        String url =
+            'http://158.85.243.11:8082/ergomart/api/auth/signinwithsso';
+        http.Response response = await http.post(Uri.parse(url),
+            headers: {'Content-Type': 'application/json'},
+            body: json.encode({
+              'firstName': firstname,
+              'lastName': lastname,
+              'email': email,
+              'password': this.Defaultpassword,
+              'sos': sos,
+            }));
 
-      var userDetails = jsonDecode(response.body);
+        var userDetails = jsonDecode(response.body);
+        print(response.body);
 
-      var store = await SharedPreferences.getInstance();
-      if (response.statusCode == 200) {
-        print("Succesfully Logged in......!");
-        store.setString('userData', json.encode(userDetails['result']));
-        store.setString('id', json.encode(userDetails['result']['id']));
-        store.setString(
-            'firstname', json.encode(userDetails['result']['firstName']));
-        store.setString(
-            'lastname', json.encode(userDetails['result']['lastName']));
-        store.setString('email', json.encode(userDetails['result']['email']));
-        store.setString('role', json.encode(userDetails['result']['role']));
-        String? roleFrompreference = store.getString('role');
-        role = jsonDecode(roleFrompreference!);
-        print("Role is " + role);
-        pushNotificationController.sendNotificationData(
-            DeviceToken, deviceType);
+        var store = await SharedPreferences.getInstance();
+        if (response.statusCode == 200) {
+          print("Succesfully Logged in......!");
+          store.setString('userData', json.encode(userDetails['result']));
+          store.setString('id', json.encode(userDetails['result']['id']));
+          store.setString(
+              'firstname', json.encode(userDetails['result']['firstName']));
+          store.setString(
+              'lastname', json.encode(userDetails['result']['lastName']));
+          store.setString('email', json.encode(userDetails['result']['email']));
+          store.setString('role', json.encode(userDetails['result']['role']));
+          String? roleFrompreference = store.getString('role');
+          role = jsonDecode(roleFrompreference!);
+          print("Role is " + role);
+          pushNotificationController.sendNotificationData(
+              DeviceToken, deviceType);
 
-        CommanDialog.hideLoading();
-        Get.off(() => HomeScreen());
-      } else if (response.statusCode == 401) {
-        Get.snackbar('Error', 'Email Already use for another account',
-            backgroundColor: Colors.redAccent, colorText: Colors.black);
-        print("Please Enter Valid Email and Password");
-      } else if (response.statusCode == 400) {
-        print("Bad Request");
+          CommanDialog.hideLoading();
+          Get.off(() => HomeScreen());
+        } else if (response.statusCode == 401) {
+          Get.snackbar('Error', 'Email Already use for another account',
+              backgroundColor: Colors.redAccent, colorText: Colors.black);
+          print("Please Enter Valid Email and Password");
+        } else if (response.statusCode == 400) {
+          print("Bad Request");
+        } else {
+          // print("failed");
+        }
       } else {
+        CommanDialog.hideLoading();
         print("failed");
+        Get.showSnackbar(GetSnackBar(
+          duration: Duration(seconds: 5),
+          backgroundColor: Colors.redAccent,
+          messageText: Text(
+              'Sorry Your  Email is Not Connected with Your Account Kindly Conncet It'),
+        ));
       }
     } catch (e) {
       print(e.toString());

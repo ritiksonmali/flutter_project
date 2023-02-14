@@ -188,14 +188,46 @@ class _OrderScreenState extends State<OrderScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          "Total : \₹" +
-                                              order.totalprice.toString(),
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500,
+                                        Flexible(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Total : \₹" +
+                                                    order.totalprice.toString(),
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              order.priceCutFromWallet != 0.0
+                                                  ? Text(
+                                                      "Wallet : - \₹" +
+                                                          order
+                                                              .priceCutFromWallet
+                                                              .toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    )
+                                                  : SizedBox(),
+                                            ],
                                           ),
                                         ),
+                                        // Text(
+                                        //   "Total : \₹" +
+                                        //       order.totalprice.toString(),
+                                        //   style: TextStyle(
+                                        //     fontSize: 20,
+                                        //     fontWeight: FontWeight.w500,
+                                        //   ),
+                                        // ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -229,6 +261,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                                 : Text(''),
                                             ElevatedButton(
                                               onPressed: () {
+                                                print(controller.orders[index]
+                                                    .priceCutFromWallet
+                                                    .toString());
                                                 controller.update();
                                                 Get.to(
                                                     () => OrderDetailsScreen(),
@@ -237,6 +272,10 @@ class _OrderScreenState extends State<OrderScreen> {
                                                       'orderItem': controller
                                                           .orders[index]
                                                           .orderItem,
+                                                      'priceCutFromWallet':
+                                                          controller
+                                                              .orders[index]
+                                                              .priceCutFromWallet,
                                                       'orderId': controller
                                                           .orders[index].id,
                                                       'address': order.address
@@ -271,6 +310,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                         ),
                                       ],
                                     ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -278,7 +320,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                         Text(
                                           order.createdDate != null
                                               ? DateFormat('dd-MM-yyyy hh:mm a')
-                                                  .format(order.createdDate)
+                                                  .format(order.createdDate
+                                                      .toUtc()
+                                                      .toLocal())
                                               : "",
                                           style: Theme.of(context)
                                               .textTheme

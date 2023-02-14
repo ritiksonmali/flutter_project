@@ -302,6 +302,22 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     SizedBox(
                       height: 5,
                     ),
+                    orderId['priceCutFromWallet'] != 0
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Wallet Amount",
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium),
+                              Text("\- ₹${orderId['priceCutFromWallet']}",
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium),
+                            ],
+                          )
+                        : SizedBox(),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Divider(
                       height: 10,
                       color: Color.fromARGB(255, 137, 136, 136),
@@ -314,7 +330,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       children: [
                         Text("Total",
                             style: Theme.of(context).textTheme.titleLarge),
-                        Text("\₹${finalPrice}",
+                        Text(
+                            "\₹${(finalPrice - orderId['priceCutFromWallet']).abs().toStringAsFixed(2)}",
                             style: Theme.of(context).textTheme.titleLarge),
                       ],
                     ),
@@ -351,12 +368,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   List selectedOrder = [];
 
   Future getOrderDetails(orderId) async {
-    String url = serverUrl+'getOrderDetailsbyid/${orderId}';
+    String url = serverUrl + 'getOrderDetailsbyid/${orderId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
     var body = jsonDecode(response.body);
+    print(body);
     return body['orderItem'];
   }
 }

@@ -276,7 +276,7 @@ class _SignInScreenState extends State<SignInScreen> {
         String? roleFrompreference = store.getString('role');
         role = jsonDecode(roleFrompreference!);
         print("Role is " + role);
-        productController.getAllProducts();
+        // productController.getAllProducts();
         pushNotificationController.sendNotificationData(
             DeviceToken, deviceType);
         Timer(Duration(seconds: 2), () {

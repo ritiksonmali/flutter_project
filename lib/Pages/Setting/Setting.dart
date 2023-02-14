@@ -10,6 +10,7 @@ import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../ConstantUtil/globals.dart';
@@ -24,6 +25,14 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final _formKey1 = GlobalKey<FormState>();
   bool isValid = false;
+  var versionInfo;
+
+  getVersions() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      versionInfo = '${packageInfo.version} + ${packageInfo.buildNumber}';
+    });
+  }
 
   void test() async {
     var store = await SharedPreferences.getInstance(); //add when requried
@@ -43,6 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getVersions();
     test();
   }
 
@@ -53,7 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
         centerTitle: true,
         title: Text(
           "Setting",
-         style: TextStyle(
+          style: TextStyle(
             color: black,
             fontSize: 25,
             fontWeight: FontWeight.normal,
@@ -69,6 +79,13 @@ class _SettingsPageState extends State<SettingsPage> {
             Icons.arrow_back,
             color: Colors.black,
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+        child: Text(
+          'Version : ${versionInfo}',
+          textAlign: TextAlign.center,
         ),
       ),
       body: Container(
@@ -106,8 +123,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             showpassword(context, "Change password"),
             // buildAccountOptionRow(context, "Change password"),
-            AddressRow(context, "Address"),
-            OrdersRow(context, "Orders"),
+            // AddressRow(context, "Address"),
+            // OrdersRow(context, "Orders"),
             SizedBox(
               height: 40,
             ),
@@ -243,11 +260,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           cursorColor: Colors.black87,
                           style: TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(bottom: 3),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              hintText: "Enter Old Password",
-                              hintStyle: Theme.of(context).textTheme.bodyMedium,),
+                            contentPadding: EdgeInsets.only(bottom: 3),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            hintText: "Enter Old Password",
+                            hintStyle: Theme.of(context).textTheme.bodyMedium,
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Required';
@@ -265,11 +282,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           cursorColor: Colors.black87,
                           style: TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(bottom: 3),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              hintText: "Enter New Password",
-                              hintStyle:Theme.of(context).textTheme.bodyMedium,),
+                            contentPadding: EdgeInsets.only(bottom: 3),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            hintText: "Enter New Password",
+                            hintStyle: Theme.of(context).textTheme.bodyMedium,
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Required';
@@ -287,11 +304,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           cursorColor: Colors.black87,
                           style: TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(bottom: 3),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              hintText: "Confirm New Password",
-                              hintStyle:Theme.of(context).textTheme.bodyMedium,),
+                            contentPadding: EdgeInsets.only(bottom: 3),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            hintText: "Confirm New Password",
+                            hintStyle: Theme.of(context).textTheme.bodyMedium,
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Required';
@@ -308,14 +325,16 @@ class _SettingsPageState extends State<SettingsPage> {
                           height: 20,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                          padding:
+                              const EdgeInsets.only(left: 20.0, right: 20.0),
                           child: Row(
                             children: [
                               ElevatedButton(
                                 style: TextButton.styleFrom(
                                   backgroundColor: Colors.black,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.0)),
+                                      borderRadius:
+                                          BorderRadius.circular(30.0)),
                                 ),
                                 child: Text(
                                   "Submit",
@@ -328,14 +347,15 @@ class _SettingsPageState extends State<SettingsPage> {
                                   changepassword();
                                 },
                               ),
-                               SizedBox(
-                               width: 55,
-                                ),
-                                  ElevatedButton(
+                              SizedBox(
+                                width: 55,
+                              ),
+                              ElevatedButton(
                                 style: TextButton.styleFrom(
                                   backgroundColor: Colors.black,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.0)),
+                                      borderRadius:
+                                          BorderRadius.circular(30.0)),
                                 ),
                                 child: Text(
                                   "Close",
@@ -345,7 +365,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       color: Colors.white),
                                 ),
                                 onPressed: () {
-                                   Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
                                 },
                               ),
                             ],
@@ -353,7 +373,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                       ],
                     ),
-                   
                   ),
                 ),
               );
@@ -397,7 +416,7 @@ class _SettingsPageState extends State<SettingsPage> {
     try {
       print(oldpassword + " " + newpassword);
 
-      String url = serverUrl+'api/auth/resetpassword';
+      String url = serverUrl + 'api/auth/resetpassword';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -426,7 +445,3 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 }
-
-
-
-

@@ -1,13 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
+import 'package:flutter_login_app/Pages/Feedback.dart';
 import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreenDeliveryManager.dart';
 import 'package:flutter_login_app/Pages/Setting/Setting.dart';
+import 'package:flutter_login_app/Pages/Subscribe/ProductDetails.dart';
+import 'package:flutter_login_app/Pages/Wallet/WalletScreen.dart';
+import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:flutter/material.dart';
@@ -70,8 +72,6 @@ class _NavbarState extends State<Navbar> {
                 title:
                     Text('Home', style: Theme.of(context).textTheme.headline6),
                 onTap: () {
-                  productController.getAllProducts();
-
                   Timer(Duration(seconds: 1), () {
                     Navigator.pushAndRemoveUntil(
                       context,
@@ -146,16 +146,40 @@ class _NavbarState extends State<Navbar> {
               height: 35,
             ),
             ListTile(
+              leading: Icon(Icons.wallet),
+              title:
+                  Text('Wallet', style: Theme.of(context).textTheme.headline6),
+              onTap: () {
+                Get.to(() => WalletScreen());
+              },
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            ListTile(
+              leading: Icon(Icons.feedback),
+              title: Text('Feedback',
+                  style: Theme.of(context).textTheme.headline6),
+              onTap: () {
+                Get.to(() => FeedbackScreen());
+              },
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Sign Out',
                   style: Theme.of(context).textTheme.headline6),
               onTap: () async {
+                CommanDialog.showLoading();
                 pushNotificationController.setNotifiedUserStatus();
-                await Future.delayed(Duration(seconds: 10));
+                await Future.delayed(Duration(seconds: 4));
                 LoginController.logOut();
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => Welcome()),
                     (Route<dynamic> route) => false);
+                CommanDialog.hideLoading();
                 // Get.off(() => Welcome());
               },
             ),

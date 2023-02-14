@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Pages/Product/PopularProductList.dart';
+import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 
 import '../../ConstantUtil/colors.dart';
@@ -232,39 +233,105 @@ class _FilterPageState extends State<FilterPage> {
                 label: Text('Search'), // <-- Text
                 backgroundColor: black,
                 onPressed: () {
+                  CommanDialog.showLoading();
                   print(check1.toString());
                   if (valueChooseSort.toString() == 'High to Low Price') {
                     if (check1.toString() == 'true') {
                       print('loop1');
-                      productController.getFilterProducts('true', 'true',
-                          endValue, startValue, sortColumn, categoryId, '', '');
+                      // productController.getFilterProducts(
+                      //     'true',
+                      //     'true',
+                      //     endValue,
+                      //     startValue,
+                      //     sortColumn,
+                      //     categoryId,
+                      //     '',
+                      //     '',
+                      //     '');
+                      Timer(Duration(seconds: 1), () {
+                        Get.to(() => PopularProductList(), arguments: {
+                          "offerId": '',
+                          "categoryId": categoryId,
+                          "productId": '',
+                          'isPopular': 'true',
+                          'highToLow': 'true',
+                          'maxPrice': endValue,
+                          'minPrice': startValue,
+                          'sortColumn': sortColumn,
+                          'productName': '',
+                        });
+                      });
                     } else {
                       print('loop2');
-                      productController.getFilterProducts('', 'true', endValue,
-                          startValue, sortColumn, categoryId, '', '');
+                      // productController.getFilterProducts('', 'true', endValue,
+                      //     startValue, sortColumn, categoryId, '', '', '');
+                      Timer(Duration(seconds: 1), () {
+                        Get.to(() => PopularProductList(), arguments: {
+                          "offerId": '',
+                          "categoryId": categoryId,
+                          "productId": '',
+                          'isPopular': '',
+                          'highToLow': 'true',
+                          'maxPrice': endValue,
+                          'minPrice': startValue,
+                          'sortColumn': sortColumn,
+                          'productName': '',
+                        });
+                      });
                     }
                   } else {
                     print('loop3');
                     if (check1.toString() == 'true') {
                       print(check1.toString());
-                      productController.getFilterProducts(
-                          check1.toString(),
-                          'false',
-                          endValue,
-                          startValue,
-                          sortColumn,
-                          categoryId,
-                          '',
-                          '');
+                      // productController.getFilterProducts(
+                      //     check1.toString(),
+                      //     'false',
+                      //     endValue,
+                      //     startValue,
+                      //     sortColumn,
+                      //     categoryId,
+                      //     '',
+                      //     '',
+                      //     '');
+                      Timer(Duration(seconds: 1), () {
+                        Get.to(() => PopularProductList(), arguments: {
+                          "offerId": '',
+                          "categoryId": categoryId,
+                          "productId": '',
+                          'isPopular': check1.toString(),
+                          'highToLow': 'false',
+                          'maxPrice': endValue,
+                          'minPrice': startValue,
+                          'sortColumn': sortColumn,
+                          'productName': '',
+                        });
+                      });
                     } else {
                       print('loop4');
-                      productController.getFilterProducts('', 'false', endValue,
-                          startValue, sortColumn, categoryId, '', '');
+                      // productController.getFilterProducts('', 'false', endValue,
+                      //     startValue, sortColumn, categoryId, '', '', '');
+                      Timer(Duration(seconds: 1), () {
+                        Get.to(() => PopularProductList(), arguments: {
+                          "offerId": '',
+                          "categoryId": categoryId,
+                          "productId": '',
+                          'isPopular': '',
+                          'highToLow': 'false',
+                          'maxPrice': endValue,
+                          'minPrice': startValue,
+                          'sortColumn': sortColumn,
+                          'productName': '',
+                        });
+                      });
                     }
                   }
-                  Timer(Duration(seconds: 5), () {
-                    Get.to(() => PopularProductList());
-                  });
+                  // Timer(Duration(seconds: 1), () {
+                  //   Get.to(() => PopularProductList(), arguments: {
+                  //     "offerId": '',
+                  //     "categoryId": '',
+                  //     "productId": ''
+                  //   });
+                  // });
                 },
               ),
             ],

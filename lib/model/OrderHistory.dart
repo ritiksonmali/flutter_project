@@ -4,11 +4,10 @@
 
 import 'dart:convert';
 
-List<OrderHistory> orderHistoryFromJson(String str) => List<OrderHistory>.from(
-    json.decode(str).map((x) => OrderHistory.fromJson(x)));
+OrderHistory orderHistoryFromJson(String str) =>
+    OrderHistory.fromJson(json.decode(str));
 
-String orderHistoryToJson(List<OrderHistory> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String orderHistoryToJson(OrderHistory data) => json.encode(data.toJson());
 
 class OrderHistory {
   OrderHistory({
@@ -17,8 +16,12 @@ class OrderHistory {
     required this.id,
     required this.orderItem,
     required this.address,
+    required this.imageUrl,
+    required this.dateTime,
     required this.totalprice,
     required this.orderStatus,
+    required this.isWallet,
+    required this.priceCutFromWallet,
   });
 
   DateTime createdDate;
@@ -26,28 +29,42 @@ class OrderHistory {
   int id;
   List<OrderItem> orderItem;
   Address address;
+  dynamic imageUrl;
+  String dateTime;
   double totalprice;
   String orderStatus;
+  bool isWallet;
+  double priceCutFromWallet;
 
   factory OrderHistory.fromJson(dynamic json) => OrderHistory(
         createdDate: DateTime.parse(json["createdDate"]),
-        lastModifiedDate: DateTime.parse(json["createdDate"]),
+        lastModifiedDate: DateTime.parse(json["lastModifiedDate"]),
         id: json["id"],
         orderItem: List<OrderItem>.from(
             json["orderItem"].map((x) => OrderItem.fromJson(x))),
         address: Address.fromJson(json["address"]),
-        totalprice: json["totalprice"],
+        imageUrl: json["imageUrl"],
+        dateTime: json["dateTime"] != null ? json["dateTime"] : '',
+        totalprice: json["totalprice"].toDouble(),
         orderStatus: json["orderStatus"],
+        isWallet: json["isWallet"],
+        priceCutFromWallet: json["priceCutFromWallet"] != null
+            ? json["priceCutFromWallet"]
+            : 0.0,
       );
 
   Map<String, dynamic> toJson() => {
-        "createdDate": createdDate,
-        "lastModifiedDate": lastModifiedDate,
+        "createdDate": createdDate.toIso8601String(),
+        "lastModifiedDate": lastModifiedDate.toIso8601String(),
         "id": id,
         "orderItem": List<dynamic>.from(orderItem.map((x) => x.toJson())),
         "address": address.toJson(),
+        "imageUrl": imageUrl,
+        "dateTime": dateTime,
         "totalprice": totalprice,
         "orderStatus": orderStatus,
+        "isWallet": isWallet,
+        "priceCutFromWallet": priceCutFromWallet,
       };
 }
 
@@ -65,6 +82,7 @@ class Address {
     required this.telephoneNo,
     required this.isSelected,
     required this.mobileNo,
+    required this.status,
   });
 
   DateTime createdDate;
@@ -79,6 +97,7 @@ class Address {
   String telephoneNo;
   bool isSelected;
   String mobileNo;
+  String status;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         createdDate: DateTime.parse(json["createdDate"]),
@@ -93,6 +112,7 @@ class Address {
         telephoneNo: json["telephone_no"],
         isSelected: json["isSelected"],
         mobileNo: json["mobile_no"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -108,6 +128,7 @@ class Address {
         "telephone_no": telephoneNo,
         "isSelected": isSelected,
         "mobile_no": mobileNo,
+        "status": status,
       };
 }
 
@@ -193,7 +214,7 @@ class Product {
 
 class Inventory {
   Inventory({
-    this.createdDate,
+    required this.createdDate,
     required this.lastModifiedDate,
     required this.id,
     required this.quantity,
