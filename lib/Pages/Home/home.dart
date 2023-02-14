@@ -302,7 +302,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(
               width: double.infinity,
-              height: 150,
+              height: height * 0.20,
               child: GetBuilder<OfferController>(builder: (controller) {
                 return offerController.offer.isEmpty
                     ? const SizedBox()
@@ -403,7 +403,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(
-              height: height * 0.2,
+              height: height * 0.25,
               child:
                   GetBuilder<PopularProductController>(builder: (controller) {
                 return ListView.builder(
@@ -494,7 +494,7 @@ class _HomePageState extends State<HomePage> {
                   TextButton.icon(
                     // <-- OutlinedButton
                     onPressed: () {
-                      Get.to(() => const LoadingScreen());
+                      Get.to(() => const FilterPage());
                     },
                     label: Text('Filter',
                         style: Theme.of(context).textTheme.titleMedium),
@@ -665,13 +665,7 @@ class _HomePageState extends State<HomePage> {
                                                         //  productController.productResponseList[index]
                                                         //['added'] !=false &&
                                                         Row(
-                                                          mainAxisAlignment: productController
-                                                                          .productResponseList[
-                                                                      index][
-                                                                  'isSubscribe']
-                                                              ? MainAxisAlignment
-                                                                  .spaceBetween
-                                                              : MainAxisAlignment
+                                                          mainAxisAlignment: MainAxisAlignment
                                                                   .end,
                                                           children: [
                                                             productController.productResponseList[
@@ -683,7 +677,9 @@ class _HomePageState extends State<HomePage> {
                                                                     height:
                                                                         height *
                                                                             0.06,
-                                                                    // height: 40,
+                                                                    width:
+                                                                        width *
+                                                                            0.2,
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       borderRadius:
@@ -735,6 +731,9 @@ class _HomePageState extends State<HomePage> {
                                                                     height:
                                                                         height *
                                                                             0.06,
+                                                                    width:
+                                                                        width *
+                                                                            0.2,
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       borderRadius:
@@ -748,42 +747,52 @@ class _HomePageState extends State<HomePage> {
                                                                         ? Row(
                                                                             mainAxisSize:
                                                                                 MainAxisSize.min,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
+                                                                            // mainAxisAlignment:
+                                                                            //     MainAxisAlignment.center,
                                                                             children: <Widget>[
-                                                                              IconButton(
-                                                                                iconSize: height * 0.02,
-                                                                                icon: const Icon(Icons.remove),
-                                                                                onPressed: () {
-                                                                                  setState(() {
-                                                                                    productController.increasequantity(this.id!, productController.productResponseList[index]['id'], this.remove);
-                                                                                    if (productController.productResponseList[index]['cartQauntity'] > 1) {
-                                                                                      productController.productResponseList[index]['cartQauntity'] = productController.productResponseList[index]['cartQauntity'] - 1;
-                                                                                    } else {
-                                                                                      productController.onReady();
-                                                                                      productController.productResponseList[index]['cartQauntity'] = 0;
-                                                                                      productController.productResponseList[index]['added'] = false;
-                                                                                    }
-                                                                                  });
-                                                                                },
-                                                                                color: white,
+                                                                              Expanded(
+                                                                                child: Padding(
+                                                                                  padding: EdgeInsets.zero,
+                                                                                  child: IconButton(
+                                                                                    iconSize: height * 0.02,
+                                                                                    icon: const Icon(Icons.remove),
+                                                                                    onPressed: () {
+                                                                                      setState(() {
+                                                                                        productController.increasequantity(this.id!, productController.productResponseList[index]['id'], this.remove);
+                                                                                        if (productController.productResponseList[index]['cartQauntity'] > 1) {
+                                                                                          productController.productResponseList[index]['cartQauntity'] = productController.productResponseList[index]['cartQauntity'] - 1;
+                                                                                        } else {
+                                                                                          productController.onReady();
+                                                                                          productController.productResponseList[index]['cartQauntity'] = 0;
+                                                                                          productController.productResponseList[index]['added'] = false;
+                                                                                        }
+                                                                                      });
+                                                                                    },
+                                                                                    color: white,
+                                                                                  ),
+                                                                                ),
                                                                               ),
                                                                               Text(
                                                                                 productController.productResponseList[index]['cartQauntity'].toString(),
                                                                                 style: Theme.of(context).textTheme.caption!.apply(color: white),
                                                                               ),
-                                                                              IconButton(
-                                                                                iconSize: height * 0.02,
-                                                                                icon: const Icon(Icons.add),
-                                                                                color: white,
-                                                                                onPressed: () {
-                                                                                  if (productController.productResponseList[index]['cartQauntity'] < 5 && productController.productResponseList[index]['inventory']['quantity'] > productController.productResponseList[index]['cartQauntity']) {
-                                                                                    productController.increasequantity(this.id!, productController.productResponseList[index]['id'], this.add);
-                                                                                    setState(() {
-                                                                                      productController.productResponseList[index]['cartQauntity'] = productController.productResponseList[index]['cartQauntity'] + 1;
-                                                                                    });
-                                                                                  }
-                                                                                },
+                                                                              Expanded(
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(right: 8.0),
+                                                                                  child: IconButton(
+                                                                                    iconSize: height * 0.02,
+                                                                                    icon: const Icon(Icons.add),
+                                                                                    color: white,
+                                                                                    onPressed: () {
+                                                                                      if (productController.productResponseList[index]['cartQauntity'] < 5 && productController.productResponseList[index]['inventory']['quantity'] > productController.productResponseList[index]['cartQauntity']) {
+                                                                                        productController.increasequantity(this.id!, productController.productResponseList[index]['id'], this.add);
+                                                                                        setState(() {
+                                                                                          productController.productResponseList[index]['cartQauntity'] = productController.productResponseList[index]['cartQauntity'] + 1;
+                                                                                        });
+                                                                                      }
+                                                                                    },
+                                                                                  ),
+                                                                                ),
                                                                               ),
                                                                             ],
                                                                           )
