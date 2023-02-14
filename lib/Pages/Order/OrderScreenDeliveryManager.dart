@@ -232,23 +232,25 @@ class _OrderScreenDeliveryManagerState
                                                   'orderId':
                                                       allOrdersForDeliveryManager
                                                           .allOrders[index].id,
-                                                  'address': order.address
+                                                  'address': order
+                                                          .addressResponse
                                                           .addressLine1 +
                                                       "\n" +
-                                                      order.address
+                                                      order.addressResponse
                                                           .addressLine2 +
                                                       "-" +
-                                                      order.address.pincode
+                                                      order.addressResponse
+                                                          .pincode
                                                           .toString() +
                                                       "\n" +
-                                                      order.address.city +
+                                                      order.addressResponse
+                                                          .city +
                                                       "\n" +
-                                                      order.address.state +
+                                                      order.addressResponse
+                                                          .state +
                                                       " " +
-                                                      order.address.country +
-                                                      "\n" +
-                                                      order.address.mobileNo
-                                                          .toString(),
+                                                      order.addressResponse
+                                                          .country,
                                                   'totalPrice': order.totalprice
                                                       .toString()
                                                 });

@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
+import 'package:flutter_login_app/screens/SetNewPassword.dart';
 import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 
 import '../../ConstantUtil/colors.dart';
-
 
 class OtpVerification extends StatefulWidget {
   const OtpVerification({Key? key}) : super(key: key);
@@ -16,14 +17,15 @@ class OtpVerification extends StatefulWidget {
 }
 
 class _OtpVerificationState extends State<OtpVerification> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey10 = GlobalKey<FormState>();
   bool isVisible = false;
   TextEditingController _otpTextController = TextEditingController();
+  var argument = Get.arguments;
 
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-        key: _formKey,
+        key: _formKey10,
         child: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -47,12 +49,12 @@ class _OtpVerificationState extends State<OtpVerification> {
                     height: 20,
                   ),
                   TextFormField(
-                   controller: _otpTextController,
+                    controller: _otpTextController,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.email_outlined,
+                          Icons.lock_outline_sharp,
                           color: Colors.black87,
                         ),
                         labelText: 'Enter otp',
@@ -66,6 +68,16 @@ class _OtpVerificationState extends State<OtpVerification> {
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Colors.blue))),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(4)
+                    ],
+                    validator: (value) {
+                      if (value != null)
+                        return 'Otp Required';
+                      else
+                        return null;
+                    },
                   ),
                   const SizedBox(
                     height: 20,
@@ -74,17 +86,34 @@ class _OtpVerificationState extends State<OtpVerification> {
                     label: Text('Verifly Otp'), // <-- Text
                     backgroundColor: black,
                     onPressed: () {
-                    
-                       
-                   
-      
-                     
+                      checkOtp();
                     },
-                  ),              
+                  ),
                 ],
               ),
             ))),
       ),
     );
+  }
+
+  checkOtp() {
+    if (_formKey10.currentState!.validate()) {
+      print(argument['otp']);
+      print('gdjhgrdhg' + _otpTextController.text);
+      if (argument['otp'].toString() == _otpTextController.text.toString()) {
+        print('success');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Otp Validated Successfully'),
+          backgroundColor: Colors.green,
+        ));
+        Get.to(() => SetNewPassword());
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Please Enter Valid Otp'),
+          backgroundColor: Colors.redAccent,
+        ));
+      }
+      _formKey10.currentState!.save();
+    }
   }
 }

@@ -11,7 +11,7 @@ import 'package:flutter_login_app/screens/SignIn.dart';
 import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:intl_phone_field/intl_phone_field.dart';
 import '../ConstantUtil/globals.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -40,9 +40,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (_formKey.currentState!.validate()) {
       print("Form is valid ");
       _formKey.currentState!.save();
-      // print('User Sign Up Data $userSignupData');
-      // controller.signUp(userSignupData['email'], userSignupData['password'],
-      //     userSignupData['username']);
       EmailValidation();
       if (isValid == true) {
         RestApiTest(
@@ -50,6 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             _lastnamecontroller.text.toString(),
             _emailcontroller.text.toString(),
             _passwordcontroller.text.toString(),
+            _mobileNocontroller.text.toString(),
             sos);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -73,6 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _firstnamecontroller = TextEditingController();
   TextEditingController _lastnamecontroller = TextEditingController();
   TextEditingController _emailcontroller = TextEditingController();
+  TextEditingController _mobileNocontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
   TextEditingController _confirmpasswordcontroller = TextEditingController();
   // TextEditingController _emailTextController = TextEditingController();
@@ -179,7 +178,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     keyboardType: TextInputType.text,
                   ),
-
                   const SizedBox(
                     height: 20,
                   ),
@@ -221,9 +219,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     keyboardType: TextInputType.emailAddress,
                   ),
-
-                  // reusableTextField("Enter Email Id", Icons.person_outline,
-                  //     false, _emailTextController),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  IntlPhoneField(
+                    flagsButtonPadding: EdgeInsets.only(left: 15),
+                    showDropdownIcon: false,
+                    obscureText: false,
+                    initialCountryCode: 'IN',
+                    onChanged: (phone) {
+                      print(phone.completeNumber);
+                    },
+                    decoration: InputDecoration(
+                        counterText: '',
+                        labelText: 'Enter Mobile Number',
+                        labelStyle: TextStyle(color: Colors.black54),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.black)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.blue))),
+                    countries: <String>['IN'],
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    controller: _mobileNocontroller,
+                    keyboardType: TextInputType.numberWithOptions(
+                        signed: true, decimal: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(10)
+                    ],
+                    validator: (value) {
+                      if (value != null)
+                        return 'Mobile Number must be of 10 digit';
+                      else
+                        return null;
+                    },
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -252,10 +287,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Colors.blue))),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      RegExp regex = RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+                      if (value!.isEmpty) {
                         return 'Password Required';
+                      } else {
+                        if (!regex.hasMatch(value)) {
+                          return 'Enter valid password';
+                        } else {
+                          return null;
+                        }
                       }
-                      return null;
                     },
                     onSaved: (value) {
                       // userSignupData['password'] = value!;
@@ -305,7 +346,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     obscureText: true,
                   ),
-
                   const SizedBox(
                     height: 20,
                   ),
@@ -350,20 +390,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void EmailValidation() {
     setState(() {
-      isValid = EmailValidator.validate(_emailcontroller.text.trim());
+      isValid = RegExp(
+              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+          .hasMatch(_emailcontroller.text);
     });
   }
 
   Future RestApiTest(
-      String firstname, lastname, email, password, bool sos) async {
+      String firstname, lastname, email, password, mobileNo, bool sos) async {
     try {
-      String url = serverUrl+'api/auth/signup';
+      String url = serverUrl + 'api/auth/signup';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
             'firstName': firstname,
             'lastName': lastname,
             'email': email,
+            'mobileNo': mobileNo,
             'password': password,
             'sos': sos,
           }));

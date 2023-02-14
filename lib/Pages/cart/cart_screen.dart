@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/screens/navbar.dart';
 import 'package:get/get.dart';
+import 'package:image_fade/image_fade.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../ConstantUtil/colors.dart';
@@ -101,6 +103,9 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var height = size.height;
+    var width = size.width;
     return WillPopScope(
       onWillPop: () async {
         CommanDialog.showLoading();
@@ -237,21 +242,26 @@ class _CartScreenState extends State<CartScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         top: 10,
-                                        left: 25,
-                                        right: 25,
+                                        left: 15,
+                                        right: 15,
                                         bottom: 25),
                                     child: Column(
                                       children: <Widget>[
                                         Center(
                                           child: Container(
-                                            width: 120,
-                                            height: 70,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(serverUrl +
-                                                        'api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
-                                                    // image: AssetImage("assets/shoe_1.webp"),
-                                                    fit: BoxFit.cover)),
+                                            width: width * 0.25,
+                                            height: height * 0.10,
+                                            child: ImageFade(
+                                                image: NetworkImage(serverUrl +
+                                                    'api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
+                                                fit: BoxFit.cover,
+                                                // scale: 2,
+                                                placeholder: Image.file(
+                                                  fit: BoxFit.cover,
+                                                  File(
+                                                      '${directory.path}/compress${cartdata['product']['imageUrl'].toString()}'),
+                                                  gaplessPlayback: true,
+                                                )),
                                           ),
                                         ),
                                       ],
@@ -281,6 +291,41 @@ class _CartScreenState extends State<CartScreen> {
                                       ],
                                     ),
                                     SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.crop_square_sharp,
+                                              color: cartdata['product']
+                                                          ['isVegan'] ==
+                                                      true
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                              size: 25,
+                                            ),
+                                            Icon(Icons.circle,
+                                                color: cartdata['product']
+                                                            ['isVegan'] ==
+                                                        true
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                                size: 8),
+                                          ],
+                                        ),
+                                        Text(
+                                            '${cartdata['product']['weight'].toString()}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium)
+                                      ],
+                                    ),
+                                    SizedBox(
                                       height: 15,
                                     ),
                                     Row(
@@ -288,16 +333,17 @@ class _CartScreenState extends State<CartScreen> {
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
-                                            "₹" +
-                                                cartdata['product']['price']
-                                                    .toString(),
-                                            // "\$ 200",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium),
+                                          "₹" +
+                                              cartdata['product']['price']
+                                                  .toString(),
+                                          // "\$ 200",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
                                         Container(
-                                          width: 80,
-                                          height: 40,
+                                          width: width * 0.2,
+                                          height: height * 0.06,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(5),
@@ -310,9 +356,10 @@ class _CartScreenState extends State<CartScreen> {
                                                 child: Padding(
                                                   padding: EdgeInsets.zero,
                                                   child: SizedBox(
-                                                    height: 50,
-                                                    width: 35,
+                                                    height: height * 0.05,
+                                                    width: width * 0.05,
                                                     child: IconButton(
+                                                        iconSize: height * 0.02,
                                                         icon: Icon(Icons.remove,
                                                             color: white),
                                                         onPressed: () {
@@ -348,40 +395,50 @@ class _CartScreenState extends State<CartScreen> {
 
                                               Text(
                                                 cartdata['quantity'].toString(),
-                                                style: TextStyle(color: white),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .caption!
+                                                    .apply(color: white),
                                               ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 8),
-                                                child: SizedBox(
-                                                  height: 50,
-                                                  width: 30,
-                                                  child: IconButton(
-                                                    icon: Icon(Icons.add,
-                                                        color: white),
-                                                    onPressed: () {
-                                                      if (cartdata['product'][
-                                                                      'inventory']
-                                                                  ['quantity'] >
+                                              Expanded(
+                                                child: Padding(
+                                                  padding:
+                                                      EdgeInsets.only(right: 8),
+                                                  child: SizedBox(
+                                                    height: height * 0.05,
+                                                    width: width * 0.05,
+                                                    child: IconButton(
+                                                      iconSize: height * 0.02,
+                                                      icon: Icon(Icons.add,
+                                                          color: white),
+                                                      onPressed: () {
+                                                        if (cartdata['product'][
+                                                                        'inventory']
+                                                                    [
+                                                                    'quantity'] >
+                                                                cartdata[
+                                                                    'quantity'] &&
+                                                            cartdata[
+                                                                    'quantity'] <
+                                                                5) {
+                                                          increasequantity(
+                                                              this.id!,
                                                               cartdata[
-                                                                  'quantity'] &&
-                                                          cartdata['quantity'] <
-                                                              5) {
-                                                        increasequantity(
-                                                            this.id!,
-                                                            cartdata['product']
-                                                                ['id'],
-                                                            this.add);
-                                                        setState(() {
-                                                          cartdata['quantity'] =
-                                                              cartdata[
-                                                                      'quantity'] +
-                                                                  1;
-                                                        });
-                                                      }
+                                                                      'product']
+                                                                  ['id'],
+                                                              this.add);
+                                                          setState(() {
+                                                            cartdata[
+                                                                    'quantity'] =
+                                                                cartdata[
+                                                                        'quantity'] +
+                                                                    1;
+                                                          });
+                                                        }
 
-                                                      // Get.to(() => SearchPage());
-                                                    },
+                                                        // Get.to(() => SearchPage());
+                                                      },
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -466,9 +523,6 @@ class _CartScreenState extends State<CartScreen> {
   }
 }
 
-// Widget getBody() {
-//   return
-// }
 Widget getBody() {
   return ListView(
     children: <Widget>[

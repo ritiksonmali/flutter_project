@@ -21,7 +21,7 @@ class CategoryController extends GetxController {
   }
 
   Future getCategoryApi() async {
-    String url = serverUrl+'api/auth/category';
+    String url = serverUrl + 'api/auth/category';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -30,10 +30,9 @@ class CategoryController extends GetxController {
     var body = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      catagoryList= jsonDecode(response.body);
-      print(catagoryList);
+      catagoryList = jsonDecode(response.body);
       for (Map i in body) {
-        category.add(CategoryData.fromJson(i)); 
+        category.add(CategoryData.fromJson(i));
       }
       update();
       return category;

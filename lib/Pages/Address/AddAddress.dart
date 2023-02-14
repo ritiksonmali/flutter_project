@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
+import 'package:flutter_login_app/Controller/AddressController.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +21,7 @@ class Address extends StatefulWidget {
 
 class _AddressState extends State<Address> {
   final _formKey3 = GlobalKey<FormState>();
+  AddressController addressController = Get.find();
 
   int? id;
   final String status = "ACTIVE";
@@ -38,6 +41,33 @@ class _AddressState extends State<Address> {
     // TODO: implement initState
     super.initState();
     test();
+    getCountry();
+  }
+
+  getCountry() async {
+    var listFromAPi =
+        await addressController.getCountryCityState('', "COUNTRY");
+    setState(() {
+      country = listFromAPi;
+    });
+  }
+
+  getState(String parent, type) async {
+    var listFromAPi1 =
+        await addressController.getCountryCityState(parent, type);
+    setState(() {
+      state = listFromAPi1;
+      MaterialPageRoute(builder: (BuildContext context) => super.widget);
+    });
+  }
+
+  getCity(String parent, type) async {
+    var listFromAPi2 =
+        await addressController.getCountryCityState(parent, type);
+    setState(() {
+      city = listFromAPi2;
+      MaterialPageRoute(builder: (BuildContext context) => super.widget);
+    });
   }
 
   List dropDownListData = [
@@ -46,15 +76,29 @@ class _AddressState extends State<Address> {
     {"title": "Other", "value": "3"},
   ];
 
+  List country = [];
+  List state = [];
+  List city = [];
+
   String defaultValue = "";
+  SingleValueDropDownController countryDropDownController =
+      new SingleValueDropDownController();
+
+  SingleValueDropDownController stateDropDownController =
+      new SingleValueDropDownController();
+  SingleValueDropDownController cityDropDownController =
+      new SingleValueDropDownController();
+
+  FocusNode searchFocusNode = FocusNode();
+  FocusNode textFieldFocusNode = FocusNode();
 
   TextEditingController addressLine1controller = new TextEditingController();
   TextEditingController addressLine2controller = new TextEditingController();
   TextEditingController citycontroller = new TextEditingController();
   TextEditingController statecontroller = new TextEditingController();
   TextEditingController countrycontroller = new TextEditingController();
-  TextEditingController mobilenocontroller = new TextEditingController();
-  TextEditingController telephonenocontroller = new TextEditingController();
+  // TextEditingController mobilenocontroller = new TextEditingController();
+  // TextEditingController telephonenocontroller = new TextEditingController();
   TextEditingController pincodecontroller = new TextEditingController();
 
   var ValueChoose;
@@ -63,9 +107,14 @@ class _AddressState extends State<Address> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          "Address",
-          style: TextStyle(fontSize: 18, color: black),
+          "Add Address",
+          style: TextStyle(
+            color: black,
+            fontSize: 25,
+            fontWeight: FontWeight.normal,
+          ),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
@@ -201,7 +250,7 @@ class _AddressState extends State<Address> {
                 obscureText: false,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               TextFormField(
                 controller: addressLine2controller,
@@ -248,7 +297,7 @@ class _AddressState extends State<Address> {
                 obscureText: false,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               TextFormField(
                 controller: pincodecontroller,
@@ -279,12 +328,6 @@ class _AddressState extends State<Address> {
                       ),
                     ],
                   ),
-                  // hintText: "Pincode",
-                  // hintStyle: TextStyle(
-                  //   fontSize: 16,
-                  //   // fontWeight: FontWeight.bold,
-                  //   color: black,
-                  // )
                 ),
                 validator: (value) {
                   if (value!.length != 6)
@@ -299,235 +342,171 @@ class _AddressState extends State<Address> {
                 obscureText: false,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              TextFormField(
-                controller: citycontroller,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: black,
-                style: TextStyle(color: black),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
-                  // floatingLabelBehavior: FloatingLabelBehavior.always,
-                  label: Row(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                            text: 'City',
-                            style: TextStyle(
-                              fontSize: 16,
-                              // fontWeight: FontWeight.bold,
-                              color: black,
-                            ),
-                            children: [
-                              TextSpan(
-                                  text: '*',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold))
-                            ]),
-                      ),
-                    ],
-                  ),
-                  // hintText: "City",
-                  // hintStyle: TextStyle(
-                  //   fontSize: 16,
-                  //   // fontWeight: FontWeight.bold,
-                  //   color: black,
-                  // )
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
-                obscureText: false,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                controller: statecontroller,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: black,
-                style: TextStyle(color: black),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
-                  // floatingLabelBehavior: FloatingLabelBehavior.always,.
-                  label: Row(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                            text: 'State',
-                            style: TextStyle(
-                              fontSize: 16,
-                              // fontWeight: FontWeight.bold,
-                              color: black,
-                            ),
-                            children: [
-                              TextSpan(
-                                  text: '*',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold))
-                            ]),
-                      ),
-                    ],
-                  ),
-                  //   hintText: "State",
-                  //   hintStyle: TextStyle(
-                  //     fontSize: 16,
-                  //     // fontWeight: FontWeight.bold,
-                  //     color: black,
-                  //   )
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
-                obscureText: false,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                controller: countrycontroller,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: black,
-                style: TextStyle(color: black),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
-                  // floatingLabelBehavior: FloatingLabelBehavior.always,
-                  label: Row(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                            text: 'Country',
-                            style: TextStyle(
-                              fontSize: 16,
-                              // fontWeight: FontWeight.bold,
-                              color: black,
-                            ),
-                            children: [
-                              TextSpan(
-                                  text: '*',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold))
-                            ]),
-                      ),
-                    ],
-                  ),
-                  // hintText: "Country",
-                  // hintStyle: TextStyle(
-                  //   fontSize: 16,
-                  //   // fontWeight: FontWeight.bold,
-                  //   color: black,
-                  // )
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
-                obscureText: false,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                controller: telephonenocontroller,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: black,
-                style: TextStyle(color: black),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
-                  // floatingLabelBehavior: FloatingLabelBehavior.always,
-                  label: Row(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          text: 'Telephone Number',
-                          style: TextStyle(
-                            fontSize: 16,
-                            // fontWeight: FontWeight.bold,
-                            color: black,
+              DropDownTextField(
+                  clearOption: false,
+                  controller: countryDropDownController,
+                  textFieldFocusNode: textFieldFocusNode,
+                  searchFocusNode: searchFocusNode,
+                  // searchAutofocus: true,
+                  dropDownItemCount: 8,
+                  enableSearch: true,
+                  textFieldDecoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(top: 3),
+                      labelStyle:
+                          TextStyle(height: 10, fontWeight: FontWeight.bold),
+                      label: Row(
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                                text: 'Country',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  // fontWeight: FontWeight.bold,
+                                  color: black,
+                                ),
+                                children: [
+                                  TextSpan(
+                                      text: '*',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold))
+                                ]),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                  // hintText: "Telephone number",
-                  // hintStyle: TextStyle(
-                  //   fontSize: 16,
-                  //   // fontWeight: FontWeight.bold,
-                  //   color: black,
-                  // )
-                ),
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(11)
-                ],
-                obscureText: false,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                controller: mobilenocontroller,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: black,
-                style: TextStyle(color: black),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
-                  // floatingLabelBehavior: FloatingLabelBehavior.always,
-                  label: Row(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                            text: 'Mobile Number',
-                            style: TextStyle(
-                              fontSize: 16,
-                              // fontWeight: FontWeight.bold,
-                              color: black,
-                            ),
-                            children: [
-                              TextSpan(
-                                  text: '*',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold))
-                            ]),
-                      ),
-                    ],
-                  ),
-                  // hintText: "Mobile number",
-                  // hintStyle: TextStyle(
-                  //   fontSize: 16,
-                  //   // fontWeight: FontWeight.bold,
-                  //   color: black,
-                  // )
-                ),
-                validator: (value) {
-                  if (value!.length != 10)
-                    return 'Mobile Number must be of 10 digit';
-                  else
+                      hintText: "Select Country"),
+                  searchShowCursor: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Required';
+                    }
                     return null;
-                },
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(10)
-                ],
-                obscureText: false,
+                  },
+                  listSpace: 2,
+                  dropDownList: country.map((valueItem) {
+                    return DropDownValueModel(
+                        name: valueItem['name'].toString(),
+                        value: valueItem['id'].toString());
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      stateDropDownController.dropDownValue = null;
+                      cityDropDownController.dropDownValue = null;
+                    });
+                    print(countryDropDownController.dropDownValue!.value);
+                    getState(countryDropDownController.dropDownValue!.value,
+                        "STATE");
+                  }),
+              SizedBox(
+                height: 20,
               ),
+              DropDownTextField(
+                  clearOption: false,
+                  controller: stateDropDownController,
+                  textFieldFocusNode: textFieldFocusNode,
+                  searchFocusNode: searchFocusNode,
+                  // searchAutofocus: true,
+                  dropDownItemCount: 8,
+                  textFieldDecoration: InputDecoration(
+                      label: Row(
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                                text: 'State',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  // fontWeight: FontWeight.bold,
+                                  color: black,
+                                ),
+                                children: [
+                                  TextSpan(
+                                      text: '*',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold))
+                                ]),
+                          ),
+                        ],
+                      ),
+                      hintText: "Select State"),
+                  enableSearch: true,
+                  searchShowCursor: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                  listSpace: 2,
+                  dropDownList: state.map((valueItem) {
+                    return DropDownValueModel(
+                        name: valueItem['name'].toString(),
+                        value: valueItem['id'].toString());
+                  }).toList(),
+                  onChanged: (value) {
+                    print(value);
+                    setState(() {
+                      cityDropDownController.dropDownValue = null;
+                    });
+                    print(stateDropDownController.dropDownValue!.value);
+                    getCity(
+                        stateDropDownController.dropDownValue!.value, "CITY");
+                  }),
+              SizedBox(
+                height: 20,
+              ),
+              DropDownTextField(
+                  controller: cityDropDownController,
+                  clearOption: false,
+                  textFieldFocusNode: textFieldFocusNode,
+                  searchFocusNode: searchFocusNode,
+                  // searchAutofocus: true,
+                  dropDownItemCount: 8,
+                  textFieldDecoration: InputDecoration(
+                      label: Row(
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                                text: 'City',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  // fontWeight: FontWeight.bold,
+                                  color: black,
+                                ),
+                                children: [
+                                  TextSpan(
+                                      text: '*',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold))
+                                ]),
+                          ),
+                        ],
+                      ),
+                      hintText: "Select City"),
+                  enableSearch: true,
+                  searchShowCursor: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                  listSpace: 2,
+                  dropDownList: city.map((valueItem) {
+                    return DropDownValueModel(
+                        name: valueItem['name'].toString(),
+                        value: valueItem['id'].toString());
+                  }).toList(),
+                  onChanged: (value) {}),
             ],
           ),
         ),
@@ -542,19 +521,19 @@ class _AddressState extends State<Address> {
       addNewAddress(
           addressLine1controller.text.toString(),
           addressLine2controller.text.toString(),
-          citycontroller.text.toString(),
-          countrycontroller.text.toString(),
-          mobilenocontroller.text.toString(),
-          telephonenocontroller.text.toString(),
-          statecontroller.text.toString(),
+          cityDropDownController.dropDownValue!.value.toString(),
+          countryDropDownController.dropDownValue!.value.toString(),
+          // mobilenocontroller.text.toString(),
+          // telephonenocontroller.text.toString(),
+          stateDropDownController.dropDownValue!.value.toString(),
           int.parse(pincodecontroller.text.toString()));
     } else {
       print('Form is Not Valid');
     }
   }
 
-  Future addNewAddress(String addressLine1, addressLine2, city, country,
-      mobileno, telephoneno, state, int pincode) async {
+  Future addNewAddress(String addressLine1, addressLine2, city, country, state,
+      int pincode) async {
     try {
       String url = serverUrl + 'api/auth/addaddress';
       var response = await http.post(Uri.parse(url),
@@ -565,10 +544,10 @@ class _AddressState extends State<Address> {
             "city": city,
             "country": country,
             "isSelected": false,
-            "mobile_no": mobileno,
+            // "mobile_no": mobileno,
             "pincode": pincode,
             "state": state,
-            "telephone_no": telephoneno,
+            // "telephone_no": telephoneno,
             "status": status,
             "user_id": this.id
           }));

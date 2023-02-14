@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io' as Io;
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart' as globals;
 import 'package:flutter_login_app/model/Product.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_login_app/model/ProductModel.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../ConstantUtil/globals.dart';
@@ -22,7 +25,7 @@ class ProductController extends GetxController {
   int count = 0;
 
   bool _isLoadMoreRunning = false;
-  ScrollController scrollController = new ScrollController();
+  ScrollController scrollController = ScrollController();
   // List<ProductModel> DemoProduct = [];{}
   main() async {
     var store = await SharedPreferences.getInstance(); //add when requried
@@ -121,6 +124,33 @@ class ProductController extends GetxController {
     );
 
     var body = jsonDecode(response.body);
+    // var records = body['records'];
+    // print('records are   ${records}');
+    // Map<String, dynamic> imagesMap = {};
+    // for (var data in records) {
+    //   Io.File bytes = Io.File(
+    //       serverUrl + 'api/auth/serveproducts/${data['imageUrl'].toString()}');
+    //   // print(bytes);
+    //   // String img64 = base64Encode(bytes.readAsBytesSync());
+    //   imagesMap.addAll({'': ''});
+    // }
+
+    // print('Images Map is     ${imagesMap}');
+
+    // imagesMap.forEach(
+    //   (key, value) async {
+    //     Uint8List byteImage = convertBase64Image(value);
+    //     final directory = await getApplicationDocumentsDirectory();
+    //     if (await File('${directory.path}/${key}').exists()) {
+    //       print("File Already Exist");
+    //     } else {
+    //       final pathOfImage = await File('${directory.path}/${key}').create();
+    //       File file = await pathOfImage.writeAsBytes(byteImage);
+    //       print(file);
+    //       fileList.add(file);
+    //     }
+    //   },
+    // );
     if (response.statusCode == 200) {
       stringResponse = response.body;
       mapResponse = jsonDecode(response.body);
@@ -136,6 +166,10 @@ class ProductController extends GetxController {
     } else {
       return productResponseList;
     }
+  }
+
+  Uint8List convertBase64Image(String base64String) {
+    return Base64Decoder().convert(base64String.split(',').last);
   }
 
   Future getSearchProducts(String name) async {
@@ -191,6 +225,7 @@ class ProductController extends GetxController {
       stringResponse = response.body;
       mapResponse = jsonDecode(response.body);
       productFilterResponseList = mapResponse['records'];
+      update();
       print("refresh filter history");
       // print(productFilterResponseList);
       return productFilterResponseList;

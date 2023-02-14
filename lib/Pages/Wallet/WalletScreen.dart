@@ -50,6 +50,11 @@ class _WalletScreenState extends State<WalletScreen> {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
     test();
+    if (argument != null) {
+      setState(() {
+        amountController.text = argument['amountNeeded'].toString();
+      });
+    }
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
@@ -90,11 +95,6 @@ class _WalletScreenState extends State<WalletScreen> {
   TextEditingController amountController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
-    if (argument != null) {
-      setState(() {
-        amountController.text = argument['amountNeeded'].toString();
-      });
-    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -188,7 +188,28 @@ class _WalletScreenState extends State<WalletScreen> {
                           contentPadding: EdgeInsets.only(
                               left: 5, top: 0, bottom: 0, right: 5),
                           // filled: true,
-                          labelText: 'Enter Amount',
+                          label: Row(
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                    text: 'Enter Amount',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      // fontWeight: FontWeight.bold,
+                                      color: black,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                          text: '*',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold))
+                                    ]),
+                              ),
+                            ],
+                          ),
+                          // labelText: 'Enter Amount',
                           prefixIcon: Icon(Icons.currency_rupee),
                           labelStyle: TextStyle(color: Colors.black54),
                           border: OutlineInputBorder(),

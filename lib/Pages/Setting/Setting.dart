@@ -261,9 +261,31 @@ class _SettingsPageState extends State<SettingsPage> {
                           style: TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.only(bottom: 3),
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            hintText: "Enter Old Password",
-                            hintStyle: Theme.of(context).textTheme.bodyMedium,
+                            // floatingLabelBehavior: FloatingLabelBehavior.always,
+                            label: Row(
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                      text: 'Enter Old Password',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        // fontWeight: FontWeight.bold,
+                                        color: black,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                            text: '*',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold))
+                                      ]),
+                                ),
+                              ],
+                            ),
+
+                            // hintText: "Enter Old Password",
+                            // hintStyle: Theme.of(context).textTheme.bodyMedium,
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -283,9 +305,30 @@ class _SettingsPageState extends State<SettingsPage> {
                           style: TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.only(bottom: 3),
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            hintText: "Enter New Password",
-                            hintStyle: Theme.of(context).textTheme.bodyMedium,
+                            // floatingLabelBehavior: FloatingLabelBehavior.always,
+                            label: Row(
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                      text: 'Enter New Password',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        // fontWeight: FontWeight.bold,
+                                        color: black,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                            text: '*',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold))
+                                      ]),
+                                ),
+                              ],
+                            ),
+                            // hintText: "Enter New Password",
+                            // hintStyle: Theme.of(context).textTheme.bodyMedium,
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -305,9 +348,30 @@ class _SettingsPageState extends State<SettingsPage> {
                           style: TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.only(bottom: 3),
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            hintText: "Confirm New Password",
-                            hintStyle: Theme.of(context).textTheme.bodyMedium,
+                            // floatingLabelBehavior: FloatingLabelBehavior.always,
+                            label: Row(
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                      text: 'Confirm New Password',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        // fontWeight: FontWeight.bold,
+                                        color: black,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                            text: '*',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold))
+                                      ]),
+                                ),
+                              ],
+                            ),
+                            // hintText: "Confirm New Password",
+                            // hintStyle: Theme.of(context).textTheme.bodyMedium,
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {

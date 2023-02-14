@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
+import 'package:flutter_login_app/ConstantUtil/globals.dart';
+import 'package:flutter_login_app/Pages/ResetPassword/Otpverification.dart';
+import 'package:flutter_login_app/screens/SignIn.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class SetNewPassword extends StatefulWidget {
   const SetNewPassword({Key? key}) : super(key: key);
@@ -11,6 +18,9 @@ class SetNewPassword extends StatefulWidget {
 }
 
 class _SetNewPasswordState extends State<SetNewPassword> {
+  final _formKey11 = GlobalKey<FormState>();
+  TextEditingController _passwordcontroller = TextEditingController();
+  TextEditingController _confirmpasswordcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,22 +33,23 @@ class _SetNewPasswordState extends State<SetNewPassword> {
             padding: EdgeInsets.fromLTRB(
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Form(
+              key: _formKey11,
               child: Column(
                 children: <Widget>[
                   const SizedBox(
                     height: 150,
                   ),
                   TextFormField(
-                    // controller: _emailTextController,
+                    controller: _passwordcontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.email_outlined,
+                          Icons.lock_outline,
                           color: Colors.black87,
                         ),
-                        labelText: 'Enter Email',
+                        labelText: 'Enter New Password',
                         labelStyle: TextStyle(color: Colors.black54),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
@@ -50,19 +61,26 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Colors.blue))),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Email Required';
+                      RegExp regex = RegExp(
+                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+                      if (value!.isEmpty) {
+                        return 'Password Required';
+                      } else {
+                        if (!regex.hasMatch(value)) {
+                          return 'Enter valid password';
+                        } else {
+                          return null;
+                        }
                       }
                       return null;
                     },
-
-                    keyboardType: TextInputType.emailAddress,
+                    obscureText: true,
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
-                    // controller: _passwordTextController,
+                    controller: _confirmpasswordcontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
                     style: TextStyle(color: Colors.black87),
@@ -71,7 +89,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                           Icons.lock_outline,
                           color: Colors.black87,
                         ),
-                        labelText: 'Enter Password',
+                        labelText: 'Confirm New Password',
                         labelStyle: TextStyle(color: Colors.black54),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
@@ -86,10 +104,15 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                       if (value == null || value.isEmpty) {
                         return 'Password Required';
                       }
+                      if (_passwordcontroller.text !=
+                          _confirmpasswordcontroller.text) {
+                        return 'Do not Match Password';
+                      }
+
                       return null;
                     },
                     onSaved: (value) {
-                      // userLoginData['password'] = value!;
+                      // userSignupData['confirm_password'] = value!;
                     },
                     obscureText: true,
                   ),
@@ -104,10 +127,11 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                         BoxDecoration(borderRadius: BorderRadius.circular(90)),
                     child: ElevatedButton(
                       onPressed: () {
-                        // login();
+                        // print(emailId);
+                        checkvalidation();
                       },
                       child: Text(
-                        'Sign In',
+                        'Change Password',
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -135,5 +159,37 @@ class _SetNewPasswordState extends State<SetNewPassword> {
         ),
       ),
     );
+  }
+
+  checkvalidation() {
+    if (_formKey11.currentState!.validate()) {
+      AddNewPassword();
+      _formKey11.currentState!.save();
+    }
+  }
+
+  Future AddNewPassword() async {
+    try {
+      String url = serverUrl + 'api/auth/forgotpassword/setnewpassword';
+      http.Response response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            'email': 'sonmalirutik001@gmail.com',
+            'password': _passwordcontroller.text
+          }));
+      var body = jsonDecode(response.body);
+      print(response.body);
+      if (body['status'] == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Password Reset Successfully !'),
+          backgroundColor: Colors.green,
+        ));
+        Get.off(() => SignInScreen());
+      } else {
+        print('Something Went Wrong');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

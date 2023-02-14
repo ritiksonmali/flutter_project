@@ -48,358 +48,369 @@ class _OrderDetailsDeliveryManagerState
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: black),
-        automaticallyImplyLeading: true,
-        backgroundColor: white,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () async {
-            allOrdersForDeliveryManager.allOrders.clear();
-            await Future.delayed(Duration(seconds: 1));
-            allOrdersForDeliveryManager.getAllOrders();
-            await Future.delayed(Duration(seconds: 2));
-            Get.back();
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: black,
-          ),
-        ),
-        title: Text(
-          "Delivery Details",
-          style: TextStyle(
-            color: black,
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-      ),
-      bottomNavigationBar: orderId['orderStatus'] == "DELIVERED"
-          ? SizedBox()
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.only(top: 10, bottom: 10),
-                          primary: Colors.black),
-                      onPressed: () {
-                        if (PickedImage == null) {
-                          imagePickerOption();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Image Already Uploaded !'),
-                            backgroundColor: Colors.grey[800],
-                          ));
-                        }
-                      },
-                      icon: Icon(
-                        Icons.upload,
-                        size: 24.0,
-                      ),
-                      label: Text('Upload Image'),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.only(top: 10, bottom: 10),
-                          primary: Colors.black),
-                      onPressed: () async {
-                        if (allOrdersForDeliveryManager.uploaded == true) {
-                          allOrdersForDeliveryManager
-                              .setOrderDelivered(orderId['orderId']);
-                          await Future.delayed(Duration(seconds: 2));
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Order Delivered Successfully'),
-                            backgroundColor: Colors.green,
-                          ));
-
-                          allOrdersForDeliveryManager.uploaded = false;
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Please Upload Image !'),
-                            backgroundColor: Colors.red,
-                          ));
-                        }
-                      },
-                      icon: Icon(
-                        Icons.local_shipping,
-                        size: 24.0,
-                      ),
-                      label: Text('Delivered'),
-                    ),
-                  ),
-                ),
-              ],
+    return WillPopScope(
+      onWillPop: () async {
+        allOrdersForDeliveryManager.allOrders.clear();
+        await Future.delayed(Duration(seconds: 1));
+        allOrdersForDeliveryManager.getAllOrders();
+        await Future.delayed(Duration(seconds: 2));
+        Get.back();
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: black),
+          automaticallyImplyLeading: true,
+          backgroundColor: white,
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () async {
+              allOrdersForDeliveryManager.allOrders.clear();
+              await Future.delayed(Duration(seconds: 1));
+              allOrdersForDeliveryManager.getAllOrders();
+              await Future.delayed(Duration(seconds: 2));
+              Get.back();
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: black,
             ),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            SafeArea(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text("Address",
-                      style: Theme.of(context).textTheme.titleLarge),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 00),
-                        child: SizedBox(
-                          width: 230,
-                          child: Text(orderId['address'],
-                              style: Theme.of(context).textTheme.bodyMedium),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 15,
-                  width: double.infinity,
-                  color: grey,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Order Summary",
-                          style: Theme.of(context).textTheme.titleLarge),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: TextButton(
-                            onPressed: () {
-                              // Get.to(() => OrderPage());
-                            },
-                            child: Row(
-                              children: [],
-                            )),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 10,
-                          child: Text(
-                            "Product Name",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 10,
-                          child: Text(
-                            "Quantity",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 10,
-                          child: Text(
-                            "Price",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ]),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Column(
-                    children: List.generate(selectedOrder.length, (index) {
-                  var productdata = selectedOrder[index];
-                  total = selectedOrder.length > 0
-                      ? selectedOrder
-                          .map<int>(
-                              (m) => m['product']['price'] * m['quantity'])
-                          .reduce((value, element) => value + element)
-                      : 0;
-                  int? totalPrice = int.tryParse(total.toString());
-                  gst = ((totalPrice! * 0.18));
-                  finalPrice = gst + totalPrice + 10;
-                  return GestureDetector(
+          ),
+          title: Text(
+            "Delivery Details",
+            style: TextStyle(
+              color: black,
+              fontSize: 25,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+        ),
+        bottomNavigationBar: orderId['orderStatus'] == "DELIVERED"
+            ? SizedBox()
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                            child: Stack(
-                          children: <Widget>[
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: grey,
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        spreadRadius: 1,
-                                        color: black.withOpacity(0.1),
-                                        blurRadius: 2)
-                                  ]),
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    padding: EdgeInsets.all(20),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 10,
-                                          child: Text(
-                                            productdata['product']['name']
-                                                .toString(),
-                                            // "\$ " + products[index]['price'],
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 10,
-                                          child: Text(
-                                            productdata['quantity'].toString(),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 10,
-                                          child: Text(
-                                            productdata['product']['price']
-                                                .toString()
-                                                .toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )),
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                            primary: Colors.black),
+                        onPressed: () {
+                          if (PickedImage == null) {
+                            imagePickerOption();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Image Already Uploaded !'),
+                              backgroundColor: Colors.grey[800],
+                            ));
+                          }
+                        },
+                        icon: Icon(
+                          Icons.upload,
+                          size: 24.0,
+                        ),
+                        label: Text('Upload Image'),
                       ),
                     ),
-                  );
-                })),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 15,
-                  width: double.infinity,
-                  color: grey,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(children: [
-                    Row(
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                            primary: Colors.black),
+                        onPressed: () async {
+                          if (allOrdersForDeliveryManager.uploaded == true) {
+                            allOrdersForDeliveryManager
+                                .setOrderDelivered(orderId['orderId']);
+                            await Future.delayed(Duration(seconds: 2));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Order Delivered Successfully'),
+                              backgroundColor: Colors.green,
+                            ));
+
+                            allOrdersForDeliveryManager.uploaded = false;
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Please Upload Image !'),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
+                        },
+                        icon: Icon(
+                          Icons.local_shipping,
+                          size: 24.0,
+                        ),
+                        label: Text('Delivered'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+        body: SingleChildScrollView(
+          child: Stack(
+            children: [
+              SafeArea(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text("Address",
+                        style: Theme.of(context).textTheme.titleLarge),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Sub Total",
-                            style: Theme.of(context).textTheme.titleMedium),
-                        Text("\₹${total}",
-                            style: Theme.of(context).textTheme.titleMedium),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 00),
+                          child: SizedBox(
+                            width: 230,
+                            child: Text(orderId['address'],
+                                style: Theme.of(context).textTheme.bodyMedium),
+                          ),
+                        ),
                       ],
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 15,
+                    width: double.infinity,
+                    color: grey,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Delivery Cost",
-                            style: Theme.of(context).textTheme.titleMedium),
-                        Text("\₹10",
-                            style: Theme.of(context).textTheme.titleMedium),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Gst(18%)",
-                            style: Theme.of(context).textTheme.titleMedium),
-                        Text("\₹${gst.toStringAsFixed(2)}",
-                            style: Theme.of(context).textTheme.titleMedium),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Divider(
-                      height: 10,
-                      color: Color.fromARGB(255, 137, 136, 136),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Total",
+                        Text("Order Summary",
                             style: Theme.of(context).textTheme.titleLarge),
-                        Text("\₹${finalPrice}",
-                            style: Theme.of(context).textTheme.titleLarge),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: TextButton(
+                              onPressed: () {
+                                // Get.to(() => OrderPage());
+                              },
+                              child: Row(
+                                children: [],
+                              )),
+                        ),
                       ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ]),
-                ),
-                Container(
-                  height: 10,
-                  width: double.infinity,
-                  color: grey,
-                ),
-              ],
-            )),
-          ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 10,
+                            child: Text(
+                              "Product Name",
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 10,
+                            child: Text(
+                              "Quantity",
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 10,
+                            child: Text(
+                              "Price",
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ]),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                      children: List.generate(selectedOrder.length, (index) {
+                    var productdata = selectedOrder[index];
+                    total = selectedOrder.length > 0
+                        ? selectedOrder
+                            .map<int>(
+                                (m) => m['product']['price'] * m['quantity'])
+                            .reduce((value, element) => value + element)
+                        : 0;
+                    int? totalPrice = int.tryParse(total.toString());
+                    gst = ((totalPrice! * 0.18));
+                    finalPrice = gst + totalPrice + 10;
+                    return GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: InkWell(
+                          onTap: () {},
+                          child: Container(
+                              child: Stack(
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: grey,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          spreadRadius: 1,
+                                          color: black.withOpacity(0.1),
+                                          blurRadius: 2)
+                                    ]),
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: EdgeInsets.all(20),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 10,
+                                            child: Text(
+                                              productdata['product']['name']
+                                                  .toString(),
+                                              // "\$ " + products[index]['price'],
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 10,
+                                            child: Text(
+                                              productdata['quantity']
+                                                  .toString(),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 10,
+                                            child: Text(
+                                              productdata['product']['price']
+                                                  .toString()
+                                                  .toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )),
+                        ),
+                      ),
+                    );
+                  })),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 15,
+                    width: double.infinity,
+                    color: grey,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Sub Total",
+                              style: Theme.of(context).textTheme.titleMedium),
+                          Text("\₹${total}",
+                              style: Theme.of(context).textTheme.titleMedium),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Delivery Cost",
+                              style: Theme.of(context).textTheme.titleMedium),
+                          Text("\₹10",
+                              style: Theme.of(context).textTheme.titleMedium),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Gst(18%)",
+                              style: Theme.of(context).textTheme.titleMedium),
+                          Text("\₹${gst.toStringAsFixed(2)}",
+                              style: Theme.of(context).textTheme.titleMedium),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(
+                        height: 10,
+                        color: Color.fromARGB(255, 137, 136, 136),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Total",
+                              style: Theme.of(context).textTheme.titleLarge),
+                          Text("\₹${finalPrice}",
+                              style: Theme.of(context).textTheme.titleLarge),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ]),
+                  ),
+                  Container(
+                    height: 10,
+                    width: double.infinity,
+                    color: grey,
+                  ),
+                ],
+              )),
+            ],
+          ),
         ),
       ),
     );
