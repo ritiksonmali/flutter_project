@@ -842,89 +842,110 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      width: 180,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: black,
-                                      ),
-                                      child: counter != 0
-                                          ? Row(
-                                              // mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: EdgeInsets.zero,
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    width: 35,
-                                                    child: IconButton(
-                                                      icon: Icon(Icons.remove),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          if (counter > 1) {
-                                                            counter--;
-                                                          } else {
-                                                            counter = 0;
-                                                            isAdded = false;
-                                                          }
-                                                        });
-                                                      },
-                                                      color: white,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  counter.toString(),
-                                                  style:
-                                                      TextStyle(color: white),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right: 8.0),
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    width: 30,
-                                                    child: IconButton(
-                                                      icon: Icon(Icons.add),
-                                                      color: white,
-                                                      onPressed: () {
-                                                        if (subscribeProductController
-                                                                            .subscribeProdutList[
-                                                                        index][
-                                                                    'inventory']
-                                                                ['quantity'] >
-                                                            counter) {
-                                                          setState(() {
-                                                            counter++;
-                                                          });
-                                                        }
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          : ElevatedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  counter = 1;
-                                                  isAdded = true;
-                                                });
-                                              },
-                                              style: TextButton.styleFrom(
-                                                backgroundColor: black,
-                                              ),
-                                              child: Text("Add",
-                                                  style: TextStyle(
-                                                    color: white,
-                                                    fontSize: 16,
-                                                  )),
+                                    subscribeProductController
+                                                    .subscribeProdutList[index]
+                                                ['inventory']['quantity'] >
+                                            0
+                                        ? Container(
+                                            width: 180,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: black,
                                             ),
-                                    )
+                                            child: counter != 0
+                                                ? Row(
+                                                    // mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.zero,
+                                                        child: SizedBox(
+                                                          height: 50,
+                                                          width: 35,
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                                Icons.remove),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                if (counter >
+                                                                    1) {
+                                                                  counter--;
+                                                                } else {
+                                                                  counter = 0;
+                                                                  isAdded =
+                                                                      false;
+                                                                }
+                                                              });
+                                                            },
+                                                            color: white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        counter.toString(),
+                                                        style: TextStyle(
+                                                            color: white),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                right: 8.0),
+                                                        child: SizedBox(
+                                                          height: 50,
+                                                          width: 30,
+                                                          child: IconButton(
+                                                            icon:
+                                                                Icon(Icons.add),
+                                                            color: white,
+                                                            onPressed: () {
+                                                              if (subscribeProductController
+                                                                              .subscribeProdutList[index]
+                                                                          [
+                                                                          'inventory']
+                                                                      [
+                                                                      'quantity'] >
+                                                                  counter) {
+                                                                setState(() {
+                                                                  counter++;
+                                                                });
+                                                              }
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : ElevatedButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        counter = 1;
+                                                        isAdded = true;
+                                                      });
+                                                    },
+                                                    style: TextButton.styleFrom(
+                                                      backgroundColor: black,
+                                                    ),
+                                                    child: Text("Add",
+                                                        style: TextStyle(
+                                                          color: white,
+                                                          fontSize: 16,
+                                                        )),
+                                                  ),
+                                          )
+                                        : Text(
+                                            'Out Of Stock',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .apply(
+                                                  color: Colors.red,
+                                                ),
+                                          ),
                                   ],
                                 ),
                               ],

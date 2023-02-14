@@ -375,11 +375,8 @@ class _PopularProductListState extends State<PopularProductList> {
                                         ),
                                         SizedBox(height: 10),
                                         Row(
-                                          mainAxisAlignment: productController
-                                                      .productFilterResponseList[
-                                                  index]['isSubscribe']
-                                              ? MainAxisAlignment.spaceBetween
-                                              : MainAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           children: [
                                             productController
                                                             .productFilterResponseList[
@@ -388,6 +385,7 @@ class _PopularProductListState extends State<PopularProductList> {
                                                 ? Container(
                                                     // height: 40,
                                                     height: height * 0.06,
+                                                    width: width * 0.2,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -436,6 +434,7 @@ class _PopularProductListState extends State<PopularProductList> {
                                                 ? Container(
                                                     // height: 40,
                                                     height: height * 0.06,
+                                                    width: width * 0.2,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -452,47 +451,47 @@ class _PopularProductListState extends State<PopularProductList> {
                                                                 MainAxisSize
                                                                     .min,
                                                             children: <Widget>[
-                                                              IconButton(
-                                                                iconSize:
-                                                                    height *
-                                                                        0.02,
-                                                                icon: Icon(Icons
-                                                                    .remove),
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    productController.increasequantity(
-                                                                        this
-                                                                            .id!,
-                                                                        productController.productFilterResponseList[index]
-                                                                            [
-                                                                            'id'],
-                                                                        this.remove);
-                                                                    if (productController.productFilterResponseList[index]
-                                                                            [
-                                                                            'cartQauntity'] >
-                                                                        1) {
-                                                                      productController
-                                                                              .productFilterResponseList[index]
-                                                                          [
-                                                                          'cartQauntity'] = productController.productFilterResponseList[index]
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .zero,
+                                                                  child:
+                                                                      IconButton(
+                                                                    iconSize:
+                                                                        height *
+                                                                            0.02,
+                                                                    icon: Icon(Icons
+                                                                        .remove),
+                                                                    onPressed:
+                                                                        () {
+                                                                      setState(
+                                                                          () {
+                                                                        productController.increasequantity(
+                                                                            this.id!,
+                                                                            productController.productFilterResponseList[index]['id'],
+                                                                            this.remove);
+                                                                        if (productController.productFilterResponseList[index]['cartQauntity'] >
+                                                                            1) {
+                                                                          productController.productFilterResponseList[index]
                                                                               [
-                                                                              'cartQauntity'] -
-                                                                          1;
-                                                                    } else {
-                                                                      productController
-                                                                          .onReady();
-                                                                      productController
-                                                                              .productFilterResponseList[index]
-                                                                          [
-                                                                          'cartQauntity'] = 0;
-                                                                      productController.productFilterResponseList[index]
-                                                                              [
-                                                                              'added'] =
-                                                                          false;
-                                                                    }
-                                                                  });
-                                                                },
-                                                                color: white,
+                                                                              'cartQauntity'] = productController.productFilterResponseList[index]
+                                                                                  ['cartQauntity'] -
+                                                                              1;
+                                                                        } else {
+                                                                          productController
+                                                                              .onReady();
+                                                                          productController.productFilterResponseList[index]['cartQauntity'] =
+                                                                              0;
+                                                                          productController.productFilterResponseList[index]['added'] =
+                                                                              false;
+                                                                        }
+                                                                      });
+                                                                    },
+                                                                    color:
+                                                                        white,
+                                                                  ),
+                                                                ),
                                                               ),
                                                               Text(
                                                                 productController
@@ -508,43 +507,44 @@ class _PopularProductListState extends State<PopularProductList> {
                                                                         color:
                                                                             white),
                                                               ),
-                                                              IconButton(
-                                                                iconSize:
-                                                                    height *
-                                                                        0.02,
-                                                                icon: Icon(
-                                                                    Icons.add),
-                                                                color: white,
-                                                                onPressed: () {
-                                                                  if (productController.productFilterResponseList[index]
-                                                                              [
-                                                                              'cartQauntity'] <
-                                                                          5 &&
-                                                                      productController.productFilterResponseList[index]['inventory']
-                                                                              [
-                                                                              'quantity'] >
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          8.0),
+                                                                  child:
+                                                                      IconButton(
+                                                                    iconSize:
+                                                                        height *
+                                                                            0.02,
+                                                                    icon: Icon(
+                                                                        Icons
+                                                                            .add),
+                                                                    color:
+                                                                        white,
+                                                                    onPressed:
+                                                                        () {
+                                                                      if (productController.productFilterResponseList[index]['cartQauntity'] <
+                                                                              5 &&
+                                                                          productController.productFilterResponseList[index]['inventory']['quantity'] >
+                                                                              productController.productFilterResponseList[index]['cartQauntity']) {
+                                                                        productController.increasequantity(
+                                                                            this.id!,
+                                                                            productController.productFilterResponseList[index]['id'],
+                                                                            this.add);
+                                                                        setState(
+                                                                            () {
                                                                           productController.productFilterResponseList[index]
                                                                               [
-                                                                              'cartQauntity']) {
-                                                                    productController.increasequantity(
-                                                                        this
-                                                                            .id!,
-                                                                        productController.productFilterResponseList[index]
-                                                                            [
-                                                                            'id'],
-                                                                        this.add);
-                                                                    setState(
-                                                                        () {
-                                                                      productController
-                                                                              .productFilterResponseList[index]
-                                                                          [
-                                                                          'cartQauntity'] = productController.productFilterResponseList[index]
-                                                                              [
-                                                                              'cartQauntity'] +
-                                                                          1;
-                                                                    });
-                                                                  }
-                                                                },
+                                                                              'cartQauntity'] = productController.productFilterResponseList[index]
+                                                                                  ['cartQauntity'] +
+                                                                              1;
+                                                                        });
+                                                                      }
+                                                                    },
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ],
                                                           )

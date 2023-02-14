@@ -17,8 +17,6 @@ class LocalImagesController extends GetxController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString('date') != null) {
       LastUpdatedDate = prefs.getString('date').toString();
-      LastUpdatedDate = '';
-      print(LastUpdatedDate);
     }
     return LastUpdatedDate;
   }
@@ -45,7 +43,6 @@ class LocalImagesController extends GetxController {
               final pathOfImage =
                   await File('${directory.path}/${key}').create();
               File file = await pathOfImage.writeAsBytes(byteImage);
-              print(file);
               fileList.add(file);
             }
           },

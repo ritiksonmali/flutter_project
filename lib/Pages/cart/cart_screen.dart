@@ -171,42 +171,44 @@ class _CartScreenState extends State<CartScreen> {
         body: isLoading == true
             ? Scaffold()
             : cartproducts.isEmpty
-                ? Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 80),
-                        padding: EdgeInsets.all(20),
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage('assets/cartempty.png'),
-                        )),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'Your Cart Is Empty',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: black,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'Looks like You Didn\'t \n add anything in your cart yet',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.grey[400],
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
+                ? Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          // margin: EdgeInsets.only(top: 80),
+                          // padding: EdgeInsets.all(20),
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage('assets/cartempty.png'),
+                          )),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Your Cart Is Empty',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: black,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Looks like You Didn\'t \n add anything in your cart yet',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
                   )
                 : ListView(
                     children: <Widget>[
@@ -244,27 +246,23 @@ class _CartScreenState extends State<CartScreen> {
                                         top: 10,
                                         left: 15,
                                         right: 15,
-                                        bottom: 25),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Center(
-                                          child: Container(
-                                            width: width * 0.25,
-                                            height: height * 0.10,
-                                            child: ImageFade(
-                                                image: NetworkImage(serverUrl +
-                                                    'api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
-                                                fit: BoxFit.cover,
-                                                // scale: 2,
-                                                placeholder: Image.file(
-                                                  fit: BoxFit.cover,
-                                                  File(
-                                                      '${directory.path}/compress${cartdata['product']['imageUrl'].toString()}'),
-                                                  gaplessPlayback: true,
-                                                )),
-                                          ),
-                                        ),
-                                      ],
+                                        bottom: 10),
+                                    child: Center(
+                                      child: Container(
+                                        width: width * 0.25,
+                                        height: height * 0.10,
+                                        child: ImageFade(
+                                            image: NetworkImage(serverUrl +
+                                                'api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
+                                            fit: BoxFit.cover,
+                                            // scale: 2,
+                                            placeholder: Image.file(
+                                              fit: BoxFit.cover,
+                                              File(
+                                                  '${directory.path}/compress${cartdata['product']['imageUrl'].toString()}'),
+                                              gaplessPlayback: true,
+                                            )),
+                                      ),
                                     ),
                                   ),
                                 ),
