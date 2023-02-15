@@ -61,7 +61,7 @@ class _NavbarState extends State<Navbar> {
     return ListView(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+          padding: EdgeInsets.symmetric(horizontal: 30),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             ListTile(
@@ -80,7 +80,7 @@ class _NavbarState extends State<Navbar> {
                   });
                 }),
             SizedBox(
-              height:10,
+              height: 10,
             ),
             ListTile(
               leading: Icon(Icons.face),
@@ -95,7 +95,7 @@ class _NavbarState extends State<Navbar> {
             ),
             role == "DELIVERY_MANAGER"
                 ? Padding(
-                    padding: const EdgeInsets.only(bottom: 35),
+                    padding: const EdgeInsets.only(bottom: 10),
                     child: ListTile(
                       leading: Icon(Icons.delivery_dining_sharp),
                       title: Text('Delivery',
@@ -106,9 +106,6 @@ class _NavbarState extends State<Navbar> {
                     ),
                   )
                 : SizedBox(),
-            // SizedBox(
-            //   height: 35,
-            // ),
             ListTile(
               leading: Icon(Icons.history_edu),
               title:

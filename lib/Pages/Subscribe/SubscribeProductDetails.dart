@@ -434,7 +434,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                     style: TextStyle(
                                                         fontSize: 13,
                                                         // fontWeight: FontWeight.w500,
-                                                        color:buttonColour),
+                                                        color: buttonColour),
                                                   ),
                                                 ),
                                               ],
@@ -497,7 +497,8 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                         style: TextStyle(
                                                             fontSize: 13,
                                                             // fontWeight: FontWeight.w500,
-                                                            color: buttonColour),
+                                                            color:
+                                                                buttonColour),
                                                       ),
                                                     ),
                                                     endsDate != null
@@ -543,10 +544,9 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                             padding: EdgeInsets.only(
                                                 left: 20, right: 20),
                                             decoration: BoxDecoration(
-                                                color:buttonColour,
+                                                color: buttonColour,
                                                 border: Border.all(
-                                                    color: grey,
-                                                    width: 1),
+                                                    color: grey, width: 1),
                                                 borderRadius:
                                                     BorderRadius.circular(15)),
                                             child: GestureDetector(
@@ -694,8 +694,8 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                   color: selectEveryDay
                                                       ? buttonColour
                                                       : null,
-                                                  border:
-                                                      Border.all(color: buttonColour),
+                                                  border: Border.all(
+                                                      color: buttonColour),
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(5)),
@@ -735,8 +735,8 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                   color: selectOnInterval
                                                       ? buttonColour
                                                       : null,
-                                                  border:
-                                                      Border.all(color: buttonColour),
+                                                  border: Border.all(
+                                                      color: buttonColour),
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(5)),
@@ -925,7 +925,8 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                       });
                                                     },
                                                     style: TextButton.styleFrom(
-                                                      backgroundColor: buttonColour,
+                                                      backgroundColor:
+                                                          buttonColour,
                                                     ),
                                                     child: Text("Add",
                                                         style: TextStyle(
@@ -991,7 +992,6 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                           child: SelectedAddress == null
                                               ? Text('Select Your Address')
                                               : Text(SelectedAddress.toString(),
-                                                  // "538 sagar park laxmi Nagar Panchavati Nashik-422003",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyLarge),
@@ -999,7 +999,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                       ),
                                       TextButton(
                                           style: TextButton.styleFrom(
-                                              backgroundColor: buttonColour ,
+                                              backgroundColor: buttonColour,
                                               minimumSize: size * 0.02),
                                           onPressed: () async {
                                             await Future.delayed(
@@ -1010,12 +1010,11 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                   builder: (context) =>
                                                       AddressDetails()),
                                             );
-
                                             setState(() {
                                               apiCall();
                                             });
                                           },
-                                          child: Text("Select",
+                                          child: const Text("Select",
                                               style: TextStyle(color: white))),
                                     ],
                                   ),
@@ -1050,17 +1049,6 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                             .subscribeProdutList[index]['id']
                                             .toString(),
                                         id.toString());
-                                    // if (subscribeProductController
-                                    //         .isAmountLow ==
-                                    //     true) {
-                                    //   showAlertMessage(
-                                    //       subscribeProductController
-                                    //           .amountNeedToAdd);
-                                    //   setState(() {
-                                    //     subscribeProductController.isAmountLow =
-                                    //         false;
-                                    //   });
-                                    // }
                                   } else {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(SnackBar(
@@ -1095,15 +1083,6 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                 backgroundColor: Colors.redAccent,
                               ));
                             }
-
-                            // if (subscribeProductController.isAmountLow ==
-                            //     true) {
-                            //   showAlertMessage(
-                            //       subscribeProductController.amountNeedToAdd);
-                            //   setState(() {
-                            //     subscribeProductController.isAmountLow = false;
-                            //   });
-                            // }
                           },
                           child: Container(
                             width: double.infinity,

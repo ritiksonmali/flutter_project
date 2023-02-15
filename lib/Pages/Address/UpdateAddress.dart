@@ -140,7 +140,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                 color: white,
               ),
             ),
-            color: black,
+            color: buttonColour,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                 30,

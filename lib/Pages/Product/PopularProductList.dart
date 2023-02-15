@@ -211,72 +211,73 @@ class _PopularProductListState extends State<PopularProductList> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : Column(children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton.icon(
-                      onPressed: () {
-                        Get.to(() => const FilterPage());
-                      },
-                      label: Text('Filter',
-                          style: Theme.of(context).textTheme.titleMedium),
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 20.0,
-                        color: black,
+            : Container(
+                color: grey,
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton.icon(
+                        onPressed: () {
+                          Get.to(() => const FilterPage());
+                        },
+                        label: Text('Filter',
+                            style: Theme.of(context).textTheme.titleMedium),
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down,
+                          size: 20.0,
+                          color: black,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Expanded(
-                    child: GetBuilder<ProductController>(builder: (controller) {
-                  return ListView.builder(
-                      controller: _scrollController,
-                      itemCount:
-                          productController.productFilterResponseList.length,
-                      itemBuilder: (context, index) {
-                        var popular =
-                            productController.productFilterResponseList[index];
-                        // itemCount:
-                        // productImage.length;
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Expanded(child:
+                      GetBuilder<ProductController>(builder: (controller) {
+                    return ListView.builder(
+                        controller: _scrollController,
+                        itemCount:
+                            productController.productFilterResponseList.length,
+                        itemBuilder: (context, index) {
+                          var popular = productController
+                              .productFilterResponseList[index];
+                          // itemCount:
+                          // productImage.length;
 
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 7,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: grey,
-                                        boxShadow: [
-                                          BoxShadow(
-                                              spreadRadius: 0.5,
-                                              color: black.withOpacity(0.1),
-                                              blurRadius: 1)
-                                        ],
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15,
-                                          left: 10,
-                                          right: 10,
-                                          bottom: 15),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Center(
-                                            child: Container(
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 7,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                spreadRadius: 0.5,
+                                                color: black.withOpacity(0.1),
+                                                blurRadius: 1)
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 15,
+                                            left: 10,
+                                            right: 10,
+                                            bottom: 15),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Container(
                                               width: width * 0.3,
                                               height: height * 0.1,
                                               child: ImageFade(
@@ -298,207 +299,291 @@ class _PopularProductListState extends State<PopularProductList> {
                                               //         // image: AssetImage("assets/shoe_1.webp"),
                                               //         fit: BoxFit.cover)),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      // mainAxisAlignment: MainAxisAlignment.start,
-                                      // crossAxisAlignment:
-                                      //     CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                productController
-                                                    .productFilterResponseList[
-                                                        index]['name']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ),
-                                            Text(
-                                              "₹" +
-                                                  productController
-                                                      .productFilterResponseList[
-                                                          index]['price']
-                                                      .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
                                           ],
                                         ),
-                                        SizedBox(height: 10),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Stack(
-                                              alignment: Alignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.crop_square_sharp,
-                                                  color: productController
-                                                                  .productFilterResponseList[
-                                                              index]['isVegan'] ==
-                                                          true
-                                                      ? Colors.green
-                                                      : Colors.red,
-                                                  size: 25,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        // mainAxisAlignment: MainAxisAlignment.start,
+                                        // crossAxisAlignment:
+                                        //     CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  productController
+                                                      .productFilterResponseList[
+                                                          index]['name']
+                                                      .toString(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium,
                                                 ),
-                                                Icon(Icons.circle,
+                                              ),
+                                              Text(
+                                                "₹" +
+                                                    productController
+                                                        .productFilterResponseList[
+                                                            index]['price']
+                                                        .toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 10),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.crop_square_sharp,
                                                     color: productController
                                                                     .productFilterResponseList[
                                                                 index]['isVegan'] ==
                                                             true
                                                         ? Colors.green
                                                         : Colors.red,
-                                                    size: 8),
-                                              ],
-                                            ),
-                                            Text(
-                                                '${productController.productFilterResponseList[index]['weight'].toString()}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium)
-                                          ],
-                                        ),
-                                        SizedBox(height: 10),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            productController
-                                                            .productFilterResponseList[
-                                                        index]['isSubscribe'] ==
-                                                    true
-                                                ? Container(
-                                                    // height: 40,
-                                                    height: height * 0.06,
-                                                    width: width * 0.2,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                      color: buttonColour,
-                                                    ),
-                                                    child: ElevatedButton(
-                                                      onPressed: () {
-                                                        Get.to(
-                                                            () =>
-                                                                SubscribeProductDetails(),
-                                                            arguments: {
-                                                              "proId": productController
-                                                                  .productFilterResponseList[
+                                                    size: 20,
+                                                  ),
+                                                  Icon(Icons.circle,
+                                                      color: productController
+                                                                          .productFilterResponseList[
                                                                       index]
-                                                                      ['id']
-                                                                  .toString(),
-                                                            });
-                                                      },
-                                                      style:
-                                                          TextButton.styleFrom(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 5,
-                                                                vertical: 3),
-                                                        backgroundColor: buttonColour,
+                                                                  ['isVegan'] ==
+                                                              true
+                                                          ? Colors.green
+                                                          : Colors.red,
+                                                      size: 6),
+                                                ],
+                                              ),
+                                              Text(
+                                                  '${productController.productFilterResponseList[index]['weight'].toString()}',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium)
+                                            ],
+                                          ),
+                                          SizedBox(height: 10),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              productController.productFilterResponseList[
+                                                              index]
+                                                          ['isSubscribe'] ==
+                                                      true
+                                                  ? Container(
+                                                      // height: 40,
+                                                      height: height * 0.05,
+                                                      width: width * 0.2,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                        color: buttonColour,
                                                       ),
-                                                      child: Text("Subscribe",
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .caption!
-                                                              .apply(
-                                                                  color:
-                                                                      white)),
-                                                    ),
-                                                  )
-                                                : SizedBox(),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            productController.productFilterResponseList[
-                                                            index]['inventory']
-                                                        ['quantity'] >
-                                                    0
-                                                ? Container(
-                                                    // height: 40,
-                                                    height: height * 0.06,
-                                                    width: width * 0.2,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                      color: buttonColour,
-                                                    ),
-                                                    child: productController
-                                                                        .productFilterResponseList[
-                                                                    index][
-                                                                'cartQauntity'] !=
-                                                            0
-                                                        ? Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            children: <Widget>[
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .zero,
-                                                                  child:
-                                                                      IconButton(
-                                                                    iconSize:
-                                                                        height *
-                                                                            0.02,
-                                                                    icon: Icon(Icons
-                                                                        .remove),
-                                                                    onPressed:
-                                                                        () {
-                                                                      setState(
-                                                                          () {
-                                                                        productController.increasequantity(
-                                                                            this.id!,
-                                                                            productController.productFilterResponseList[index]['id'],
-                                                                            this.remove);
-                                                                        if (productController.productFilterResponseList[index]['cartQauntity'] >
-                                                                            1) {
-                                                                          productController.productFilterResponseList[index]
-                                                                              [
-                                                                              'cartQauntity'] = productController.productFilterResponseList[index]
-                                                                                  ['cartQauntity'] -
-                                                                              1;
-                                                                        } else {
-                                                                          productController
-                                                                              .onReady();
-                                                                          productController.productFilterResponseList[index]['cartQauntity'] =
-                                                                              0;
-                                                                          productController.productFilterResponseList[index]['added'] =
-                                                                              false;
-                                                                        }
-                                                                      });
-                                                                    },
+                                                      child: ElevatedButton(
+                                                        onPressed: () {
+                                                          Get.to(
+                                                              () =>
+                                                                  SubscribeProductDetails(),
+                                                              arguments: {
+                                                                "proId": productController
+                                                                    .productFilterResponseList[
+                                                                        index]
+                                                                        ['id']
+                                                                    .toString(),
+                                                              });
+                                                        },
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal: 5,
+                                                                  vertical: 3),
+                                                          backgroundColor:
+                                                              buttonColour,
+                                                        ),
+                                                        child: Text("Subscribe",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .caption!
+                                                                .apply(
                                                                     color:
-                                                                        white,
+                                                                        white)),
+                                                      ),
+                                                    )
+                                                  : SizedBox(),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              productController.productFilterResponseList[
+                                                                  index]
+                                                              ['inventory']
+                                                          ['quantity'] >
+                                                      0
+                                                  ? Container(
+                                                      // height: 40,
+                                                      height: height * 0.05,
+                                                      width: width * 0.2,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                        color: buttonColour,
+                                                      ),
+                                                      child: productController
+                                                                          .productFilterResponseList[
+                                                                      index][
+                                                                  'cartQauntity'] !=
+                                                              0
+                                                          ? Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: <
+                                                                  Widget>[
+                                                                Expanded(
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .zero,
+                                                                    child:
+                                                                        IconButton(
+                                                                      iconSize:
+                                                                          height *
+                                                                              0.02,
+                                                                      icon: Icon(
+                                                                          Icons
+                                                                              .remove),
+                                                                      onPressed:
+                                                                          () {
+                                                                        setState(
+                                                                            () {
+                                                                          productController.increasequantity(
+                                                                              this.id!,
+                                                                              productController.productFilterResponseList[index]['id'],
+                                                                              this.remove);
+                                                                          if (productController.productFilterResponseList[index]['cartQauntity'] >
+                                                                              1) {
+                                                                            productController.productFilterResponseList[index]['cartQauntity'] =
+                                                                                productController.productFilterResponseList[index]['cartQauntity'] - 1;
+                                                                          } else {
+                                                                            productController.onReady();
+                                                                            productController.productFilterResponseList[index]['cartQauntity'] =
+                                                                                0;
+                                                                            productController.productFilterResponseList[index]['added'] =
+                                                                                false;
+                                                                          }
+                                                                        });
+                                                                      },
+                                                                      color:
+                                                                          white,
+                                                                    ),
                                                                   ),
                                                                 ),
+                                                                Text(
+                                                                  productController
+                                                                      .productFilterResponseList[
+                                                                          index]
+                                                                          [
+                                                                          'cartQauntity']
+                                                                      .toString(),
+                                                                  style: Theme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .caption!
+                                                                      .apply(
+                                                                          color:
+                                                                              white),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            8.0),
+                                                                    child:
+                                                                        IconButton(
+                                                                      iconSize:
+                                                                          height *
+                                                                              0.02,
+                                                                      icon: Icon(
+                                                                          Icons
+                                                                              .add),
+                                                                      color:
+                                                                          white,
+                                                                      onPressed:
+                                                                          () {
+                                                                        if (productController.productFilterResponseList[index]['cartQauntity'] <
+                                                                                5 &&
+                                                                            productController.productFilterResponseList[index]['inventory']['quantity'] >
+                                                                                productController.productFilterResponseList[index]['cartQauntity']) {
+                                                                          productController.increasequantity(
+                                                                              this.id!,
+                                                                              productController.productFilterResponseList[index]['id'],
+                                                                              this.add);
+                                                                          setState(
+                                                                              () {
+                                                                            productController.productFilterResponseList[index]['cartQauntity'] =
+                                                                                productController.productFilterResponseList[index]['cartQauntity'] + 1;
+                                                                          });
+                                                                        }
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          : ElevatedButton(
+                                                              onPressed: () {
+                                                                productController.increasequantity(
+                                                                    this.id!,
+                                                                    productController
+                                                                            .productFilterResponseList[
+                                                                        index]['id'],
+                                                                    this.add);
+                                                                setState(() {
+                                                                  productController
+                                                                      .onReady();
+                                                                  productController
+                                                                              .productFilterResponseList[
+                                                                          index]
+                                                                      [
+                                                                      'cartQauntity'] = 1;
+                                                                  productController
+                                                                              .productFilterResponseList[
+                                                                          index]
+                                                                      [
+                                                                      'added'] = true;
+                                                                });
+                                                              },
+                                                              style: TextButton
+                                                                  .styleFrom(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            5,
+                                                                        vertical:
+                                                                            5),
+                                                                backgroundColor:
+                                                                    buttonColour,
                                                               ),
-                                                              Text(
-                                                                productController
-                                                                    .productFilterResponseList[
-                                                                        index][
-                                                                        'cartQauntity']
-                                                                    .toString(),
+                                                              child: Text(
+                                                                "Add to Cart",
                                                                 style: Theme.of(
                                                                         context)
                                                                     .textTheme
@@ -507,329 +592,242 @@ class _PopularProductListState extends State<PopularProductList> {
                                                                         color:
                                                                             white),
                                                               ),
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          8.0),
-                                                                  child:
-                                                                      IconButton(
-                                                                    iconSize:
-                                                                        height *
-                                                                            0.02,
-                                                                    icon: Icon(
-                                                                        Icons
-                                                                            .add),
-                                                                    color:
-                                                                        white,
-                                                                    onPressed:
-                                                                        () {
-                                                                      if (productController.productFilterResponseList[index]['cartQauntity'] <
-                                                                              5 &&
-                                                                          productController.productFilterResponseList[index]['inventory']['quantity'] >
-                                                                              productController.productFilterResponseList[index]['cartQauntity']) {
-                                                                        productController.increasequantity(
-                                                                            this.id!,
-                                                                            productController.productFilterResponseList[index]['id'],
-                                                                            this.add);
-                                                                        setState(
-                                                                            () {
-                                                                          productController.productFilterResponseList[index]
-                                                                              [
-                                                                              'cartQauntity'] = productController.productFilterResponseList[index]
-                                                                                  ['cartQauntity'] +
-                                                                              1;
-                                                                        });
-                                                                      }
-                                                                    },
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          )
-                                                        : ElevatedButton(
-                                                            onPressed: () {
-                                                              productController
-                                                                  .increasequantity(
-                                                                      this.id!,
-                                                                      productController
-                                                                              .productFilterResponseList[index]
-                                                                          [
-                                                                          'id'],
-                                                                      this.add);
-                                                              setState(() {
-                                                                productController
-                                                                    .onReady();
-                                                                productController
-                                                                            .productFilterResponseList[
-                                                                        index][
-                                                                    'cartQauntity'] = 1;
-                                                                productController
-                                                                            .productFilterResponseList[
-                                                                        index][
-                                                                    'added'] = true;
-                                                              });
-                                                            },
-                                                            style: TextButton
-                                                                .styleFrom(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          5,
-                                                                      vertical:
-                                                                          5),
-                                                              backgroundColor:
-                                                                  buttonColour,
                                                             ),
-                                                            child: Text(
-                                                              "Add to Cart",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .caption!
-                                                                  .apply(
-                                                                      color:
-                                                                          white),
-                                                            ),
+                                                    )
+                                                  : Text(
+                                                      'Out Of Stock',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium!
+                                                          .apply(
+                                                            color: Colors.red,
                                                           ),
-                                                  )
-                                                : Text(
-                                                    'Out Of Stock',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium!
-                                                        .apply(
-                                                          color: Colors.red,
-                                                        ),
-                                                  ),
-                                          ],
-                                        ),
-                                        // Row(
-                                        //   mainAxisAlignment:
-                                        //       MainAxisAlignment.spaceBetween,
-                                        //   children: <Widget>[
-                                        //     Row(
-                                        //       mainAxisAlignment:
-                                        //           MainAxisAlignment.start,
-                                        //       children: [
-                                        //         Stack(
-                                        //           alignment: Alignment.center,
-                                        //           children: [
-                                        //             Icon(
-                                        //               Icons.crop_square_sharp,
-                                        //               color: productController
-                                        //                               .productFilterResponseList[
-                                        //                           index]['isVegan'] ==
-                                        //                       true
-                                        //                   ? Colors.green
-                                        //                   : Colors.red,
-                                        //               size: 25,
-                                        //             ),
-                                        //             Icon(Icons.circle,
-                                        //                 color: productController
-                                        //                                     .productFilterResponseList[
-                                        //                                 index]
-                                        //                             ['isVegan'] ==
-                                        //                         true
-                                        //                     ? Colors.green
-                                        //                     : Colors.red,
-                                        //                 size: 8),
-                                        //           ],
-                                        //         ),
-                                        //         Text(
-                                        //             '${productController.productFilterResponseList[index]['weight'].toString()}',
-                                        //             style: Theme.of(context)
-                                        //                 .textTheme
-                                        //                 .bodyMedium)
-                                        //       ],
-                                        //     ),
-                                        //     Padding(
-                                        //       padding: const EdgeInsets.only(
-                                        //           right: 10),
-                                        //       child: productController
-                                        //                           .productFilterResponseList[
-                                        //                       index]['inventory']
-                                        //                   ['quantity'] >
-                                        //               0
-                                        //           ? Container(
-                                        //               width: 80,
-                                        //               height: 40,
-                                        //               decoration: BoxDecoration(
-                                        //                 borderRadius:
-                                        //                     BorderRadius.circular(
-                                        //                         5),
-                                        //                 color: black,
-                                        //               ),
-                                        //               child: productController
-                                        //                                   .productFilterResponseList[
-                                        //                               index][
-                                        //                           'cartQauntity'] !=
-                                        //                       0
-                                        //                   ? Row(
-                                        //                       mainAxisSize:
-                                        //                           MainAxisSize
-                                        //                               .min,
-                                        //                       children: <Widget>[
-                                        //                         Expanded(
-                                        //                           child: Padding(
-                                        //                             padding:
-                                        //                                 EdgeInsets
-                                        //                                     .zero,
-                                        //                             child:
-                                        //                                 SizedBox(
-                                        //                               height: 50,
-                                        //                               width: 35,
-                                        //                               child:
-                                        //                                   IconButton(
-                                        //                                 icon: Icon(
-                                        //                                     Icons
-                                        //                                         .remove),
-                                        //                                 onPressed:
-                                        //                                     () {
-                                        //                                   setState(
-                                        //                                       () {
-                                        //                                     productController.increasequantity(
-                                        //                                         this.id!,
-                                        //                                         productController.productFilterResponseList[index]['id'],
-                                        //                                         this.remove);
-                                        //                                     if (productController.productFilterResponseList[index]['cartQauntity'] >
-                                        //                                         1) {
-                                        //                                       productController.productFilterResponseList[index]['cartQauntity'] =
-                                        //                                           productController.productFilterResponseList[index]['cartQauntity'] - 1;
-                                        //                                     } else {
-                                        //                                       productController.productFilterResponseList[index]['cartQauntity'] =
-                                        //                                           0;
-                                        //                                       productController.productFilterResponseList[index]['added'] =
-                                        //                                           false;
-                                        //                                     }
-                                        //                                   });
-                                        //                                 },
-                                        //                                 color:
-                                        //                                     white,
-                                        //                               ),
-                                        //                             ),
-                                        //                           ),
-                                        //                         ),
-                                        //                         Text(
-                                        //                           productController
-                                        //                               .productFilterResponseList[
-                                        //                                   index][
-                                        //                                   'cartQauntity']
-                                        //                               .toString(),
-                                        //                           style: TextStyle(
-                                        //                               color:
-                                        //                                   white),
-                                        //                         ),
-                                        //                         Padding(
-                                        //                           padding: EdgeInsets
-                                        //                               .only(
-                                        //                                   right:
-                                        //                                       8),
-                                        //                           child: SizedBox(
-                                        //                             height: 50,
-                                        //                             width: 30,
-                                        //                             child:
-                                        //                                 IconButton(
-                                        //                               icon: Icon(
-                                        //                                   Icons
-                                        //                                       .add),
-                                        //                               color:
-                                        //                                   white,
-                                        //                               onPressed:
-                                        //                                   () {
-                                        //                                 if (productController.productFilterResponseList[index]['cartQauntity'] <
-                                        //                                         5 &&
-                                        //                                     productController.productFilterResponseList[index]['inventory']['quantity'] >
-                                        //                                         productController.productFilterResponseList[index]['cartQauntity']) {
-                                        //                                   productController.increasequantity(
-                                        //                                       this.id!,
-                                        //                                       productController.productFilterResponseList[index]['id'],
-                                        //                                       this.add);
-                                        //                                   setState(
-                                        //                                       () {
-                                        //                                     productController.productFilterResponseList[index]
-                                        //                                         [
-                                        //                                         'cartQauntity'] = productController.productFilterResponseList[index]
-                                        //                                             ['cartQauntity'] +
-                                        //                                         1;
-                                        //                                   });
-                                        //                                 }
-                                        //                               },
-                                        //                             ),
-                                        //                           ),
-                                        //                         ),
-                                        //                       ],
-                                        //                     )
-                                        //                   : ElevatedButton(
-                                        //                       onPressed: () {
-                                        //                         productController
-                                        //                             .increasequantity(
-                                        //                                 this.id!,
-                                        //                                 productController
-                                        //                                         .productFilterResponseList[index]
-                                        //                                     [
-                                        //                                     'id'],
-                                        //                                 this.add);
-                                        //                         setState(() {
-                                        //                           productController
-                                        //                                       .productFilterResponseList[
-                                        //                                   index][
-                                        //                               'cartQauntity'] = 1;
-                                        //                           productController
-                                        //                                       .productFilterResponseList[
-                                        //                                   index][
-                                        //                               'added'] = true;
-                                        //                         });
-                                        //                       },
-                                        //                       style: TextButton
-                                        //                           .styleFrom(
-                                        //                         backgroundColor:
-                                        //                             black,
-                                        //                       ),
-                                        //                       child: Text("Add",
-                                        //                           style:
-                                        //                               TextStyle(
-                                        //                             color: white,
-                                        //                             fontSize: 16,
-                                        //                           )),
-                                        //                     ),
-                                        //             )
-                                        //           : Text(
-                                        //               'Out Of Stock',
-                                        //               style: TextStyle(
-                                        //                   color: Colors.redAccent,
-                                        //                   fontSize: 15,
-                                        //                   fontWeight:
-                                        //                       FontWeight.w500),
-                                        //             ),
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                  
-                            ],
-                          ),
-                        );
-                      });
-                })),
-                if (_isLoadMoreRunning == true)
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 40),
-                    child: Center(
-                      child: CircularProgressIndicator(),
+                                                    ),
+                                            ],
+                                          ),
+                                          // Row(
+                                          //   mainAxisAlignment:
+                                          //       MainAxisAlignment.spaceBetween,
+                                          //   children: <Widget>[
+                                          //     Row(
+                                          //       mainAxisAlignment:
+                                          //           MainAxisAlignment.start,
+                                          //       children: [
+                                          //         Stack(
+                                          //           alignment: Alignment.center,
+                                          //           children: [
+                                          //             Icon(
+                                          //               Icons.crop_square_sharp,
+                                          //               color: productController
+                                          //                               .productFilterResponseList[
+                                          //                           index]['isVegan'] ==
+                                          //                       true
+                                          //                   ? Colors.green
+                                          //                   : Colors.red,
+                                          //               size: 25,
+                                          //             ),
+                                          //             Icon(Icons.circle,
+                                          //                 color: productController
+                                          //                                     .productFilterResponseList[
+                                          //                                 index]
+                                          //                             ['isVegan'] ==
+                                          //                         true
+                                          //                     ? Colors.green
+                                          //                     : Colors.red,
+                                          //                 size: 8),
+                                          //           ],
+                                          //         ),
+                                          //         Text(
+                                          //             '${productController.productFilterResponseList[index]['weight'].toString()}',
+                                          //             style: Theme.of(context)
+                                          //                 .textTheme
+                                          //                 .bodyMedium)
+                                          //       ],
+                                          //     ),
+                                          //     Padding(
+                                          //       padding: const EdgeInsets.only(
+                                          //           right: 10),
+                                          //       child: productController
+                                          //                           .productFilterResponseList[
+                                          //                       index]['inventory']
+                                          //                   ['quantity'] >
+                                          //               0
+                                          //           ? Container(
+                                          //               width: 80,
+                                          //               height: 40,
+                                          //               decoration: BoxDecoration(
+                                          //                 borderRadius:
+                                          //                     BorderRadius.circular(
+                                          //                         5),
+                                          //                 color: black,
+                                          //               ),
+                                          //               child: productController
+                                          //                                   .productFilterResponseList[
+                                          //                               index][
+                                          //                           'cartQauntity'] !=
+                                          //                       0
+                                          //                   ? Row(
+                                          //                       mainAxisSize:
+                                          //                           MainAxisSize
+                                          //                               .min,
+                                          //                       children: <Widget>[
+                                          //                         Expanded(
+                                          //                           child: Padding(
+                                          //                             padding:
+                                          //                                 EdgeInsets
+                                          //                                     .zero,
+                                          //                             child:
+                                          //                                 SizedBox(
+                                          //                               height: 50,
+                                          //                               width: 35,
+                                          //                               child:
+                                          //                                   IconButton(
+                                          //                                 icon: Icon(
+                                          //                                     Icons
+                                          //                                         .remove),
+                                          //                                 onPressed:
+                                          //                                     () {
+                                          //                                   setState(
+                                          //                                       () {
+                                          //                                     productController.increasequantity(
+                                          //                                         this.id!,
+                                          //                                         productController.productFilterResponseList[index]['id'],
+                                          //                                         this.remove);
+                                          //                                     if (productController.productFilterResponseList[index]['cartQauntity'] >
+                                          //                                         1) {
+                                          //                                       productController.productFilterResponseList[index]['cartQauntity'] =
+                                          //                                           productController.productFilterResponseList[index]['cartQauntity'] - 1;
+                                          //                                     } else {
+                                          //                                       productController.productFilterResponseList[index]['cartQauntity'] =
+                                          //                                           0;
+                                          //                                       productController.productFilterResponseList[index]['added'] =
+                                          //                                           false;
+                                          //                                     }
+                                          //                                   });
+                                          //                                 },
+                                          //                                 color:
+                                          //                                     white,
+                                          //                               ),
+                                          //                             ),
+                                          //                           ),
+                                          //                         ),
+                                          //                         Text(
+                                          //                           productController
+                                          //                               .productFilterResponseList[
+                                          //                                   index][
+                                          //                                   'cartQauntity']
+                                          //                               .toString(),
+                                          //                           style: TextStyle(
+                                          //                               color:
+                                          //                                   white),
+                                          //                         ),
+                                          //                         Padding(
+                                          //                           padding: EdgeInsets
+                                          //                               .only(
+                                          //                                   right:
+                                          //                                       8),
+                                          //                           child: SizedBox(
+                                          //                             height: 50,
+                                          //                             width: 30,
+                                          //                             child:
+                                          //                                 IconButton(
+                                          //                               icon: Icon(
+                                          //                                   Icons
+                                          //                                       .add),
+                                          //                               color:
+                                          //                                   white,
+                                          //                               onPressed:
+                                          //                                   () {
+                                          //                                 if (productController.productFilterResponseList[index]['cartQauntity'] <
+                                          //                                         5 &&
+                                          //                                     productController.productFilterResponseList[index]['inventory']['quantity'] >
+                                          //                                         productController.productFilterResponseList[index]['cartQauntity']) {
+                                          //                                   productController.increasequantity(
+                                          //                                       this.id!,
+                                          //                                       productController.productFilterResponseList[index]['id'],
+                                          //                                       this.add);
+                                          //                                   setState(
+                                          //                                       () {
+                                          //                                     productController.productFilterResponseList[index]
+                                          //                                         [
+                                          //                                         'cartQauntity'] = productController.productFilterResponseList[index]
+                                          //                                             ['cartQauntity'] +
+                                          //                                         1;
+                                          //                                   });
+                                          //                                 }
+                                          //                               },
+                                          //                             ),
+                                          //                           ),
+                                          //                         ),
+                                          //                       ],
+                                          //                     )
+                                          //                   : ElevatedButton(
+                                          //                       onPressed: () {
+                                          //                         productController
+                                          //                             .increasequantity(
+                                          //                                 this.id!,
+                                          //                                 productController
+                                          //                                         .productFilterResponseList[index]
+                                          //                                     [
+                                          //                                     'id'],
+                                          //                                 this.add);
+                                          //                         setState(() {
+                                          //                           productController
+                                          //                                       .productFilterResponseList[
+                                          //                                   index][
+                                          //                               'cartQauntity'] = 1;
+                                          //                           productController
+                                          //                                       .productFilterResponseList[
+                                          //                                   index][
+                                          //                               'added'] = true;
+                                          //                         });
+                                          //                       },
+                                          //                       style: TextButton
+                                          //                           .styleFrom(
+                                          //                         backgroundColor:
+                                          //                             black,
+                                          //                       ),
+                                          //                       child: Text("Add",
+                                          //                           style:
+                                          //                               TextStyle(
+                                          //                             color: white,
+                                          //                             fontSize: 16,
+                                          //                           )),
+                                          //                     ),
+                                          //             )
+                                          //           : Text(
+                                          //               'Out Of Stock',
+                                          //               style: TextStyle(
+                                          //                   color: Colors.redAccent,
+                                          //                   fontSize: 15,
+                                          //                   fontWeight:
+                                          //                       FontWeight.w500),
+                                          //             ),
+                                          //     ),
+                                          //   ],
+                                          // ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  })),
+                  if (_isLoadMoreRunning == true)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 40),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
-                  ),
-              ]),
-              
-              
+                ]),
+              ),
         floatingActionButton: AnimatedOpacity(
           duration: Duration(milliseconds: 1000),
           opacity: 1.0,
@@ -861,7 +859,7 @@ class _PopularProductListState extends State<PopularProductList> {
             // child: Icon(Icons.shopping_bag_outlined),
             backgroundColor: white,
           ),
-                // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         ),
       ),
     );
