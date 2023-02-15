@@ -52,7 +52,7 @@ class _SearchPageState extends State<SearchPage> {
                 Center(
                   child: FloatingActionButton.extended(
                     label: Text('Search'), // <-- Text
-                    backgroundColor: black,
+                    backgroundColor: buttonColour,
                     onPressed: () {
                       CommanDialog.showLoading();
                       productController.productFilterResponseList.clear();

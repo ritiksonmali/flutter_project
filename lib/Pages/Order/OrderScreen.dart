@@ -261,7 +261,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                       },
                                                       style:
                                                           TextButton.styleFrom(
-                                                        backgroundColor: black,
+                                                        backgroundColor: buttonCancelColour,
                                                       ),
                                                       child: Text("Cancel"),
                                                     ),
@@ -315,7 +315,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                     });
                                               },
                                               style: TextButton.styleFrom(
-                                                backgroundColor: black,
+                                                backgroundColor: buttonColour,
                                               ),
                                               child: Text("Details"),
                                             ),

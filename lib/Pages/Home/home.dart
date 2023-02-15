@@ -403,7 +403,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(
-              height: height * 0.25,
+              height: height * 0.20,
               child:
                   GetBuilder<PopularProductController>(builder: (controller) {
                 return ListView.builder(
@@ -452,7 +452,7 @@ class _HomePageState extends State<HomePage> {
                                   decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(14)),
-                                    color: Color.fromARGB(255, 239, 240, 243),
+                                    color: backgroundColor,
                                     // image: DecorationImage(
                                     //   fit: BoxFit.cover,
                                     //   image: NetworkImage(serverUrl +
@@ -465,7 +465,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             Text(
                               popular.name,
@@ -477,12 +477,10 @@ class _HomePageState extends State<HomePage> {
                     });
               }),
             ),
-            const SizedBox(
-              height: 2,
-            ),
+            
             Padding(
               padding: const EdgeInsets.only(
-                  top: 40, left: 10, right: 10, bottom: 20),
+                  top: 2, left: 10, right: 10, bottom: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -707,7 +705,7 @@ class _HomePageState extends State<HomePage> {
                                                                             vertical:
                                                                                 3),
                                                                         backgroundColor:
-                                                                            black,
+                                                                            buttonColour,
                                                                       ),
                                                                       child: Text(
                                                                           "Subscribe",
@@ -740,7 +738,7 @@ class _HomePageState extends State<HomePage> {
                                                                           BorderRadius.circular(
                                                                               5),
                                                                       color:
-                                                                          black,
+                                                                          buttonColour,
                                                                     ),
                                                                     child: productController.productResponseList[index]['cartQauntity'] !=
                                                                             0
@@ -809,7 +807,7 @@ class _HomePageState extends State<HomePage> {
                                                                             style:
                                                                                 TextButton.styleFrom(
                                                                               padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                                                                              backgroundColor: black,
+                                                                              backgroundColor: buttonColour,
                                                                             ),
                                                                             child:
                                                                                 Text(

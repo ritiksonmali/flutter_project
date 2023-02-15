@@ -240,7 +240,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                         padding:
                                                             EdgeInsets.all(4),
                                                         backgroundColor:
-                                                            Colors.black,
+                                                            buttonColour,
                                                       ),
                                                       onPressed: () {
                                                         setState(() {
@@ -310,7 +310,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                         padding:
                                                             EdgeInsets.all(4),
                                                         backgroundColor:
-                                                            Colors.black,
+                                                            buttonCancelColour,
                                                       ),
                                                       onPressed: () {
                                                         showDialog(
@@ -492,7 +492,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                             style: TextButton
                                                                 .styleFrom(
                                                               backgroundColor:
-                                                                  black,
+                                                                  buttonColour,
                                                             ),
                                                             child: Text(
                                                               'Select',

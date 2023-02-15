@@ -338,7 +338,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                         child: ElevatedButton(
                                           style: TextButton.styleFrom(
                                             padding: EdgeInsets.all(4),
-                                            backgroundColor: Colors.black,
+                                            backgroundColor: buttonColour,
                                           ),
                                           onPressed: () {
                                             Get.to(() => UpdateSubscription(),
@@ -410,14 +410,14 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                         child: ElevatedButton(
                                           style: TextButton.styleFrom(
                                             padding: EdgeInsets.all(4),
-                                            backgroundColor: Colors.black,
+                                            backgroundColor: buttonCancelColour,
                                           ),
                                           onPressed: () {
                                             showDialog(
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
-                                                  title: Text("Alert"),
+                                                  
                                                   content: Text(
                                                       "Do you want to delete this Subscription ?"),
                                                   actions: [

@@ -306,7 +306,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                             width: size.width,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: AppColor.secondary.withOpacity(0.20)),
+                                color: grey),
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: Column(
@@ -325,7 +325,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                           TextSpan(
                                               text: '05:00 PM Today ',
                                               style: TextStyle(
-                                                  color: Colors.blue)),
+                                                  color: buttonColour)),
                                           TextSpan(
                                               text: '& get the delivery by ',
                                               style: Theme.of(context)
@@ -338,7 +338,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                 todayDate.toUtc().toLocal(),
                                               ),
                                               style: TextStyle(
-                                                  color: Colors.blue)),
+                                                  color: buttonColour)),
                                         ],
                                       ),
                                     ),
@@ -408,8 +408,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                       style: TextStyle(
                                                           fontSize: 13,
                                                           // fontWeight: FontWeight.w500,
-                                                          color: Colors
-                                                              .blueAccent),
+                                                          color: buttonColour),
                                                     ),
                                                   ),
                                                 ],
@@ -473,8 +472,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                           style: TextStyle(
                                                               fontSize: 13,
                                                               // fontWeight: FontWeight.w500,
-                                                              color: Colors
-                                                                  .blueAccent),
+                                                              color:buttonColour),
                                                         ),
                                                       ),
                                                       endsDate != null
@@ -497,8 +495,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                                     Container(
                                                                   // margin: EdgeInsets.all(100.0),
                                                                   decoration: BoxDecoration(
-                                                                      color: Colors
-                                                                          .grey,
+                                                                      color: grey,
                                                                       shape: BoxShape
                                                                           .circle),
                                                                   child: Icon(
@@ -525,9 +522,9 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                               padding: EdgeInsets.only(
                                                   left: 20, right: 20),
                                               decoration: BoxDecoration(
-                                                  color: Colors.black,
+                                                  color: buttonColour,
                                                   border: Border.all(
-                                                      color: Colors.grey,
+                                                      color: buttonColour,
                                                       width: 1),
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -641,7 +638,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                             width: size.width,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: AppColor.secondary.withOpacity(0.20)),
+                                color: grey),
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: Column(
@@ -683,14 +680,14 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                         fontSize: 14,
                                                         color: selectEveryDay
                                                             ? white
-                                                            : black),
+                                                            : buttonColour),
                                                   ),
                                                   decoration: BoxDecoration(
                                                     color: selectEveryDay
-                                                        ? black
+                                                        ? buttonColour
                                                         : null,
                                                     border: Border.all(
-                                                        color: black),
+                                                        color: buttonColour),
                                                     borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(5)),
@@ -723,14 +720,14 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                         fontSize: 14,
                                                         color: selectOnInterval
                                                             ? white
-                                                            : black),
+                                                            : buttonColour),
                                                   ),
                                                   decoration: BoxDecoration(
                                                     color: selectOnInterval
-                                                        ? black
+                                                        ? buttonColour
                                                         : null,
                                                     border: Border.all(
-                                                        color: black),
+                                                        color: buttonColour),
                                                     borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(5)),
@@ -763,7 +760,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                     const Divider(
                                                       thickness: 1,
                                                       height: 10,
-                                                      color: black,
+                                                      color: buttonColour,
                                                     ),
                                                     Row(
                                                       mainAxisAlignment:
@@ -836,7 +833,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                             width: size.width,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: AppColor.secondary.withOpacity(0.20)),
+                                color: grey),
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: Column(
@@ -850,7 +847,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(5),
-                                          color: black,
+                                          color: buttonColour,
                                         ),
                                         child: counter != 0
                                             ? Row(
@@ -877,8 +874,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                                       'quantity always greater than 1',
                                                                   fontSize: 18,
                                                                   backgroundColor:
-                                                                      Colors
-                                                                          .black54,
+                                                                      buttonColour,
                                                                   textColor:
                                                                       white);
                                                               // counter = 0;
@@ -930,7 +926,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                   });
                                                 },
                                                 style: TextButton.styleFrom(
-                                                  backgroundColor: black,
+                                                  backgroundColor: buttonColour,
                                                 ),
                                                 child: Text("Add",
                                                     style: TextStyle(
@@ -965,7 +961,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                             width: size.width,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: AppColor.secondary.withOpacity(0.20)),
+                                color: grey),
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: Column(
@@ -994,7 +990,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                         ),
                                         TextButton(
                                             style: TextButton.styleFrom(
-                                                backgroundColor: black),
+                                                backgroundColor: buttonColour),
                                             onPressed: () async {
                                               await Future.delayed(
                                                   Duration(seconds: 1));
@@ -1110,7 +1106,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                               width: double.infinity,
                               height: 55,
                               decoration: BoxDecoration(
-                                  color: black,
+                                  color: buttonColour,
                                   borderRadius: BorderRadius.circular(12)),
                               child: Center(
                                 child: Text(
@@ -1262,7 +1258,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                     width: double.infinity,
                                     height: 55,
                                     decoration: BoxDecoration(
-                                        color: black,
+                                        color: buttonColour,
                                         borderRadius:
                                             BorderRadius.circular(12)),
                                     child: Center(

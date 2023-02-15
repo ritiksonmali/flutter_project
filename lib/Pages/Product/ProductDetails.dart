@@ -265,8 +265,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(30),
-                                            color: AppColor.secondary
-                                                .withOpacity(0.20)),
+                                            color: grey),
                                         child: Padding(
                                           padding: const EdgeInsets.all(15),
                                           child: Column(
@@ -289,7 +288,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                                 BorderRadius
                                                                     .circular(
                                                                         5),
-                                                            color: black,
+                                                            color: buttonColour,
                                                           ),
                                                           child: productController
                                                                               .productFilterResponseList[
@@ -402,7 +401,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                                   style: TextButton
                                                                       .styleFrom(
                                                                     backgroundColor:
-                                                                        black,
+                                                                        buttonColour,
                                                                   ),
                                                                   child: Text(
                                                                       "Add",

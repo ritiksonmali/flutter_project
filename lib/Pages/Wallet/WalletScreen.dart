@@ -140,7 +140,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             style: TextStyle(
                                 color: black,
                                 fontSize: 36,
-                                fontWeight: FontWeight.w700),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                         Center(
@@ -166,7 +166,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       'Topup Wallet',
                       style: TextStyle(
                         color: black,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                         fontSize: 20.0,
                       ),
                       textAlign: TextAlign.center,
@@ -332,9 +332,9 @@ class _WalletScreenState extends State<WalletScreen> {
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
                             if (states.contains(MaterialState.pressed)) {
-                              return Colors.black;
+                              return buttonColour;
                             }
-                            return black;
+                            return buttonColour;
                           }),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -351,7 +351,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 12),
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                          color: Colors.grey,
+                          color: grey,
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Row(
                         children: <Widget>[
@@ -378,7 +378,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                   "Wallet Transaction History",
                                   style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w400,
                                       color: Colors.grey[900]),
                                 ),
                               ],

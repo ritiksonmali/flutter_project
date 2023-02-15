@@ -390,7 +390,7 @@ class _PopularProductListState extends State<PopularProductList> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               5),
-                                                      color: black,
+                                                      color: buttonColour,
                                                     ),
                                                     child: ElevatedButton(
                                                       onPressed: () {
@@ -411,7 +411,7 @@ class _PopularProductListState extends State<PopularProductList> {
                                                             .symmetric(
                                                                 horizontal: 5,
                                                                 vertical: 3),
-                                                        backgroundColor: black,
+                                                        backgroundColor: buttonColour,
                                                       ),
                                                       child: Text("Subscribe",
                                                           style: Theme.of(
@@ -439,7 +439,7 @@ class _PopularProductListState extends State<PopularProductList> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               5),
-                                                      color: black,
+                                                      color: buttonColour,
                                                     ),
                                                     child: productController
                                                                         .productFilterResponseList[
@@ -580,7 +580,7 @@ class _PopularProductListState extends State<PopularProductList> {
                                                                       vertical:
                                                                           5),
                                                               backgroundColor:
-                                                                  black,
+                                                                  buttonColour,
                                                             ),
                                                             child: Text(
                                                               "Add to Cart",
@@ -814,6 +814,7 @@ class _PopularProductListState extends State<PopularProductList> {
                               SizedBox(
                                 height: 20,
                               ),
+                  
                             ],
                           ),
                         );
@@ -827,6 +828,8 @@ class _PopularProductListState extends State<PopularProductList> {
                     ),
                   ),
               ]),
+              
+              
         floatingActionButton: AnimatedOpacity(
           duration: Duration(milliseconds: 1000),
           opacity: 1.0,
@@ -858,6 +861,7 @@ class _PopularProductListState extends State<PopularProductList> {
             // child: Icon(Icons.shopping_bag_outlined),
             backgroundColor: white,
           ),
+                // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         ),
       ),
     );

@@ -336,7 +336,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                           width: size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: AppColor.secondary.withOpacity(0.20)),
+                              color: grey),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(
@@ -355,7 +355,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                         TextSpan(
                                             text: '05:00 PM Today ',
                                             style:
-                                                TextStyle(color: Colors.blue)),
+                                                TextStyle(color: buttonColour)),
                                         TextSpan(
                                             text: '& get the delivery by ',
                                             style: Theme.of(context)
@@ -367,7 +367,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                               todayDate.toUtc().toLocal(),
                                             ),
                                             style:
-                                                TextStyle(color: Colors.blue)),
+                                                TextStyle(color: buttonColour)),
                                       ],
                                     ),
                                   ),
@@ -434,8 +434,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                     style: TextStyle(
                                                         fontSize: 13,
                                                         // fontWeight: FontWeight.w500,
-                                                        color:
-                                                            Colors.blueAccent),
+                                                        color:buttonColour),
                                                   ),
                                                 ),
                                               ],
@@ -498,8 +497,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                         style: TextStyle(
                                                             fontSize: 13,
                                                             // fontWeight: FontWeight.w500,
-                                                            color: Colors
-                                                                .blueAccent),
+                                                            color: buttonColour),
                                                       ),
                                                     ),
                                                     endsDate != null
@@ -518,8 +516,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                               child: Container(
                                                                 // margin: EdgeInsets.all(100.0),
                                                                 decoration: BoxDecoration(
-                                                                    color: Colors
-                                                                        .grey,
+                                                                    color: grey,
                                                                     shape: BoxShape
                                                                         .circle),
                                                                 child: Icon(
@@ -546,9 +543,9 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                             padding: EdgeInsets.only(
                                                 left: 20, right: 20),
                                             decoration: BoxDecoration(
-                                                color: Colors.black,
+                                                color:buttonColour,
                                                 border: Border.all(
-                                                    color: Colors.grey,
+                                                    color: grey,
                                                     width: 1),
                                                 borderRadius:
                                                     BorderRadius.circular(15)),
@@ -649,7 +646,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                           width: size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: AppColor.secondary.withOpacity(0.20)),
+                              color: grey),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(
@@ -691,14 +688,14 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                       fontSize: 14,
                                                       color: selectEveryDay
                                                           ? white
-                                                          : black),
+                                                          : buttonColour),
                                                 ),
                                                 decoration: BoxDecoration(
                                                   color: selectEveryDay
-                                                      ? black
+                                                      ? buttonColour
                                                       : null,
                                                   border:
-                                                      Border.all(color: black),
+                                                      Border.all(color: buttonColour),
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(5)),
@@ -732,14 +729,14 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                       fontSize: 14,
                                                       color: selectOnInterval
                                                           ? white
-                                                          : black),
+                                                          : buttonColour),
                                                 ),
                                                 decoration: BoxDecoration(
                                                   color: selectOnInterval
-                                                      ? black
+                                                      ? buttonColour
                                                       : null,
                                                   border:
-                                                      Border.all(color: black),
+                                                      Border.all(color: buttonColour),
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(5)),
@@ -764,7 +761,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                   const Divider(
                                                     thickness: 1,
                                                     height: 10,
-                                                    color: black,
+                                                    color: buttonColour,
                                                   ),
                                                   Row(
                                                     mainAxisAlignment:
@@ -834,7 +831,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                           width: size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: AppColor.secondary.withOpacity(0.20)),
+                              color: grey),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(
@@ -852,7 +849,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(5),
-                                              color: black,
+                                              color: buttonColour,
                                             ),
                                             child: counter != 0
                                                 ? Row(
@@ -928,7 +925,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                       });
                                                     },
                                                     style: TextButton.styleFrom(
-                                                      backgroundColor: black,
+                                                      backgroundColor: buttonColour,
                                                     ),
                                                     child: Text("Add",
                                                         style: TextStyle(
@@ -971,7 +968,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                           width: size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: AppColor.secondary.withOpacity(0.20)),
+                              color: grey),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(
@@ -1002,7 +999,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                       ),
                                       TextButton(
                                           style: TextButton.styleFrom(
-                                              backgroundColor: black,
+                                              backgroundColor: buttonColour ,
                                               minimumSize: size * 0.02),
                                           onPressed: () async {
                                             await Future.delayed(
@@ -1112,7 +1109,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                             width: double.infinity,
                             height: 55,
                             decoration: BoxDecoration(
-                                color: black,
+                                color: buttonColour,
                                 borderRadius: BorderRadius.circular(12)),
                             child: Center(
                               child: Text(
@@ -1263,7 +1260,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                     width: double.infinity,
                                     height: 55,
                                     decoration: BoxDecoration(
-                                        color: black,
+                                        color: buttonColour,
                                         borderRadius:
                                             BorderRadius.circular(12)),
                                     child: Center(

@@ -345,7 +345,7 @@ class _CartScreenState extends State<CartScreen> {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(5),
-                                            color: black,
+                                            color: buttonColour,
                                           ),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
@@ -479,7 +479,7 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           child: TextButton(
                             style: TextButton.styleFrom(
-                              backgroundColor: black,
+                              backgroundColor: buttonColour,
                               padding: const EdgeInsets.all(16.0),
                               textStyle: const TextStyle(fontSize: 20),
                             ),

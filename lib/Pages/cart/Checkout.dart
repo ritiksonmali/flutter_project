@@ -200,7 +200,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                               child: TextButton(
                                   style: TextButton.styleFrom(
-                                      backgroundColor: black),
+                                      backgroundColor: buttonColour),
                                   onPressed: () async {
                                     await Future.delayed(Duration(seconds: 1));
                                     final value = await Navigator.push(
@@ -251,7 +251,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   // padding: EdgeInsets.only(top: 10, bottom: 10),
-                                  primary: Colors.black),
+                                  primary: buttonColour),
                               child: Text(formattedDate),
                               onPressed: () async {
                                 await showDatePicker(
@@ -284,7 +284,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 child: Container(
                                   padding: EdgeInsets.only(left: 20, right: 20),
                                   decoration: BoxDecoration(
-                                      color: Colors.black,
+                                      color: buttonColour,
                                       border: Border.all(
                                           color: Colors.grey, width: 1),
                                       borderRadius: BorderRadius.circular(15)),
@@ -532,7 +532,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             Checkbox(
                                 materialTapTargetSize:
                                     MaterialTapTargetSize.shrinkWrap,
-                                activeColor: black,
+                                activeColor: buttonColour,
                                 checkColor: white,
                                 //only check box
                                 value: check, //unchecked
@@ -626,7 +626,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   ),
                                   TextButton(
                                       style: TextButton.styleFrom(
-                                          backgroundColor: black),
+                                          backgroundColor: buttonColour),
                                       onPressed: () async {
                                         Get.to(() => WalletScreen());
                                       },
@@ -752,7 +752,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           width: double.infinity,
                           child: CupertinoButton(
                             child: Text("Place Order"),
-                            color: black,
+                            color: buttonColour,
                             onPressed: () {
                               if (SelectedAddress != null) {
                                 if (formattedDate != null &&

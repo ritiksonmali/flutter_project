@@ -395,7 +395,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             children: [
                               ElevatedButton(
                                 style: TextButton.styleFrom(
-                                  backgroundColor: Colors.black,
+                                  backgroundColor: buttonColour,
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(30.0)),
@@ -416,7 +416,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                               ElevatedButton(
                                 style: TextButton.styleFrom(
-                                  backgroundColor: Colors.black,
+                                  backgroundColor: buttonCancelColour,
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(30.0)),

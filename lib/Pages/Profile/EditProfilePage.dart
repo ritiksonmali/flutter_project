@@ -204,7 +204,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       elevation: 2,
-                      primary: Colors.black,
+                      primary: buttonColour,
                       //color: Colors.green,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),

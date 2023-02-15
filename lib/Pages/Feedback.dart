@@ -77,7 +77,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 color: white,
               ),
             ),
-            color: black,
+            color: buttonColour,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                 30,
@@ -96,7 +96,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   'Send Your Feedback',
                   style: TextStyle(
                     color: black,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                     fontSize: 24.0,
                   ),
                   textAlign: TextAlign.center,
@@ -109,7 +109,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   style: TextStyle(
                     color: Colors.grey[600],
                     overflow: TextOverflow.fade,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                     fontSize: 16.0,
                   ),
                 ),
@@ -210,14 +210,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 ),
               ),
               const SizedBox(
-                height: 100,
+                height: 0,
               ),
               Center(
                 child: const Text(
                   'Rate Your Experience',
                   style: TextStyle(
                     color: black,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                     fontSize: 24.0,
                   ),
                   textAlign: TextAlign.center,
@@ -231,14 +231,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   initialRating: 0,
                   minRating: 1,
                   allowHalfRating: true,
-                  unratedColor: Colors.grey,
+                  unratedColor: Color.fromARGB(255, 188, 186, 186),
                   itemCount: 5,
                   itemSize: 50.0,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   updateOnDrag: true,
                   itemBuilder: (context, index) => Icon(
                     Icons.star,
-                    color: Colors.amber,
+                    color: buttonColour,
                   ),
                   onRatingUpdate: (ratingvalue) {
                     setState(() {
