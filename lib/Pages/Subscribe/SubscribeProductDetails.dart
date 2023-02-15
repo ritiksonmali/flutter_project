@@ -157,16 +157,12 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
 
   Widget getAppBar() {
     return AppBar(
+      backgroundColor: kPrimaryGreen,
       title: Text(
         "Product Details",
-        style: TextStyle(
-          color: black,
-          fontSize: 25,
-          fontWeight: FontWeight.normal,
-        ),
+        style: Theme.of(context).textTheme.headline5!.apply(color: white),
       ),
       centerTitle: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 1,
       leading: IconButton(
         onPressed: () {
@@ -185,13 +181,13 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
         },
         icon: Icon(
           Icons.arrow_back,
-          color: Colors.black,
+          color: white
         ),
       ),
       actions: [
         IconButton(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          icon: const Icon(Icons.menu, color: black),
+          icon: const Icon(Icons.menu, color: white),
           onPressed: () {
             Get.to(() => Navbar());
           }, //=> _key.currentState!.openDrawer(),
@@ -202,10 +198,13 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
 
   Widget getBody() {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          getImages(),
-        ],
+      child: Container(
+         color: grey,
+        child: Column(
+          children: [
+            getImages(),
+          ],
+        ),
       ),
     );
   }
@@ -226,17 +225,18 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
               return Column(
                 children: [
                   Center(
-                    child: Container(
+                    child:Container (
+                      color:white,
                       margin: const EdgeInsets.only(top: 30),
-                      width: 280,
+                      width: 350,
                       height: 180,
                       child: ImageFade(
                           image: NetworkImage(serverUrl +
                               'api/auth/serveproducts/${product['imageUrl'].toString()}'),
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fitHeight,
                           // scale: 2,
                           placeholder: Image.file(
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fitHeight,
                             File(
                                 '${directory.path}/compress${product['imageUrl'].toString()}'),
                             gaplessPlayback: true,
@@ -336,7 +336,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                           width: size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: grey),
+                              color: white),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(
@@ -517,7 +517,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                                               child: Container(
                                                                 // margin: EdgeInsets.all(100.0),
                                                                 decoration: BoxDecoration(
-                                                                    color: grey,
+                                                                    color: white,
                                                                     shape: BoxShape
                                                                         .circle),
                                                                 child: Icon(
@@ -546,7 +546,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                                             decoration: BoxDecoration(
                                                 color: buttonColour,
                                                 border: Border.all(
-                                                    color: grey, width: 1),
+                                                    color: white, width: 1),
                                                 borderRadius:
                                                     BorderRadius.circular(15)),
                                             child: GestureDetector(
@@ -646,7 +646,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                           width: size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: grey),
+                              color: white),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(
@@ -831,7 +831,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                           width: size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: grey),
+                              color: white),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(
@@ -969,7 +969,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                           width: size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: grey),
+                              color: white),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(
