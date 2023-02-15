@@ -111,12 +111,12 @@ class _AddressState extends State<Address> {
         title: Text(
           "Add Address",
           style: TextStyle(
-            color: black,
+            color: white,
             fontSize: 25,
             fontWeight: FontWeight.normal,
           ),
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
@@ -124,7 +124,7 @@ class _AddressState extends State<Address> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: black,
+            color: white,
           ),
         ),
       ),
@@ -139,8 +139,6 @@ class _AddressState extends State<Address> {
               } else {
                 print("user selected Address Type $defaultValue");
               }
-              print("hello");
-              // checkoutProvider.validator(context, myType);
             },
             child: Text(
               "Add Address",
@@ -148,7 +146,7 @@ class _AddressState extends State<Address> {
                 color: white,
               ),
             ),
-            color: black,
+            color: buttonColour,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                 30,

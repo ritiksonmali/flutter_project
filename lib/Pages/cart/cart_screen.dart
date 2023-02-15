@@ -125,7 +125,7 @@ class _CartScreenState extends State<CartScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: black),
+          iconTheme: IconThemeData(color: white),
           // automaticallyImplyLeading: true,
           centerTitle: true,
           leading: IconButton(
@@ -146,13 +146,13 @@ class _CartScreenState extends State<CartScreen> {
             },
             icon: Icon(
               Icons.arrow_back,
-              color: black,
+              color: white,
             ),
           ),
           title: Text(
             "Cart",
             style: TextStyle(
-              color: black,
+              color: white,
               fontSize: 25,
               fontWeight: FontWeight.normal,
             ),
@@ -166,339 +166,353 @@ class _CartScreenState extends State<CartScreen> {
               }, //=> _key.currentState!.openDrawer(),
             ),
           ],
-          backgroundColor: white,
+          backgroundColor: kPrimaryGreen,
         ),
         body: isLoading == true
             ? Scaffold()
             : cartproducts.isEmpty
                 ? Center(
-                    child: Column(
-                      children: [
-                        Container(
-                          // margin: EdgeInsets.only(top: 80),
-                          // padding: EdgeInsets.all(20),
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage('assets/cartempty.png'),
-                          )),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'Your Cart Is Empty',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: black,
-                              fontSize: 30,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'Looks like You Didn\'t \n add anything in your cart yet',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.grey[400],
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
+                    child: Container(
+                      color: grey,
+                      child: Column(
+                        children: [
+                          Container(
+                            // margin: EdgeInsets.only(top: 80),
+                            // padding: EdgeInsets.all(20),
+                            width: double.infinity,
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: AssetImage('assets/cartempty.png'),
+                            )),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Your Cart Is Empty',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4!
+                                .apply(color: black),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Looks like You Didn\'t \n add anything in your cart yet',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .apply(color: AppColor.secondary),
+                          ),
+                        ],
+                      ),
                     ),
                   )
-                : ListView(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Column(
-                        children: List.generate(cartproducts.length, (index) {
-                          // print(cartproducts);
-                          var cartdata = cartproducts[index];
-                          total = cartproducts.length > 0
-                              ? cartproducts
-                                  .map<int>((m) =>
-                                      m['product']['price'] * m['quantity'])
-                                  .reduce((value, element) => value + element)
-                                  .toStringAsFixed(2)
-                              : 0;
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                left: 30, right: 30, bottom: 30),
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: grey,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            spreadRadius: 0.5,
-                                            color: black.withOpacity(0.1),
-                                            blurRadius: 1)
-                                      ],
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 10,
-                                        left: 15,
-                                        right: 15,
-                                        bottom: 10),
-                                    child: Center(
-                                      child: Container(
-                                        width: width * 0.25,
-                                        height: height * 0.10,
-                                        child: ImageFade(
-                                            image: NetworkImage(serverUrl +
-                                                'api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
-                                            fit: BoxFit.cover,
-                                            // scale: 2,
-                                            placeholder: Image.file(
+                : Container(
+                    color: grey,
+                    child: ListView(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Column(
+                          children: List.generate(cartproducts.length, (index) {
+                            // print(cartproducts);
+                            var cartdata = cartproducts[index];
+                            total = cartproducts.length > 0
+                                ? cartproducts
+                                    .map<int>((m) =>
+                                        m['product']['price'] * m['quantity'])
+                                    .reduce((value, element) => value + element)
+                                    .toStringAsFixed(2)
+                                : 0;
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 30, right: 30, bottom: 30),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              spreadRadius: 0.5,
+                                              color: black.withOpacity(0.1),
+                                              blurRadius: 1)
+                                        ],
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10,
+                                          left: 15,
+                                          right: 15,
+                                          bottom: 10),
+                                      child: Center(
+                                        child: Container(
+                                          width: width * 0.25,
+                                          height: height * 0.10,
+                                          child: ImageFade(
+                                              image: NetworkImage(serverUrl +
+                                                  'api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
                                               fit: BoxFit.cover,
-                                              File(
-                                                  '${directory.path}/compress${cartdata['product']['imageUrl'].toString()}'),
-                                              gaplessPlayback: true,
-                                            )),
+                                              // scale: 2,
+                                              placeholder: Image.file(
+                                                fit: BoxFit.cover,
+                                                File(
+                                                    '${directory.path}/compress${cartdata['product']['imageUrl'].toString()}'),
+                                                gaplessPlayback: true,
+                                              )),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Expanded(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            cartdata['product']['name'],
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Stack(
-                                          alignment: Alignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.crop_square_sharp,
-                                              color: cartdata['product']
-                                                          ['isVegan'] ==
-                                                      true
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                              size: 25,
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                      child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              cartdata['product']['name'],
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
                                             ),
-                                            Icon(Icons.circle,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.crop_square_sharp,
                                                 color: cartdata['product']
                                                             ['isVegan'] ==
                                                         true
                                                     ? Colors.green
                                                     : Colors.red,
-                                                size: 8),
-                                          ],
-                                        ),
-                                        Text(
-                                            '${cartdata['product']['weight'].toString()}',
+                                                size: 20,
+                                              ),
+                                              Icon(Icons.circle,
+                                                  color: cartdata['product']
+                                                              ['isVegan'] ==
+                                                          true
+                                                      ? Colors.green
+                                                      : Colors.red,
+                                                  size: 6),
+                                            ],
+                                          ),
+                                          Text(
+                                              '${cartdata['product']['weight'].toString()}',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium)
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            "₹" +
+                                                cartdata['product']['price']
+                                                    .toString(),
+                                            // "\$ 200",
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyMedium)
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(
-                                          "₹" +
-                                              cartdata['product']['price']
-                                                  .toString(),
-                                          // "\$ 200",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Container(
-                                          width: width * 0.2,
-                                          height: height * 0.06,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: buttonColour,
+                                                .titleMedium,
                                           ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: Padding(
-                                                  padding: EdgeInsets.zero,
-                                                  child: SizedBox(
-                                                    height: height * 0.05,
-                                                    width: width * 0.05,
-                                                    child: IconButton(
-                                                        iconSize: height * 0.02,
-                                                        icon: Icon(Icons.remove,
-                                                            color: white),
-                                                        onPressed: () {
-                                                          increasequantity(
-                                                              this.id!,
-                                                              cartdata[
-                                                                      'product']
-                                                                  ['id'],
-                                                              this.remove);
-                                                          setState(() {
-                                                            if (cartdata[
-                                                                    'quantity'] ==
-                                                                1) {
-                                                              cartproducts
-                                                                  .removeAt(
-                                                                      index);
-                                                              // if (cartproducts.isEmpty) {
-                                                              //   cartproducts.add(product);
-                                                              // }
-                                                            } else {
-                                                              cartdata[
-                                                                      'quantity'] =
-                                                                  cartdata[
-                                                                          'quantity'] -
-                                                                      1;
-                                                            }
-                                                          });
-                                                        }),
-                                                  ),
-                                                ),
-                                              ),
-                                              //  Obx(()=>Text("${myProductController.},
-
-                                              Text(
-                                                cartdata['quantity'].toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .caption!
-                                                    .apply(color: white),
-                                              ),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      EdgeInsets.only(right: 8),
-                                                  child: SizedBox(
-                                                    height: height * 0.05,
-                                                    width: width * 0.05,
-                                                    child: IconButton(
-                                                      iconSize: height * 0.02,
-                                                      icon: Icon(Icons.add,
-                                                          color: white),
-                                                      onPressed: () {
-                                                        if (cartdata['product'][
-                                                                        'inventory']
-                                                                    [
-                                                                    'quantity'] >
+                                          Container(
+                                            width: width * 0.2,
+                                            height: height * 0.05,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: buttonColour,
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.zero,
+                                                    child: SizedBox(
+                                                      height: height * 0.05,
+                                                      width: width * 0.05,
+                                                      child: IconButton(
+                                                          iconSize:
+                                                              height * 0.02,
+                                                          icon: Icon(
+                                                              Icons.remove,
+                                                              color: white),
+                                                          onPressed: () {
+                                                            increasequantity(
+                                                                this.id!,
                                                                 cartdata[
-                                                                    'quantity'] &&
-                                                            cartdata[
-                                                                    'quantity'] <
-                                                                5) {
-                                                          increasequantity(
-                                                              this.id!,
-                                                              cartdata[
-                                                                      'product']
-                                                                  ['id'],
-                                                              this.add);
-                                                          setState(() {
-                                                            cartdata[
-                                                                    'quantity'] =
+                                                                        'product']
+                                                                    ['id'],
+                                                                this.remove);
+                                                            setState(() {
+                                                              if (cartdata[
+                                                                      'quantity'] ==
+                                                                  1) {
+                                                                cartproducts
+                                                                    .removeAt(
+                                                                        index);
+                                                                // if (cartproducts.isEmpty) {
+                                                                //   cartproducts.add(product);
+                                                                // }
+                                                              } else {
                                                                 cartdata[
-                                                                        'quantity'] +
-                                                                    1;
-                                                          });
-                                                        }
-
-                                                        // Get.to(() => SearchPage());
-                                                      },
+                                                                        'quantity'] =
+                                                                    cartdata[
+                                                                            'quantity'] -
+                                                                        1;
+                                                              }
+                                                            });
+                                                          }),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                                //  Obx(()=>Text("${myProductController.},
+
+                                                Text(
+                                                  cartdata['quantity']
+                                                      .toString(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .caption!
+                                                      .apply(color: white),
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 8),
+                                                    child: SizedBox(
+                                                      height: height * 0.05,
+                                                      width: width * 0.05,
+                                                      child: IconButton(
+                                                        iconSize: height * 0.02,
+                                                        icon: Icon(Icons.add,
+                                                            color: white),
+                                                        onPressed: () {
+                                                          if (cartdata['product']
+                                                                          [
+                                                                          'inventory']
+                                                                      [
+                                                                      'quantity'] >
+                                                                  cartdata[
+                                                                      'quantity'] &&
+                                                              cartdata[
+                                                                      'quantity'] <
+                                                                  5) {
+                                                            increasequantity(
+                                                                this.id!,
+                                                                cartdata[
+                                                                        'product']
+                                                                    ['id'],
+                                                                this.add);
+                                                            setState(() {
+                                                              cartdata[
+                                                                      'quantity'] =
+                                                                  cartdata[
+                                                                          'quantity'] +
+                                                                      1;
+                                                            });
+                                                          }
+
+                                                          // Get.to(() => SearchPage());
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ))
-                              ],
-                            ),
-                          );
-                        }),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 30, right: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text("Total",
-                                style: Theme.of(context).textTheme.titleLarge),
-                            Text("\₹${total}",
-                                style: Theme.of(context).textTheme.titleLarge),
-                          ],
+                                        ],
+                                      )
+                                    ],
+                                  ))
+                                ],
+                              ),
+                            );
+                          }),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: black,
-                          ),
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: buttonColour,
-                              padding: const EdgeInsets.all(16.0),
-                              textStyle: const TextStyle(fontSize: 20),
-                            ),
-                            onPressed: cartproducts.isEmpty
-                                ? null
-                                : () {
-                                    Get.to(() => CheckoutScreen());
-                                  },
-                            child: const Text(
-                              'Checkout',
-                              style: TextStyle(color: white),
-                            ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 30, right: 30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("Total",
+                                  style:
+                                      Theme.of(context).textTheme.titleLarge),
+                              Text("\₹${total}",
+                                  style:
+                                      Theme.of(context).textTheme.titleLarge),
+                            ],
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      )
-                    ],
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: black,
+                            ),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: buttonColour,
+                                padding: const EdgeInsets.all(16.0),
+                                textStyle: const TextStyle(fontSize: 20),
+                              ),
+                              onPressed: cartproducts.isEmpty
+                                  ? null
+                                  : () {
+                                      Get.to(() => CheckoutScreen());
+                                    },
+                              child: const Text(
+                                'Checkout',
+                                style: TextStyle(color: white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        )
+                      ],
+                    ),
                   ),
       ),
     );

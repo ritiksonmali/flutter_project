@@ -173,10 +173,8 @@ class _SetNewPasswordState extends State<SetNewPassword> {
       String url = serverUrl + 'api/auth/forgotpassword/setnewpassword';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
-          body: json.encode({
-            'email': 'sonmalirutik001@gmail.com',
-            'password': _passwordcontroller.text
-          }));
+          body: json.encode(
+              {'email': emailId, 'password': _passwordcontroller.text}));
       var body = jsonDecode(response.body);
       print(response.body);
       if (body['status'] == 200) {

@@ -45,12 +45,12 @@ class _AddressDetailsState extends State<AddressDetails> {
         title: Text(
           "Address",
           style: TextStyle(
-            color: black,
+            color: white,
             fontSize: 25,
             fontWeight: FontWeight.normal,
           ),
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
@@ -58,12 +58,12 @@ class _AddressDetailsState extends State<AddressDetails> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: black,
+            color: white,
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: black,
+        backgroundColor: buttonColour,
         child: Icon(Icons.add),
         onPressed: () async {
           final value = await Navigator.push(
