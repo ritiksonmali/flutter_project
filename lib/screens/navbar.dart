@@ -61,12 +61,9 @@ class _NavbarState extends State<Navbar> {
     return ListView(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 60),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            // SizedBox(
-            //   height: 20,
-            // ),
             ListTile(
                 leading: Icon(Icons.home),
                 title:
@@ -83,7 +80,7 @@ class _NavbarState extends State<Navbar> {
                   });
                 }),
             SizedBox(
-              height: 35,
+              height:10,
             ),
             ListTile(
               leading: Icon(Icons.face),
@@ -94,7 +91,7 @@ class _NavbarState extends State<Navbar> {
               },
             ),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
             role == "DELIVERY_MANAGER"
                 ? Padding(
@@ -121,7 +118,7 @@ class _NavbarState extends State<Navbar> {
               },
             ),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
             ListTile(
               leading: Icon(FontAwesomeIcons.locationDot),
@@ -132,7 +129,7 @@ class _NavbarState extends State<Navbar> {
               },
             ),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
             ListTile(
               leading: Icon(Icons.settings),
@@ -143,7 +140,7 @@ class _NavbarState extends State<Navbar> {
               },
             ),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
             ListTile(
               leading: Icon(Icons.wallet),
@@ -154,7 +151,7 @@ class _NavbarState extends State<Navbar> {
               },
             ),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
             ListTile(
               leading: Icon(Icons.subscriptions),
@@ -165,7 +162,7 @@ class _NavbarState extends State<Navbar> {
               },
             ),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
             ListTile(
               leading: Icon(Icons.feedback),
@@ -176,7 +173,7 @@ class _NavbarState extends State<Navbar> {
               },
             ),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
             ListTile(
               leading: Icon(Icons.exit_to_app),
