@@ -45,17 +45,14 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         title: Text(
           "Order History",
-          style: TextStyle(
-            color: black,
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
+          style: Theme.of(context).textTheme.headline5!.apply(color: white),
         ),
         centerTitle: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
@@ -63,13 +60,13 @@ class _OrderScreenState extends State<OrderScreen> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: white,
           ),
         ),
         actions: [
           IconButton(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            icon: const Icon(Icons.menu, color: black),
+            icon: const Icon(Icons.menu, color: white),
             onPressed: () {
               Get.to(() => Navbar());
             }, //=> _key.currentState!.openDrawer(),
@@ -77,281 +74,296 @@ class _OrderScreenState extends State<OrderScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            GetX<OrderController>(
-                init: OrderController(),
-                builder: (controller) {
-                  return ListView.builder(
-                      itemCount: controller.orders.length,
-                      physics: ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        var order = controller.orders[index];
-                        return FadeIn(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Container(
-                              width: size.width,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: AppColor.secondary.withOpacity(0.05)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "#Order Id: " + order.id.toString(),
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        Text(
-                                          order.orderStatus.toString(),
-                                          style: TextStyle(
-                                              fontSize: 15,
+        child: Container(
+          color: grey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              GetX<OrderController>(
+                  init: OrderController(),
+                  builder: (controller) {
+                    return ListView.builder(
+                        itemCount: controller.orders.length,
+                        physics: ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          var order = controller.orders[index];
+                          return FadeIn(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Container(
+                                width: size.width,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color:
+                                        AppColor.secondary.withOpacity(0.05)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "#Order Id: " + order.id.toString(),
+                                            style: TextStyle(
+                                              fontSize: 20,
                                               fontWeight: FontWeight.w500,
-                                              color: order.orderStatus !=
-                                                      "DELIVERED"
-                                                  ? Colors.red
-                                                  : Colors.green),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    ListView.builder(
-                                        itemCount: controller
-                                            .orders[index].orderItem.length,
-                                        physics: ClampingScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemBuilder: (BuildContext context,
-                                            int position) {
-                                          var orderItems = controller
-                                              .orders[index]
-                                              .orderItem[position];
-                                          return Row(
-                                            children: [
-                                              Container(
-                                                width: size.width * 0.6,
-                                                child: Row(
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Flexible(
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            orderItems.product
-                                                                    .name
-                                                                    .toString() +
-                                                                " " +
-                                                                "× " +
-                                                                orderItems
-                                                                    .quantity
-                                                                    .toString(),
-                                                            // currentOrderList[index]['name'],
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyMedium,
-                                                          ),
-                                                        ],
+                                            ),
+                                          ),
+                                          Text(
+                                            order.orderStatus.toString(),
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                                color: order.orderStatus !=
+                                                        "DELIVERED"
+                                                    ? Colors.red
+                                                    : Colors.green),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      ListView.builder(
+                                          itemCount: controller
+                                              .orders[index].orderItem.length,
+                                          physics: ClampingScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemBuilder: (BuildContext context,
+                                              int position) {
+                                            var orderItems = controller
+                                                .orders[index]
+                                                .orderItem[position];
+                                            return Row(
+                                              children: [
+                                                Container(
+                                                  width: size.width * 0.6,
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 5,
                                                       ),
-                                                    ),
-                                                  ],
+                                                      Flexible(
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              orderItems.product
+                                                                      .name
+                                                                      .toString() +
+                                                                  " " +
+                                                                  "× " +
+                                                                  orderItems
+                                                                      .quantity
+                                                                      .toString(),
+                                                              // currentOrderList[index]['name'],
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyMedium,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          );
-                                        }),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Flexible(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                              ],
+                                            );
+                                          }),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  "Total : \₹" +
+                                                      order.totalprice
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                order.priceCutFromWallet != 0.0
+                                                    ? Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 10),
+                                                        child: Text(
+                                                          "Wallet : \₹" +
+                                                              order
+                                                                  .priceCutFromWallet
+                                                                  .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : SizedBox(),
+                                              ],
+                                            ),
+                                          ),
+                                          // Text(
+                                          //   "Total : \₹" +
+                                          //       order.totalprice.toString(),
+                                          //   style: TextStyle(
+                                          //     fontSize: 20,
+                                          //     fontWeight: FontWeight.w500,
+                                          //   ),
+                                          // ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text(
-                                                "Total : \₹" +
-                                                    order.totalprice.toString(),
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              order.priceCutFromWallet != 0.0
+                                              order.orderStatus == "INPROGRESS"
                                                   ? Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              bottom: 10),
-                                                      child: Text(
-                                                        "Wallet : \₹" +
-                                                            order
-                                                                .priceCutFromWallet
-                                                                .toString(),
-                                                        style: TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.w500,
+                                                              right: 8.0),
+                                                      child: ElevatedButton(
+                                                        onPressed: () async {
+                                                          controller
+                                                              .setOrderCancelled(
+                                                                  order.id);
+                                                          await Future.delayed(
+                                                              Duration(
+                                                                  seconds: 2));
+                                                          setState(() {
+                                                            controller.orders
+                                                                .clear();
+                                                            controller
+                                                                .onReady();
+                                                          });
+                                                        },
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                          backgroundColor:
+                                                              buttonCancelColour,
                                                         ),
+                                                        child: Text("Cancel"),
                                                       ),
                                                     )
-                                                  : SizedBox(),
+                                                  : Text(''),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  print(controller.orders[index]
+                                                      .priceCutFromWallet
+                                                      .toString());
+                                                  controller.update();
+                                                  Get.to(
+                                                      () =>
+                                                          OrderDetailsScreen(),
+                                                      popGesture: true,
+                                                      arguments: {
+                                                        'orderItem': controller
+                                                            .orders[index]
+                                                            .orderItem,
+                                                        'priceCutFromWallet':
+                                                            controller
+                                                                .orders[index]
+                                                                .priceCutFromWallet,
+                                                        'orderId': controller
+                                                            .orders[index].id,
+                                                        'address': order
+                                                                .addressResponse
+                                                                .addressLine1 +
+                                                            "\n" +
+                                                            order
+                                                                .addressResponse
+                                                                .addressLine2 +
+                                                            "-" +
+                                                            order
+                                                                .addressResponse
+                                                                .pincode
+                                                                .toString() +
+                                                            "\n" +
+                                                            order
+                                                                .addressResponse
+                                                                .city +
+                                                            "\n" +
+                                                            order
+                                                                .addressResponse
+                                                                .state +
+                                                            " " +
+                                                            order
+                                                                .addressResponse
+                                                                .country,
+                                                        //     +
+                                                        // "\n" +
+                                                        // order.address.mobileNo
+                                                        //     .toString(),
+                                                        'totalPrice': order
+                                                            .totalprice
+                                                            .toString()
+                                                      });
+                                                },
+                                                style: TextButton.styleFrom(
+                                                  backgroundColor: buttonColour,
+                                                ),
+                                                child: Text("Details"),
+                                              ),
                                             ],
                                           ),
-                                        ),
-                                        // Text(
-                                        //   "Total : \₹" +
-                                        //       order.totalprice.toString(),
-                                        //   style: TextStyle(
-                                        //     fontSize: 20,
-                                        //     fontWeight: FontWeight.w500,
-                                        //   ),
-                                        // ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            order.orderStatus == "INPROGRESS"
-                                                ? Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 8.0),
-                                                    child: ElevatedButton(
-                                                      onPressed: () async {
-                                                        controller
-                                                            .setOrderCancelled(
-                                                                order.id);
-                                                        await Future.delayed(
-                                                            Duration(
-                                                                seconds: 2));
-                                                        setState(() {
-                                                          controller.orders
-                                                              .clear();
-                                                          controller.onReady();
-                                                        });
-                                                      },
-                                                      style:
-                                                          TextButton.styleFrom(
-                                                        backgroundColor: buttonCancelColour,
-                                                      ),
-                                                      child: Text("Cancel"),
-                                                    ),
-                                                  )
-                                                : Text(''),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                print(controller.orders[index]
-                                                    .priceCutFromWallet
-                                                    .toString());
-                                                controller.update();
-                                                Get.to(
-                                                    () => OrderDetailsScreen(),
-                                                    popGesture: true,
-                                                    arguments: {
-                                                      'orderItem': controller
-                                                          .orders[index]
-                                                          .orderItem,
-                                                      'priceCutFromWallet':
-                                                          controller
-                                                              .orders[index]
-                                                              .priceCutFromWallet,
-                                                      'orderId': controller
-                                                          .orders[index].id,
-                                                      'address': order
-                                                              .addressResponse
-                                                              .addressLine1 +
-                                                          "\n" +
-                                                          order.addressResponse
-                                                              .addressLine2 +
-                                                          "-" +
-                                                          order.addressResponse
-                                                              .pincode
-                                                              .toString() +
-                                                          "\n" +
-                                                          order.addressResponse
-                                                              .city +
-                                                          "\n" +
-                                                          order.addressResponse
-                                                              .state +
-                                                          " " +
-                                                          order.addressResponse
-                                                              .country,
-                                                      //     +
-                                                      // "\n" +
-                                                      // order.address.mobileNo
-                                                      //     .toString(),
-                                                      'totalPrice': order
-                                                          .totalprice
-                                                          .toString()
-                                                    });
-                                              },
-                                              style: TextButton.styleFrom(
-                                                backgroundColor: buttonColour,
-                                              ),
-                                              child: Text("Details"),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          order.createdDate != null
-                                              ? DateFormat('dd-MM-yyyy hh:mm a')
-                                                  .format(order.createdDate
-                                                      .toUtc()
-                                                      .toLocal())
-                                              : "",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            order.createdDate != null
+                                                ? DateFormat(
+                                                        'dd-MM-yyyy hh:mm a')
+                                                    .format(order.createdDate
+                                                        .toUtc()
+                                                        .toLocal())
+                                                : "",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      });
-                }),
-          ],
+                          );
+                        });
+                  }),
+            ],
+          ),
         ),
       ),
     );

@@ -146,7 +146,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: white,
+        backgroundColor: grey,
         appBar: PreferredSize(
             child: getAppBar(), preferredSize: Size.fromHeight(60)),
         body: getBody(),

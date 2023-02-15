@@ -81,8 +81,6 @@ class _MainappState extends State<Mainapp> {
     );
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     // getDeviceTokenToSendNotification();

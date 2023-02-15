@@ -40,15 +40,12 @@ class _AddressDetailsState extends State<AddressDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           "Address",
-          style: TextStyle(
-            color: white,
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
+          style: Theme.of(context).textTheme.headline5!.apply(color: white),
         ),
         backgroundColor: kPrimaryGreen,
         elevation: 1,
@@ -77,6 +74,7 @@ class _AddressDetailsState extends State<AddressDetails> {
         },
       ),
       body: Container(
+          color: grey,
           padding: EdgeInsets.all(5),
           child: GetBuilder<AddressController>(builder: (controller) {
             return addressController.isloading.value == true

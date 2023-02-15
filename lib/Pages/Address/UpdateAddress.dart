@@ -105,17 +105,14 @@ class _UpdateAddressState extends State<UpdateAddress> {
     pincodecontroller.text = address['pincode'];
 
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           "Update Address",
-          style: TextStyle(
-            color: black,
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
+          style: Theme.of(context).textTheme.headline5!.apply(color: white),
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
@@ -123,7 +120,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: black,
+            color: white,
           ),
         ),
       ),
@@ -147,565 +144,568 @@ class _UpdateAddressState extends State<UpdateAddress> {
               ),
             ),
           )),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        child: Form(
-          key: _formKey4,
-          child: ListView(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              // buildTextField("AddressLine1", address['addressline1'],
-              //     addressLine1controller),
-              // buildTextField("AddressLine2", address['addressline2'],
-              //     addressLine2controller),
-              // buildTextField("Pincode", address['pincode'], pincodecontroller),
-              // buildTextField("City", address['city'], citycontroller),
-              // buildTextField("State", address['state'], statecontroller),
-              // buildTextField("Country", address['country'], countrycontroller),
-              // buildTextField("Telephone Number", address['telephoneno'],
-              //     telephonenocontroller),
-              // buildTextField(
-              //     "Mobile Number", address['mobileno'], mobilenocontroller),
-              TextFormField(
-                controller: addressLine1controller,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: black,
-                style: TextStyle(color: black),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
-                  // floatingLabelBehavior: FloatingLabelBehavior.always,
-                  label: Row(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                            text: 'Address line 1',
-                            style: TextStyle(
-                              fontSize: 16,
-                              // fontWeight: FontWeight.bold,
-                              color: black,
-                            ),
-                            children: [
-                              TextSpan(
-                                  text: '*',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold))
-                            ]),
-                      ),
-                    ],
-                  ),
-                  // hintText: "Address line 1",
-                  // hintStyle: TextStyle(
-                  //   fontSize: 16,
-                  //   // fontWeight: FontWeight.bold,
-                  //   color: black,
-                  // )
+      body: Container(
+        color: grey,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
+          child: Form(
+            key: _formKey4,
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: 20,
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
-                obscureText: false,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                controller: addressLine2controller,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: black,
-                style: TextStyle(color: black),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
-                  // floatingLabelBehavior: FloatingLabelBehavior.always,
-                  label: Row(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                            text: 'Address line 2',
-                            style: TextStyle(
-                              fontSize: 16,
-                              // fontWeight: FontWeight.bold,
-                              color: black,
-                            ),
-                            children: [
-                              TextSpan(
-                                  text: '*',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold))
-                            ]),
-                      ),
-                    ],
-                  ),
-                  // hintText: "Address line 2",
-                  // hintStyle: TextStyle(
-                  //   fontSize: 16,
-                  //   // fontWeight: FontWeight.bold,
-                  //   color: black,
-                  // )
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
-                obscureText: false,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                controller: pincodecontroller,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                cursorColor: black,
-                style: TextStyle(color: black),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
-                  // floatingLabelBehavior: FloatingLabelBehavior.always,
-                  label: Row(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                            text: 'Pincode',
-                            style: TextStyle(
-                              fontSize: 16,
-                              // fontWeight: FontWeight.bold,
-                              color: black,
-                            ),
-                            children: [
-                              TextSpan(
-                                  text: '*',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold))
-                            ]),
-                      ),
-                    ],
-                  ),
-                  // hintText: "Pincode",
-                  // hintStyle: TextStyle(
-                  //   fontSize: 16,
-                  //   // fontWeight: FontWeight.bold,
-                  //   color: black,
-                  // )
-                ),
-                validator: (value) {
-                  if (value!.length != 6)
-                    return 'Pincode must be of 6 digit';
-                  else
-                    return null;
-                },
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(6)
-                ],
-                obscureText: false,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              DropDownTextField(
-                  clearOption: false,
-                  controller: countryDropDownController,
-                  textFieldFocusNode: textFieldFocusNode,
-                  searchFocusNode: searchFocusNode,
-                  // searchAutofocus: true,
-                  dropDownItemCount: 4,
-                  enableSearch: true,
-                  textFieldDecoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(top: 3),
-                      labelStyle:
-                          TextStyle(height: 10, fontWeight: FontWeight.bold),
-                      label: Row(
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                                text: 'Country',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  // fontWeight: FontWeight.bold,
-                                  color: black,
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: '*',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold))
-                                ]),
-                          ),
-                        ],
-                      ),
-                      hintText: "Select Country"),
-                  searchShowCursor: true,
+                // buildTextField("AddressLine1", address['addressline1'],
+                //     addressLine1controller),
+                // buildTextField("AddressLine2", address['addressline2'],
+                //     addressLine2controller),
+                // buildTextField("Pincode", address['pincode'], pincodecontroller),
+                // buildTextField("City", address['city'], citycontroller),
+                // buildTextField("State", address['state'], statecontroller),
+                // buildTextField("Country", address['country'], countrycontroller),
+                // buildTextField("Telephone Number", address['telephoneno'],
+                //     telephonenocontroller),
+                // buildTextField(
+                //     "Mobile Number", address['mobileno'], mobilenocontroller),
+                TextFormField(
+                  controller: addressLine1controller,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  cursorColor: black,
+                  style: TextStyle(color: black),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    // floatingLabelBehavior: FloatingLabelBehavior.always,
+                    label: Row(
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                              text: 'Address line 1',
+                              style: TextStyle(
+                                fontSize: 16,
+                                // fontWeight: FontWeight.bold,
+                                color: black,
+                              ),
+                              children: [
+                                TextSpan(
+                                    text: '*',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold))
+                              ]),
+                        ),
+                      ],
+                    ),
+                    // hintText: "Address line 1",
+                    // hintStyle: TextStyle(
+                    //   fontSize: 16,
+                    //   // fontWeight: FontWeight.bold,
+                    //   color: black,
+                    // )
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Required';
                     }
                     return null;
                   },
-                  listSpace: 2,
-                  dropDownList: country.map((valueItem) {
-                    return DropDownValueModel(
-                        name: valueItem['name'].toString(),
-                        value: valueItem['id'].toString());
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      stateDropDownController!.dropDownValue = null;
-                      cityDropDownController!.dropDownValue = null;
-                    });
-                    print(countryDropDownController!.dropDownValue!.value);
-                    getState(countryDropDownController!.dropDownValue!.value,
-                        "STATE");
-                  }),
-              SizedBox(
-                height: 20,
-              ),
-              DropDownTextField(
-                  clearOption: false,
-                  controller: stateDropDownController,
-                  textFieldFocusNode: textFieldFocusNode,
-                  searchFocusNode: searchFocusNode,
-                  // searchAutofocus: true,
-                  dropDownItemCount: 4,
-                  textFieldDecoration: InputDecoration(
-                      label: Row(
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                                text: 'State',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  // fontWeight: FontWeight.bold,
-                                  color: black,
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: '*',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold))
-                                ]),
-                          ),
-                        ],
-                      ),
-                      hintText: "Select State"),
-                  enableSearch: true,
-                  searchShowCursor: true,
+                  obscureText: false,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: addressLine2controller,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  cursorColor: black,
+                  style: TextStyle(color: black),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    // floatingLabelBehavior: FloatingLabelBehavior.always,
+                    label: Row(
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                              text: 'Address line 2',
+                              style: TextStyle(
+                                fontSize: 16,
+                                // fontWeight: FontWeight.bold,
+                                color: black,
+                              ),
+                              children: [
+                                TextSpan(
+                                    text: '*',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold))
+                              ]),
+                        ),
+                      ],
+                    ),
+                    // hintText: "Address line 2",
+                    // hintStyle: TextStyle(
+                    //   fontSize: 16,
+                    //   // fontWeight: FontWeight.bold,
+                    //   color: black,
+                    // )
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Required';
                     }
                     return null;
                   },
-                  listSpace: 2,
-                  dropDownList: state.map((valueItem) {
-                    return DropDownValueModel(
-                        name: valueItem['name'].toString(),
-                        value: valueItem['id'].toString());
-                  }).toList(),
-                  onChanged: (value) {
-                    print(value);
-                    setState(() {
-                      cityDropDownController!.dropDownValue = null;
-                    });
-                    print(stateDropDownController!.dropDownValue!.value);
-                    getCity(
-                        stateDropDownController!.dropDownValue!.value, "CITY");
-                  }),
-              SizedBox(
-                height: 20,
-              ),
-              DropDownTextField(
-                  controller: cityDropDownController,
-                  clearOption: false,
-                  textFieldFocusNode: textFieldFocusNode,
-                  searchFocusNode: searchFocusNode,
-                  // searchAutofocus: true,
-                  dropDownItemCount: 4,
-                  textFieldDecoration: InputDecoration(
-                      label: Row(
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                                text: 'City',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  // fontWeight: FontWeight.bold,
-                                  color: black,
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: '*',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold))
-                                ]),
-                          ),
-                        ],
-                      ),
-                      hintText: "Select City"),
-                  enableSearch: true,
-                  searchShowCursor: true,
+                  obscureText: false,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: pincodecontroller,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  cursorColor: black,
+                  style: TextStyle(color: black),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(bottom: 3),
+                    // floatingLabelBehavior: FloatingLabelBehavior.always,
+                    label: Row(
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                              text: 'Pincode',
+                              style: TextStyle(
+                                fontSize: 16,
+                                // fontWeight: FontWeight.bold,
+                                color: black,
+                              ),
+                              children: [
+                                TextSpan(
+                                    text: '*',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold))
+                              ]),
+                        ),
+                      ],
+                    ),
+                    // hintText: "Pincode",
+                    // hintStyle: TextStyle(
+                    //   fontSize: 16,
+                    //   // fontWeight: FontWeight.bold,
+                    //   color: black,
+                    // )
+                  ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Required';
-                    }
-                    return null;
+                    if (value!.length != 6)
+                      return 'Pincode must be of 6 digit';
+                    else
+                      return null;
                   },
-                  listSpace: 2,
-                  dropDownList: city.map((valueItem) {
-                    return DropDownValueModel(
-                        name: valueItem['name'].toString(),
-                        value: valueItem['id'].toString());
-                  }).toList(),
-                  onChanged: (value) {}),
-              // TextFormField(
-              //   controller: citycontroller,
-              //   autovalidateMode: AutovalidateMode.onUserInteraction,
-              //   cursorColor: black,
-              //   style: TextStyle(color: black),
-              //   decoration: InputDecoration(
-              //     contentPadding: EdgeInsets.only(bottom: 3),
-              //     // floatingLabelBehavior: FloatingLabelBehavior.always,
-              //     label: Row(
-              //       children: [
-              //         RichText(
-              //           text: TextSpan(
-              //               text: 'City',
-              //               style: TextStyle(
-              //                 fontSize: 16,
-              //                 // fontWeight: FontWeight.bold,
-              //                 color: black,
-              //               ),
-              //               children: [
-              //                 TextSpan(
-              //                     text: '*',
-              //                     style: TextStyle(
-              //                         fontSize: 20,
-              //                         color: Colors.red,
-              //                         fontWeight: FontWeight.bold))
-              //               ]),
-              //         ),
-              //       ],
-              //     ),
-              //     // hintText: "City",
-              //     // hintStyle: TextStyle(
-              //     //   fontSize: 16,
-              //     //   // fontWeight: FontWeight.bold,
-              //     //   color: black,
-              //     // )
-              //   ),
-              //   validator: (value) {
-              //     if (value == null || value.isEmpty) {
-              //       return 'Required';
-              //     }
-              //     return null;
-              //   },
-              //   obscureText: false,
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // TextFormField(
-              //   controller: statecontroller,
-              //   autovalidateMode: AutovalidateMode.onUserInteraction,
-              //   cursorColor: black,
-              //   style: TextStyle(color: black),
-              //   decoration: InputDecoration(
-              //     contentPadding: EdgeInsets.only(bottom: 3),
-              //     // floatingLabelBehavior: FloatingLabelBehavior.always,.
-              //     label: Row(
-              //       children: [
-              //         RichText(
-              //           text: TextSpan(
-              //               text: 'State',
-              //               style: TextStyle(
-              //                 fontSize: 16,
-              //                 // fontWeight: FontWeight.bold,
-              //                 color: black,
-              //               ),
-              //               children: [
-              //                 TextSpan(
-              //                     text: '*',
-              //                     style: TextStyle(
-              //                         fontSize: 20,
-              //                         color: Colors.red,
-              //                         fontWeight: FontWeight.bold))
-              //               ]),
-              //         ),
-              //       ],
-              //     ),
-              //     //   hintText: "State",
-              //     //   hintStyle: TextStyle(
-              //     //     fontSize: 16,
-              //     //     // fontWeight: FontWeight.bold,
-              //     //     color: black,
-              //     //   )
-              //   ),
-              //   validator: (value) {
-              //     if (value == null || value.isEmpty) {
-              //       return 'Required';
-              //     }
-              //     return null;
-              //   },
-              //   obscureText: false,
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // TextFormField(
-              //   controller: countrycontroller,
-              //   autovalidateMode: AutovalidateMode.onUserInteraction,
-              //   cursorColor: black,
-              //   style: TextStyle(color: black),
-              //   decoration: InputDecoration(
-              //     contentPadding: EdgeInsets.only(bottom: 3),
-              //     // floatingLabelBehavior: FloatingLabelBehavior.always,
-              //     label: Row(
-              //       children: [
-              //         RichText(
-              //           text: TextSpan(
-              //               text: 'Country',
-              //               style: TextStyle(
-              //                 fontSize: 16,
-              //                 // fontWeight: FontWeight.bold,
-              //                 color: black,
-              //               ),
-              //               children: [
-              //                 TextSpan(
-              //                     text: '*',
-              //                     style: TextStyle(
-              //                         fontSize: 20,
-              //                         color: Colors.red,
-              //                         fontWeight: FontWeight.bold))
-              //               ]),
-              //         ),
-              //       ],
-              //     ),
-              //     // hintText: "Country",
-              //     // hintStyle: TextStyle(
-              //     //   fontSize: 16,
-              //     //   // fontWeight: FontWeight.bold,
-              //     //   color: black,
-              //     // )
-              //   ),
-              //   validator: (value) {
-              //     if (value == null || value.isEmpty) {
-              //       return 'Required';
-              //     }
-              //     return null;
-              //   },
-              //   obscureText: false,
-              // ),
-              // SizedBox(
-              //   height: 10,
-              // ),
-              // TextFormField(
-              //   controller: telephonenocontroller,
-              //   autovalidateMode: AutovalidateMode.onUserInteraction,
-              //   cursorColor: black,
-              //   style: TextStyle(color: black),
-              //   decoration: InputDecoration(
-              //     contentPadding: EdgeInsets.only(bottom: 3),
-              //     // floatingLabelBehavior: FloatingLabelBehavior.always,
-              //     label: Row(
-              //       children: [
-              //         RichText(
-              //           text: TextSpan(
-              //             text: 'Telephone Number',
-              //             style: TextStyle(
-              //               fontSize: 16,
-              //               // fontWeight: FontWeight.bold,
-              //               color: black,
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //     // hintText: "Telephone number",
-              //     // hintStyle: TextStyle(
-              //     //   fontSize: 16,
-              //     //   // fontWeight: FontWeight.bold,
-              //     //   color: black,
-              //     // )
-              //   ),
-              //   inputFormatters: [
-              //     FilteringTextInputFormatter.digitsOnly,
-              //     LengthLimitingTextInputFormatter(11)
-              //   ],
-              //   obscureText: false,
-              // ),
-              // SizedBox(
-              //   height: 10,
-              // ),
-              // TextFormField(
-              //   controller: mobilenocontroller,
-              //   autovalidateMode: AutovalidateMode.onUserInteraction,
-              //   cursorColor: black,
-              //   style: TextStyle(color: black),
-              //   decoration: InputDecoration(
-              //     contentPadding: EdgeInsets.only(bottom: 3),
-              //     // floatingLabelBehavior: FloatingLabelBehavior.always,
-              //     label: Row(
-              //       children: [
-              //         RichText(
-              //           text: TextSpan(
-              //               text: 'Mobile Number',
-              //               style: TextStyle(
-              //                 fontSize: 16,
-              //                 // fontWeight: FontWeight.bold,
-              //                 color: black,
-              //               ),
-              //               children: [
-              //                 TextSpan(
-              //                     text: '*',
-              //                     style: TextStyle(
-              //                         fontSize: 20,
-              //                         color: Colors.red,
-              //                         fontWeight: FontWeight.bold))
-              //               ]),
-              //         ),
-              //       ],
-              //     ),
-              //     // hintText: "Mobile number",
-              //     // hintStyle: TextStyle(
-              //     //   fontSize: 16,
-              //     //   // fontWeight: FontWeight.bold,
-              //     //   color: black,
-              //     // )
-              //   ),
-              //   validator: (value) {
-              //     if (value!.length != 10)
-              //       return 'Mobile Number must be of 10 digit';
-              //     else
-              //       return null;
-              //   },
-              //   inputFormatters: [
-              //     FilteringTextInputFormatter.digitsOnly,
-              //     LengthLimitingTextInputFormatter(10)
-              //   ],
-              //   obscureText: false,
-              // ),
-            ],
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(6)
+                  ],
+                  obscureText: false,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                DropDownTextField(
+                    clearOption: false,
+                    controller: countryDropDownController,
+                    textFieldFocusNode: textFieldFocusNode,
+                    searchFocusNode: searchFocusNode,
+                    // searchAutofocus: true,
+                    dropDownItemCount: 4,
+                    enableSearch: true,
+                    textFieldDecoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(top: 3),
+                        labelStyle:
+                            TextStyle(height: 10, fontWeight: FontWeight.bold),
+                        label: Row(
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                  text: 'Country',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    // fontWeight: FontWeight.bold,
+                                    color: black,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                        text: '*',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold))
+                                  ]),
+                            ),
+                          ],
+                        ),
+                        hintText: "Select Country"),
+                    searchShowCursor: true,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    listSpace: 2,
+                    dropDownList: country.map((valueItem) {
+                      return DropDownValueModel(
+                          name: valueItem['name'].toString(),
+                          value: valueItem['id'].toString());
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        stateDropDownController!.dropDownValue = null;
+                        cityDropDownController!.dropDownValue = null;
+                      });
+                      print(countryDropDownController!.dropDownValue!.value);
+                      getState(countryDropDownController!.dropDownValue!.value,
+                          "STATE");
+                    }),
+                SizedBox(
+                  height: 20,
+                ),
+                DropDownTextField(
+                    clearOption: false,
+                    controller: stateDropDownController,
+                    textFieldFocusNode: textFieldFocusNode,
+                    searchFocusNode: searchFocusNode,
+                    // searchAutofocus: true,
+                    dropDownItemCount: 4,
+                    textFieldDecoration: InputDecoration(
+                        label: Row(
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                  text: 'State',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    // fontWeight: FontWeight.bold,
+                                    color: black,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                        text: '*',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold))
+                                  ]),
+                            ),
+                          ],
+                        ),
+                        hintText: "Select State"),
+                    enableSearch: true,
+                    searchShowCursor: true,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    listSpace: 2,
+                    dropDownList: state.map((valueItem) {
+                      return DropDownValueModel(
+                          name: valueItem['name'].toString(),
+                          value: valueItem['id'].toString());
+                    }).toList(),
+                    onChanged: (value) {
+                      print(value);
+                      setState(() {
+                        cityDropDownController!.dropDownValue = null;
+                      });
+                      print(stateDropDownController!.dropDownValue!.value);
+                      getCity(stateDropDownController!.dropDownValue!.value,
+                          "CITY");
+                    }),
+                SizedBox(
+                  height: 20,
+                ),
+                DropDownTextField(
+                    controller: cityDropDownController,
+                    clearOption: false,
+                    textFieldFocusNode: textFieldFocusNode,
+                    searchFocusNode: searchFocusNode,
+                    // searchAutofocus: true,
+                    dropDownItemCount: 4,
+                    textFieldDecoration: InputDecoration(
+                        label: Row(
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                  text: 'City',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    // fontWeight: FontWeight.bold,
+                                    color: black,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                        text: '*',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold))
+                                  ]),
+                            ),
+                          ],
+                        ),
+                        hintText: "Select City"),
+                    enableSearch: true,
+                    searchShowCursor: true,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    listSpace: 2,
+                    dropDownList: city.map((valueItem) {
+                      return DropDownValueModel(
+                          name: valueItem['name'].toString(),
+                          value: valueItem['id'].toString());
+                    }).toList(),
+                    onChanged: (value) {}),
+                // TextFormField(
+                //   controller: citycontroller,
+                //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                //   cursorColor: black,
+                //   style: TextStyle(color: black),
+                //   decoration: InputDecoration(
+                //     contentPadding: EdgeInsets.only(bottom: 3),
+                //     // floatingLabelBehavior: FloatingLabelBehavior.always,
+                //     label: Row(
+                //       children: [
+                //         RichText(
+                //           text: TextSpan(
+                //               text: 'City',
+                //               style: TextStyle(
+                //                 fontSize: 16,
+                //                 // fontWeight: FontWeight.bold,
+                //                 color: black,
+                //               ),
+                //               children: [
+                //                 TextSpan(
+                //                     text: '*',
+                //                     style: TextStyle(
+                //                         fontSize: 20,
+                //                         color: Colors.red,
+                //                         fontWeight: FontWeight.bold))
+                //               ]),
+                //         ),
+                //       ],
+                //     ),
+                //     // hintText: "City",
+                //     // hintStyle: TextStyle(
+                //     //   fontSize: 16,
+                //     //   // fontWeight: FontWeight.bold,
+                //     //   color: black,
+                //     // )
+                //   ),
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'Required';
+                //     }
+                //     return null;
+                //   },
+                //   obscureText: false,
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // TextFormField(
+                //   controller: statecontroller,
+                //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                //   cursorColor: black,
+                //   style: TextStyle(color: black),
+                //   decoration: InputDecoration(
+                //     contentPadding: EdgeInsets.only(bottom: 3),
+                //     // floatingLabelBehavior: FloatingLabelBehavior.always,.
+                //     label: Row(
+                //       children: [
+                //         RichText(
+                //           text: TextSpan(
+                //               text: 'State',
+                //               style: TextStyle(
+                //                 fontSize: 16,
+                //                 // fontWeight: FontWeight.bold,
+                //                 color: black,
+                //               ),
+                //               children: [
+                //                 TextSpan(
+                //                     text: '*',
+                //                     style: TextStyle(
+                //                         fontSize: 20,
+                //                         color: Colors.red,
+                //                         fontWeight: FontWeight.bold))
+                //               ]),
+                //         ),
+                //       ],
+                //     ),
+                //     //   hintText: "State",
+                //     //   hintStyle: TextStyle(
+                //     //     fontSize: 16,
+                //     //     // fontWeight: FontWeight.bold,
+                //     //     color: black,
+                //     //   )
+                //   ),
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'Required';
+                //     }
+                //     return null;
+                //   },
+                //   obscureText: false,
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // TextFormField(
+                //   controller: countrycontroller,
+                //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                //   cursorColor: black,
+                //   style: TextStyle(color: black),
+                //   decoration: InputDecoration(
+                //     contentPadding: EdgeInsets.only(bottom: 3),
+                //     // floatingLabelBehavior: FloatingLabelBehavior.always,
+                //     label: Row(
+                //       children: [
+                //         RichText(
+                //           text: TextSpan(
+                //               text: 'Country',
+                //               style: TextStyle(
+                //                 fontSize: 16,
+                //                 // fontWeight: FontWeight.bold,
+                //                 color: black,
+                //               ),
+                //               children: [
+                //                 TextSpan(
+                //                     text: '*',
+                //                     style: TextStyle(
+                //                         fontSize: 20,
+                //                         color: Colors.red,
+                //                         fontWeight: FontWeight.bold))
+                //               ]),
+                //         ),
+                //       ],
+                //     ),
+                //     // hintText: "Country",
+                //     // hintStyle: TextStyle(
+                //     //   fontSize: 16,
+                //     //   // fontWeight: FontWeight.bold,
+                //     //   color: black,
+                //     // )
+                //   ),
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'Required';
+                //     }
+                //     return null;
+                //   },
+                //   obscureText: false,
+                // ),
+                // SizedBox(
+                //   height: 10,
+                // ),
+                // TextFormField(
+                //   controller: telephonenocontroller,
+                //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                //   cursorColor: black,
+                //   style: TextStyle(color: black),
+                //   decoration: InputDecoration(
+                //     contentPadding: EdgeInsets.only(bottom: 3),
+                //     // floatingLabelBehavior: FloatingLabelBehavior.always,
+                //     label: Row(
+                //       children: [
+                //         RichText(
+                //           text: TextSpan(
+                //             text: 'Telephone Number',
+                //             style: TextStyle(
+                //               fontSize: 16,
+                //               // fontWeight: FontWeight.bold,
+                //               color: black,
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //     // hintText: "Telephone number",
+                //     // hintStyle: TextStyle(
+                //     //   fontSize: 16,
+                //     //   // fontWeight: FontWeight.bold,
+                //     //   color: black,
+                //     // )
+                //   ),
+                //   inputFormatters: [
+                //     FilteringTextInputFormatter.digitsOnly,
+                //     LengthLimitingTextInputFormatter(11)
+                //   ],
+                //   obscureText: false,
+                // ),
+                // SizedBox(
+                //   height: 10,
+                // ),
+                // TextFormField(
+                //   controller: mobilenocontroller,
+                //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                //   cursorColor: black,
+                //   style: TextStyle(color: black),
+                //   decoration: InputDecoration(
+                //     contentPadding: EdgeInsets.only(bottom: 3),
+                //     // floatingLabelBehavior: FloatingLabelBehavior.always,
+                //     label: Row(
+                //       children: [
+                //         RichText(
+                //           text: TextSpan(
+                //               text: 'Mobile Number',
+                //               style: TextStyle(
+                //                 fontSize: 16,
+                //                 // fontWeight: FontWeight.bold,
+                //                 color: black,
+                //               ),
+                //               children: [
+                //                 TextSpan(
+                //                     text: '*',
+                //                     style: TextStyle(
+                //                         fontSize: 20,
+                //                         color: Colors.red,
+                //                         fontWeight: FontWeight.bold))
+                //               ]),
+                //         ),
+                //       ],
+                //     ),
+                //     // hintText: "Mobile number",
+                //     // hintStyle: TextStyle(
+                //     //   fontSize: 16,
+                //     //   // fontWeight: FontWeight.bold,
+                //     //   color: black,
+                //     // )
+                //   ),
+                //   validator: (value) {
+                //     if (value!.length != 10)
+                //       return 'Mobile Number must be of 10 digit';
+                //     else
+                //       return null;
+                //   },
+                //   inputFormatters: [
+                //     FilteringTextInputFormatter.digitsOnly,
+                //     LengthLimitingTextInputFormatter(10)
+                //   ],
+                //   obscureText: false,
+                // ),
+              ],
+            ),
           ),
         ),
       ),

@@ -56,6 +56,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         title: Text(
           "Subscriptions",
@@ -417,7 +418,6 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
-                                                  
                                                   content: Text(
                                                       "Do you want to delete this Subscription ?"),
                                                   actions: [

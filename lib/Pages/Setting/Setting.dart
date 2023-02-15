@@ -59,36 +59,37 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           "Setting",
-          style: TextStyle(
-            color: black,
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
+          style: Theme.of(context).textTheme.headline5!.apply(color: white),
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
-            Get.to(() => HomePage());
+            Get.back();
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: white,
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-        child: Text(
-          'Version : ${versionInfo}',
-          textAlign: TextAlign.center,
+      bottomNavigationBar: Container(
+        color: grey,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+          child: Text(
+            'Version : ${versionInfo}',
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
       body: Container(
+        color: grey,
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: ListView(
           children: [

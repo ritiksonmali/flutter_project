@@ -46,17 +46,14 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         title: Text(
           "Wallet Transaction History",
-          style: TextStyle(
-            color: black,
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
+          style: Theme.of(context).textTheme.headline5!.apply(color: white),
         ),
         centerTitle: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
@@ -64,13 +61,13 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: white,
           ),
         ),
         actions: [
           IconButton(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            icon: const Icon(Icons.menu, color: black),
+            icon: const Icon(Icons.menu, color: white),
             onPressed: () {
               Get.to(() => Navbar());
             }, //=> _key.currentState!.openDrawer(),

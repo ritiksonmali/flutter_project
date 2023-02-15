@@ -60,14 +60,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
-        title: Text('Profile', style: TextStyle(color: black)),
-        iconTheme: IconThemeData(color: black),
+        title: Text('Profile',
+            style: Theme.of(context).textTheme.headline5!.apply(color: white)),
+        iconTheme: IconThemeData(color: white),
         centerTitle: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
       ),
       body: Container(
+        color: grey,
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: GestureDetector(
           onTap: () {
@@ -162,6 +165,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 children: [
                   OutlinedButton(
                     style: ElevatedButton.styleFrom(
+                      primary: buttonCancelColour,
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
@@ -172,10 +176,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       emailcontrol.clear();
                     },
                     child: Text("CANCEL",
-                        style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 2.2,
-                            color: Colors.black)),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .apply(color: white)),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -211,10 +215,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                     child: Text(
                       "SAVE",
-                      style: TextStyle(
-                          fontSize: 14,
-                          letterSpacing: 2.2,
-                          color: Colors.white),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .apply(color: white),
                     ),
                   )
                 ],

@@ -21,74 +21,79 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: grey,
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          backgroundColor: kPrimaryGreen,
           elevation: 0.0,
-          iconTheme: IconThemeData(color: black),
+          iconTheme: IconThemeData(color: white),
         ),
-        body: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Search product",
-                    style: Theme.of(context).textTheme.titleLarge),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: _nameTextController,
-                  decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Color.fromARGB(255, 241, 239, 239),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none)),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Center(
-                  child: FloatingActionButton.extended(
-                    label: Text('Search'), // <-- Text
-                    backgroundColor: buttonColour,
-                    onPressed: () {
-                      CommanDialog.showLoading();
-                      productController.productFilterResponseList.clear();
-                      // productController.getFilterProducts(
-                      //     '',
-                      //     '',
-                      //     10000,
-                      //     0,
-                      //     '',
-                      //     '',
-                      //     '',
-                      //     _nameTextController.text.toLowerCase().toString(),
-                      //     '');
-                      Timer(Duration(seconds: 2), () {
-                        Get.to(() => PopularProductList(), arguments: {
-                          "categoryId": '',
-                          "offerId": '',
-                          "productId": '',
-                          'isPopular': '',
-                          'highToLow': '',
-                          'maxPrice': 10000,
-                          'minPrice': 0,
-                          'sortColumn': '',
-                          'productName':
-                              _nameTextController.text.toLowerCase().toString(),
-                        });
-                      });
-                      // productController.getSearchProducts(
-                      //     _nameTextController.text.toLowerCase().toString());
-                      // Timer(Duration(seconds: 3), () {
-                      //   Get.to(() => SearchProductList());
-                      // });
-                    },
+        body: Container(
+          color: grey,
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Search product",
+                      style: Theme.of(context).textTheme.titleLarge),
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-              ]),
+                  TextField(
+                    controller: _nameTextController,
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 241, 239, 239),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide.none)),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                    child: FloatingActionButton.extended(
+                      label: Text('Search'), // <-- Text
+                      backgroundColor: buttonColour,
+                      onPressed: () {
+                        CommanDialog.showLoading();
+                        productController.productFilterResponseList.clear();
+                        // productController.getFilterProducts(
+                        //     '',
+                        //     '',
+                        //     10000,
+                        //     0,
+                        //     '',
+                        //     '',
+                        //     '',
+                        //     _nameTextController.text.toLowerCase().toString(),
+                        //     '');
+                        Timer(Duration(seconds: 2), () {
+                          Get.to(() => PopularProductList(), arguments: {
+                            "categoryId": '',
+                            "offerId": '',
+                            "productId": '',
+                            'isPopular': '',
+                            'highToLow': '',
+                            'maxPrice': 10000,
+                            'minPrice': 0,
+                            'sortColumn': '',
+                            'productName': _nameTextController.text
+                                .toLowerCase()
+                                .toString(),
+                          });
+                        });
+                        // productController.getSearchProducts(
+                        //     _nameTextController.text.toLowerCase().toString());
+                        // Timer(Duration(seconds: 3), () {
+                        //   Get.to(() => SearchProductList());
+                        // });
+                      },
+                    ),
+                  ),
+                ]),
+          ),
         ));
   }
 }

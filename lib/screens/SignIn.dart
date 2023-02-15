@@ -64,10 +64,11 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        color: Colors.white,
+        color: grey,
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
@@ -206,17 +207,14 @@ class _SignInScreenState extends State<SignInScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have account?",
-            style: TextStyle(color: Colors.black)),
+        const Text("Don't have account?", style: TextStyle(color: black)),
         GestureDetector(
           onTap: () {
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => SignUpScreen()));
             Get.to(() => SignUpScreen());
           },
           child: const Text(
             " Sign Up",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(color: black, fontWeight: FontWeight.bold),
           ),
         )
       ],

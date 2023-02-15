@@ -164,10 +164,13 @@ class _PopularProductListState extends State<PopularProductList> {
         return false;
       },
       child: Scaffold(
+        backgroundColor: grey,
         appBar: AppBar(
-          backgroundColor: white,
-          title: Text('Product List', style: TextStyle(color: black)),
-          iconTheme: IconThemeData(color: black),
+          backgroundColor: kPrimaryGreen,
+          title: Text('Product List',
+              style:
+                  Theme.of(context).textTheme.headline5!.apply(color: white)),
+          iconTheme: IconThemeData(color: white),
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
@@ -186,7 +189,7 @@ class _PopularProductListState extends State<PopularProductList> {
             },
             icon: Icon(
               Icons.arrow_back,
-              color: black,
+              color: white,
             ),
           ),
           actions: [
@@ -208,8 +211,11 @@ class _PopularProductListState extends State<PopularProductList> {
           ],
         ),
         body: _isFirstLoadRunning == true
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? Container(
+                color: grey,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
               )
             : Container(
                 color: grey,

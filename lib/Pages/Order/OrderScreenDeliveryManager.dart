@@ -46,17 +46,14 @@ class _OrderScreenDeliveryManagerState
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         title: Text(
           "Delivery",
-          style: TextStyle(
-            color: black,
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
+          style: Theme.of(context).textTheme.headline5!.apply(color: white),
         ),
         centerTitle: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
@@ -64,7 +61,7 @@ class _OrderScreenDeliveryManagerState
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: white,
           ),
         ),
         actions: [

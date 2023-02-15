@@ -18,7 +18,9 @@ class PaymentFailedScreen extends StatefulWidget {
 class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
         body: Container(
+      color: grey,
       height: 800,
       child: Column(
         children: [

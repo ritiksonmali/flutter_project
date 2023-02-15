@@ -24,10 +24,11 @@ class _SetNewPasswordState extends State<SetNewPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        color: Colors.white,
+        color: grey,
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(

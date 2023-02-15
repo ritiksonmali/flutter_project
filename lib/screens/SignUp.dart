@@ -79,6 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
       // extendBodyBehindAppBar: true,
       // appBar: AppBar(
       //   backgroundColor: Colors.lightBlue,
@@ -92,7 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: white,
+          color: grey,
           child: SingleChildScrollView(
               child: Padding(
             padding: EdgeInsets.fromLTRB(20, 120, 20, 0),

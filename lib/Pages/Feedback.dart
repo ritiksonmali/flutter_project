@@ -42,17 +42,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           "Feedback",
-          style: TextStyle(
-            color: black,
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
+          style: Theme.of(context).textTheme.headline5!.apply(color: white),
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
@@ -60,7 +57,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: black,
+            color: white,
           ),
         ),
       ),

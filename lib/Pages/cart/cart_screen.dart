@@ -124,6 +124,7 @@ class _CartScreenState extends State<CartScreen> {
         return false;
       },
       child: Scaffold(
+        backgroundColor: grey,
         appBar: AppBar(
           iconTheme: IconThemeData(color: white),
           // automaticallyImplyLeading: true,
@@ -151,11 +152,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
           title: Text(
             "Cart",
-            style: TextStyle(
-              color: white,
-              fontSize: 25,
-              fontWeight: FontWeight.normal,
-            ),
+            style: Theme.of(context).textTheme.headline5!.apply(color: white),
           ),
           actions: [
             IconButton(

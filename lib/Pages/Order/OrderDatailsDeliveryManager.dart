@@ -58,10 +58,11 @@ class _OrderDetailsDeliveryManagerState
         return false;
       },
       child: Scaffold(
+        backgroundColor: grey,
         appBar: AppBar(
-          iconTheme: IconThemeData(color: black),
+          iconTheme: IconThemeData(color: white),
           automaticallyImplyLeading: true,
-          backgroundColor: white,
+          backgroundColor: kPrimaryGreen,
           centerTitle: true,
           leading: IconButton(
             onPressed: () async {
@@ -73,16 +74,12 @@ class _OrderDetailsDeliveryManagerState
             },
             icon: Icon(
               Icons.arrow_back,
-              color: black,
+              color: white,
             ),
           ),
           title: Text(
             "Delivery Details",
-            style: TextStyle(
-              color: black,
-              fontSize: 25,
-              fontWeight: FontWeight.normal,
-            ),
+            style: Theme.of(context).textTheme.headline5!.apply(color: white),
           ),
         ),
         bottomNavigationBar: orderId['orderStatus'] == "DELIVERED"

@@ -29,6 +29,7 @@ class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
       // extendBodyBehindAppBar: true,
       // appBar: AppBar(
       //   backgroundColor: Colors.transparent,
@@ -41,7 +42,7 @@ class _WelcomeState extends State<Welcome> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: white,
+          color: grey,
           child: SingleChildScrollView(
               child: Padding(
             padding: EdgeInsets.fromLTRB(20, 120, 20, 0),

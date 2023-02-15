@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class RazorPayPaymentPage extends StatefulWidget {
@@ -42,6 +43,7 @@ class _RazorPayPaymentPageState extends State<RazorPayPaymentPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: grey,
       appBar: const CupertinoNavigationBar(
         middle: Text("OnlinePayment"),
       ),
@@ -60,7 +62,7 @@ class _RazorPayPaymentPageState extends State<RazorPayPaymentPage> {
               ),
             ),
             CupertinoButton(
-                color: Colors.grey,
+                color: grey,
                 child: Text("Pay Amount"),
                 onPressed: () {
                   ///Make payment

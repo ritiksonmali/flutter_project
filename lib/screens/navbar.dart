@@ -40,10 +40,10 @@ class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: grey,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: white,
+        backgroundColor: grey,
         leading: IconButton(
             icon: Icon(
               Icons.close,

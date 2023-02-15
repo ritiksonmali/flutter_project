@@ -62,17 +62,14 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         title: Text(
           "Product Details",
-          style: TextStyle(
-            color: black,
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
+          style: Theme.of(context).textTheme.headline5!.apply(color: white),
         ),
         centerTitle: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
@@ -91,13 +88,13 @@ class _ProductDetailsState extends State<ProductDetails> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: white,
           ),
         ),
         actions: [
           IconButton(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            icon: const Icon(Icons.menu, color: black),
+            icon: const Icon(Icons.menu, color: white),
             onPressed: () {
               Get.to(() => Navbar());
             }, //=> _key.currentState!.openDrawer(),
@@ -105,8 +102,11 @@ class _ProductDetailsState extends State<ProductDetails> {
         ],
       ),
       body: isLoading == true
-          ? const Center(
-              child: CircularProgressIndicator(),
+          ? Container(
+              color: grey,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
             )
           : SingleChildScrollView(
               child: Column(

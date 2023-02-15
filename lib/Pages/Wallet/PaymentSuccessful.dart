@@ -21,97 +21,100 @@ class PaymentSuessfulScreen extends StatefulWidget {
 class _PaymentSuessfulScreenState extends State<PaymentSuessfulScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: grey,
         body: Container(
-      height: 800,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [],
-          ),
-          SizedBox(
-            height: 100,
-          ),
-          Image.asset(
-            width: 150,
-            height: 150,
-            fit: BoxFit.cover,
-            "assets/images/success.gif",
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: Text(
-              "Thank You !",
-              style: TextStyle(
-                color: AppColor.primary,
-                fontWeight: FontWeight.w900,
-                fontSize: 15,
+          color: grey,
+          height: 800,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [],
               ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Amount Added SuccessFully In Your Wallet",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: black,
-              fontSize: 25,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text("Now You can use use your wallet amount for shopping"),
-          ),
-          SizedBox(
-            height: 60,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: SizedBox(
-              height: 50,
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: black,
-                ),
-                onPressed: () {
-                  Get.to(() => OrdersForWallet());
-                },
+              SizedBox(
+                height: 100,
+              ),
+              Image.asset(
+                width: 150,
+                height: 150,
+                fit: BoxFit.cover,
+                "assets/images/success.gif",
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Center(
                 child: Text(
-                  "Wallet Transaction History",
+                  "Thank You !",
+                  style: TextStyle(
+                    color: AppColor.primary,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 15,
+                  ),
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: TextButton(
-              onPressed: () {
-                Get.to(() => HomeScreen());
-              },
-              child: Text(
-                "Back To Home",
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Amount Added SuccessFully In Your Wallet",
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppColor.primary,
-                  fontWeight: FontWeight.bold,
+                  color: black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
-            ),
-          )
-        ],
-      ),
-    ));
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child:
+                    Text("Now You can use use your wallet amount for shopping"),
+              ),
+              SizedBox(
+                height: 60,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: black,
+                    ),
+                    onPressed: () {
+                      Get.to(() => OrdersForWallet());
+                    },
+                    child: Text(
+                      "Wallet Transaction History",
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Get.to(() => HomeScreen());
+                  },
+                  child: Text(
+                    "Back To Home",
+                    style: TextStyle(
+                      color: AppColor.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }

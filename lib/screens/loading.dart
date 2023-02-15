@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/ConstantUtil/colors.dart';
 
 import '../reusable_widgets/reusable_widget.dart';
 
@@ -17,6 +18,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     var height = size.height;
     var width = size.width;
     return Scaffold(
+      backgroundColor: grey,
       body: Center(
         child: Container(
           child: Center(

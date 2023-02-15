@@ -146,6 +146,7 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
     }
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         title: Text(
           "Product Details",
@@ -472,7 +473,8 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                           style: TextStyle(
                                                               fontSize: 13,
                                                               // fontWeight: FontWeight.w500,
-                                                              color:buttonColour),
+                                                              color:
+                                                                  buttonColour),
                                                         ),
                                                       ),
                                                       endsDate != null
@@ -495,7 +497,8 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                                     Container(
                                                                   // margin: EdgeInsets.all(100.0),
                                                                   decoration: BoxDecoration(
-                                                                      color: grey,
+                                                                      color:
+                                                                          grey,
                                                                       shape: BoxShape
                                                                           .circle),
                                                                   child: Icon(

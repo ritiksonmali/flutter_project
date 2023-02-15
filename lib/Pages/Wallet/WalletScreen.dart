@@ -96,17 +96,14 @@ class _WalletScreenState extends State<WalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           "Wallet",
-          style: TextStyle(
-            color: black,
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
+          style: Theme.of(context).textTheme.headline5!.apply(color: white),
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryGreen,
         elevation: 1,
         leading: IconButton(
           onPressed: () {
@@ -114,13 +111,16 @@ class _WalletScreenState extends State<WalletScreen> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: black,
+            color: white,
           ),
         ),
       ),
       body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
+          ? Container(
+              color: grey,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
             )
           : SingleChildScrollView(
               child: Column(
@@ -164,11 +164,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     padding: const EdgeInsets.only(left: 12),
                     child: Text(
                       'Topup Wallet',
-                      style: TextStyle(
-                        color: black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20.0,
-                      ),
+                      style: Theme.of(context).textTheme.headline6,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -236,11 +232,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     padding: const EdgeInsets.only(left: 12),
                     child: Text(
                       'Recommended',
-                      style: TextStyle(
-                        color: black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.0,
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -351,7 +343,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 12),
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                          color: grey,
+                          color: buttonCancelColour,
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Row(
                         children: <Widget>[
@@ -362,7 +354,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                     BorderRadius.all(Radius.circular(18))),
                             child: Icon(
                               FontAwesomeIcons.exchange,
-                              color: black,
+                              color: white,
                               size: 15,
                             ),
                             padding: EdgeInsets.all(12),
@@ -376,10 +368,10 @@ class _WalletScreenState extends State<WalletScreen> {
                               children: <Widget>[
                                 Text(
                                   "Wallet Transaction History",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey[900]),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6!
+                                      .apply(color: white),
                                 ),
                               ],
                             ),
@@ -391,7 +383,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                     BorderRadius.all(Radius.circular(18))),
                             child: Icon(
                               Icons.arrow_forward_ios_outlined,
-                              color: black,
+                              color: white,
                               size: 15,
                             ),
                             padding: EdgeInsets.all(12),
