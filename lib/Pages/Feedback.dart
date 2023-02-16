@@ -44,7 +44,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "Feedback",
           style: TextStyle(
             color: black,
@@ -58,29 +58,29 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: black,
           ),
         ),
       ),
       bottomNavigationBar: Container(
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           height: 48,
           child: MaterialButton(
             onPressed: () {
               checkValidations();
             },
-            child: Text(
-              "Send Feedback",
-              style: TextStyle(
-                color: white,
-              ),
-            ),
             color: buttonColour,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                 30,
+              ),
+            ),
+            child: const Text(
+              "Send Feedback",
+              style: TextStyle(
+                color: white,
               ),
             ),
           )),
@@ -90,8 +90,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(10.0),
+              const Padding(
+                padding: EdgeInsets.all(10.0),
                 child: Text(
                   'Send Your Feedback',
                   style: TextStyle(
@@ -114,7 +114,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -123,14 +123,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   controller: titleController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   cursorColor: Colors.black87,
-                  style: TextStyle(),
+                  style: const TextStyle(),
                   decoration: InputDecoration(
                     filled: true,
                     // hintText: 'Enter message title',
                     label: Row(
                       children: [
                         RichText(
-                          text: TextSpan(
+                          text: const TextSpan(
                               text: 'Enter message title',
                               style: TextStyle(
                                 fontSize: 16,
@@ -149,7 +149,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       ],
                     ),
                     // labelStyle: TextStyle(color: Colors.black54),
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                   ),
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.emailAddress,
@@ -171,13 +171,13 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     alignLabelWithHint: true,
 
                     label: Row(
                       children: [
                         RichText(
-                          text: TextSpan(
+                          text: const TextSpan(
                               text: 'Enter your feedback here',
                               style: TextStyle(
                                 fontSize: 16,
@@ -212,8 +212,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               const SizedBox(
                 height: 0,
               ),
-              Center(
-                child: const Text(
+              const Center(
+                child: Text(
                   'Rate Your Experience',
                   style: TextStyle(
                     color: black,
@@ -223,7 +223,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Center(
@@ -231,12 +231,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   initialRating: 0,
                   minRating: 1,
                   allowHalfRating: true,
-                  unratedColor: Color.fromARGB(255, 188, 186, 186),
+                  unratedColor: const Color.fromARGB(255, 188, 186, 186),
                   itemCount: 5,
                   itemSize: 50.0,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
                   updateOnDrag: true,
-                  itemBuilder: (context, index) => Icon(
+                  itemBuilder: (context, index) => const Icon(
                     Icons.star,
                     color: buttonColour,
                   ),
@@ -253,7 +253,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               Center(
                 child: Text(
                   'Rating : $halfRating',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: black,
                     fontWeight: FontWeight.w400,
                     fontSize: 18.0,

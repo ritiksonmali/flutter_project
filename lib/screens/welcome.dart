@@ -53,7 +53,7 @@ class _WelcomeState extends State<Welcome> {
                 ),
                 ElevatedButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: black,
+                    backgroundColor: buttonColour,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
                   ),

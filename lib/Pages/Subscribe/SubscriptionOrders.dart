@@ -78,7 +78,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             icon: const Icon(Icons.menu, color: white),
             onPressed: () {
-              Get.to(() => Navbar());
+              Get.to(() => const Navbar());
             }, //=> _key.currentState!.openDrawer(),
           ),
         ],

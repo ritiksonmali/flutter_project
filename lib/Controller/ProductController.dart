@@ -237,8 +237,8 @@ class ProductController extends GetxController {
   Future getCount() async {
     var store = await SharedPreferences.getInstance();
     var iddata = store.getString('id');
-    int user_id = jsonDecode(iddata!);
-    String url = serverUrl + 'api/auth/getCount/${user_id}';
+    int userId = jsonDecode(iddata!);
+    String url = serverUrl + 'api/auth/getCount/${userId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

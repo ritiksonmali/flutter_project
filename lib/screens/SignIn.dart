@@ -180,9 +180,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
                             if (states.contains(MaterialState.pressed)) {
-                              return Colors.black;
+                              return buttonColour;
                             }
-                            return black;
+                            return buttonColour;
                           }),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -216,7 +216,7 @@ class _SignInScreenState extends State<SignInScreen> {
           },
           child: const Text(
             " Sign Up",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(color: black, fontWeight: FontWeight.bold),
           ),
         )
       ],
