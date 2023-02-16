@@ -265,7 +265,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(30),
-                                            color: grey),
+                                            color: white),
                                         child: Padding(
                                           padding: const EdgeInsets.all(15),
                                           child: Column(

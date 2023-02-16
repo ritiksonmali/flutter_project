@@ -28,7 +28,7 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                children: const [
                   // IconButton(
                   //   onPressed: () {
                   //     Navigator.of(context).pop();
@@ -43,10 +43,10 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
               Image.asset(
                 "assets/vector4.webp",
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 "Thank You!",
                 style: TextStyle(
                   color: AppColor.primary,
@@ -54,7 +54,7 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
                   fontSize: 30,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
@@ -63,15 +63,15 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
                     .headline4
                     ?.copyWith(color: AppColor.primary),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                     "Your order is now being processed. We will let you know once the order is picked from the outlet. Check the status of your order"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 60,
               ),
               Padding(
@@ -86,9 +86,9 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
                       primary: black,
                     ),
                     onPressed: () {
-                      Get.to(() => OrderScreen());
+                      Get.to(() => const OrderScreen());
                     },
-                    child: Text(
+                    child: const Text(
                       "Track My Order",
                     ),
                   ),
@@ -102,7 +102,7 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
                   onPressed: () {
                     Get.to(() => HomeScreen());
                   },
-                  child: Text(
+                  child: const Text(
                     "Back To Home",
                     style: TextStyle(
                       color: AppColor.primary,

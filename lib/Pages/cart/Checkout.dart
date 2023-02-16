@@ -47,6 +47,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   bool isLoading = true;
 
   var amountController = TextEditingController();
+  var directionToReachController = TextEditingController();
   String? valueChoose;
 
   List listItemSorting = [
@@ -750,34 +751,73 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemCount: instructionlist.length,
+                              itemCount: instructionData.length,
                               physics: const ScrollPhysics(),
                               itemBuilder: (context, index) {
-                                var instruction = instructionlist[index];
+                                var instruction = instructionData[index];
                                 return Column(
                                   children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          right: 8, left: 8, top: 0, bottom: 0),
-                                      width: width * 0.22,
-                                      height: height * 0.12,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(instruction['icon']),
-                                          SizedBox(height: 2),
-                                          Text(
-                                            instruction['name'],
-                                          ),
-                                        ],
-                                      ),
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(14)),
-                                        color: white,
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (instruction.id == 3) {
+                                          directionToReachPopup();
+                                        } else {
+                                          if (instruction.id == 5) {
+                                            setState(() {
+                                              instructionData[0].active = false;
+                                              instructionData[1].active = false;
+                                            });
+                                          } else if (instruction.id == 1 ||
+                                              instruction.id == 2) {
+                                            setState(() {
+                                              instructionData[4].active = false;
+                                            });
+                                          }
+                                          if (instruction.active == false) {
+                                            setState(() {
+                                              instruction.active = true;
+                                            });
+                                          } else if (instruction.active ==
+                                              true) {
+                                            setState(() {
+                                              instruction.active = false;
+                                            });
+                                          }
+                                        }
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.only(
+                                            right: 8,
+                                            left: 8,
+                                            top: 0,
+                                            bottom: 0),
+                                        width: width * 0.22,
+                                        height: height * 0.12,
+                                        decoration: BoxDecoration(
+                                          border: instruction.active
+                                              ? Border.all(
+                                                  color: buttonColour,
+                                                )
+                                              : Border.all(color: grey),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(14)),
+                                          color: instruction.active
+                                              ? kLightGreen
+                                              : white,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(instruction.icon),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              instruction.name,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -845,6 +885,129 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
+  Future directionToReachPopup() {
+    return showModalBottomSheet(
+        // shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+        backgroundColor: white,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Directions to reach",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Divider(
+                          height: 10,
+                          color: black,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: TextFormField(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .apply(color: black),
+                                controller: directionToReachController,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.multiline,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  alignLabelWithHint: true,
+                                  hintText: 'e.g. Ring the bell',
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .apply(color: kGreyShade1),
+                                  filled: false,
+                                ),
+                                maxLines: 5,
+                                maxLength: 200,
+                                textInputAction: TextInputAction.done,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'please enter data';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (instructionData[2].id == 3) {
+                                    if (directionToReachController
+                                        .text.isNotEmpty) {
+                                      setState(() {
+                                        instructionData[2].active = true;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        instructionData[2].active = false;
+                                      });
+                                    }
+                                  }
+                                  Get.back();
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 55,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Center(
+                                    child: Text(
+                                      "Submit",
+                                      style: TextStyle(
+                                          color: white,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ));
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -897,13 +1060,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future createNewOrder(String dateTime, bool check) async {
-    // DateFormat dateFormat = DateFormat("dd-MM-yyyy hh:mm:ss a");
-    // dateFormat.format(dateTime);
     String url = serverUrl + 'createNewOrder';
     var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode(
-            {"user_id": this.id, "dateTime": dateTime, "wallet": check}));
+        body: json.encode({
+          "user_id": this.id,
+          "dateTime": dateTime,
+          "wallet": check,
+          "avoidRinging": instructionData[0].active,
+          "leaveAtDoor": instructionData[1].active,
+          "deliveryInstructions": directionToReachController.text.toString(),
+          "avoidCalling": instructionData[2].active,
+          "leaveWithSecurity": instructionData[4].active,
+        }));
 
     if (response.statusCode == 200) {
       print("Success");

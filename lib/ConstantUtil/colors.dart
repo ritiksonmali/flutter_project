@@ -21,6 +21,8 @@ const kAlertColor = Color(0xFFFF3B30);
 const buttonCancelColour = Color.fromARGB(255, 137, 135, 135);
 const buttonColour = Color.fromARGB(255, 40, 178, 88);
 const kBlueColour = Color.fromARGB(255, 33, 150, 243);
+const kLightGreen = Color.fromARGB(255, 155, 238, 158);
+const KWarning = Color.fromARGB(255, 235, 160, 156);
 
 ///Text color
 const kTextColor = Color(0xFF22292E);

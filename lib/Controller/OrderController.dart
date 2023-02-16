@@ -40,7 +40,6 @@ class OrderController extends GetxController {
       update();
       return orders;
     } else {
-      CommanDialog.hideLoading();
       return orders;
     }
   }

@@ -32,6 +32,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   bool isLoading = true;
 
   var orderId = Get.arguments;
+  bool isAvoidRingingBell = false;
+  bool isLeaveAtTheDoor = false;
+  bool isAvoidCalling = false;
+  bool isLeaveWithSecurity = false;
+  String isdeliveryInstruction = '';
 
   @override
   void initState() {
@@ -42,6 +47,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var height = size.height;
+    var width = size.width;
     return Scaffold(
       backgroundColor: grey,
       appBar: AppBar(
@@ -92,7 +100,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 child: SizedBox(
                                   width: 230,
                                   child: Text(orderId['address'],
-                                      // "538 sagar park laxmi Nagar Panchavati Nashik-422003",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium),
@@ -101,17 +108,247 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             ],
                           ),
                         ),
+                        isAvoidRingingBell == false &&
+                                isLeaveAtTheDoor == false &&
+                                isAvoidCalling == false &&
+                                isLeaveWithSecurity == false &&
+                                isdeliveryInstruction == ''
+                            ? const SizedBox()
+                            : Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 20, left: 20, top: 15),
+                                child: Text("Delivery Instructions",
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge),
+                              ),
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 15,
-                          width: double.infinity,
-                          color: grey,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        isAvoidRingingBell
+                            ? Padding(
+                                padding: EdgeInsets.all(6.0),
+                                child: Container(
+                                  width: width,
+                                  // height: height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            color: black.withOpacity(0.1),
+                                            blurRadius: 2)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.notifications_active,
+                                          size: height * 0.02,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'Avoid ringing bell',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox(),
+                        isLeaveAtTheDoor
+                            ? Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Container(
+                                  width: width,
+                                  // height: height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            color: black.withOpacity(0.1),
+                                            blurRadius: 2)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.door_front_door,
+                                          size: height * 0.02,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'Leave at the door',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox(),
+                        isdeliveryInstruction != ""
+                            ? Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Container(
+                                  width: width,
+                                  // height: height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            color: black.withOpacity(0.1),
+                                            blurRadius: 2)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.directions,
+                                          size: height * 0.02,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          isdeliveryInstruction,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox(),
+                        isAvoidCalling
+                            ? Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Container(
+                                  width: width,
+                                  // height: height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            color: black.withOpacity(0.1),
+                                            blurRadius: 2)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.call,
+                                          size: height * 0.02,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'Avoid Calling',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox(),
+                        isLeaveWithSecurity
+                            ? Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Container(
+                                  width: width,
+                                  // height: height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            color: black.withOpacity(0.1),
+                                            blurRadius: 2)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.security,
+                                          size: height * 0.02,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "Leave with Security",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox(),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
@@ -410,7 +647,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       headers: {'Content-Type': 'application/json'},
     );
     var body = jsonDecode(response.body);
-    print(body);
+    setState(() {
+      isAvoidRingingBell = body['avoidRinging'] ?? false;
+      isLeaveAtTheDoor = body['leaveAtDoor'] ?? false;
+      isAvoidCalling = body['avoidCalling'] ?? false;
+      isLeaveWithSecurity = body['leaveWithSecurity'] ?? false;
+      isdeliveryInstruction = body['deliveryInstructions'] ?? '';
+    });
+    print(isdeliveryInstruction);
+
     return body['orderItem'];
   }
 }
