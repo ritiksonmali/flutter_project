@@ -85,7 +85,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                   ),
                   FloatingActionButton.extended(
                     label: Text('Verifly Otp'), // <-- Text
-                    backgroundColor: black,
+                    backgroundColor: buttonColour,
                     onPressed: () {
                       checkOtp();
                     },

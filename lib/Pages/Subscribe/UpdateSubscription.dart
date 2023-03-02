@@ -190,12 +190,14 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                       subscribeProductController.subscribeProdutList[index];
                   return Column(
                     children: [
+                      SizedBox(
+                        height: 20,
+                      ),
                       Center(
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: white),
-                          color: white,
+                              color: grey),
                           width: 350,
                           height: 180,
                           child: ImageFade(

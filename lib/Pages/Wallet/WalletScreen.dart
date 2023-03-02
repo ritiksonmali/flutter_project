@@ -95,6 +95,9 @@ class _WalletScreenState extends State<WalletScreen> {
   TextEditingController amountController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var height = size.height;
+    var width = size.width;
     return Scaffold(
       backgroundColor: grey,
       appBar: AppBar(
@@ -137,21 +140,22 @@ class _WalletScreenState extends State<WalletScreen> {
                         Center(
                           child: Text(
                             "\₹ ${WalletAmount.toStringAsFixed(2)}",
-                            style: TextStyle(
-                                color: black,
-                                fontSize: 36,
-                                fontWeight: FontWeight.w400),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4!
+                                .apply(color: black),
                           ),
                         ),
                         Center(
                           child: Text(
                             "Current Balance",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                color: WalletAmount == 0
-                                    ? Colors.red
-                                    : Colors.green),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .apply(
+                                    color: WalletAmount == 0
+                                        ? kAlertColor
+                                        : buttonColour),
                           ),
                         ),
                       ],
@@ -199,7 +203,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                           text: '*',
                                           style: TextStyle(
                                               fontSize: 20,
-                                              color: Colors.red,
+                                              color: kAlertColor,
                                               fontWeight: FontWeight.bold))
                                     ]),
                               ),
@@ -236,69 +240,58 @@ class _WalletScreenState extends State<WalletScreen> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 40,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: recordlist.length,
-                        physics: ScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          var record = recordlist[index];
-                          return GestureDetector(
-                            onTap: () => null,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Hero(
-                                    tag: "anim$index",
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        int value = jsonDecode(record['name']);
-                                        setState(() {
-                                          amountController.text =
-                                              value.toString();
-                                        });
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.only(
-                                            right: 8,
-                                            left: 12,
-                                            top: 1,
-                                            bottom: 0),
-                                        child: Text(
-                                          "\₹ ${record['name']}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 14,
-                                              color: black),
-                                        ),
-                                        decoration: BoxDecoration(
-                                            // color: Colors.black54,
-                                            border: Border.all(color: black),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(2)),
-                                            boxShadow: [
-                                              // BoxShadow(
-                                              //     color: Colors.grey,
-                                              //     blurRadius: 10.0,
-                                              //     spreadRadius: 4.5)
-                                            ]),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
-                                      ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 60,
+                      child: ListView.builder(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: recordlist.length,
+                          physics: ScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            var record = recordlist[index];
+                            return Hero(
+                              tag: "anim$index",
+                              child: GestureDetector(
+                                onTap: () async {
+                                  int value = jsonDecode(record['name']);
+                                  setState(() {
+                                    amountController.text = value.toString();
+                                  });
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      right: 8, left: 12, top: 1, bottom: 0),
+                                  child: Center(
+                                    child: Text(
+                                      "\₹ ${record['name']}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                          color: black),
                                     ),
                                   ),
-                                ],
+                                  decoration: BoxDecoration(
+                                      // color: Colors.black54,
+                                      border: Border.all(color: black),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(2)),
+                                      boxShadow: [
+                                        // BoxShadow(
+                                        //     color: Colors.grey,
+                                        //     blurRadius: 10.0,
+                                        //     spreadRadius: 4.5)
+                                      ]),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                ),
                               ),
-                            ),
-                          );
-                        }),
+                            );
+                          }),
+                    ),
                   ),
                   SizedBox(
                     height: 20,
@@ -343,7 +336,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 12),
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                          color: buttonCancelColour,
+                          color: kGreyShade1,
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Row(
                         children: <Widget>[
@@ -429,7 +422,10 @@ class _WalletScreenState extends State<WalletScreen> {
         'amount': orderDetailResponse['totalPrice'] * 100,
         'name': 'Piyush pagar',
         'description': orderdata, // in seconds
-        'prefill': {'contact': '8830218670', 'email': 'piyush@gmail.com'},
+        'prefill': {
+          'contact': '8530838580',
+          'email': 'sonmalirutik001@gmail.com'
+        },
       };
       try {
         _razorpay.open(options);

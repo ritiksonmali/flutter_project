@@ -57,7 +57,7 @@ class _PaymentSuessfulScreenState extends State<PaymentSuessfulScreen> {
                 height: 10,
               ),
               Text(
-                "Amount Added SuccessFully In Your Wallet",
+                "Amount added successfully in your wallet",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: black,
@@ -70,8 +70,7 @@ class _PaymentSuessfulScreenState extends State<PaymentSuessfulScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child:
-                    Text("Now You can use use your wallet amount for shopping"),
+                child: Text("Now you can use your wallet amount for shopping"),
               ),
               SizedBox(
                 height: 60,
@@ -85,7 +84,7 @@ class _PaymentSuessfulScreenState extends State<PaymentSuessfulScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: black,
+                      primary: buttonColour,
                     ),
                     onPressed: () {
                       Get.to(() => OrdersForWallet());

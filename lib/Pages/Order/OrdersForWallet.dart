@@ -115,7 +115,8 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
-                                        order.orderStatus == "INPROGRESS"
+                                        order.orderStatus == "INPROGRESS" ||
+                                                order.orderStatus == "DELIVERED"
                                             ? Text(
                                                 "DEBITED",
                                                 style: TextStyle(
@@ -194,7 +195,8 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        order.orderStatus == "INPROGRESS"
+                                        order.orderStatus == "INPROGRESS" ||
+                                                order.orderStatus == "DELIVERED"
                                             ? Text(
                                                 "Total : \₹" +
                                                     order.priceCutFromWallet

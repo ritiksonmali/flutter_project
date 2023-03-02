@@ -232,6 +232,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                       left: 20,
+                                      right: 20,
                                       top: 10,
                                       bottom: 10,
                                     ),
@@ -246,12 +247,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                         SizedBox(
                                           width: 5,
                                         ),
-                                        Text(
-                                          isdeliveryInstruction,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge,
-                                          textAlign: TextAlign.center,
+                                        Expanded(
+                                          child: Text(
+                                            isdeliveryInstruction,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge,
+                                            textAlign: TextAlign.start,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -654,8 +657,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       isLeaveWithSecurity = body['leaveWithSecurity'] ?? false;
       isdeliveryInstruction = body['deliveryInstructions'] ?? '';
     });
-    print(isdeliveryInstruction);
-
     return body['orderItem'];
   }
 }

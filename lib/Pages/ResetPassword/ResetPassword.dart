@@ -102,7 +102,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   ),
                   FloatingActionButton.extended(
                     label: Text('Reset Password'), // <-- Text
-                    backgroundColor: black,
+                    backgroundColor: buttonColour,
                     onPressed: () {
                       ForgetPassword();
                       // Get.to(() => OtpVerification());

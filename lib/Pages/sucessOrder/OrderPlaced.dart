@@ -83,7 +83,7 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: black,
+                      primary: buttonColour,
                     ),
                     onPressed: () {
                       Get.to(() => const OrderScreen());

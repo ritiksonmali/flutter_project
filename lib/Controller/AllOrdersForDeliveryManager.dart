@@ -1,3 +1,5 @@
+// ignore_for_file: control_flow_in_finally
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -29,13 +31,10 @@ class AllOrdersForDeliveryManager extends GetxController {
     CommanDialog.hideLoading();
     var body = jsonDecode(response.body);
     update();
-    print(body);
-
     if (response.statusCode == 200) {
       for (Map i in body) {
         allOrders.add(AllOrdersDeliveryManager.fromJson(i));
       }
-
       return allOrders;
     } else {
       return allOrders;
@@ -51,35 +50,44 @@ class AllOrdersForDeliveryManager extends GetxController {
         File(imageFile.path).lengthSync(),
         filename: imageFile.path.split("/").last));
     var res = await request.send();
-
     if (res.statusCode == 200) {
-      uploaded = true;
-      print(res);
-      print("image uploaded");
+      // uploaded = true;
+      bool isdelivered = await setOrderDelivered(orderId);
+      if (isdelivered == true) {
+        return true;
+      } else {
+        false;
+      }
     } else {
-      print("uploaded faild");
+      return false;
     }
+    return false;
   }
 
-  Future setOrderDelivered(int orderId) async {
+  Future<bool> setOrderDelivered(int orderId) async {
     String url = serverUrl + 'setOrderDeliveted/${orderId}';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
     var body = jsonDecode(response.body);
-    print(body['orderStatus']);
     if (response.statusCode == 200) {
       if (body['orderStatus'] == 'DELIVERED') {
-        print('Called');
-        String url = serverUrl +
-            'api/auth/sendNotificationToDeliveredOrder?orderId=${orderId}';
-        http.Response response1 = await http.post(
-          Uri.parse(url),
-          headers: {'Content-Type': 'application/json'},
-        );
+        sendNotificationtoUser(orderId);
+        return true;
+      } else {
+        return false;
       }
     }
-    return body;
+    return false;
   }
+}
+
+Future sendNotificationtoUser(int orderId) async {
+  String url = serverUrl +
+      'api/auth/sendNotificationToDeliveredOrder?orderId=${orderId}';
+  http.Response response1 = await http.post(
+    Uri.parse(url),
+    headers: {'Content-Type': 'application/json'},
+  );
 }

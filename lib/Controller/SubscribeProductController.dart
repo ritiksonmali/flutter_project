@@ -64,7 +64,6 @@ class SubscribeProductController extends GetxController {
       String productId,
       String userId) async {
     try {
-      print(endDate);
       String url = serverUrl + 'api/auth/subscribeProduct';
       var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
@@ -81,7 +80,6 @@ class SubscribeProductController extends GetxController {
           }));
 
       var body = jsonDecode(response.body);
-      print(body);
       if (response.statusCode == 200) {
         isAmountLow = body['isAmountLow'];
         if (body['isAmountLow'] == true) {
@@ -91,11 +89,9 @@ class SubscribeProductController extends GetxController {
           Fluttertoast.showToast(
               msg: body['message'],
               fontSize: 14,
-              backgroundColor: Colors.black,
+              backgroundColor: black,
               textColor: white);
         }
-        print(body['isAmountLow']);
-        print(body['amountNeedToAdd']);
         update();
       } else {
         print("failed");
@@ -108,23 +104,20 @@ class SubscribeProductController extends GetxController {
   Future showAlertMessage(String title, String content, double amountNeeded) {
     return Get.defaultDialog(
       title: title,
-      titleStyle: TextStyle(color: Colors.redAccent),
-      content: Text(content),
-      // 'You need to add \₹ ${amountNeeded}  in Your wallet for complete this subscription'),
+      titleStyle: TextStyle(color: kAlertColor),
+      content: Center(child: Text(content)),
       actions: <Widget>[
         ElevatedButton(
           style: TextButton.styleFrom(
-            backgroundColor: Colors.black,
+            backgroundColor: buttonColour,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
           ),
           child: Text(
             "Add Money",
-            style: TextStyle(
-                fontSize: 14, letterSpacing: 2.2, color: Colors.white),
+            style: TextStyle(fontSize: 14, letterSpacing: 2.2, color: white),
           ),
           onPressed: () {
-            // Navigator.of(ctx).pop();
             Get.to(() => WalletScreen(),
                 arguments: {"amountNeeded": amountNeeded});
           },

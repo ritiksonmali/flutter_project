@@ -371,15 +371,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
           child: Container(
             color: Colors.white,
-            height: 250,
+            // height: 250,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
+                  Text(
                     "Pick Image From",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .apply(color: black),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
@@ -387,7 +390,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
+                      primary: buttonColour,
                     ),
                     onPressed: () {
                       pickImage(ImageSource.camera);
@@ -397,7 +400,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
+                      primary: buttonColour,
                     ),
                     onPressed: () {
                       pickImage(ImageSource.gallery);
@@ -410,7 +413,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
+                      primary: buttonCancelColour,
                     ),
                     onPressed: () {
                       Get.back();

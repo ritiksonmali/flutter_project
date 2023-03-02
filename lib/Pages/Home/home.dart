@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -78,9 +80,9 @@ class _HomePageState extends State<HomePage> {
       try {
         var store = await SharedPreferences.getInstance();
         var iddata = store.getString('id');
-        int user_id = jsonDecode(iddata!);
-        String url = serverUrl +
-            'api/auth/fetchlistofproductbyfilter?pagenum=${_page}&pagesize=${_limit}&status=active&userId=${user_id}';
+        int userId = jsonDecode(iddata!);
+        String url =
+            '${serverUrl}api/auth/fetchlistofproductbyfilter?pagenum=${_page}&pagesize=${_limit}&status=active&userId=${userId}';
         http.Response response = await http.get(
           Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
@@ -173,7 +175,7 @@ class _HomePageState extends State<HomePage> {
         final isExitWarning = difference >= const Duration(seconds: 1);
         backbuttonpressedTime = DateTime.now();
         if (isExitWarning) {
-          final message = "Double Tap to exit app";
+          const message = "Double Tap to exit app";
           Fluttertoast.showToast(
               msg: message,
               fontSize: 18,
@@ -208,12 +210,6 @@ class _HomePageState extends State<HomePage> {
             Center(
               child: Badge(
                 position: BadgePosition.topEnd(top: 0, end: 3),
-                child: IconButton(
-                  icon: const Icon(Icons.shopping_bag_outlined),
-                  onPressed: () {
-                    Get.to(() => const CartScreen());
-                  },
-                ),
                 badgeContent:
                     GetBuilder<ProductController>(builder: (controller) {
                   return Text(
@@ -221,6 +217,12 @@ class _HomePageState extends State<HomePage> {
                     style: const TextStyle(color: white),
                   );
                 }),
+                child: IconButton(
+                  icon: const Icon(Icons.shopping_bag_outlined),
+                  onPressed: () {
+                    Get.to(() => const CartScreen());
+                  },
+                ),
               ),
             ),
             IconButton(

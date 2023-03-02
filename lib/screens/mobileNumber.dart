@@ -45,7 +45,7 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
                   Text(
                     'Add Mobile Number',
                     style: TextStyle(
-                        color: Colors.black,
+                        color: black,
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
@@ -94,7 +94,7 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
                   ),
                   FloatingActionButton.extended(
                     label: Text('Add Mobile Number'), // <-- Text
-                    backgroundColor: black,
+                    backgroundColor: buttonColour,
                     onPressed: () {
                       login();
                     },

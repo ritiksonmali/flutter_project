@@ -77,7 +77,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             icon: const Icon(Icons.menu, color: white),
             onPressed: () {
-              Get.to(() => Navbar());
+              Get.to(() => const Navbar());
             }, //=> _key.currentState!.openDrawer(),
           ),
         ],
@@ -429,7 +429,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                           style: TextButton
                                                               .styleFrom(
                                                             backgroundColor:
-                                                                black,
+                                                                buttonCancelColour,
                                                           ),
                                                           onPressed: () =>
                                                               Navigator.of(
@@ -440,7 +440,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                           style: TextButton
                                                               .styleFrom(
                                                             backgroundColor:
-                                                                black,
+                                                                buttonColour,
                                                           ),
                                                           onPressed: () async {
                                                             Navigator.of(
@@ -575,7 +575,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                 selectEveryDay ? white : black),
                                       ),
                                       decoration: BoxDecoration(
-                                        color: selectEveryDay ? black : null,
+                                        color: selectEveryDay ? black : white,
                                         border: Border.all(color: black),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5)),
@@ -607,7 +607,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                 : black),
                                       ),
                                       decoration: BoxDecoration(
-                                        color: selectOnInterval ? black : null,
+                                        color: selectOnInterval ? black : white,
                                         border: Border.all(color: black),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5)),

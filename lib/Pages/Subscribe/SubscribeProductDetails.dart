@@ -1116,7 +1116,6 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
         return BottomSheet(
           onClosing: () {},
           builder: (BuildContext context) {
-            bool b = false;
             return StatefulBuilder(builder: (BuildContext context, setState) {
               return SingleChildScrollView(
                 child: ClipRRect(
@@ -1126,7 +1125,7 @@ class _SubscribeProductDetailsState extends State<SubscribeProductDetails> {
                   ),
                   child: Container(
                     color: Colors.white,
-                    height: 300,
+                    // height: 300,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(

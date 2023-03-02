@@ -181,9 +181,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
                             if (states.contains(MaterialState.pressed)) {
-                              return Colors.black;
+                              return buttonColour;
                             }
-                            return black;
+                            return buttonColour;
                           }),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(

@@ -912,8 +912,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
                             "Directions to reach",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w500),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .apply(color: black),
                             textAlign: TextAlign.start,
                           ),
                         ),
@@ -986,7 +988,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   decoration: BoxDecoration(
                                       color: buttonColour,
                                       borderRadius: BorderRadius.circular(12)),
-                                  child: Center(
+                                  child: const Center(
                                     child: Text(
                                       "Submit",
                                       style: TextStyle(
@@ -1090,7 +1092,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         'amount': value1,
         'name': 'Piyush pagar',
         'description': orderdata, // in seconds
-        'prefill': {'contact': '8830218670', 'email': 'piyush@gmail.com'},
+        'prefill': {
+          'contact': '8530838580',
+          'email': 'sonmalirutik001@gmail.com'
+        },
       };
       try {
         if (orderDetailResponse['totalPrice'] != 0) {
