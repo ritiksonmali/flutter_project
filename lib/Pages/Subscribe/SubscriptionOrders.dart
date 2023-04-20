@@ -1,24 +1,19 @@
 import 'dart:async';
 
-import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Controller/ProductController.dart';
 import 'package:flutter_login_app/Controller/SubscribeProductController.dart';
-import 'package:flutter_login_app/Pages/Home/home_screen.dart';
-import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
 import 'package:flutter_login_app/Pages/Subscribe/UpdateSubscription.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/screens/navbar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_fade/image_fade.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SubscriptionOrderDetails extends StatefulWidget {
   const SubscriptionOrderDetails({Key? key}) : super(key: key);
@@ -37,17 +32,16 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
   bool check5th = false;
   int counter = 0;
   bool isAdded = false;
-  DateTime date = DateTime.now().add(Duration(days: 1, hours: 5));
-  DateTime todayDate = DateTime.now().add(Duration(days: 2, hours: 5));
+  DateTime date = DateTime.now().add(const Duration(days: 1, hours: 5));
+  DateTime todayDate = DateTime.now().add(const Duration(days: 2, hours: 5));
   int? frequency;
   SubscribeProductController subscribeProductController =
       Get.put(SubscribeProductController());
   ProductController productController = Get.find();
-  TextEditingController startDateController = new TextEditingController();
-  TextEditingController endDateController = new TextEditingController();
+  TextEditingController startDateController = TextEditingController();
+  TextEditingController endDateController = TextEditingController();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     subscribeProductController.getSubscribeProductDetails();
   }
@@ -67,7 +61,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: white,
           ),
@@ -88,210 +82,321 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
           padding: const EdgeInsets.only(top: 20),
           child: GetBuilder<SubscribeProductController>(builder: (controller) {
             return subscribeProductController.isloading.value == true
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.builder(
-                    itemCount: subscribeProductController
-                        .subscribeProductDetailsList.length,
-                    physics: ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      var order = subscribeProductController
-                          .subscribeProductDetailsList[index];
-                      // DateTime startDate = DateTime.parse(order['startDate']);
-                      String time = order['time'];
-                      print(DateFormat.jm().format(DateFormat('hh:mm')
-                          .parse(order['time'])
-                          .toUtc()
-                          .toLocal()));
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Container(
-                          width: size.width,
+                ? Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: ListView.builder(
+                      itemCount: 6,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 7.5, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Row(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Center(
-                                  child: Container(
-                                    width: 60,
-                                    height: 90,
-                                    child: ImageFade(
-                                        image: NetworkImage(serverUrl +
-                                            'api/auth/serveproducts/${order['product']['imageUrl'].toString()}'),
-                                        fit: BoxFit.cover,
-                                        // scale: 2,
-                                        placeholder: Image.file(
-                                          fit: BoxFit.cover,
-                                          File(
-                                              '${directory.path}/compress${order['product']['imageUrl'].toString()}'),
-                                          gaplessPlayback: true,
-                                        )),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[200],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
+                                  Container(
+                                    height: 20,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[200],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                height: 20,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          order['product']['name'].toString(),
-                                          style: TextStyle(
-                                              color: black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                                order['product']['weight']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w500)),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
-                                            Text(
-                                                "\₹ " +
-                                                    order['product']['price']
-                                                        .toString(),
-                                                style: TextStyle(
-                                                    color: black,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w500)),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Column(
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                height: 20,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                : subscribeProductController.subscribeProductDetailsList.isEmpty
+                    ? Column(
+                        children: [
+                          const SizedBox(
+                            height: 300,
+                          ),
+                          const Text(
+                            'Subscription Not Found',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: black,
+                                fontSize: 30,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'You have not Created Any subscriptiony',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.grey[400],
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      )
+                    : ListView.builder(
+                        itemCount: subscribeProductController
+                            .subscribeProductDetailsList.length,
+                        physics: const ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          var order = subscribeProductController
+                              .subscribeProductDetailsList[index];
+                          // DateTime orderTime =
+                          //     ;
+                          // print(DateFormat("hh:mm a")
+                          //     .format(DateFormat('HH:mm:ss').parse(order['time'])));
+                          // DateTime startDate = DateTime.parse(order['startDate']);
+                          // String time = order['time'];
+                          // print(order['time']);
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Container(
+                              width: size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Row(
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Center(
+                                      child: Container(
+                                        width: 60,
+                                        height: 90,
+                                        child: ImageFade(
+                                            image: NetworkImage(
+                                                '${serverUrl}api/auth/serveproducts/${order['product']['imageUrl'].toString()}'),
+                                            fit: BoxFit.cover,
+                                            // scale: 2,
+                                            placeholder: Image.file(
+                                              fit: BoxFit.cover,
+                                              File(
+                                                  '${directory.path}/compress${order['product']['imageUrl'].toString()}'),
+                                              gaplessPlayback: true,
+                                            )),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Start Date :" +
-                                                  " " +
-                                                  DateFormat('d MMM, yyyy')
-                                                      .format(DateTime.parse(
-                                                              order[
-                                                                  'startDate'])
-                                                          .toUtc()
-                                                          .toLocal()),
-                                              style: TextStyle(
-                                                color: black,
-                                                fontSize: 10,
-                                              ),
+                                              order['product']['name']
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  color: black,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 5,
                                             ),
-                                            order['endDate'] != null
-                                                ? Padding(
-                                                    padding: EdgeInsets.only(
-                                                        bottom: 5),
-                                                    child: Text(
-                                                      "End Date :" +
-                                                          " " +
-                                                          DateFormat(
-                                                                  'd MMM, yyyy')
-                                                              .format(DateTime
-                                                                      .parse(order[
-                                                                          'endDate'])
-                                                                  .toUtc()
-                                                                  .toLocal()),
-                                                      style: TextStyle(
-                                                        color: black,
-                                                        fontSize: 10,
-                                                      ),
-                                                    ),
-                                                  )
-                                                : SizedBox(),
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                    order['product']['weight']
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
+                                                const SizedBox(
+                                                  width: 15,
+                                                ),
+                                                Text(
+                                                    "\₹ ${order['product']['price']}",
+                                                    style: const TextStyle(
+                                                        color: black,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Expanded(
-                                                  child: new RichText(
-                                                    text: new TextSpan(
-                                                      style: TextStyle(
-                                                        color: black,
-                                                        fontSize: 10,
-                                                      ),
-                                                      children: <TextSpan>[
-                                                        new TextSpan(
-                                                            text: "* ",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .red)),
-                                                        new TextSpan(
-                                                          text: order['quantity']
-                                                                  .toString() +
-                                                              " " +
-                                                              "Package Coming On ",
-                                                        ),
-                                                        new TextSpan(
-                                                          text: order['frequency'] ==
-                                                                  1
-                                                              ? "Everyday"
-                                                              : order['frequency'] ==
-                                                                      2
-                                                                  ? "Every 2nd Day"
-                                                                  : order['frequency'] ==
-                                                                          3
-                                                                      ? "Every 3rd Day"
-                                                                      : order['frequency'] ==
-                                                                              4
-                                                                          ? "Every 4th Day"
-                                                                          : order['frequency'] == 5
-                                                                              ? "Every 5th Day"
-                                                                              : "",
-                                                          // style: TextStyle(
-                                                          //   color: black,
-                                                          //   fontSize: 10,
-                                                          // )
-                                                        ),
-                                                      ],
-                                                    ),
+                                                Text(
+                                                  "Start Date :" +
+                                                      " " +
+                                                      DateFormat('d MMM, yyyy')
+                                                          .format(DateTime
+                                                                  .parse(order[
+                                                                      'startDate'])
+                                                              .toUtc()
+                                                              .toLocal()),
+                                                  style: const TextStyle(
+                                                    color: black,
+                                                    fontSize: 10,
                                                   ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                order['endDate'] != null
+                                                    ? Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 5),
+                                                        child: Text(
+                                                          "End Date :" +
+                                                              " " +
+                                                              DateFormat(
+                                                                      'd MMM, yyyy')
+                                                                  .format(DateTime
+                                                                          .parse(
+                                                                              order['endDate'])
+                                                                      .toUtc()
+                                                                      .toLocal()),
+                                                          style:
+                                                              const TextStyle(
+                                                            color: black,
+                                                            fontSize: 10,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : const SizedBox(),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                      child: RichText(
+                                                        text: TextSpan(
+                                                          style:
+                                                              const TextStyle(
+                                                            color: black,
+                                                            fontSize: 10,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            const TextSpan(
+                                                                text: "* ",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red)),
+                                                            TextSpan(
+                                                              text:
+                                                                  "${order['quantity']} Package Coming On ",
+                                                            ),
+                                                            TextSpan(
+                                                              text: order['frequency'] ==
+                                                                      1
+                                                                  ? "Everyday"
+                                                                  : order['frequency'] ==
+                                                                          2
+                                                                      ? "Every 2nd Day"
+                                                                      : order['frequency'] ==
+                                                                              3
+                                                                          ? "Every 3rd Day"
+                                                                          : order['frequency'] == 4
+                                                                              ? "Every 4th Day"
+                                                                              : order['frequency'] == 5
+                                                                                  ? "Every 5th Day"
+                                                                                  : "",
+                                                              // style: TextStyle(
+                                                              //   color: black,
+                                                              //   fontSize: 10,
+                                                              // )
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                      ]),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    order['endDate'] != null
-                                        ? DateTime.parse(order['startDate'])
-                                                .add(Duration(
-                                                    days: order['frequency']))
-                                                .isBefore(DateTime.parse(
-                                                    order['endDate']))
-                                            ? Text(
+                                          ]),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        order['endDate'] != null
+                                            ? DateTime.parse(order['startDate'])
+                                                    .add(Duration(
+                                                        days:
+                                                            order['frequency']))
+                                                    .isBefore(DateTime.parse(
+                                                        order['endDate']))
+                                                ? Text(
+                                                    "Next Delivery On :" +
+                                                        " " +
+                                                        DateFormat(
+                                                                'd MMM, yyyy')
+                                                            .format(DateTime
+                                                                    .parse(order[
+                                                                        'startDate'])
+                                                                .add(Duration(
+                                                                    days: order[
+                                                                        'frequency']))
+                                                                .toUtc()
+                                                                .toLocal()),
+                                                    style: const TextStyle(
+                                                      color: black,
+                                                      fontSize: 10,
+                                                    ),
+                                                  )
+                                                : const SizedBox()
+                                            : Text(
                                                 "Next Delivery On :" +
                                                     " " +
                                                     DateFormat('d MMM, yyyy')
@@ -303,191 +408,165 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                                     'frequency']))
                                                             .toUtc()
                                                             .toLocal()),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: black,
                                                   fontSize: 10,
                                                 ),
-                                              )
-                                            : SizedBox()
-                                        : Text(
-                                            "Next Delivery On :" +
-                                                " " +
-                                                DateFormat('d MMM, yyyy')
-                                                    .format(DateTime.parse(
-                                                            order['startDate'])
-                                                        .add(Duration(
-                                                            days: order[
-                                                                'frequency']))
-                                                        .toUtc()
-                                                        .toLocal()),
-                                            style: TextStyle(
-                                              color: black,
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ConstrainedBox(
-                                          constraints: BoxConstraints.tightFor(
-                                              height: 30),
-                                          child: ElevatedButton(
-                                            style: TextButton.styleFrom(
-                                              padding: EdgeInsets.all(4),
-                                              backgroundColor: buttonColour,
-                                            ),
-                                            onPressed: () {
-                                              Get.to(() => UpdateSubscription(),
-                                                  arguments: {
-                                                    "proId": order['product']
-                                                            ['id']
-                                                        .toString(),
-                                                    "startDate": DateFormat(
-                                                            'EEE, MMM d, yyyy')
-                                                        .format(DateTime.parse(
-                                                                order[
-                                                                    'startDate'])
-                                                            .toUtc()
-                                                            .toLocal()),
-                                                    "endDate": order[
-                                                                'endDate'] !=
-                                                            null
-                                                        ? DateFormat(
+                                              ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            ConstrainedBox(
+                                              constraints:
+                                                  const BoxConstraints.tightFor(
+                                                      height: 30),
+                                              child: ElevatedButton(
+                                                style: TextButton.styleFrom(
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  backgroundColor: buttonColour,
+                                                ),
+                                                onPressed: () {
+                                                  Get.to(
+                                                      () =>
+                                                          const UpdateSubscription(),
+                                                      arguments: {
+                                                        "proId":
+                                                            order['product']
+                                                                    ['id']
+                                                                .toString(),
+                                                        "startDate": DateFormat(
                                                                 'EEE, MMM d, yyyy')
                                                             .format(DateTime
                                                                     .parse(order[
-                                                                        'endDate'])
+                                                                        'startDate'])
                                                                 .toUtc()
-                                                                .toLocal())
-                                                        : null,
-                                                    "time": DateFormat.jm()
-                                                        .format(DateFormat(
-                                                                'hh:mm')
-                                                            .parse(
-                                                                order['time'])
-                                                            .toUtc()
-                                                            .toLocal()),
-                                                    "orderId":
-                                                        order['id'].toString(),
-                                                    "quantity":
-                                                        order['quantity'],
-                                                    "frequency":
-                                                        order['frequency']
-                                                  });
-                                              // setState(() {
-                                              //   startDateController.text =
-                                              //       DateFormat('d MMM, yyyy')
-                                              //           .format(startDate
-                                              //               .toUtc()
-                                              //               .toLocal());
-                                              //   order['endDate'] != null
-                                              //       ? endDateController.text =
-                                              //           DateFormat('d MMM, yyyy')
-                                              //               .format(endDate
-                                              //                   .toUtc()
-                                              //                   .toLocal())
-                                              //       : endDateController.clear();
-                                              // });
-                                              // buildBottomSheet(
-                                              //     order['id'].toString(),
-                                              //     order['quantity']);
-                                            },
-                                            child: Text(
-                                              'Edit',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight:
-                                                      FontWeight.normal),
-                                            ), // <-- Text
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        ConstrainedBox(
-                                          constraints: BoxConstraints.tightFor(
-                                              height: 30),
-                                          child: ElevatedButton(
-                                            style: TextButton.styleFrom(
-                                              padding: EdgeInsets.all(4),
-                                              backgroundColor:
-                                                  buttonCancelColour,
+                                                                .toLocal()),
+                                                        "endDate": order[
+                                                                    'endDate'] !=
+                                                                null
+                                                            ? DateFormat(
+                                                                    'EEE, MMM d, yyyy')
+                                                                .format(DateTime
+                                                                        .parse(order[
+                                                                            'endDate'])
+                                                                    .toUtc()
+                                                                    .toLocal())
+                                                            : null,
+                                                        "time": DateFormat(
+                                                                "hh:mm a")
+                                                            .format(DateFormat(
+                                                                    'HH:mm:ss')
+                                                                .parse(order[
+                                                                    'time'])),
+                                                        "orderId": order['id']
+                                                            .toString(),
+                                                        "quantity":
+                                                            order['quantity'],
+                                                        "frequency":
+                                                            order['frequency']
+                                                      });
+                                                },
+                                                child: const Text(
+                                                  'Edit',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ), // <-- Text
+                                              ),
                                             ),
-                                            onPressed: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    content: Text(
-                                                        "Do you want to delete this Subscription ?"),
-                                                    actions: [
-                                                      ElevatedButton(
-                                                          style: TextButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                buttonCancelColour,
-                                                          ),
-                                                          onPressed: () =>
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop(),
-                                                          child: Text('No')),
-                                                      ElevatedButton(
-                                                          style: TextButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                buttonColour,
-                                                          ),
-                                                          onPressed: () async {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            subscribeProductController
-                                                                .updateSubscribeProductStatus(
-                                                                    order['id']
-                                                                        .toString());
-                                                            await Future
-                                                                .delayed(
-                                                                    Duration(
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            ConstrainedBox(
+                                              constraints:
+                                                  const BoxConstraints.tightFor(
+                                                      height: 30),
+                                              child: ElevatedButton(
+                                                style: TextButton.styleFrom(
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  backgroundColor:
+                                                      buttonCancelColour,
+                                                ),
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        content: const Text(
+                                                            "Do you want to delete this Subscription ?"),
+                                                        actions: [
+                                                          ElevatedButton(
+                                                              style: TextButton
+                                                                  .styleFrom(
+                                                                backgroundColor:
+                                                                    buttonCancelColour,
+                                                              ),
+                                                              onPressed: () =>
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop(),
+                                                              child: const Text(
+                                                                  'No')),
+                                                          ElevatedButton(
+                                                              style: TextButton
+                                                                  .styleFrom(
+                                                                backgroundColor:
+                                                                    buttonColour,
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                subscribeProductController
+                                                                    .updateSubscribeProductStatus(
+                                                                        order['id']
+                                                                            .toString());
+                                                                await Future.delayed(
+                                                                    const Duration(
                                                                         seconds:
                                                                             1));
-                                                            setState(() {
-                                                              subscribeProductController
-                                                                  .subscribeProductDetailsList
-                                                                  .clear();
-                                                              subscribeProductController
-                                                                  .getSubscribeProductDetails();
-                                                            });
-                                                          },
-                                                          child: Text('Yes'))
-                                                    ],
+                                                                setState(() {
+                                                                  subscribeProductController
+                                                                      .subscribeProductDetailsList
+                                                                      .clear();
+                                                                  subscribeProductController
+                                                                      .getSubscribeProductDetails();
+                                                                });
+                                                              },
+                                                              child: const Text(
+                                                                  'Yes'))
+                                                        ],
+                                                      );
+                                                    },
                                                   );
                                                 },
-                                              );
-                                            },
-                                            child: Text(
-                                              'Remove',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight:
-                                                      FontWeight.normal),
-                                            ), // <-- Text
-                                          ),
+                                                child: const Text(
+                                                  'Remove',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ), // <-- Text
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
-                                    ),
+                                    )
                                   ],
-                                )
-                              ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    });
+                          );
+                        });
           }),
         ),
       ),
@@ -519,11 +598,11 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 20),
                             child: Text(
                               "Update Subscription",
                               style: TextStyle(
@@ -561,11 +640,19 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                       // bottomSheetForEveryDay();
                                     },
                                     child: Container(
-                                      margin: EdgeInsets.only(
+                                      margin: const EdgeInsets.only(
                                           right: 8,
                                           left: 12,
                                           top: 1,
                                           bottom: 0),
+                                      decoration: BoxDecoration(
+                                        color: selectEveryDay ? black : white,
+                                        border: Border.all(color: black),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(5)),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
                                       child: Text(
                                         "Everyday",
                                         style: TextStyle(
@@ -574,14 +661,6 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                             color:
                                                 selectEveryDay ? white : black),
                                       ),
-                                      decoration: BoxDecoration(
-                                        color: selectEveryDay ? black : white,
-                                        border: Border.all(color: black),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
                                     ),
                                   ),
                                   GestureDetector(
@@ -592,11 +671,19 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                       });
                                     },
                                     child: Container(
-                                      margin: EdgeInsets.only(
+                                      margin: const EdgeInsets.only(
                                           right: 8,
                                           left: 12,
                                           top: 1,
                                           bottom: 0),
+                                      decoration: BoxDecoration(
+                                        color: selectOnInterval ? black : white,
+                                        border: Border.all(color: black),
+                                        borderRadius: const BorderRadius.all(
+                                            const Radius.circular(5)),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
                                       child: Text(
                                         "On Interval",
                                         style: TextStyle(
@@ -606,19 +693,11 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                 ? white
                                                 : black),
                                       ),
-                                      decoration: BoxDecoration(
-                                        color: selectOnInterval ? black : white,
-                                        border: Border.all(color: black),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
                                     ),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               selectOnInterval
@@ -643,7 +722,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                       });
                                                     },
                                                   )),
-                                              Text('Every 2nd Day'),
+                                              const Text('Every 2nd Day'),
                                             ]),
                                             Row(children: [
                                               Transform.scale(
@@ -660,7 +739,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                       });
                                                     },
                                                   )),
-                                              Text('Every 3rd Day'),
+                                              const Text('Every 3rd Day'),
                                             ]),
                                           ],
                                         ),
@@ -683,7 +762,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                       });
                                                     },
                                                   )),
-                                              Text('Every 4th Day'),
+                                              const Text('Every 4th Day'),
                                             ]),
                                             Row(children: [
                                               Transform.scale(
@@ -700,14 +779,14 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                       });
                                                     },
                                                   )),
-                                              Text('Every 5th Day'),
+                                              const Text('Every 5th Day'),
                                             ]),
                                           ],
                                         ),
                                       ],
                                     )
-                                  : SizedBox(),
-                              SizedBox(
+                                  : const SizedBox(),
+                              const SizedBox(
                                 height: 10,
                               ),
                               Row(
@@ -717,8 +796,8 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text('Start Date'),
-                                      SizedBox(
+                                      const Text('Start Date'),
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       SizedBox(
@@ -729,23 +808,25 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                           autovalidateMode: AutovalidateMode
                                               .onUserInteraction,
                                           cursorColor: Colors.black87,
-                                          style:
-                                              TextStyle(color: Colors.black87),
+                                          style: const TextStyle(
+                                              color: Colors.black87),
                                           decoration: InputDecoration(
                                               suffixIcon: GestureDetector(
                                                 onTap: () async {
                                                   DateTime? pickedDate =
                                                       await showDatePicker(
                                                           context: context,
-                                                          initialDate:
-                                                              DateTime.now()
-                                                                  .add(Duration(
+                                                          initialDate: DateTime
+                                                                  .now()
+                                                              .add(
+                                                                  const Duration(
                                                                       days: 1,
                                                                       hours:
                                                                           5)),
-                                                          firstDate:
-                                                              DateTime.now()
-                                                                  .add(Duration(
+                                                          firstDate: DateTime
+                                                                  .now()
+                                                              .add(
+                                                                  const Duration(
                                                                       days: 1,
                                                                       hours:
                                                                           5)),
@@ -769,26 +850,27 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                         "Date is not selected");
                                                   }
                                                 },
-                                                child: Icon(
+                                                child: const Icon(
                                                   Icons.date_range_outlined,
                                                   color: Colors.black87,
                                                 ),
                                               ),
                                               hintText: 'Enter Date',
-                                              border: OutlineInputBorder()),
+                                              border:
+                                                  const OutlineInputBorder()),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text('End Date'),
-                                      SizedBox(
+                                      const Text('End Date'),
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       SizedBox(
@@ -799,8 +881,8 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                           autovalidateMode: AutovalidateMode
                                               .onUserInteraction,
                                           cursorColor: Colors.black87,
-                                          style:
-                                              TextStyle(color: Colors.black87),
+                                          style: const TextStyle(
+                                              color: Colors.black87),
                                           decoration: InputDecoration(
                                               suffixIcon: GestureDetector(
                                                 onTap: () async {
@@ -808,11 +890,11 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                       await showDatePicker(
                                                           context: context,
                                                           initialDate: date.add(
-                                                              Duration(
+                                                              const Duration(
                                                                   days: 1,
                                                                   hours: 5)),
                                                           firstDate: date.add(
-                                                              Duration(
+                                                              const Duration(
                                                                   days: 1,
                                                                   hours: 5)),
                                                           lastDate:
@@ -834,20 +916,21 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                                         "Date is not selected");
                                                   }
                                                 },
-                                                child: Icon(
+                                                child: const Icon(
                                                   Icons.date_range_outlined,
                                                   color: Colors.black87,
                                                 ),
                                               ),
                                               hintText: 'Enter Date',
-                                              border: OutlineInputBorder()),
+                                              border:
+                                                  const OutlineInputBorder()),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Container(
@@ -869,7 +952,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                               height: 50,
                                               width: 35,
                                               child: IconButton(
-                                                icon: Icon(Icons.remove),
+                                                icon: const Icon(Icons.remove),
                                                 onPressed: () {
                                                   setState(() {
                                                     if (quantity > 1) {
@@ -893,16 +976,17 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                           ),
                                           Text(
                                             quantity.toString(),
-                                            style: TextStyle(color: white),
+                                            style:
+                                                const TextStyle(color: white),
                                           ),
                                           Padding(
-                                            padding:
-                                                EdgeInsets.only(right: 8.0),
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
                                             child: SizedBox(
                                               height: 50,
                                               width: 30,
                                               child: IconButton(
-                                                icon: Icon(Icons.add),
+                                                icon: const Icon(Icons.add),
                                                 color: white,
                                                 onPressed: () {
                                                   setState(() {
@@ -924,14 +1008,14 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                         style: TextButton.styleFrom(
                                           backgroundColor: black,
                                         ),
-                                        child: Text("Add",
+                                        child: const Text("Add",
                                             style: TextStyle(
                                               color: white,
                                               fontSize: 16,
                                             )),
                                       ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Padding(
@@ -991,7 +1075,7 @@ class _SubscriptionOrderDetailsState extends State<SubscriptionOrderDetails> {
                                         color: black,
                                         borderRadius:
                                             BorderRadius.circular(12)),
-                                    child: Center(
+                                    child: const Center(
                                       child: Text(
                                         "Submit",
                                         style: TextStyle(

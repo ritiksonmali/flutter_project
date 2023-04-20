@@ -25,10 +25,10 @@ class _RazorPayPaymentPageState extends State<RazorPayPaymentPage> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    print("paymentId");
-    print(response.paymentId);
-    print(response.toString());
-    print("Payment Done");
+    // print("paymentId");
+    // print(response.paymentId);
+    // print(response.toString());
+    // print("Payment Done");
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -63,7 +63,7 @@ class _RazorPayPaymentPageState extends State<RazorPayPaymentPage> {
             ),
             CupertinoButton(
                 color: grey,
-                child: Text("Pay Amount"),
+                child: const Text("Pay Amount"),
                 onPressed: () {
                   ///Make payment
                   var options = {
@@ -89,7 +89,6 @@ class _RazorPayPaymentPageState extends State<RazorPayPaymentPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _razorpay.clear();
     super.dispose();
   }

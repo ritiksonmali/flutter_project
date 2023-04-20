@@ -1,14 +1,9 @@
 import 'dart:convert';
 
-import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
-import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
-import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/screens/SignIn.dart';
-import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -38,65 +33,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   signUp() {
     if (_formKey.currentState!.validate()) {
-      print("Form is valid ");
       _formKey.currentState!.save();
-      EmailValidation();
-      if (isValid == true) {
-        RestApiTest(
-            _firstnamecontroller.text.toString(),
-            _lastnamecontroller.text.toString(),
-            _emailcontroller.text.toString(),
-            _passwordcontroller.text.toString(),
-            _mobileNocontroller.text.toString(),
-            sos);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please Enter Valid Email'),
-          backgroundColor: Colors.redAccent,
-        ));
-      }
+      RestApiTest(
+          _firstnamecontroller.text.toString(),
+          _lastnamecontroller.text.toString(),
+          _emailcontroller.text.toString(),
+          _passwordcontroller.text.toString(),
+          _mobileNocontroller.text.toString(),
+          sos);
     } else {
-      // Get.snackbar(
-      //   "Alert",
-      //   "please Fill the valid info",
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   backgroundColor: Theme.of(context).errorColor,
-      //   colorText: Colors.black,
-      // );
-
       print('form is not valid');
     }
   }
 
-  TextEditingController _firstnamecontroller = TextEditingController();
-  TextEditingController _lastnamecontroller = TextEditingController();
-  TextEditingController _emailcontroller = TextEditingController();
-  TextEditingController _mobileNocontroller = TextEditingController();
-  TextEditingController _passwordcontroller = TextEditingController();
-  TextEditingController _confirmpasswordcontroller = TextEditingController();
-  // TextEditingController _emailTextController = TextEditingController();
-  // TextEditingController _userNameTextController = TextEditingController();
+  final TextEditingController _firstnamecontroller = TextEditingController();
+  final TextEditingController _lastnamecontroller = TextEditingController();
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _mobileNocontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _confirmpasswordcontroller =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: grey,
-      // extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.lightBlue,
-      //   centerTitle: true,
-      //   elevation: 0,
-      //   title: const Text(
-      //     "Sign Up",
-      //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      //   ),
-      // ),
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           color: grey,
           child: SingleChildScrollView(
               child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -108,23 +75,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller: _firstnamecontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
-                    style: TextStyle(color: Colors.black87),
+                    style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.person_outline,
                           color: Colors.black87,
                         ),
                         labelText: 'Enter First Name',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: const BorderSide(color: Colors.blue))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'First Name Required';
@@ -147,23 +114,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller: _lastnamecontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
-                    style: TextStyle(color: Colors.black87),
+                    style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.person_outline,
                           color: Colors.black87,
                         ),
                         labelText: 'Enter Last Name',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: const BorderSide(color: Colors.blue))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Last Name Required';
@@ -186,14 +153,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller: _emailcontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
-                    style: TextStyle(color: Colors.black87),
+                    style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.email_outlined,
                           color: Colors.black87,
                         ),
                         labelText: 'Enter Email',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         // filled: true,
                         // floatingLabelBehavior: FloatingLabelBehavior.never,
                         // fillColor: white.withOpacity(0.3),
@@ -202,15 +169,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: const BorderSide(color: Colors.blue))),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      RegExp regex = RegExp(
+                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+                      if (value!.isEmpty) {
                         return 'Email Required';
+                      } else {
+                        if (!regex.hasMatch(value)) {
+                          return 'Enter valid Email Id';
+                        } else {
+                          return null;
+                        }
                       }
-                      return null;
                     },
                     inputFormatters: <TextInputFormatter>[
                       LengthLimitingTextInputFormatter(50)
@@ -224,7 +198,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 20,
                   ),
                   IntlPhoneField(
-                    flagsButtonPadding: EdgeInsets.only(left: 15),
+                    flagsButtonPadding: const EdgeInsets.only(left: 15),
                     showDropdownIcon: false,
                     obscureText: false,
                     initialCountryCode: 'IN',
@@ -234,30 +208,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: InputDecoration(
                         counterText: '',
                         labelText: 'Enter Mobile Number',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
-                    countries: <String>['IN'],
+                            borderSide: const BorderSide(color: Colors.blue))),
+                    countries: const <String>['IN'],
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _mobileNocontroller,
-                    keyboardType: TextInputType.numberWithOptions(
+                    keyboardType: const TextInputType.numberWithOptions(
                         signed: true, decimal: true),
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                       LengthLimitingTextInputFormatter(10)
                     ],
                     validator: (value) {
-                      if (value != null)
+                      if (value != null) {
                         return 'Mobile Number must be of 10 digit';
-                      else
+                      } else {
                         return null;
+                      }
                     },
                   ),
                   const SizedBox(
@@ -267,14 +242,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller: _passwordcontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
-                    style: TextStyle(color: Colors.black87),
+                    style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.lock_outline,
                           color: Colors.black87,
                         ),
                         labelText: 'Enter Password',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         // filled: true,
                         // floatingLabelBehavior: FloatingLabelBehavior.never,
                         // fillColor: white.withOpacity(0.3),
@@ -283,10 +258,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: const BorderSide(color: Colors.blue))),
                     validator: (value) {
                       RegExp regex = RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
                       if (value!.isEmpty) {
@@ -311,14 +286,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller: _confirmpasswordcontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
-                    style: TextStyle(color: Colors.black87),
+                    style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.lock_outline,
                           color: Colors.black87,
                         ),
                         labelText: 'Enter Confirm Password',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         // filled: true,
                         // floatingLabelBehavior: FloatingLabelBehavior.never,
                         // fillColor: white.withOpacity(0.3),
@@ -327,10 +302,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: const BorderSide(color: Colors.blue))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Password Required';
@@ -360,13 +335,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onPressed: () {
                         signUp();
                       },
-                      child: Text(
-                        'Sign Up',
-                        style: const TextStyle(
-                            color: white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
@@ -380,6 +348,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(30)))),
+                      child: const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                            color: white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
                     ),
                   ),
                 ],
@@ -389,18 +364,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void EmailValidation() {
-    setState(() {
-      isValid = RegExp(
-              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-          .hasMatch(_emailcontroller.text);
-    });
-  }
-
   Future RestApiTest(
       String firstname, lastname, email, password, mobileNo, bool sos) async {
     try {
-      String url = serverUrl + 'api/auth/signup';
+      String url = '${serverUrl}api/auth/signup';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -413,22 +380,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }));
 
       if (response.statusCode == 200) {
-        print("Success");
-
-        print("response body is :" + response.body);
-        Get.off(() => SignInScreen());
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        print("sign up Success");
+        Get.off(() => const SignInScreen());
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('SignUp SuccessFully'),
           backgroundColor: Colors.green,
         ));
       } else if (response.statusCode == 400) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Email is already in use !'),
           backgroundColor: Colors.redAccent,
         ));
         print("Email is already in use !");
       } else if (response.statusCode == 500) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Something Went Wrong !'),
           backgroundColor: Colors.redAccent,
         ));

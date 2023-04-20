@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_fade/image_fade.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 import '../../ConstantUtil/colors.dart';
 import '../../ConstantUtil/globals.dart';
 import '../../Controller/ProductController.dart';
@@ -71,8 +72,8 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future getCartproducts(userId) async {
-    CommanDialog.showLoading();
-    String url = serverUrl + 'api/auth/getcartitems/${userId}';
+    // CommanDialog.showLoading();
+    String url = '${serverUrl}api/auth/getcartitems/$userId';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -81,7 +82,7 @@ class _CartScreenState extends State<CartScreen> {
       isLoading = false;
     });
     var body = jsonDecode(response.body);
-    CommanDialog.hideLoading();
+    // CommanDialog.hideLoading();
     // print(body['cartItems']);
 
     return body['cartItems'];
@@ -96,7 +97,6 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     test();
   }
@@ -108,44 +108,44 @@ class _CartScreenState extends State<CartScreen> {
     var width = size.width;
     return WillPopScope(
       onWillPop: () async {
-        CommanDialog.showLoading();
-        productController.getAllProducts();
-        productController.getCount();
-        Timer(Duration(seconds: 1), () {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    HomeScreen()), // this mymainpage is your page to refresh
-            (Route<dynamic> route) => false,
-          );
-          CommanDialog.hideLoading();
-        });
+        // CommanDialog.showLoading();
+        // productController.getAllProducts();
+        // productController.getCount();
+        // Timer(const Duration(seconds: 1), () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  const HomeScreen()), // this mymainpage is your page to refresh
+          (Route<dynamic> route) => false,
+        );
+        //   CommanDialog.hideLoading();
+        // });
         return false;
       },
       child: Scaffold(
         backgroundColor: grey,
         appBar: AppBar(
-          iconTheme: IconThemeData(color: white),
+          iconTheme: const IconThemeData(color: white),
           // automaticallyImplyLeading: true,
           centerTitle: true,
           leading: IconButton(
             onPressed: () async {
-              CommanDialog.showLoading();
-              productController.getAllProducts();
-              productController.getCount();
-              Timer(Duration(seconds: 1), () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          HomeScreen()), // this mymainpage is your page to refresh
-                  (Route<dynamic> route) => false,
-                );
-                CommanDialog.hideLoading();
-              });
+              // CommanDialog.showLoading();
+              // productController.getAllProducts();
+              // productController.getCount();
+              // Timer(const Duration(seconds: 1), () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        const HomeScreen()), // this mymainpage is your page to refresh
+                (Route<dynamic> route) => false,
+              );
+              // CommanDialog.hideLoading();
+              // });
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: white,
             ),
@@ -159,14 +159,62 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
               icon: const Icon(Icons.menu),
               onPressed: () {
-                Get.to(() => Navbar());
+                Get.to(() => const Navbar());
               }, //=> _key.currentState!.openDrawer(),
             ),
           ],
           backgroundColor: kPrimaryGreen,
         ),
         body: isLoading == true
-            ? Scaffold()
+            ? Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: ListView.builder(
+                  physics: const ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount:
+                      5, // number of shimmer placeholders you want to show
+                  itemBuilder: (_, __) => Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 60,
+                              width: 60,
+                              color: Colors.grey[300],
+                              margin: EdgeInsets.only(right: 10),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 15,
+                                    width: 100,
+                                    color: Colors.grey[300],
+                                    margin: EdgeInsets.only(bottom: 5),
+                                  ),
+                                  Container(
+                                    height: 15,
+                                    width: 200,
+                                    color: Colors.grey[300],
+                                    margin: EdgeInsets.only(bottom: 5),
+                                  ),
+                                  Container(
+                                    height: 15,
+                                    width: 150,
+                                    color: Colors.grey[300],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                ),
+              )
             : cartproducts.isEmpty
                 ? Center(
                     child: Container(
@@ -178,13 +226,13 @@ class _CartScreenState extends State<CartScreen> {
                             // padding: EdgeInsets.all(20),
                             width: double.infinity,
                             height: MediaQuery.of(context).size.height * 0.4,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: AssetImage('assets/cartempty.png'),
+                              image: const AssetImage('assets/cartempty.png'),
                             )),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Text(
@@ -195,7 +243,7 @@ class _CartScreenState extends State<CartScreen> {
                                 .headline4!
                                 .apply(color: black),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Text(
@@ -214,7 +262,7 @@ class _CartScreenState extends State<CartScreen> {
                     color: grey,
                     child: ListView(
                       children: <Widget>[
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         Column(
@@ -255,8 +303,8 @@ class _CartScreenState extends State<CartScreen> {
                                           width: width * 0.25,
                                           height: height * 0.10,
                                           child: ImageFade(
-                                              image: NetworkImage(serverUrl +
-                                                  'api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
+                                              image: NetworkImage(
+                                                  '${serverUrl}api/auth/serveproducts/${cartdata['product']['imageUrl'].toString()}'),
                                               fit: BoxFit.cover,
                                               // scale: 2,
                                               placeholder: Image.file(
@@ -269,7 +317,7 @@ class _CartScreenState extends State<CartScreen> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 20,
                                   ),
                                   Expanded(
@@ -287,12 +335,12 @@ class _CartScreenState extends State<CartScreen> {
                                                   .titleMedium,
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 10,
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Row(
@@ -321,13 +369,14 @@ class _CartScreenState extends State<CartScreen> {
                                             ],
                                           ),
                                           Text(
-                                              '${cartdata['product']['weight'].toString()}',
+                                              cartdata['product']['weight']
+                                                  .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium)
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 15,
                                       ),
                                       Row(
@@ -335,9 +384,7 @@ class _CartScreenState extends State<CartScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Text(
-                                            "₹" +
-                                                cartdata['product']['price']
-                                                    .toString(),
+                                            "₹${cartdata['product']['price']}",
                                             // "\$ 200",
                                             style: Theme.of(context)
                                                 .textTheme
@@ -363,7 +410,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       child: IconButton(
                                                           iconSize:
                                                               height * 0.02,
-                                                          icon: Icon(
+                                                          icon: const Icon(
                                                               Icons.remove,
                                                               color: white),
                                                           onPressed: () {
@@ -407,14 +454,16 @@ class _CartScreenState extends State<CartScreen> {
                                                 ),
                                                 Expanded(
                                                   child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 8),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 8),
                                                     child: SizedBox(
                                                       height: height * 0.05,
                                                       width: width * 0.05,
                                                       child: IconButton(
                                                         iconSize: height * 0.02,
-                                                        icon: Icon(Icons.add,
+                                                        icon: const Icon(
+                                                            Icons.add,
                                                             color: white),
                                                         onPressed: () {
                                                           if (cartdata['product']
@@ -441,8 +490,6 @@ class _CartScreenState extends State<CartScreen> {
                                                                       1;
                                                             });
                                                           }
-
-                                                          // Get.to(() => SearchPage());
                                                         },
                                                       ),
                                                     ),
@@ -460,24 +507,24 @@ class _CartScreenState extends State<CartScreen> {
                             );
                           }),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 30, right: 30),
+                          padding: const EdgeInsets.only(left: 30, right: 30),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text("Total",
                                   style:
                                       Theme.of(context).textTheme.titleLarge),
-                              Text("\₹${total}",
+                              Text("\₹$total",
                                   style:
                                       Theme.of(context).textTheme.titleLarge),
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Padding(
@@ -496,7 +543,7 @@ class _CartScreenState extends State<CartScreen> {
                               onPressed: cartproducts.isEmpty
                                   ? null
                                   : () {
-                                      Get.to(() => CheckoutScreen());
+                                      Get.to(() => const CheckoutScreen());
                                     },
                               child: const Text(
                                 'Checkout',
@@ -505,7 +552,7 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         )
                       ],
@@ -516,15 +563,14 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future increasequantity(int userId, productId, String sum) async {
-    String url = serverUrl +
-        'api/auth/addProductsInCart?userId=${userId}&productId=${productId}&sum=${sum}';
+    String url =
+        '${serverUrl}api/auth/addProductsInCart?userId=$userId&productId=$productId&sum=$sum';
     http.Response response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
 
     var body = jsonDecode(response.body);
-    print(body);
     setState(() {
       count = body['quantity'];
     });
@@ -560,7 +606,7 @@ Widget getBody() {
                           child: Container(
                             width: 120,
                             height: 70,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 image: DecorationImage(
                                     image: AssetImage("assets/shoe_1.webp"),
                                     fit: BoxFit.cover)),
@@ -570,25 +616,25 @@ Widget getBody() {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Expanded(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       "Jorden",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           "\$ 200",
                           style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w500),
@@ -609,11 +655,11 @@ Widget getBody() {
           );
         }),
       ),
-      SizedBox(
+      const SizedBox(
         height: 50,
       ),
       Padding(
-        padding: EdgeInsets.only(left: 30, right: 30),
+        padding: const EdgeInsets.only(left: 30, right: 30),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -624,14 +670,14 @@ Widget getBody() {
                   color: black.withOpacity(0.5),
                   fontWeight: FontWeight.w600),
             ),
-            Text(
+            const Text(
               "\$ 508.00",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
             ),
           ],
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 30,
       ),
       Padding(

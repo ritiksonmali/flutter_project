@@ -17,14 +17,14 @@ class FeedbackScreen extends StatefulWidget {
 }
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
-  TextEditingController titleController = new TextEditingController();
-  TextEditingController bodyController = new TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController bodyController = TextEditingController();
   double halfRating = 0;
   int? id;
   final _formKey5 = GlobalKey<FormState>();
 
   void test() async {
-    var store = await SharedPreferences.getInstance(); //add when requried
+    var store = await SharedPreferences.getInstance();
     var iddata = store.getString('id');
     int id = jsonDecode(iddata!);
     setState(() {
@@ -34,7 +34,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     test();
   }
@@ -100,7 +99,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 12),
+                padding: const EdgeInsets.only(left: 12, right: 12),
                 child: Text(
                   'Tell us What You love about the App or what we could be doing better',
                   style: TextStyle(
@@ -124,26 +123,22 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     // hintText: 'Enter message title',
-                    label: Row(
-                      children: [
-                        RichText(
-                          text: const TextSpan(
-                              text: 'Enter message title',
-                              style: TextStyle(
-                                fontSize: 16,
-                                // fontWeight: FontWeight.bold,
-                                color: black,
-                              ),
-                              children: [
-                                TextSpan(
-                                    text: '*',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold))
-                              ]),
-                        ),
-                      ],
+                    label: RichText(
+                      text: const TextSpan(
+                          text: 'Enter message title',
+                          style: TextStyle(
+                            fontSize: 16,
+                            // fontWeight: FontWeight.bold,
+                            color: black,
+                          ),
+                          children: [
+                            TextSpan(
+                                text: '*',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold))
+                          ]),
                     ),
                     // labelStyle: TextStyle(color: Colors.black54),
                     border: const OutlineInputBorder(),
@@ -170,27 +165,22 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     alignLabelWithHint: true,
-
-                    label: Row(
-                      children: [
-                        RichText(
-                          text: const TextSpan(
-                              text: 'Enter your feedback here',
-                              style: TextStyle(
-                                fontSize: 16,
-                                // fontWeight: FontWeight.bold,
-                                color: black,
-                              ),
-                              children: [
-                                TextSpan(
-                                    text: '*',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold))
-                              ]),
-                        ),
-                      ],
+                    label: RichText(
+                      text: const TextSpan(
+                          text: 'Enter your feedback here',
+                          style: TextStyle(
+                            fontSize: 16,
+                            // fontWeight: FontWeight.bold,
+                            color: black,
+                          ),
+                          children: [
+                            TextSpan(
+                                text: '*',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold))
+                          ]),
                     ),
                     // hintText: 'Enter your feedback here',
                     filled: true,
@@ -290,7 +280,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   Future sendYourFeedbackApi(
       String title, String body, int userId, double rating) async {
-    String url = serverUrl + 'api/auth/addYourFeedback';
+    String url = '${serverUrl}api/auth/addYourFeedback';
     var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
@@ -300,7 +290,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           "userId": userId
         }));
     if (response.statusCode == 200) {
-      print(response.body);
       setState(() {
         titleController.clear();
         bodyController.clear();
@@ -309,7 +298,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           msg: 'Your Feedback Sent Successfully !',
           gravity: ToastGravity.BOTTOM_RIGHT,
           fontSize: 18,
-          backgroundColor: Colors.green,
+          backgroundColor: black,
           textColor: white);
     }
   }

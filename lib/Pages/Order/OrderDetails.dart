@@ -1,20 +1,10 @@
 import 'dart:convert';
 import 'dart:ffi';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_app/Controller/OrderDetailsController.dart';
-import 'package:flutter_login_app/Pages/Order/Order_json.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../ConstantUtil/colors.dart';
 import '../../ConstantUtil/globals.dart';
-import '../../utils/helper.dart';
-import '../Address/AddressDetails.dart';
-import '../Home/home_screen.dart';
 import 'package:http/http.dart' as http;
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -40,7 +30,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     apiCall();
   }
@@ -53,7 +42,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     return Scaffold(
       backgroundColor: grey,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: white),
+        iconTheme: const IconThemeData(color: white),
         automaticallyImplyLeading: true,
         backgroundColor: kPrimaryGreen,
         centerTitle: true,
@@ -78,7 +67,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Padding(
@@ -86,7 +75,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           child: Text("Address",
                               style: Theme.of(context).textTheme.titleLarge),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
@@ -121,12 +110,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                     style:
                                         Theme.of(context).textTheme.titleLarge),
                               ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         isAvoidRingingBell
                             ? Padding(
-                                padding: EdgeInsets.all(6.0),
+                                padding: const EdgeInsets.all(6.0),
                                 child: Container(
                                   width: width,
                                   // height: height * 0.06,
@@ -153,7 +142,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                           Icons.notifications_active,
                                           size: height * 0.02,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
@@ -198,7 +187,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                           Icons.door_front_door,
                                           size: height * 0.02,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
@@ -244,7 +233,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                           Icons.directions,
                                           size: height * 0.02,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Expanded(
@@ -291,7 +280,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                           Icons.call,
                                           size: height * 0.02,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
@@ -336,7 +325,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                           Icons.security,
                                           size: height * 0.02,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
@@ -368,15 +357,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                       // Get.to(() => OrderPage());
                                     },
                                     child: Row(
-                                      children: [
-                                        // Icon(Icons.add),
-                                        // Text("Add Cart",
-                                        // style:
-                                        //   TextStyle(
-                                        //     fontSize: 15,
-                                        //     fontWeight: FontWeight.bold)
-                                        //     ),
-                                      ],
+                                      children: const [],
                                     )),
                               ),
                             ],
@@ -416,7 +397,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 ),
                               ]),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Column(
@@ -454,7 +435,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                       child: Column(
                                         children: <Widget>[
                                           Container(
-                                            padding: EdgeInsets.all(20),
+                                            padding: const EdgeInsets.all(20),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -508,7 +489,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             ),
                           );
                         })),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
@@ -516,7 +497,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           width: double.infinity,
                           color: grey,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
@@ -529,13 +510,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium),
-                                Text("\₹${total}",
+                                Text("₹$total",
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -551,7 +532,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                         .titleMedium),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -567,7 +548,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                         .titleMedium),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             orderId['priceCutFromWallet'] != 0
@@ -586,15 +567,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                               .titleMedium),
                                     ],
                                   )
-                                : SizedBox(),
-                            SizedBox(
+                                : const SizedBox(),
+                            const SizedBox(
                               height: 5,
                             ),
-                            Divider(
+                            const Divider(
                               height: 10,
                               color: Color.fromARGB(255, 137, 136, 136),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Row(
@@ -609,7 +590,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                         Theme.of(context).textTheme.titleLarge),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                           ]),
@@ -644,7 +625,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   List selectedOrder = [];
 
   Future getOrderDetails(orderId) async {
-    String url = serverUrl + 'getOrderDetailsbyid/${orderId}';
+    String url = '${serverUrl}getOrderDetailsbyid/$orderId';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

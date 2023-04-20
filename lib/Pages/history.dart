@@ -1,6 +1,6 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -14,12 +14,12 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('History'),
+        title: const Text('History'),
       ),
-      body: Center(
-        child: Text(
+      body: const Center(
+        child: const Text(
           'History Page',
-          style: TextStyle(color: Colors.grey, fontSize: 30),
+          style: const TextStyle(color: Colors.grey, fontSize: 30),
         ),
       ),
     );

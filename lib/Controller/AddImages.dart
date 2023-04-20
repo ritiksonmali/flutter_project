@@ -1,18 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
-import 'package:flutter_login_app/Controller/LocalImagesController.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AddImages extends StatefulWidget {
   const AddImages({Key? key}) : super(key: key);
@@ -27,10 +19,9 @@ class _AddImagesState extends State<AddImages> {
   List images = [];
   List<File> photos = [];
   List<Uint8List> bytelist = [];
-  List<Uint8List> LocalImageList = [];
+  // List<Uint8List> LocalImageList = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // getApi();
     // localImagesController.getAllProductCompressedImages();
@@ -40,7 +31,7 @@ class _AddImagesState extends State<AddImages> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         itemCount: fileList.length,
         // itemExtent: images.length,
         itemBuilder: (BuildContext context, int index) {
@@ -63,7 +54,7 @@ class _AddImagesState extends State<AddImages> {
 
   getApi() async {
     try {
-      String url = serverUrl + 'api/auth/getAllImages';
+      String url = '${serverUrl}api/auth/getAllImages';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -128,6 +119,6 @@ class _AddImagesState extends State<AddImages> {
   }
 
   Uint8List convertBase64Image(String base64String) {
-    return Base64Decoder().convert(base64String.split(',').last);
+    return const Base64Decoder().convert(base64String.split(',').last);
   }
 }

@@ -1,18 +1,17 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/Controller/AddressController.dart';
 import 'package:flutter_login_app/Pages/Address/AddAddress.dart';
 import 'package:flutter_login_app/Pages/Address/UpdateAddress.dart';
-import 'package:flutter_login_app/Pages/cart/Checkout.dart';
-import 'package:flutter_login_app/Pages/cart/cart_screen.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../ConstantUtil/globals.dart';
 
@@ -29,7 +28,6 @@ class _AddressDetailsState extends State<AddressDetails> {
   AddressController addressController = Get.put(AddressController());
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     test();
     addressController.getAddressApi();
@@ -53,7 +51,7 @@ class _AddressDetailsState extends State<AddressDetails> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: white,
           ),
@@ -61,11 +59,11 @@ class _AddressDetailsState extends State<AddressDetails> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: buttonColour,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () async {
           final value = await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Address()),
+            MaterialPageRoute(builder: (context) => const Address()),
           );
           setState(() {
             // test();
@@ -75,30 +73,112 @@ class _AddressDetailsState extends State<AddressDetails> {
       ),
       body: Container(
           color: grey,
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: GetBuilder<AddressController>(builder: (controller) {
             return addressController.isloading.value == true
-                ? const Center(
-                    child: CircularProgressIndicator(),
+                ? Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: ListView.builder(
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount:
+                          5, // number of shimmer placeholders you want to show
+                      itemBuilder: (_, __) => Card(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 150,
+                                        color: Colors.grey[300],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 250,
+                                        color: Colors.grey[300],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 100,
+                                        color: Colors.grey[300],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 150,
+                                        color: Colors.grey[300],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Container(
+                                                height: 30,
+                                                width: 70,
+                                                color: Colors.grey[300],
+                                              ),
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
+                                              Container(
+                                                height: 30,
+                                                width: 70,
+                                                color: Colors.grey[300],
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            height: 30,
+                                            width: 100,
+                                            color: Colors.grey[300],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   )
                 : addressController.address.isEmpty
                     ? Column(
                         children: [
-                          // Container(
-                          //   margin: EdgeInsets.only(top: 80),
-                          //   padding: EdgeInsets.all(20),
-                          //   width: double.infinity,
-                          //   height: MediaQuery.of(context).size.height * 0.4,
-                          //   decoration: BoxDecoration(
-                          //       image: DecorationImage(
-                          //     fit: BoxFit.fill,
-                          //     image: AssetImage('assets/address.png'),
-                          //   )),
-                          // ),
-                          SizedBox(
+                          const SizedBox(
                             height: 300,
                           ),
-                          Text(
+                          const Text(
                             'Add Your Address',
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -106,7 +186,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                 fontSize: 30,
                                 fontWeight: FontWeight.w600),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Text(
@@ -131,7 +211,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Expanded(
                                       child: Column(
                                         mainAxisAlignment:
@@ -139,7 +219,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 10,
                                           ),
                                           Text(
@@ -155,7 +235,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                 alladdress["pincode"]
                                                     .toString() +
                                                 ",",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500),
                                           ),
@@ -171,7 +251,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                             //  +
                                             // " / " +
                                             // alladdress["mobile_no"],
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500),
                                           ),
@@ -230,13 +310,15 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                   //     icon: Icon(Icons.edit)),
                                                   ConstrainedBox(
                                                     constraints:
-                                                        BoxConstraints.tightFor(
+                                                        const BoxConstraints
+                                                                .tightFor(
                                                             height: 30),
                                                     child: ElevatedButton(
                                                       style:
                                                           TextButton.styleFrom(
                                                         padding:
-                                                            EdgeInsets.all(4),
+                                                            const EdgeInsets
+                                                                .all(4),
                                                         backgroundColor:
                                                             buttonColour,
                                                       ),
@@ -246,13 +328,12 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                         });
                                                         Get.to(
                                                             () =>
-                                                                UpdateAddress(),
+                                                                const UpdateAddress(),
                                                             arguments: {
                                                               'addressId':
                                                                   alladdress[
                                                                       'id'],
-                                                              'userId':
-                                                                  this.userId,
+                                                              'userId': userId,
                                                               'addressline1':
                                                                   alladdress[
                                                                       'address_line1'],
@@ -285,7 +366,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                                       'isSelected'],
                                                             });
                                                       },
-                                                      child: Text(
+                                                      child: const Text(
                                                         'Edit',
                                                         style: TextStyle(
                                                             fontSize: 14,
@@ -295,18 +376,20 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                       ), // <-- Text
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 20,
                                                   ),
                                                   ConstrainedBox(
                                                     constraints:
-                                                        BoxConstraints.tightFor(
+                                                        const BoxConstraints
+                                                                .tightFor(
                                                             height: 30),
                                                     child: ElevatedButton(
                                                       style:
                                                           TextButton.styleFrom(
                                                         padding:
-                                                            EdgeInsets.all(4),
+                                                            const EdgeInsets
+                                                                .all(4),
                                                         backgroundColor:
                                                             buttonCancelColour,
                                                       ),
@@ -315,9 +398,9 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                           context: context,
                                                           builder: (context) {
                                                             return AlertDialog(
-                                                              title:
-                                                                  Text("Alert"),
-                                                              content: Text(
+                                                              title: const Text(
+                                                                  "Alert"),
+                                                              content: const Text(
                                                                   "Do you want to delete this address"),
                                                               actions: [
                                                                 ElevatedButton(
@@ -329,7 +412,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                                     onPressed: () =>
                                                                         Navigator.of(context)
                                                                             .pop(),
-                                                                    child: Text(
+                                                                    child: const Text(
                                                                         'No')),
                                                                 ElevatedButton(
                                                                     style: TextButton
@@ -345,7 +428,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                                       addressController
                                                                           .setAddressStatusInactive(
                                                                               alladdress['id']);
-                                                                      await Future.delayed(Duration(
+                                                                      await Future.delayed(const Duration(
                                                                           seconds:
                                                                               1));
                                                                       setState(
@@ -358,14 +441,14 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                                             .onReady();
                                                                       });
                                                                     },
-                                                                    child: Text(
+                                                                    child: const Text(
                                                                         'Yes'))
                                                               ],
                                                             );
                                                           },
                                                         );
                                                       },
-                                                      child: Text(
+                                                      child: const Text(
                                                         'Remove',
                                                         style: TextStyle(
                                                             fontSize: 14,
@@ -435,7 +518,8 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                 ],
                                               ),
                                               Container(
-                                                padding: EdgeInsets.all(20),
+                                                padding:
+                                                    const EdgeInsets.all(20),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,
@@ -444,9 +528,9 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                             true
                                                         ? Container(
                                                             padding:
-                                                                EdgeInsets.all(
-                                                                    10),
-                                                            child: Text(
+                                                                const EdgeInsets
+                                                                    .all(10),
+                                                            child: const Text(
                                                                 'Selected',
                                                                 style: TextStyle(
                                                                     fontWeight:
@@ -460,13 +544,12 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                                 () async {
                                                               setState(() {
                                                                 checkAddressIsSelected(
-                                                                    this
-                                                                        .userId!,
+                                                                    userId!,
                                                                     alladdress[
                                                                         'id']);
                                                               });
                                                               await Future.delayed(
-                                                                  Duration(
+                                                                  const Duration(
                                                                       seconds:
                                                                           2));
                                                               // Navigator.pushAndRemoveUntil(
@@ -492,7 +575,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                               backgroundColor:
                                                                   buttonColour,
                                                             ),
-                                                            child: Text(
+                                                            child: const Text(
                                                               'Select',
                                                               style: TextStyle(
                                                                   fontWeight:
@@ -525,14 +608,14 @@ class _AddressDetailsState extends State<AddressDetails> {
     int id = jsonDecode(iddata!);
     // var AddressFromApi = await getAddressApi(id);
     setState(() {
-      this.userId = id;
+      userId = id;
       // address = AddressFromApi;
     });
   }
 
   getAddressApi(int id) async {
     try {
-      String url = serverUrl + 'api/auth/getaddressbyuser/${id}';
+      String url = '${serverUrl}api/auth/getaddressbyuser/$id';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -546,7 +629,7 @@ class _AddressDetailsState extends State<AddressDetails> {
 
   Future checkAddressIsSelected(int userId, addressId) async {
     String url =
-        serverUrl + 'api/auth/updateaddressIsSelected/${addressId}/${userId}';
+        '${serverUrl}api/auth/updateaddressIsSelected/$addressId/$userId';
     http.Response response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

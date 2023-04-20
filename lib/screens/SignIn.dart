@@ -1,18 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Controller/PushNotificationController.dart';
-import 'package:flutter_login_app/model/User.dart';
-import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
-import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
+import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/Pages/ResetPassword/ResetPassword.dart';
 import 'package:flutter_login_app/screens/SignUp.dart';
-import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,31 +33,20 @@ class _SignInScreenState extends State<SignInScreen> {
   bool isValid = false;
   String deviceType = 'Android';
 
-  Users userdata = Users();
+  // Users userdata = Users();
 
   login() {
     if (_formKey.currentState!.validate()) {
-      print("Form is valid ");
       _formKey.currentState!.save();
-      // print('Data for login $userLoginData');
-      // controller.logiN(userLoginData['email'], userLoginData['password']);
-      EmailValidation();
-      if (isValid == true) {
-        RestApiTest(_emailTextController.text.toString(),
-            _passwordTextController.text.toString());
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please Enter Valid Email'),
-          backgroundColor: Colors.redAccent,
-        ));
-      }
+      RestApiTest(_emailTextController.text.toString(),
+          _passwordTextController.text.toString());
     } else {
       print('Form is Not Valid');
     }
   }
 
-  TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,28 +71,35 @@ class _SignInScreenState extends State<SignInScreen> {
                     controller: _emailTextController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
-                    style: TextStyle(color: Colors.black87),
+                    style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.email_outlined,
                           color: Colors.black87,
                         ),
                         labelText: 'Enter Email',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: const BorderSide(color: Colors.blue))),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      RegExp regex = RegExp(
+                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+                      if (value!.isEmpty) {
                         return 'Email Required';
+                      } else {
+                        if (!regex.hasMatch(value)) {
+                          return 'Enter valid Email Id';
+                        } else {
+                          return null;
+                        }
                       }
-                      return null;
                     },
                     onSaved: (value) {
                       // userLoginData['email'] = value!;
@@ -123,14 +116,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     controller: _passwordTextController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
-                    style: TextStyle(color: Colors.black87),
+                    style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.lock_outline,
                           color: Colors.black87,
                         ),
                         labelText: 'Enter Password',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         // filled: true,
                         // floatingLabelBehavior: FloatingLabelBehavior.never,
                         // fillColor: Colors.white.withOpacity(0.3),
@@ -139,10 +132,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: const BorderSide(color: Colors.blue))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Password Required';
@@ -170,13 +163,6 @@ class _SignInScreenState extends State<SignInScreen> {
                       onPressed: () {
                         login();
                       },
-                      child: Text(
-                        'Sign In',
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
@@ -190,6 +176,13 @@ class _SignInScreenState extends State<SignInScreen> {
                                   RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(30)))),
+                      child: const Text(
+                        'Sign In',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
                     ),
                   ),
 
@@ -210,7 +203,7 @@ class _SignInScreenState extends State<SignInScreen> {
         const Text("Don't have account?", style: TextStyle(color: black)),
         GestureDetector(
           onTap: () {
-            Get.to(() => SignUpScreen());
+            Get.to(() => const SignUpScreen());
           },
           child: const Text(
             " Sign Up",
@@ -232,77 +225,94 @@ class _SignInScreenState extends State<SignInScreen> {
           style: TextStyle(color: Colors.black),
           textAlign: TextAlign.right,
         ),
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ResetPassword())),
+        onPressed: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ResetPassword())),
       ),
     );
   }
 
-  void EmailValidation() {
-    setState(() {
-      isValid = EmailValidator.validate(_emailTextController.text.trim());
-    });
-  }
-
   Future RestApiTest(String email, password) async {
     try {
+      CommanDialog.showLoading();
+      var userDetails;
+      String? roleFrompreference = "";
+      var store = await SharedPreferences.getInstance();
       print(email + " " + password);
-
-      String url = serverUrl + 'api/auth/signin';
-      var response = await http.post(Uri.parse(url),
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({'email': email, 'password': password}));
-
-      var userDetails = jsonDecode(response.body);
-      // Map user = userDetails['result'];
-      // List<String> roles = userDetails['roles'];
-
-      // print(userDetails['result']['role']);
-      var store = await SharedPreferences.getInstance(); //add when requried
-
-      if (response.statusCode == 200) {
-        print("Success");
-        store.setString('userData', json.encode(userDetails['result']));
-        store.setString('id', json.encode(userDetails['result']['id']));
-        store.setString(
-            'firstname', json.encode(userDetails['result']['firstName']));
-        store.setString(
-            'lastname', json.encode(userDetails['result']['lastName']));
-        store.setString('email', json.encode(userDetails['result']['email']));
-        print(userDetails['result']['email']);
-        store.setString('role', json.encode(userDetails['result']['role']));
-        String? roleFrompreference = store.getString('role');
-        role = jsonDecode(roleFrompreference!);
-        print("Role is " + role);
-        // productController.getAllProducts();
-        pushNotificationController.sendNotificationData(
-            deviceToken, deviceType);
-        Timer(Duration(seconds: 2), () {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    HomeScreen()), // this mymainpage is your page to refresh
-            (Route<dynamic> route) => false,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Login SuccessFully !'),
-            backgroundColor: Colors.green,
-          ));
-        });
-      } else if (response.statusCode == 401) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please Enter Valid Email and Password'),
-          backgroundColor: Colors.redAccent,
+      String url = '${serverUrl}api/auth/signin';
+      var client = http.Client();
+      client
+          .post(Uri.parse(url),
+              headers: {'Content-Type': 'application/json'},
+              body: json.encode({'email': email, 'password': password}))
+          .timeout(const Duration(seconds: 2), onTimeout: () {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Server is not Responding'),
+          backgroundColor: kAlertColor,
         ));
-        print("Please Enter Valid Email and Password");
-      } else if (response.statusCode == 400) {
-        print("Bad Request");
-      } else {
-        print("failed");
-      }
+        throw TimeoutException("Server is not responding");
+      }).then((response) => {
+                userDetails = jsonDecode(response.body),
+                // Map user = userDetails['result'];
+                // List<String> roles = userDetails['roles'];
+
+                // print(userDetails['result']['role']);//add when requried
+
+                if (response.statusCode == 200)
+                  {
+                    CommanDialog.hideLoading(),
+                    print("Success"),
+                    store.setString(
+                        'userData', json.encode(userDetails['result'])),
+                    store.setString(
+                        'id', json.encode(userDetails['result']['id'])),
+                    store.setString('firstname',
+                        json.encode(userDetails['result']['firstName'])),
+                    store.setString('lastname',
+                        json.encode(userDetails['result']['lastName'])),
+                    store.setString(
+                        'email', json.encode(userDetails['result']['email'])),
+                    print(userDetails['result']['email']),
+                    store.setString(
+                        'role', json.encode(userDetails['result']['role'])),
+                    roleFrompreference = store.getString('role'),
+                    role = jsonDecode(roleFrompreference!),
+                    pushNotificationController.sendNotificationData(
+                        deviceToken, deviceType),
+                    // Timer(const Duration(seconds: 2), () {
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const HomeScreen()), // this mymainpage is your page to refresh
+                      (Route<dynamic> route) => false,
+                    ),
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Login SuccessFully !'),
+                      backgroundColor: buttonColour,
+                    )),
+                    // });
+                  }
+                else if (response.statusCode == 401)
+                  {
+                    CommanDialog.hideLoading(),
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Please Enter Valid Email and Password'),
+                      backgroundColor: kAlertColor,
+                    )),
+                    print("Please Enter Valid Email and Password")
+                  }
+                else if (response.statusCode == 400)
+                  {CommanDialog.hideLoading(), print("Bad Request")}
+                else
+                  {CommanDialog.hideLoading(), print("failed")}
+              });
+      // var response = await http.post(Uri.parse(url),
+      //     headers: {'Content-Type': 'application/json'},
+      //     body: json.encode({'email': email, 'password': password}));
     } catch (e) {
-      print(e.toString());
+      CommanDialog.hideLoading();
+      print(e);
     }
   }
 }

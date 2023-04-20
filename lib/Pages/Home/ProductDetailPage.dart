@@ -32,13 +32,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ], borderRadius: BorderRadius.circular(30), color: grey),
             child: Stack(
               children: <Widget>[
-                Image(
+                const Image(
                   image: AssetImage("assets/shoe_1.webp"),
                   fit: BoxFit.cover,
                 ),
                 SafeArea(
                   child: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_back_ios,
                         color: black,
                       ),
@@ -49,7 +49,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Image.asset(
@@ -57,11 +57,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             width: 70,
             fit: BoxFit.cover,
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25),
+          const Padding(
+            padding: EdgeInsets.only(left: 25, right: 25),
             child: Text(
               "Nike Jorden 5",
               style: TextStyle(
@@ -69,11 +69,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25),
+          const Padding(
+            padding: EdgeInsets.only(left: 25, right: 25),
             child: Text(
               " 200 ",
               style: TextStyle(
@@ -84,11 +84,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Padding(
-              padding: EdgeInsets.only(left: 25, right: 25),
+              padding: const EdgeInsets.only(left: 25, right: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -96,7 +96,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   //      delay: Duration(
                   //   milliseconds: 450
                   // ),
-                  Text(
+                  const Text(
                     "Size",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                   ),
@@ -108,11 +108,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                 ],
               )),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Padding(
-              padding: EdgeInsets.only(left: 20, right: 25),
+              padding: const EdgeInsets.only(left: 20, right: 25),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -152,11 +152,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   }),
                 ),
               )),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 25, right: 25),
+            padding: const EdgeInsets.only(left: 25, right: 25),
             child: Row(
               children: <Widget>[
                 Container(
@@ -175,7 +175,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     child: SvgPicture.asset("assets/images/heart_icon.svg"),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 15,
                 ),
                 Flexible(
@@ -188,7 +188,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         child: Container(
                           color: Colors.black,
                           height: 50,
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               "ADD TO CART",
                               style: TextStyle(
@@ -201,7 +201,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 70,
           ),
         ],

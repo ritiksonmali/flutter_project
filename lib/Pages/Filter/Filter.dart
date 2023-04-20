@@ -9,9 +9,6 @@ import 'package:get/get.dart';
 import '../../ConstantUtil/colors.dart';
 import '../../Controller/CategoryController.dart';
 import '../../Controller/ProductController.dart';
-import '../Home/home.dart';
-import '../Search/SearchProductList.dart';
-import 'FilterProductList.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({Key? key}) : super(key: key);
@@ -54,7 +51,7 @@ class _FilterPageState extends State<FilterPage> {
     return Scaffold(
       backgroundColor: grey,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: white),
+        iconTheme: const IconThemeData(color: white),
         automaticallyImplyLeading: true,
         backgroundColor: kPrimaryGreen,
         centerTitle: true,
@@ -67,7 +64,7 @@ class _FilterPageState extends State<FilterPage> {
         child: Container(
           color: grey,
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: [
                 Align(
@@ -75,27 +72,28 @@ class _FilterPageState extends State<FilterPage> {
                   child: Text("Price",
                       style: Theme.of(context).textTheme.titleMedium),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 3, right: 10),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: 25,
-                      ),
+                      // const SizedBox(
+                      //   width: 25,
+                      // ),
                       Text('0', style: Theme.of(context).textTheme.bodyMedium),
-                      SizedBox(
-                        width: 270,
-                      ),
+                      // const SizedBox(
+                      //   width: 270,
+                      // ),
                       Text('1500',
                           style: Theme.of(context).textTheme.bodyMedium),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 3, right: 10),
+                  padding: const EdgeInsets.only(left: 3, right: 10),
                   child: RangeSlider(
                     values: _currentRangeValues,
                     max: 1500,
@@ -115,7 +113,7 @@ class _FilterPageState extends State<FilterPage> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Align(
@@ -123,13 +121,13 @@ class _FilterPageState extends State<FilterPage> {
                   child: Text("Catagory",
                       style: Theme.of(context).textTheme.titleMedium),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Container(
-                    padding: EdgeInsets.only(left: 20, right: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(15)),
@@ -137,7 +135,7 @@ class _FilterPageState extends State<FilterPage> {
                       hint: Text("Select",
                           style: Theme.of(context).textTheme.bodyMedium),
                       dropdownColor: Colors.white,
-                      icon: Icon(Icons.arrow_drop_down),
+                      icon: const Icon(Icons.arrow_drop_down),
                       iconSize: 20,
                       isExpanded: true,
                       value: valueChoose,
@@ -145,7 +143,6 @@ class _FilterPageState extends State<FilterPage> {
                         setState(() {
                           valueChoose = newValue as String;
                           categoryId = newValue as String;
-                          print(valueChoose);
                         });
                       },
                       items: categoryController.category.map((valueItem) {
@@ -156,7 +153,7 @@ class _FilterPageState extends State<FilterPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Align(
@@ -165,7 +162,7 @@ class _FilterPageState extends State<FilterPage> {
                       style: Theme.of(context).textTheme.titleMedium),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 12, right: 10),
+                  padding: const EdgeInsets.only(left: 12, right: 10),
                   child: Row(
                     children: [
                       Align(
@@ -184,7 +181,7 @@ class _FilterPageState extends State<FilterPage> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Align(
@@ -192,13 +189,13 @@ class _FilterPageState extends State<FilterPage> {
                   child: Text("Sort",
                       style: Theme.of(context).textTheme.titleMedium),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Container(
-                    padding: EdgeInsets.only(left: 20, right: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(15)),
@@ -208,7 +205,7 @@ class _FilterPageState extends State<FilterPage> {
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       dropdownColor: Colors.white,
-                      icon: Icon(Icons.arrow_drop_down),
+                      icon: const Icon(Icons.arrow_drop_down),
                       iconSize: 30,
                       isExpanded: true,
                       value: valueChooseSort,
@@ -226,11 +223,11 @@ class _FilterPageState extends State<FilterPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 FloatingActionButton.extended(
-                  label: Text('Search'), // <-- Text
+                  label: const Text('Search'), // <-- Text
                   backgroundColor: buttonColour,
                   onPressed: () {
                     CommanDialog.showLoading();
@@ -238,18 +235,8 @@ class _FilterPageState extends State<FilterPage> {
                     if (valueChooseSort.toString() == 'High to Low Price') {
                       if (check1.toString() == 'true') {
                         print('loop1');
-                        // productController.getFilterProducts(
-                        //     'true',
-                        //     'true',
-                        //     endValue,
-                        //     startValue,
-                        //     sortColumn,
-                        //     categoryId,
-                        //     '',
-                        //     '',
-                        //     '');
-                        Timer(Duration(seconds: 1), () {
-                          Get.to(() => PopularProductList(), arguments: {
+                        Timer(const Duration(seconds: 1), () {
+                          Get.to(() => const PopularProductList(), arguments: {
                             "offerId": '',
                             "categoryId": categoryId,
                             "productId": '',
@@ -265,8 +252,8 @@ class _FilterPageState extends State<FilterPage> {
                         print('loop2');
                         // productController.getFilterProducts('', 'true', endValue,
                         //     startValue, sortColumn, categoryId, '', '', '');
-                        Timer(Duration(seconds: 1), () {
-                          Get.to(() => PopularProductList(), arguments: {
+                        Timer(const Duration(seconds: 1), () {
+                          Get.to(() => const PopularProductList(), arguments: {
                             "offerId": '',
                             "categoryId": categoryId,
                             "productId": '',
@@ -293,8 +280,8 @@ class _FilterPageState extends State<FilterPage> {
                         //     '',
                         //     '',
                         //     '');
-                        Timer(Duration(seconds: 1), () {
-                          Get.to(() => PopularProductList(), arguments: {
+                        Timer(const Duration(seconds: 1), () {
+                          Get.to(() => const PopularProductList(), arguments: {
                             "offerId": '',
                             "categoryId": categoryId,
                             "productId": '',
@@ -310,8 +297,8 @@ class _FilterPageState extends State<FilterPage> {
                         print('loop4');
                         // productController.getFilterProducts('', 'false', endValue,
                         //     startValue, sortColumn, categoryId, '', '', '');
-                        Timer(Duration(seconds: 1), () {
-                          Get.to(() => PopularProductList(), arguments: {
+                        Timer(const Duration(seconds: 1), () {
+                          Get.to(() => const PopularProductList(), arguments: {
                             "offerId": '',
                             "categoryId": categoryId,
                             "productId": '',

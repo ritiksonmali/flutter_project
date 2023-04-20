@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/screens/Navbar.dart';
 
 import '../../screens/Navbar.dart';
@@ -16,11 +14,11 @@ class _ImageAdPageState extends State<ImageAdPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: Navbar(),
+      endDrawer: const Navbar(),
       appBar: AppBar(
-        title: Text('Image ads'),
+        title: const Text('Image ads'),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'Image advertisement Page',
           style: TextStyle(color: Colors.grey, fontSize: 30),

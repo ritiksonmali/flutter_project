@@ -3,28 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
 import 'package:flutter_login_app/Pages/Feedback.dart';
-import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreenDeliveryManager.dart';
 import 'package:flutter_login_app/Pages/Setting/Setting.dart';
 import 'package:flutter_login_app/Pages/Subscribe/SubscriptionOrders.dart';
 import 'package:flutter_login_app/Pages/Wallet/WalletScreen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
-import 'package:flutter_svg/svg.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Controller/LoginController.dart';
 import 'package:flutter_login_app/Pages/Profile/EditProfilePage.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../ConstantUtil/colors.dart';
 import '../Controller/ProductController.dart';
-import '../Pages/Home/home.dart';
 import '../Pages/Home/home_screen.dart';
 import '../Pages/Order/OrderScreen.dart';
 
@@ -45,7 +37,7 @@ class _NavbarState extends State<Navbar> {
         elevation: 0,
         backgroundColor: grey,
         leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.close,
               color: black,
             ),
@@ -61,128 +53,128 @@ class _NavbarState extends State<Navbar> {
     return ListView(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             ListTile(
-                leading: Icon(Icons.home),
+                leading: const Icon(Icons.home),
                 title:
                     Text('Home', style: Theme.of(context).textTheme.headline6),
                 onTap: () {
-                  Timer(Duration(seconds: 1), () {
+                  Timer(const Duration(seconds: 1), () {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              HomeScreen()), // this mymainpage is your page to refresh
+                              const HomeScreen()), // this mymainpage is your page to refresh
                       (Route<dynamic> route) => false,
                     );
                   });
                 }),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ListTile(
-              leading: Icon(Icons.face),
+              leading: const Icon(Icons.face),
               title:
                   Text('Profile', style: Theme.of(context).textTheme.headline6),
               onTap: () {
                 Get.to(() => EditProfilePage());
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             role == "DELIVERY_MANAGER"
                 ? Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: ListTile(
-                      leading: Icon(Icons.delivery_dining_sharp),
+                      leading: const Icon(Icons.delivery_dining_sharp),
                       title: Text('Delivery',
                           style: Theme.of(context).textTheme.headline6),
                       onTap: () {
-                        Get.to(() => OrderScreenDeliveryManager());
+                        Get.to(() => const OrderScreenDeliveryManager());
                       },
                     ),
                   )
-                : SizedBox(),
+                : const SizedBox(),
             ListTile(
-              leading: Icon(Icons.history_edu),
+              leading: const Icon(Icons.history_edu),
               title:
                   Text('Orders', style: Theme.of(context).textTheme.headline6),
               onTap: () {
-                Get.to(() => OrderScreen());
+                Get.to(() => const OrderScreen());
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ListTile(
-              leading: Icon(FontAwesomeIcons.locationDot),
+              leading: const Icon(FontAwesomeIcons.locationDot),
               title:
                   Text('Address', style: Theme.of(context).textTheme.headline6),
               onTap: () {
-                Get.to(() => AddressDetails());
+                Get.to(() => const AddressDetails());
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ListTile(
-              leading: Icon(Icons.settings),
+              leading: const Icon(Icons.settings),
               title:
                   Text('Setting', style: Theme.of(context).textTheme.headline6),
               onTap: () {
                 Get.to(() => SettingsPage());
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ListTile(
-              leading: Icon(Icons.wallet),
+              leading: const Icon(Icons.wallet),
               title:
                   Text('Wallet', style: Theme.of(context).textTheme.headline6),
               onTap: () {
-                Get.to(() => WalletScreen());
+                Get.to(() => const WalletScreen());
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ListTile(
-              leading: Icon(Icons.subscriptions),
+              leading: const Icon(Icons.subscriptions),
               title: Text('Subscription',
                   style: Theme.of(context).textTheme.headline6),
               onTap: () {
-                Get.to(() => SubscriptionOrderDetails());
+                Get.to(() => const SubscriptionOrderDetails());
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ListTile(
-              leading: Icon(Icons.feedback),
+              leading: const Icon(Icons.feedback),
               title: Text('Feedback',
                   style: Theme.of(context).textTheme.headline6),
               onTap: () {
-                Get.to(() => FeedbackScreen());
+                Get.to(() => const FeedbackScreen());
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ListTile(
-              leading: Icon(Icons.exit_to_app),
+              leading: const Icon(Icons.exit_to_app),
               title: Text('Sign Out',
                   style: Theme.of(context).textTheme.headline6),
               onTap: () async {
                 CommanDialog.showLoading();
                 pushNotificationController.setNotifiedUserStatus();
-                await Future.delayed(Duration(seconds: 4));
+                await Future.delayed(const Duration(seconds: 4));
                 LoginController.logOut();
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => Welcome()),
+                    MaterialPageRoute(builder: (context) => const Welcome()),
                     (Route<dynamic> route) => false);
                 CommanDialog.hideLoading();
                 // Get.off(() => Welcome());

@@ -1,22 +1,13 @@
 import 'dart:convert';
 
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
-import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/api/SignInAuto.dart';
 import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
 import 'package:flutter_login_app/screens/SignIn.dart';
 import 'package:flutter_login_app/screens/SignUp.dart';
-import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -30,22 +21,13 @@ class _WelcomeState extends State<Welcome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: grey,
-      // extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   title: const Text(
-      //     "Login App",
-      //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      //   ),
-      // ),
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           color: grey,
           child: SingleChildScrollView(
               child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
             child: Column(
               children: <Widget>[
                 logoWidget('assets/logo111.png'),
@@ -58,8 +40,8 @@ class _WelcomeState extends State<Welcome> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
+                  child: const Padding(
+                    padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, right: 40.0, left: 40.0),
                     child: Text(
                       'Login',
@@ -71,10 +53,10 @@ class _WelcomeState extends State<Welcome> {
                     ),
                   ),
                   onPressed: () {
-                    Get.to(() => SignInScreen());
+                    Get.to(() => const SignInScreen());
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -132,7 +114,7 @@ class _WelcomeState extends State<Welcome> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Row(
@@ -142,7 +124,7 @@ class _WelcomeState extends State<Welcome> {
                         style: TextStyle(color: black)),
                     GestureDetector(
                       onTap: () {
-                        Get.to(() => SignUpScreen());
+                        Get.to(() => const SignUpScreen());
                       },
                       child: const Text(
                         " Sign Up",

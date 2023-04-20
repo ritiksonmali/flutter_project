@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
+import 'package:flutter_login_app/Controller/LogsController.dart';
 import 'package:flutter_login_app/Pages/Subscribe/SubscribeProductDetails.dart';
 import 'package:flutter_login_app/Pages/Wallet/WalletScreen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
@@ -23,34 +24,42 @@ class SubscribeProductController extends GetxController {
 
   @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
     // getProductByIdandUserId(argument['proId']);
   }
 
   Future getProductByIdandUserId(String productId) async {
-    subscribeProdutList.clear();
-    CommanDialog.showLoading();
-    print('called');
-    var store = await SharedPreferences.getInstance();
-    var iddata = store.getString('id');
-    int user_id = jsonDecode(iddata!);
-    String url = serverUrl +
-        'api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&productId=${productId}&userId=${user_id}';
-    http.Response response = await http.get(
-      Uri.parse(url),
-      headers: {'Content-Type': 'application/json'},
-    );
-    CommanDialog.hideLoading();
-    var body = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      mapResponse = jsonDecode(response.body);
-      subscribeProdutList = mapResponse['records'];
-      print("**********api called for subscribe********");
-      update();
-      return subscribeProdutList;
-    } else {
-      return subscribeProdutList;
+    try {
+      subscribeProdutList.clear();
+      isloading(true);
+      var store = await SharedPreferences.getInstance();
+      var iddata = store.getString('id');
+      int userId = jsonDecode(iddata!);
+      String url =
+          '${serverUrl}api/auth/fetchlistofproductbyfilter?pagenum=0&pagesize=10&status=active&productId=$productId&userId=$userId';
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+      var body = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        mapResponse = jsonDecode(response.body);
+        subscribeProdutList = mapResponse['records'];
+        update();
+        await LogsController.printLog(SubscribeProductController, "INFO",
+            "get subscribed product success");
+        return subscribeProdutList;
+      } else {
+        await LogsController.printLog(SubscribeProductController, "ERROR",
+            "get subscribed product failed : ${response.body}");
+        return subscribeProdutList;
+      }
+    } on Exception catch (e) {
+      await LogsController.printLog(SubscribeProductController, "ERROR",
+          " error in get subscribed product : $e");
+    } finally {
+      isloading(false);
+      Get.find<SubscribeProductController>().update();
     }
   }
 
@@ -64,7 +73,7 @@ class SubscribeProductController extends GetxController {
       String productId,
       String userId) async {
     try {
-      String url = serverUrl + 'api/auth/subscribeProduct';
+      String url = '${serverUrl}api/auth/subscribeProduct';
       var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -85,7 +94,7 @@ class SubscribeProductController extends GetxController {
         if (body['isAmountLow'] == true) {
           showAlertMessage("Warning", body['message'], body['amountNeedToAdd']);
         } else {
-          Get.to(() => SubscribeProductDetails());
+          Get.to(() => const SubscribeProductDetails());
           Fluttertoast.showToast(
               msg: body['message'],
               fontSize: 14,
@@ -93,18 +102,24 @@ class SubscribeProductController extends GetxController {
               textColor: white);
         }
         update();
+        await LogsController.printLog(SubscribeProductController, "INFO",
+            "subscribe product successfully");
       } else {
+        await LogsController.printLog(SubscribeProductController, "ERROR",
+            "subscribe product failed : ${response.body}");
         print("failed");
       }
     } catch (e) {
-      print(e.toString());
+      await LogsController.printLog(SubscribeProductController, "ERROR",
+          "error in subscribe product : $e");
+      e.printError();
     }
   }
 
   Future showAlertMessage(String title, String content, double amountNeeded) {
     return Get.defaultDialog(
       title: title,
-      titleStyle: TextStyle(color: kAlertColor),
+      titleStyle: const TextStyle(color: kAlertColor),
       content: Center(child: Text(content)),
       actions: <Widget>[
         ElevatedButton(
@@ -113,12 +128,12 @@ class SubscribeProductController extends GetxController {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
           ),
-          child: Text(
+          child: const Text(
             "Add Money",
             style: TextStyle(fontSize: 14, letterSpacing: 2.2, color: white),
           ),
           onPressed: () {
-            Get.to(() => WalletScreen(),
+            Get.to(() => const WalletScreen(),
                 arguments: {"amountNeeded": amountNeeded});
           },
         ),
@@ -127,49 +142,49 @@ class SubscribeProductController extends GetxController {
   }
 
   getSubscribeProductDetails() async {
-    var store = await SharedPreferences.getInstance();
-    var iddata = store.getString('id');
-    int user_id = jsonDecode(iddata!);
-    String url = serverUrl + 'api/auth/getSubscribeProductDetails/${user_id}';
-    http.Response response = await http.get(
-      Uri.parse(url),
-      headers: {'Content-Type': 'application/json'},
-    );
-    isloading = false.obs;
-    var body = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      subscribeProductDetailsList = body;
-      print("**********api called for product details********");
-      update();
-      return subscribeProductDetailsList;
-    } else {
-      return subscribeProductDetailsList;
+    try {
+      var store = await SharedPreferences.getInstance();
+      var iddata = store.getString('id');
+      int userId = jsonDecode(iddata!);
+      String url = '${serverUrl}api/auth/getSubscribeProductDetails/$userId';
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+      isloading = false.obs;
+      var body = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        subscribeProductDetailsList = body;
+        update();
+        await LogsController.printLog(SubscribeProductController, "INFO",
+            "get subscribed product list success");
+        return subscribeProductDetailsList;
+      } else {
+        await LogsController.printLog(SubscribeProductController, "ERROR",
+            "get subscribed product list failed : ${response.body}");
+        return subscribeProductDetailsList;
+      }
+    } on Exception catch (e) {
+      await LogsController.printLog(SubscribeProductController, "ERROR",
+          "error in get subscribed product list : $e");
     }
   }
 
   updateSubscribeProductStatus(String id) async {
-    String url = serverUrl + 'api/auth/updateSubscriptionStatus/${id}';
+    String url = '${serverUrl}api/auth/updateSubscriptionStatus/$id';
     http.Response response = await http.put(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      print(body);
     } else {}
   }
 
   Future updateSubscription(String id, String startDate, String? endDate,
       String time, int frequeny, int quantity) async {
-    print('Called');
     try {
-      // print(endDate);
-      print(id);
-      print(startDate);
-      print(endDate);
-      print(frequeny);
-      print(quantity);
-      String url = serverUrl + 'api/auth/updateSubscription';
+      String url = '${serverUrl}api/auth/updateSubscription';
       var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -184,13 +199,17 @@ class SubscribeProductController extends GetxController {
       var body = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        print(body);
         update();
+        LogsController.printLog(
+            SubscribeProductController, "INFO", "update subscription success");
       } else {
-        print("failed");
+        LogsController.printLog(SubscribeProductController, "ERROR",
+            "update subscription failed : ${response.body}");
       }
     } catch (e) {
-      print(e.toString());
+      LogsController.printLog(SubscribeProductController, "ERROR",
+          "error in update subscription : $e");
+      e.printError();
     }
   }
 }

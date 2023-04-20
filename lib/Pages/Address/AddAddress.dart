@@ -38,7 +38,6 @@ class _AddressState extends State<Address> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     test();
     getCountry();
@@ -82,24 +81,22 @@ class _AddressState extends State<Address> {
 
   String defaultValue = "";
   SingleValueDropDownController countryDropDownController =
-      new SingleValueDropDownController();
+      SingleValueDropDownController();
 
   SingleValueDropDownController stateDropDownController =
-      new SingleValueDropDownController();
+      SingleValueDropDownController();
   SingleValueDropDownController cityDropDownController =
-      new SingleValueDropDownController();
+      SingleValueDropDownController();
 
   FocusNode searchFocusNode = FocusNode();
   FocusNode textFieldFocusNode = FocusNode();
 
-  TextEditingController addressLine1controller = new TextEditingController();
-  TextEditingController addressLine2controller = new TextEditingController();
-  TextEditingController citycontroller = new TextEditingController();
-  TextEditingController statecontroller = new TextEditingController();
-  TextEditingController countrycontroller = new TextEditingController();
-  // TextEditingController mobilenocontroller = new TextEditingController();
-  // TextEditingController telephonenocontroller = new TextEditingController();
-  TextEditingController pincodecontroller = new TextEditingController();
+  TextEditingController addressLine1controller = TextEditingController();
+  TextEditingController addressLine2controller = TextEditingController();
+  TextEditingController citycontroller = TextEditingController();
+  TextEditingController statecontroller = TextEditingController();
+  TextEditingController countrycontroller = TextEditingController();
+  TextEditingController pincodecontroller = TextEditingController();
 
   var ValueChoose;
 
@@ -119,14 +116,14 @@ class _AddressState extends State<Address> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: white,
           ),
         ),
       ),
       bottomNavigationBar: Container(
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           height: 48,
           child: MaterialButton(
             onPressed: () {
@@ -137,36 +134,36 @@ class _AddressState extends State<Address> {
                 print("user selected Address Type $defaultValue");
               }
             },
-            child: Text(
-              "Add Address",
-              style: TextStyle(
-                color: white,
-              ),
-            ),
             color: buttonColour,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                 30,
               ),
             ),
+            child: const Text(
+              "Add Address",
+              style: TextStyle(
+                color: white,
+              ),
+            ),
           )),
       body: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 20,
         ),
         child: Form(
           key: _formKey3,
           child: ListView(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               InputDecorator(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(
                       // borderRadius: BorderRadius.circular(15.0)
                       ),
-                  contentPadding: const EdgeInsets.all(10),
+                  contentPadding: EdgeInsets.all(10),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
@@ -176,14 +173,14 @@ class _AddressState extends State<Address> {
                       menuMaxHeight: 350,
                       items: [
                         const DropdownMenuItem(
+                            value: "",
                             child: Text(
                               "Select Address Type",
-                            ),
-                            value: ""),
+                            )),
                         ...dropDownListData
                             .map<DropdownMenuItem<String>>((data) {
                           return DropdownMenuItem(
-                              child: Text(data['title']), value: data['value']);
+                              value: data['value'], child: Text(data['title']));
                         }).toList(),
                       ],
                       onChanged: (value) {
@@ -194,24 +191,24 @@ class _AddressState extends State<Address> {
                       }),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Divider(
+              const Divider(
                 color: black,
               ),
               TextFormField(
                 controller: addressLine1controller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 cursorColor: black,
-                style: TextStyle(color: black),
+                style: const TextStyle(color: black),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
+                  contentPadding: const EdgeInsets.only(bottom: 3),
                   // floatingLabelBehavior: FloatingLabelBehavior.always,
                   label: Row(
                     children: [
                       RichText(
-                        text: TextSpan(
+                        text: const TextSpan(
                             text: 'Address line 1',
                             style: TextStyle(
                               fontSize: 16,
@@ -244,21 +241,21 @@ class _AddressState extends State<Address> {
                 },
                 obscureText: false,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               TextFormField(
                 controller: addressLine2controller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 cursorColor: black,
-                style: TextStyle(color: black),
+                style: const TextStyle(color: black),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
+                  contentPadding: const EdgeInsets.only(bottom: 3),
                   // floatingLabelBehavior: FloatingLabelBehavior.always,
                   label: Row(
                     children: [
                       RichText(
-                        text: TextSpan(
+                        text: const TextSpan(
                             text: 'Address line 2',
                             style: TextStyle(
                               fontSize: 16,
@@ -291,21 +288,21 @@ class _AddressState extends State<Address> {
                 },
                 obscureText: false,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               TextFormField(
                 controller: pincodecontroller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 cursorColor: black,
-                style: TextStyle(color: black),
+                style: const TextStyle(color: black),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 3),
+                  contentPadding: const EdgeInsets.only(bottom: 3),
                   // floatingLabelBehavior: FloatingLabelBehavior.always,
                   label: Row(
                     children: [
                       RichText(
-                        text: TextSpan(
+                        text: const TextSpan(
                             text: 'Pincode',
                             style: TextStyle(
                               fontSize: 16,
@@ -325,10 +322,11 @@ class _AddressState extends State<Address> {
                   ),
                 ),
                 validator: (value) {
-                  if (value!.length != 6)
+                  if (value!.length != 6) {
                     return 'Pincode must be of 6 digit';
-                  else
+                  } else {
                     return null;
+                  }
                 },
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
@@ -336,7 +334,7 @@ class _AddressState extends State<Address> {
                 ],
                 obscureText: false,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               DropDownTextField(
@@ -348,13 +346,13 @@ class _AddressState extends State<Address> {
                   dropDownItemCount: 8,
                   enableSearch: true,
                   textFieldDecoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(top: 3),
-                      labelStyle:
-                          TextStyle(height: 10, fontWeight: FontWeight.bold),
+                      contentPadding: const EdgeInsets.only(top: 3),
+                      labelStyle: const TextStyle(
+                          height: 10, fontWeight: FontWeight.bold),
                       label: Row(
                         children: [
                           RichText(
-                            text: TextSpan(
+                            text: const TextSpan(
                                 text: 'Country',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -396,7 +394,7 @@ class _AddressState extends State<Address> {
                     getState(countryDropDownController.dropDownValue!.value,
                         "STATE");
                   }),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               DropDownTextField(
@@ -410,7 +408,7 @@ class _AddressState extends State<Address> {
                       label: Row(
                         children: [
                           RichText(
-                            text: TextSpan(
+                            text: const TextSpan(
                                 text: 'State',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -453,7 +451,7 @@ class _AddressState extends State<Address> {
                     getCity(
                         stateDropDownController.dropDownValue!.value, "CITY");
                   }),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               DropDownTextField(
@@ -467,7 +465,7 @@ class _AddressState extends State<Address> {
                       label: Row(
                         children: [
                           RichText(
-                            text: TextSpan(
+                            text: const TextSpan(
                                 text: 'City',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -511,7 +509,6 @@ class _AddressState extends State<Address> {
 
   addpassword() {
     if (_formKey3.currentState!.validate()) {
-      print("Form is valid ");
       _formKey3.currentState!.save();
       addNewAddress(
           addressLine1controller.text.toString(),
@@ -522,15 +519,13 @@ class _AddressState extends State<Address> {
           // telephonenocontroller.text.toString(),
           stateDropDownController.dropDownValue!.value.toString(),
           int.parse(pincodecontroller.text.toString()));
-    } else {
-      print('Form is Not Valid');
-    }
+    } else {}
   }
 
   Future addNewAddress(String addressLine1, addressLine2, city, country, state,
       int pincode) async {
     try {
-      String url = serverUrl + 'api/auth/addaddress';
+      String url = '${serverUrl}api/auth/addaddress';
       var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -544,7 +539,7 @@ class _AddressState extends State<Address> {
             "state": state,
             // "telephone_no": telephoneno,
             "status": status,
-            "user_id": this.id
+            "user_id": id
           }));
 
       if (response.statusCode == 200) {
@@ -554,12 +549,12 @@ class _AddressState extends State<Address> {
         // });
         // Get.back();
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('New Address Added SuccessFully !'),
           backgroundColor: Colors.green,
         ));
       } else if (response.statusCode == 401) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Please Enter Valid Data'),
           backgroundColor: Colors.redAccent,
         ));
@@ -567,7 +562,6 @@ class _AddressState extends State<Address> {
       } else if (response.statusCode == 400) {
         print("Bad Request");
       } else {
-        print(this.id);
         printError();
       }
     } catch (e) {

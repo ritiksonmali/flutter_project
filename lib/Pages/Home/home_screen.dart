@@ -12,7 +12,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
-  final screen = [HomePage(), HistoryPage(), EditProfilePage()];
+  final screen = [
+    const HomePage(),
+    const HistoryPage(),
+    const EditProfilePage()
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -9,9 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../ConstantUtil/colors.dart';
 import '../../ConstantUtil/globals.dart';
-import '../Home/home_screen.dart';
 
 class EditProfilePage extends StatefulWidget {
+  const EditProfilePage({Key? key}) : super(key: key);
+
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
 }
@@ -35,7 +36,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     var email = jsonDecode(emaildata!);
 
     setState(() {
-      this.user = userdata;
+      user = userdata;
       this.id = id;
       this.firstname = firstname;
       this.lastname = lastname;
@@ -64,21 +65,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
       appBar: AppBar(
         title: Text('Profile',
             style: Theme.of(context).textTheme.headline5!.apply(color: white)),
-        iconTheme: IconThemeData(color: white),
+        iconTheme: const IconThemeData(color: white),
         centerTitle: true,
         backgroundColor: kPrimaryGreen,
         elevation: 1,
       ),
       body: Container(
         color: grey,
-        padding: EdgeInsets.only(left: 16, top: 25, right: 16),
+        padding: const EdgeInsets.only(left: 16, top: 25, right: 16),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
           },
           child: ListView(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Center(
@@ -97,7 +98,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               spreadRadius: 2,
                               blurRadius: 10,
                               color: Colors.black.withOpacity(0.1),
-                              offset: Offset(0, 10))
+                              offset: const Offset(0, 10))
                         ],
                         shape: BoxShape.circle,
                       ),
@@ -111,8 +112,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               )
                             : Image.network(
                                 imageUrl != null
-                                    ? serverUrl +
-                                        'api/auth/serveprofilepicture/${imageUrl}'
+                                    ? '${serverUrl}api/auth/serveprofilepicture/$imageUrl'
                                     : 'https://180dc.org/wp-content/uploads/2022/04/Blank-Avatar.png',
                                 width: 170,
                                 height: 170,
@@ -139,7 +139,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               print("image Selected");
                               imagePickerOption();
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.edit,
                               color: Colors.white,
                             ),
@@ -148,16 +148,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
-              buildTextField(
-                  "Firstname", this.firstname, false, firstnamecontrol),
-              buildTextField("Lastname", this.lastname, false, lastnamecontrol),
-              buildTextField("E-mail", this.email, false, emailcontrol),
+              buildTextField("Firstname", firstname, false, firstnamecontrol),
+              buildTextField("Lastname", lastname, false, lastnamecontrol),
+              buildTextField("E-mail", email, false, emailcontrol),
               // buildTextField("Password", "Piyush@1", true),
               // buildTextField("Location", "saitara, Nashik", false),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
               Row(
@@ -166,7 +165,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   OutlinedButton(
                     style: ElevatedButton.styleFrom(
                       primary: buttonCancelColour,
-                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                     ),
@@ -187,15 +186,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           lastnamecontrol.text.isNotEmpty ||
                           emailcontrol.text.isNotEmpty) {
                         updateUserApi(
-                            this.id!,
+                            id!,
                             firstnamecontrol.text.isEmpty
-                                ? this.firstname
+                                ? firstname
                                 : firstnamecontrol.text.toString(),
                             lastnamecontrol.text.isEmpty
-                                ? this.lastname
+                                ? lastname
                                 : lastnamecontrol.text.toString(),
                             emailcontrol.text.isEmpty
-                                ? this.email
+                                ? email
                                 : emailcontrol.text.toString());
                         firstnamecontrol.clear();
                         lastnamecontrol.clear();
@@ -206,7 +205,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
                       elevation: 2,
                       primary: buttonColour,
                       //color: Colors.green,
@@ -234,7 +233,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future getprofileApi(int id) async {
     try {
-      String url = serverUrl + 'api/auth/getprofilepicture/${id}';
+      String url = '${serverUrl}api/auth/getprofilepicture/$id';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -258,9 +257,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future updateUserApi(int id, String firstname, lastname, email) async {
     try {
-      print(" " + firstname + " " + lastname + " " + email);
-
-      String url = serverUrl + 'api/auth/updateuser/${id}';
+      String url = '${serverUrl}api/auth/updateuser/$id';
       http.Response response = await http.put(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -274,7 +271,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
       if (response.statusCode == 200) {
         print("user updated successfully");
-        print("response body is :" + response.body);
+        print("response body is :${response.body}");
         store.setString('id', jsonEncode(body['id']));
         store.setString('firstname', jsonEncode(body['firstName']));
         store.setString('lastname', jsonEncode(body['lastName']));
@@ -301,7 +298,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       final tempImage = File(photo.path);
       setState(() {
         PickedImage = tempImage;
-        upload(this.id!, PickedImage!);
+        upload(id!, PickedImage!);
       });
 
       Get.back();
@@ -310,9 +307,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
-  TextEditingController firstnamecontrol = new TextEditingController();
-  TextEditingController lastnamecontrol = new TextEditingController();
-  TextEditingController emailcontrol = new TextEditingController();
+  TextEditingController firstnamecontrol = TextEditingController();
+  TextEditingController lastnamecontrol = TextEditingController();
+  TextEditingController emailcontrol = TextEditingController();
 
   Widget buildTextField(String labelText, var placeholder,
       bool isPasswordTextField, TextEditingController controllers) {
@@ -322,14 +319,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
         controller: controllers,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         cursorColor: Colors.black87,
-        style: TextStyle(color: Colors.black87),
+        style: const TextStyle(color: Colors.black87),
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(bottom: 3),
+            contentPadding: const EdgeInsets.only(bottom: 3),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: labelText,
             hintText: placeholder,
             // prefixText: placeholder,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 16,
               // fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -344,8 +341,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Future upload(int id, File imageFile) async {
-    String url = serverUrl + 'api/auth/addprofile/${id}';
-    var request = new http.MultipartRequest("POST", Uri.parse(url));
+    String url = '${serverUrl}api/auth/addprofile/$id';
+    var request = http.MultipartRequest("POST", Uri.parse(url));
     request.files.add(http.MultipartFile(
         'image',
         File(imageFile.path).readAsBytes().asStream(),
@@ -354,7 +351,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     var res = await request.send();
 
     if (res.statusCode == 200) {
-      print(res);
       print("image uploaded");
     } else {
       print("uploaded faild");

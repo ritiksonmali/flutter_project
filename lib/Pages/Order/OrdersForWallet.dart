@@ -3,20 +3,15 @@ import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/Controller/WalletController.dart';
 
-import 'package:flutter_login_app/Pages/Order/OrderDetails.dart';
 import 'package:flutter_login_app/screens/navbar.dart';
-import 'package:flutter_login_app/utils/colors.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../ConstantUtil/globals.dart';
-import '../../Controller/OrderController.dart';
 
 class OrdersForWallet extends StatefulWidget {
   const OrdersForWallet({Key? key}) : super(key: key);
@@ -30,7 +25,6 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     test();
   }
@@ -59,7 +53,7 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: white,
           ),
@@ -69,7 +63,7 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             icon: const Icon(Icons.menu, color: white),
             onPressed: () {
-              Get.to(() => Navbar());
+              Get.to(() => const Navbar());
             }, //=> _key.currentState!.openDrawer(),
           ),
         ],
@@ -77,10 +71,10 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             GetX<WalletController>(
@@ -88,7 +82,7 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
                 builder: (controller) {
                   return ListView.builder(
                       itemCount: controller.orderWallet.length,
-                      physics: ClampingScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         var order = controller.orderWallet[index];
@@ -109,15 +103,15 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "#Order Id: " + order.id.toString(),
-                                          style: TextStyle(
+                                          "#Order Id: ${order.id}",
+                                          style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                         order.orderStatus == "INPROGRESS" ||
                                                 order.orderStatus == "DELIVERED"
-                                            ? Text(
+                                            ? const Text(
                                                 "DEBITED",
                                                 style: TextStyle(
                                                     fontSize: 15,
@@ -136,7 +130,7 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
                                               ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     // ListView.builder(
@@ -195,21 +189,20 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        order.orderStatus == "INPROGRESS" ||
-                                                order.orderStatus == "DELIVERED"
+                                        (order.orderStatus == "INPROGRESS" ||
+                                                    order.orderStatus ==
+                                                        "DELIVERED") &&
+                                                order.priceCutFromWallet != 0
                                             ? Text(
-                                                "Total : \₹" +
-                                                    order.priceCutFromWallet
-                                                        .toString(),
-                                                style: TextStyle(
+                                                "Total : \₹${order.priceCutFromWallet}",
+                                                style: const TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               )
                                             : Text(
-                                                "Total : \₹" +
-                                                    order.totalprice.toString(),
-                                                style: TextStyle(
+                                                "Total : \₹${order.totalprice}",
+                                                style: const TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.w500,
                                                 ),
@@ -243,7 +236,7 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
                                         // ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -282,7 +275,7 @@ class _OrdersForWalletState extends State<OrdersForWallet> {
   List orders = [];
 
   Future getAllOrdersByUser(int userId) async {
-    String url = serverUrl + 'getOrderDetailsbyuser/${userId}';
+    String url = '${serverUrl}getOrderDetailsbyuser/$userId';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

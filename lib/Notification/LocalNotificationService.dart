@@ -14,10 +14,7 @@ class LocalNotificationService {
     _notificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (id) async {
-        print("onSelectNotification");
         if (id != null) {
-          print("Router Value1234 $id");
-
           // Navigator.of(context).push(
           //   MaterialPageRoute(
           //     builder: (context) => DemoScreen(

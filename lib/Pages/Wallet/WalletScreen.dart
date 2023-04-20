@@ -1,21 +1,15 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
-import 'package:flutter_login_app/Controller/OrderController.dart';
-import 'package:flutter_login_app/Controller/WalletController.dart';
 import 'package:flutter_login_app/Pages/Order/OrdersForWallet.dart';
 import 'package:flutter_login_app/Pages/Wallet/PaymentFailed.dart';
 import 'package:flutter_login_app/Pages/Wallet/PaymentSuccessful.dart';
 import 'package:flutter_login_app/Pages/Wallet/Walletjson.dart';
-import 'package:flutter_login_app/Pages/sucessOrder/OrderPlaced.dart';
-import 'package:flutter_login_app/Pages/sucessOrder/orderFail.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -60,12 +54,12 @@ class _WalletScreenState extends State<WalletScreen> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     setPaymentDetailsForWallet(response.paymentId.toString(),
         "SUCCESS".toString(), orderDetailResponse['orderId'].toString());
-    print("paymentId");
-    print(response.paymentId);
-    print(response.signature);
-    print(response.orderId);
-    print("Payment Done");
-    Get.to(PaymentSuessfulScreen());
+    // print("paymentId");
+    // print(response.paymentId);
+    // print(response.signature);
+    // print(response.orderId);
+    // print("Payment Done");
+    Get.to(() => const PaymentSuessfulScreen());
 
     // paymentId payment Status orderId
   }
@@ -75,7 +69,7 @@ class _WalletScreenState extends State<WalletScreen> {
         "0", "FAILED", orderDetailResponse['orderId'].toString());
     print("Payment Fail");
     print(response.toString());
-    Get.to(PaymentFailedScreen());
+    Get.to(() => const PaymentFailedScreen());
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -88,11 +82,11 @@ class _WalletScreenState extends State<WalletScreen> {
     int id = jsonDecode(iddata!);
     getWalletByUser(id);
     setState(() {
-      this.userId = id;
+      userId = id;
     });
   }
 
-  TextEditingController amountController = new TextEditingController();
+  TextEditingController amountController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -112,7 +106,7 @@ class _WalletScreenState extends State<WalletScreen> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: white,
           ),
@@ -130,11 +124,12 @@ class _WalletScreenState extends State<WalletScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Center(
@@ -161,7 +156,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   Padding(
@@ -172,7 +167,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Form(
@@ -183,36 +178,32 @@ class _WalletScreenState extends State<WalletScreen> {
                         controller: amountController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         cursorColor: Colors.black87,
-                        style: TextStyle(),
+                        style: const TextStyle(),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(
+                          contentPadding: const EdgeInsets.only(
                               left: 5, top: 0, bottom: 0, right: 5),
                           // filled: true,
-                          label: Row(
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                    text: 'Enter Amount',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      // fontWeight: FontWeight.bold,
-                                      color: black,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                          text: '*',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: kAlertColor,
-                                              fontWeight: FontWeight.bold))
-                                    ]),
-                              ),
-                            ],
+                          label: RichText(
+                            text: const TextSpan(
+                                text: 'Enter Amount',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  // fontWeight: FontWeight.bold,
+                                  color: black,
+                                ),
+                                children: [
+                                  TextSpan(
+                                      text: '*',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: kAlertColor,
+                                          fontWeight: FontWeight.bold))
+                                ]),
                           ),
                           // labelText: 'Enter Amount',
-                          prefixIcon: Icon(Icons.currency_rupee),
-                          labelStyle: TextStyle(color: Colors.black54),
-                          border: OutlineInputBorder(),
+                          prefixIcon: const Icon(Icons.currency_rupee),
+                          labelStyle: const TextStyle(color: Colors.black54),
+                          border: const OutlineInputBorder(),
                         ),
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.emailAddress,
@@ -229,7 +220,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
@@ -250,7 +241,7 @@ class _WalletScreenState extends State<WalletScreen> {
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: recordlist.length,
-                          physics: ScrollPhysics(),
+                          physics: const ScrollPhysics(),
                           itemBuilder: (context, index) {
                             var record = recordlist[index];
                             return Hero(
@@ -263,37 +254,32 @@ class _WalletScreenState extends State<WalletScreen> {
                                   });
                                 },
                                 child: Container(
-                                  margin: EdgeInsets.only(
+                                  margin: const EdgeInsets.only(
                                       right: 8, left: 12, top: 1, bottom: 0),
+                                  decoration: BoxDecoration(
+                                      // color: Colors.black54,
+                                      border: Border.all(color: black),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(2)),
+                                      boxShadow: const []),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
                                   child: Center(
                                     child: Text(
-                                      "\₹ ${record['name']}",
-                                      style: TextStyle(
+                                      "₹ ${record['name']}",
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 14,
                                           color: black),
                                     ),
                                   ),
-                                  decoration: BoxDecoration(
-                                      // color: Colors.black54,
-                                      border: Border.all(color: black),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(2)),
-                                      boxShadow: [
-                                        // BoxShadow(
-                                        //     color: Colors.grey,
-                                        //     blurRadius: 10.0,
-                                        //     spreadRadius: 4.5)
-                                      ]),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
                                 ),
                               ),
                             );
                           }),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
@@ -306,13 +292,6 @@ class _WalletScreenState extends State<WalletScreen> {
                       onPressed: () {
                         checkValidations();
                       },
-                      child: Text(
-                        'Proceed To Topup',
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
@@ -326,33 +305,40 @@ class _WalletScreenState extends State<WalletScreen> {
                                   RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(30)))),
+                      child: const Text(
+                        'Proceed To Topup',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => OrdersForWallet());
+                      Get.to(() => const OrdersForWallet());
                     },
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 12),
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
+                      padding: const EdgeInsets.all(16),
+                      decoration: const BoxDecoration(
                           color: kGreyShade1,
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Row(
                         children: <Widget>[
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 // color: Colors.grey[100],
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(18))),
-                            child: Icon(
+                            padding: const EdgeInsets.all(12),
+                            child: const Icon(
                               FontAwesomeIcons.exchange,
                               color: white,
                               size: 15,
                             ),
-                            padding: EdgeInsets.all(12),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 16,
                           ),
                           Expanded(
@@ -370,16 +356,16 @@ class _WalletScreenState extends State<WalletScreen> {
                             ),
                           ),
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 // color: Colors.grey[100],
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(18))),
-                            child: Icon(
+                            padding: const EdgeInsets.all(12),
+                            child: const Icon(
                               Icons.arrow_forward_ios_outlined,
                               color: white,
                               size: 15,
                             ),
-                            padding: EdgeInsets.all(12),
                           ),
                         ],
                       ),
@@ -402,18 +388,15 @@ class _WalletScreenState extends State<WalletScreen> {
   }
 
   Future createNewOrderForWallet() async {
-    String url = serverUrl +
-        'createOrderForWallet?amount=${amountController.text}&userId=${userId}';
+    String url =
+        '${serverUrl}createOrderForWallet?amount=${amountController.text}&userId=$userId';
     var response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
 
     if (response.statusCode == 200) {
-      print("Success");
-      print("working" + (response.body).toString());
       orderDetailResponse = jsonDecode(response.body);
-      print(orderDetailResponse);
       order_id = (orderDetailResponse['orderId']);
       print(orderDetailResponse['totalPrice']);
       String orderdata = orderDetailResponse['orderId'];
@@ -438,7 +421,7 @@ class _WalletScreenState extends State<WalletScreen> {
 
   Future setPaymentDetailsForWallet(
       String paymentId, String paymentStatus, String orderId) async {
-    String url = serverUrl + 'setOrderPaymentStatusForWallet';
+    String url = '${serverUrl}setOrderPaymentStatusForWallet';
     var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
@@ -448,17 +431,15 @@ class _WalletScreenState extends State<WalletScreen> {
         }));
     if (response.statusCode == 200) {
       print("Success payment");
-      print(response.body);
     }
   }
 
   Future getWalletByUser(int id) async {
-    String url = serverUrl + 'api/auth/getWalletbyuser/${id}';
+    String url = '${serverUrl}api/auth/getWalletbyuser/$id';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
-    print(response.body);
     if (response.statusCode == 200) {
       var body = jsonDecode(response.body);
       setState(() {
@@ -470,7 +451,6 @@ class _WalletScreenState extends State<WalletScreen> {
         isLoading = false;
       });
       print(response.body);
-      print('failed');
     }
   }
 }

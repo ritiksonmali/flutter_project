@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
-import 'package:flutter_login_app/Pages/Address/AddAddress.dart';
 import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
-import 'package:flutter_login_app/Pages/Home/home.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:get/get.dart';
@@ -14,8 +12,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../ConstantUtil/globals.dart';
-import '../../Controller/LoginController.dart';
-import '../../screens/welcome.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -50,7 +46,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getVersions();
     test();
@@ -72,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: white,
           ),
@@ -83,14 +78,14 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
           child: Text(
-            'Version : ${versionInfo}',
+            'Version : $versionInfo',
             textAlign: TextAlign.center,
           ),
         ),
       ),
       body: Container(
         color: grey,
-        padding: EdgeInsets.only(left: 16, top: 25, right: 16),
+        padding: const EdgeInsets.only(left: 16, top: 25, right: 16),
         child: ListView(
           children: [
             // Text(
@@ -119,14 +114,14 @@ class _SettingsPageState extends State<SettingsPage> {
             //   height: 15,
             //   thickness: 2,
             // ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             showpassword(context, "Change password"),
             // buildAccountOptionRow(context, "Change password"),
             // AddressRow(context, "Address"),
             // OrdersRow(context, "Orders"),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             // Row(
@@ -184,7 +179,7 @@ class _SettingsPageState extends State<SettingsPage> {
   GestureDetector AddressRow(BuildContext context, String title) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => AddressDetails());
+        Get.to(() => const AddressDetails());
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -193,13 +188,13 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
                 color: black,
               ),
             ),
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios,
               color: Colors.white,
             ),
@@ -212,7 +207,7 @@ class _SettingsPageState extends State<SettingsPage> {
   GestureDetector OrdersRow(BuildContext context, String title) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => OrderScreen());
+        Get.to(() => const OrderScreen());
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -221,13 +216,13 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
                 color: black,
               ),
             ),
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios,
               color: Colors.white,
             ),
@@ -237,9 +232,9 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  TextEditingController oldpasswordcontroller = new TextEditingController();
-  TextEditingController newpasswordcontroller = new TextEditingController();
-  TextEditingController confirmpasswordcontroller = new TextEditingController();
+  TextEditingController oldpasswordcontroller = TextEditingController();
+  TextEditingController newpasswordcontroller = TextEditingController();
+  TextEditingController confirmpasswordcontroller = TextEditingController();
 
   GestureDetector showpassword(BuildContext context, String title) {
     return GestureDetector(
@@ -259,14 +254,14 @@ class _SettingsPageState extends State<SettingsPage> {
                           controller: oldpasswordcontroller,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           cursorColor: Colors.black87,
-                          style: TextStyle(color: Colors.black87),
+                          style: const TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(bottom: 3),
+                            contentPadding: const EdgeInsets.only(bottom: 3),
                             // floatingLabelBehavior: FloatingLabelBehavior.always,
                             label: Row(
                               children: [
                                 RichText(
-                                  text: TextSpan(
+                                  text: const TextSpan(
                                       text: 'Enter Old Password',
                                       style: TextStyle(
                                         fontSize: 16,
@@ -296,21 +291,21 @@ class _SettingsPageState extends State<SettingsPage> {
                           },
                           obscureText: true,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         TextFormField(
                           controller: newpasswordcontroller,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           cursorColor: Colors.black87,
-                          style: TextStyle(color: Colors.black87),
+                          style: const TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(bottom: 3),
+                            contentPadding: const EdgeInsets.only(bottom: 3),
                             // floatingLabelBehavior: FloatingLabelBehavior.always,
                             label: Row(
                               children: [
                                 RichText(
-                                  text: TextSpan(
+                                  text: const TextSpan(
                                       text: 'Enter New Password',
                                       style: TextStyle(
                                         fontSize: 16,
@@ -339,21 +334,21 @@ class _SettingsPageState extends State<SettingsPage> {
                           },
                           obscureText: true,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         TextFormField(
                           controller: confirmpasswordcontroller,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           cursorColor: Colors.black87,
-                          style: TextStyle(color: Colors.black87),
+                          style: const TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(bottom: 3),
+                            contentPadding: const EdgeInsets.only(bottom: 3),
                             // floatingLabelBehavior: FloatingLabelBehavior.always,
                             label: Row(
                               children: [
                                 RichText(
-                                  text: TextSpan(
+                                  text: const TextSpan(
                                       text: 'Confirm New Password',
                                       style: TextStyle(
                                         fontSize: 16,
@@ -386,12 +381,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           },
                           obscureText: true,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Padding(
-                          padding:
-                              const EdgeInsets.only(left: 20.0, right: 20.0),
+                          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                           child: Row(
                             children: [
                               ElevatedButton(
@@ -401,7 +395,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       borderRadius:
                                           BorderRadius.circular(30.0)),
                                 ),
-                                child: Text(
+                                child: const Text(
                                   "Submit",
                                   style: TextStyle(
                                       fontSize: 14,
@@ -412,7 +406,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   changepassword();
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 55,
                               ),
                               ElevatedButton(
@@ -422,7 +416,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       borderRadius:
                                           BorderRadius.circular(30.0)),
                                 ),
-                                child: Text(
+                                child: const Text(
                                   "Close",
                                   style: TextStyle(
                                       fontSize: 14,
@@ -450,13 +444,13 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
                 color: black,
               ),
             ),
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios,
               color: Colors.white,
             ),
@@ -472,16 +466,12 @@ class _SettingsPageState extends State<SettingsPage> {
       _formKey1.currentState!.save();
       ResetPasswordApi(oldpasswordcontroller.text.toString(),
           newpasswordcontroller.text.toString());
-    } else {
-      print('Form is Not Valid');
-    }
+    } else {}
   }
 
   Future ResetPasswordApi(String oldpassword, newpassword) async {
     try {
-      print(oldpassword + " " + newpassword);
-
-      String url = serverUrl + 'api/auth/resetpassword';
+      String url = '${serverUrl}api/auth/resetpassword';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -492,8 +482,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
       if (response.statusCode == 200) {
         print("password Reset Successfully");
-        print("response body is :" + response.body);
-        // Get.off(() => SignInScreen());
         Navigator.of(context).pop();
         CommanDialog.showErrorDialog(
             description: "Reset Password SuccessFully....!", title: "Success");

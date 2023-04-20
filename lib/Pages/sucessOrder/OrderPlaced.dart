@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:get/get.dart';
 
 import '../../ConstantUtil/colors.dart';
-import '../../screens/Navbar.dart';
 import '../../utils/helper.dart';
 import '../Home/home_screen.dart';
-import '../Order/OrderDetails.dart';
 
 class OrderPlacedScreen extends StatefulWidget {
   const OrderPlacedScreen({Key? key}) : super(key: key);
@@ -18,6 +14,7 @@ class OrderPlacedScreen extends StatefulWidget {
 }
 
 class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: grey,
@@ -28,16 +25,9 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
-                  // IconButton(
-                  //   onPressed: () {
-                  //     Navigator.of(context).pop();
-                  //   },
-                  //   icon: Icon(Icons.clear),
-                  // ),
-                ],
+                children: const [],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Image.asset(
@@ -100,7 +90,7 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => HomeScreen());
+                    Get.to(() => const HomeScreen());
                   },
                   child: const Text(
                     "Back To Home",

@@ -73,22 +73,15 @@ dependencies:
   firebase_messaging: ^13.0.4
   flutter_local_notifications: ^12.0.3
   font_awesome_flutter: ^10.2.1
-  animated_custom_dropdown: ^1.2.2
   flutter_rating_bar: ^4.0.1
   carousel_slider: ^4.0.0-nullsafety.0
   intl_phone_field: ^3.1.0
   dropdown_textfield: ^1.0.3
-  dropdown_button2: ^1.9.2
-  custom_searchable_dropdown: ^2.1.1
-  dropdown_plus: ^0.0.9
-  textfield_search: ^0.10.0
-  dropdown_formfield: ^0.1.4
-  image_gallery_saver: ^1.7.1
-  cached_network_image: ^3.2.0
-  flutter_cache_manager: ^3.3.0
   connectivity_plus: ^2.3.7
   internet_connection_checker: ^0.0.1+2
   image_fade: ^0.6.2
+  shimmer: ^2.0.0
+  logger: ^1.3.0
   
 
 dev_dependencies:

@@ -1,20 +1,17 @@
 import 'dart:convert';
 import 'dart:ui';
-
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_app/Controller/ApplicationParameterController.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
-import 'package:flutter_login_app/Pages/Order/Order_json.dart';
 import 'package:flutter_login_app/Pages/Wallet/WalletScreen.dart';
-import 'package:flutter_login_app/Pages/cart/BorderBox.dart';
 import 'package:flutter_login_app/Pages/cart/deliveryInstructions.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../ConstantUtil/colors.dart';
 import '../../ConstantUtil/globals.dart';
 import '../../Controller/ProductController.dart';
@@ -51,10 +48,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   String? valueChoose;
 
   List listItemSorting = [
-    '09:00 AM',
-    '02:00 PM',
-    '05:00 PM',
-    '08:00 PM',
+    // '09:00 AM',
+    // '02:00 PM',
+    // '05:00 PM',
+    // '08:00 PM',
   ];
 
   DateTime date = DateTime.now();
@@ -72,6 +69,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     super.initState();
     test();
     formattedDate = DateFormat('d-MMM-yy').format(date);
+    getTimeSlots();
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
@@ -85,7 +83,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     print(response.signature);
     print(response.orderId);
     print("Payment Done");
-    Get.to(() => OrderPlacedScreen());
+    Get.to(() => const OrderPlacedScreen());
 
     // paymentId payment Status orderId
   }
@@ -95,7 +93,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         "0", "FAILED", orderDetailResponse['orderId'].toString(), check!);
     print("Payment Fail");
     print(response.toString());
-    Get.to(() => OrderfailScreen());
+    Get.to(() => const OrderfailScreen());
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -107,47 +105,47 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     var size = MediaQuery.of(context).size;
     var height = size.height;
     var width = size.width;
-    DateTime now = DateTime.now();
-    CurrentDate = DateFormat('dd-MM-yyyy').format(date);
-    String finalDate = CurrentDate! + " " + "09:00";
-    DateTime DateFromPicker = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate);
-    String finalDate1 = CurrentDate! + " " + "14:00";
-    DateTime DateFromPicker1 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate1);
-    String finalDate2 = CurrentDate! + " " + "17:00";
-    DateTime DateFromPicker2 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate2);
-    String finalDate3 = CurrentDate! + " " + "20:00";
-    DateTime DateFromPicker3 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate3);
-    String finalDate4 = CurrentDate! + " " + "00:00";
-    DateTime DateFromPicker4 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate4);
-    if (now.isAfter(DateFromPicker) && now.isBefore(DateFromPicker1)) {
-      listItemSorting = [
-        '02:00 PM',
-        '05:00 PM',
-        '08:00 PM',
-      ];
-    } else if (now.isAfter(DateFromPicker1) && now.isBefore(DateFromPicker2)) {
-      listItemSorting = [
-        '05:00 PM',
-        '08:00 PM',
-      ];
-    } else if (now.isAfter(DateFromPicker2) && now.isBefore(DateFromPicker3)) {
-      listItemSorting = [
-        '08:00 PM',
-      ];
-    } else if (now.isAfter(DateFromPicker3)) {
-      listItemSorting = [];
-    } else {
-      listItemSorting = [
-        '09:00 AM',
-        '02:00 PM',
-        '05:00 PM',
-        '08:00 PM',
-      ];
-    }
+    // DateTime now = DateTime.now();
+    // CurrentDate = DateFormat('dd-MM-yyyy').format(date);
+    // String finalDate = "${CurrentDate!} 09:00";
+    // DateTime DateFromPicker = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate);
+    // String finalDate1 = "${CurrentDate!} 14:00";
+    // DateTime DateFromPicker1 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate1);
+    // String finalDate2 = "${CurrentDate!} 17:00";
+    // DateTime DateFromPicker2 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate2);
+    // String finalDate3 = "${CurrentDate!} 20:00";
+    // DateTime DateFromPicker3 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate3);
+    // String finalDate4 = "${CurrentDate!} 00:00";
+    // DateTime DateFromPicker4 = DateFormat('dd-MM-yyyy hh:mm').parse(finalDate4);
+    // if (now.isAfter(DateFromPicker) && now.isBefore(DateFromPicker1)) {
+    //   listItemSorting = [
+    //     '02:00 PM',
+    //     '05:00 PM',
+    //     '08:00 PM',
+    //   ];
+    // } else if (now.isAfter(DateFromPicker1) && now.isBefore(DateFromPicker2)) {
+    //   listItemSorting = [
+    //     '05:00 PM',
+    //     '08:00 PM',
+    //   ];
+    // } else if (now.isAfter(DateFromPicker2) && now.isBefore(DateFromPicker3)) {
+    //   listItemSorting = [
+    //     '08:00 PM',
+    //   ];
+    // } else if (now.isAfter(DateFromPicker3)) {
+    //   listItemSorting = [];
+    // } else {
+    //   listItemSorting = [
+    //     '09:00 AM',
+    //     '02:00 PM',
+    //     '05:00 PM',
+    //     '08:00 PM',
+    //   ];
+    // }
     return Scaffold(
       backgroundColor: grey,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: white),
+        iconTheme: const IconThemeData(color: white),
         automaticallyImplyLeading: true,
         backgroundColor: kPrimaryGreen,
         centerTitle: true,
@@ -157,10 +155,115 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
       ),
       body: isLoading == true
-          ? Container(
-              color: grey,
-              child: const Center(
-                child: CircularProgressIndicator(),
+          ? Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: ListView.builder(
+                physics: const ClampingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 3, // number of shimmer placeholders you want to show
+                itemBuilder: (_, __) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        height: 25,
+                        width: 100,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 00),
+                            child: SizedBox(
+                              width: 230,
+                              height: 25,
+                              child: Container(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            onPressed: () {},
+                            child: const Text(
+                              "",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        height: 25,
+                        width: 150,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            onPressed: () {},
+                            child: const Text(
+                              '',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey, width: 1),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Container(
+                                    height: 15,
+                                    width: double.infinity,
+                                    color: Colors.grey[300],
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
           : SingleChildScrollView(
@@ -170,7 +273,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Padding(
@@ -178,7 +281,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         child: Text("Delivery Address",
                             style: Theme.of(context).textTheme.titleMedium),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Padding(
@@ -192,7 +295,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               child: SizedBox(
                                 width: 230,
                                 child: SelectedAddress == null
-                                    ? Text('Select Your Address')
+                                    ? const Text('Select Your Address')
                                     : Text(SelectedAddress.toString(),
                                         // "538 sagar park laxmi Nagar Panchavati Nashik-422003",
                                         style: Theme.of(context)
@@ -204,22 +307,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 style: TextButton.styleFrom(
                                     backgroundColor: buttonColour),
                                 onPressed: () async {
-                                  await Future.delayed(Duration(seconds: 1));
+                                  await Future.delayed(
+                                      const Duration(seconds: 1));
                                   final value = await Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => AddressDetails()),
+                                        builder: (context) =>
+                                            const AddressDetails()),
                                   );
                                   setState(() {
                                     apiCall();
                                   });
                                 },
-                                child: Text("Select",
+                                child: const Text("Select",
                                     style: TextStyle(color: white))),
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
@@ -227,7 +332,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         width: double.infinity,
                         color: grey,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Padding(
@@ -235,7 +340,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         child: Text("Schedule Date and Time",
                             style: Theme.of(context).textTheme.titleMedium),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Padding(
@@ -253,7 +358,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime.now()
-                                      .subtract(Duration(days: 0)),
+                                      .subtract(const Duration(days: 0)),
                                   lastDate: DateTime(2030),
                                 ).then((selectedDate) {
                                   if (selectedDate != null) {
@@ -262,6 +367,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       date = selectedDate;
                                       formattedDate = DateFormat('d-MMM-yy')
                                           .format(selectedDate);
+                                      getTimeSlots();
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
                                               super.widget);
@@ -277,7 +383,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: Container(
-                                  padding: EdgeInsets.only(left: 20, right: 20),
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
                                   decoration: BoxDecoration(
                                       color: buttonColour,
                                       border: Border.all(
@@ -287,7 +394,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     onTap: () {
                                       if (listItemSorting.isEmpty) {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
+                                            .showSnackBar(const SnackBar(
                                           duration: Duration(seconds: 1),
                                           content: Text(
                                               'There is no time slot available for today please select another days time slot'),
@@ -296,14 +403,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       }
                                     },
                                     child: DropdownButton(
-                                      underline: SizedBox(),
-                                      hint: Padding(
-                                        padding: const EdgeInsets.only(top: 14),
+                                      underline: const SizedBox(),
+                                      hint: const Padding(
+                                        padding: EdgeInsets.only(top: 14),
                                         child: Text("Select",
                                             style: TextStyle(color: white)),
                                       ),
                                       dropdownColor: Colors.white,
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.arrow_drop_down,
                                         color: white,
                                       ),
@@ -314,7 +421,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         setState(() {
                                           valueChoose = newValue as String;
                                           print(
-                                              "Choosed Value is :${valueChoose}");
+                                              "Choosed Value is :$valueChoose");
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
                                                   super.widget);
@@ -347,7 +454,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
@@ -355,7 +462,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         width: double.infinity,
                         color: grey,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Padding(
@@ -370,7 +477,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   const EdgeInsets.symmetric(horizontal: 10),
                               child: TextButton(
                                   onPressed: () {
-                                    Get.to(() => OrderScreen());
+                                    Get.to(() => const OrderScreen());
                                   },
                                   child: Row(
                                     children: [],
@@ -410,7 +517,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                             ]),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Column(
@@ -449,7 +556,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     child: Column(
                                       children: <Widget>[
                                         Container(
-                                          padding: EdgeInsets.all(20),
+                                          padding: const EdgeInsets.all(20),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -503,7 +610,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         );
                       })),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
@@ -511,7 +618,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         width: double.infinity,
                         color: grey,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Padding(
@@ -567,7 +674,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     }
                                   });
                                 }),
-                            Expanded(
+                            const Expanded(
                               child: Text(
                                 "Do you want to use wallet amount for payment ?",
                                 style: TextStyle(
@@ -580,7 +687,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
@@ -600,7 +707,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       Center(
                                         child: Text(
                                           "\₹ ${WalletAmount.toStringAsFixed(2)}",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: black,
                                               fontSize: 25,
                                               fontWeight: FontWeight.w300),
@@ -623,9 +730,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       style: TextButton.styleFrom(
                                           backgroundColor: buttonColour),
                                       onPressed: () async {
-                                        Get.to(() => WalletScreen());
+                                        Get.to(() => const WalletScreen());
                                       },
-                                      child: Text("Add Money",
+                                      child: const Text("Add Money",
                                           style: TextStyle(color: white))),
                                 ],
                               ),
@@ -633,7 +740,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
@@ -641,7 +748,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         width: double.infinity,
                         color: grey,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Padding(
@@ -653,12 +760,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               Text("Sub Total",
                                   style:
                                       Theme.of(context).textTheme.titleMedium),
-                              Text("\₹${total}",
+                              Text("\₹$total",
                                   style:
                                       Theme.of(context).textTheme.titleMedium),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -672,7 +779,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       Theme.of(context).textTheme.titleMedium),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -686,7 +793,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       Theme.of(context).textTheme.titleMedium),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           check == true
@@ -705,15 +812,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             .titleMedium),
                                   ],
                                 )
-                              : SizedBox(),
-                          SizedBox(
+                              : const SizedBox(),
+                          const SizedBox(
                             height: 5,
                           ),
-                          Divider(
+                          const Divider(
                             height: 10,
                             color: Color.fromARGB(255, 137, 136, 136),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Row(
@@ -727,7 +834,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       Theme.of(context).textTheme.titleMedium),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                         ]),
@@ -742,7 +849,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       SizedBox(
@@ -828,7 +935,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         width: double.infinity,
                         color: grey,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Padding(
@@ -837,39 +944,51 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           height: 50,
                           width: double.infinity,
                           child: CupertinoButton(
-                            child: Text("Place Order"),
                             color: buttonColour,
                             onPressed: () {
-                              if (SelectedAddress != null) {
-                                if (formattedDate != null &&
-                                    valueChoose != null) {
-                                  DateTime finalDate =
-                                      DateFormat('dd-MM-yyyy hh:mm aa').parse(
-                                          CurrentDate! + " " + valueChoose!);
-                                  createNewOrder(
-                                      DateFormat('dd-MM-yyyy HH:mm:ss')
-                                          .format(finalDate),
-                                      check!);
+                              if (ApplicationParameterController
+                                  .isOrdersEnable.value) {
+                                if (SelectedAddress != null) {
+                                  if (formattedDate != null &&
+                                      valueChoose != null) {
+                                    String pickedDate =
+                                        DateFormat("dd-MM-yyyy").format(date);
+                                    DateTime finalDate =
+                                        DateFormat('dd-MM-yyyy hh:mm aa').parse(
+                                            "$pickedDate ${valueChoose!}");
+                                    createNewOrder(
+                                        DateFormat('dd-MM-yyyy HH:mm:ss')
+                                            .format(finalDate),
+                                        check!);
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text(
+                                          'Please Select Date and Time Slot'),
+                                      backgroundColor: Colors.redAccent,
+                                    ));
+                                  }
                                 } else {
                                   ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                        'Please Select Date and Time Slot'),
+                                      .showSnackBar(const SnackBar(
+                                    content: Text('Please Select Your Address'),
                                     backgroundColor: Colors.redAccent,
                                   ));
                                 }
                               } else {
                                 ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Text('Please Select Your Address'),
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      'Sorry currently You cannot placed order'),
                                   backgroundColor: Colors.redAccent,
                                 ));
                               }
                             },
+                            child: const Text("Place Order"),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       )
                     ],
@@ -905,7 +1024,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
@@ -1037,7 +1156,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Future getCartproducts(userId) async {
     print("fatchProduct $userId");
     // CommanDialog.showLoading();
-    String url = serverUrl + 'api/auth/getcartitems/${userId}';
+    String url = '${serverUrl}api/auth/getcartitems/$userId';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -1062,11 +1181,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future createNewOrder(String dateTime, bool check) async {
-    String url = serverUrl + 'createNewOrder';
+    String url = '${serverUrl}createNewOrder';
     var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
-          "user_id": this.id,
+          "user_id": id,
           "dateTime": dateTime,
           "wallet": check,
           "avoidRinging": instructionData[0].active,
@@ -1077,15 +1196,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         }));
 
     if (response.statusCode == 200) {
-      print("Success");
-      print("working" + (response.body).toString());
       orderDetailResponse = jsonDecode(response.body);
-      print(orderDetailResponse);
+      // print(orderDetailResponse);
       order_id = (orderDetailResponse['orderId']);
-      print(orderDetailResponse['totalPrice'] * 100);
+      // print(orderDetailResponse['totalPrice'] * 100);
       double value = orderDetailResponse['totalPrice'] * 100;
       String value1 = value.toStringAsFixed(2);
-      print(value1);
       String orderdata = orderDetailResponse['orderId'];
       var options = {
         'key': "rzp_test_BHAChutrVpoEpO",
@@ -1105,7 +1221,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               orderDetailResponse['orderId'].toString(), check);
         }
       } catch (e) {
-        print(e.toString());
+        e.printError();
       }
       return orderDetailResponse;
     }
@@ -1114,7 +1230,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Future setPaymentDetails(
       String paymentId, String paymentStatus, orderId, bool check) async {
     try {
-      String url = serverUrl + 'setOrderPaymentStatus';
+      String url = '${serverUrl}setOrderPaymentStatus';
       var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -1126,27 +1242,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       print("Success payment");
       var body = jsonDecode(response.body);
       if (body['status'] == 200) {
-        Get.to(() => OrderPlacedScreen());
-        print("Success payment");
-        print(response.body);
+        Get.to(() => const OrderPlacedScreen());
       } else {
-        Get.to(() => OrderfailScreen());
+        Get.to(() => const OrderfailScreen());
       }
     } catch (e) {
-      print(e.toString());
+      e.printError();
     }
   }
 
   getSelectedApi(int UserId, bool isSelected) async {
     try {
       String url =
-          serverUrl + 'api/auth/getSelectedAddress/${UserId}/${isSelected}';
+          '${serverUrl}api/auth/getSelectedAddress/$UserId/$isSelected';
       http.Response response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
       );
       var body = jsonDecode(response.body);
-      print(body);
+      // print(body);
       return body['address_line1'] +
           "," +
           "\n" +
@@ -1166,12 +1280,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future getWalletByUser(int id) async {
-    String url = serverUrl + 'api/auth/getWalletbyuser/${id}';
+    String url = '${serverUrl}api/auth/getWalletbyuser/$id';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       var body = jsonDecode(response.body);
       setState(() {
@@ -1179,6 +1293,47 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       });
     } else {
       // print(response.body);
+      print('failed');
+    }
+  }
+
+  getTimeSlots() async {
+    List<String> selectedTimeSLots = [];
+    String dropdownName = "APPLICATION_PARAMETER";
+    String parentCode = "TIME_SLOT";
+    String url =
+        '${serverUrl}api/auth/fetchDropDown?dropdownName=$dropdownName&param=$parentCode';
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+    );
+    if (response.statusCode == 200) {
+      selectedTimeSLots.clear();
+      List<dynamic> timeSlotList = jsonDecode(response.body);
+      DateTime currentDate =
+          DateFormat('yyyy-MM-dd HH:mm:ss').parse(DateTime.now().toString());
+      for (var slot in timeSlotList) {
+        DateTime selectedDate = DateFormat("dd-MMM-yy").parse(formattedDate);
+        String parsedDate = DateFormat("yyyy-MM-dd").format(selectedDate);
+        DateTime pickedDate = DateFormat('yyyy-MM-dd HH:mm:ss')
+            .parse("$parsedDate ${slot['shortDesc']}");
+        if (currentDate.isAfter(pickedDate) &&
+            pickedDate.year == currentDate.year &&
+            pickedDate.month == currentDate.month &&
+            pickedDate.day != currentDate.day) {
+          String finalTimeSLot = DateFormat("hh:mm a").format(pickedDate);
+          setState(() {
+            selectedTimeSLots.add(finalTimeSLot);
+          });
+        } else if (currentDate.isBefore(pickedDate)) {
+          String finalTimeSLot = DateFormat("hh:mm a").format(pickedDate);
+          selectedTimeSLots.add(finalTimeSLot);
+        }
+      }
+      setState(() {
+        listItemSorting = selectedTimeSLots;
+      });
+    } else {
       print('failed');
     }
   }

@@ -1,9 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/Controller/AddressController.dart';
 import 'package:get/get.dart';
@@ -31,14 +31,14 @@ class _UpdateAddressState extends State<UpdateAddress> {
   SingleValueDropDownController? cityDropDownController;
 
   AddressController addressController = Get.find();
-  TextEditingController addressLine1controller = new TextEditingController();
-  TextEditingController addressLine2controller = new TextEditingController();
-  TextEditingController citycontroller = new TextEditingController();
-  TextEditingController statecontroller = new TextEditingController();
-  TextEditingController countrycontroller = new TextEditingController();
+  TextEditingController addressLine1controller = TextEditingController();
+  TextEditingController addressLine2controller = TextEditingController();
+  TextEditingController citycontroller = TextEditingController();
+  TextEditingController statecontroller = TextEditingController();
+  TextEditingController countrycontroller = TextEditingController();
   // TextEditingController mobilenocontroller = new TextEditingController();
   // TextEditingController telephonenocontroller = new TextEditingController();
-  TextEditingController pincodecontroller = new TextEditingController();
+  TextEditingController pincodecontroller = TextEditingController();
 
   List country = [];
   List state = [];
@@ -56,11 +56,9 @@ class _UpdateAddressState extends State<UpdateAddress> {
     DropDownValueModel initialCity =
         DropDownValueModel(name: address['city'], value: address['cityId']);
     countryDropDownController =
-        new SingleValueDropDownController(data: initialCountry);
-    stateDropDownController =
-        new SingleValueDropDownController(data: initialState);
-    cityDropDownController =
-        new SingleValueDropDownController(data: initialCity);
+        SingleValueDropDownController(data: initialCountry);
+    stateDropDownController = SingleValueDropDownController(data: initialState);
+    cityDropDownController = SingleValueDropDownController(data: initialCity);
   }
 
   getCountry() async {
@@ -118,43 +116,43 @@ class _UpdateAddressState extends State<UpdateAddress> {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: white,
           ),
         ),
       ),
       bottomNavigationBar: Container(
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           height: 48,
           child: MaterialButton(
             onPressed: () {
               checkvalidations();
             },
-            child: Text(
-              "Update Address",
-              style: TextStyle(
-                color: white,
-              ),
-            ),
             color: buttonColour,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                 30,
               ),
             ),
+            child: const Text(
+              "Update Address",
+              style: TextStyle(
+                color: white,
+              ),
+            ),
           )),
       body: Container(
         color: grey,
         child: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 20,
           ),
           child: Form(
             key: _formKey4,
             child: ListView(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 // buildTextField("AddressLine1", address['addressline1'],
@@ -173,14 +171,14 @@ class _UpdateAddressState extends State<UpdateAddress> {
                   controller: addressLine1controller,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   cursorColor: black,
-                  style: TextStyle(color: black),
+                  style: const TextStyle(color: black),
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
+                    contentPadding: const EdgeInsets.only(bottom: 3),
                     // floatingLabelBehavior: FloatingLabelBehavior.always,
                     label: Row(
                       children: [
                         RichText(
-                          text: TextSpan(
+                          text: const TextSpan(
                               text: 'Address line 1',
                               style: TextStyle(
                                 fontSize: 16,
@@ -213,21 +211,21 @@ class _UpdateAddressState extends State<UpdateAddress> {
                   },
                   obscureText: false,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
                   controller: addressLine2controller,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   cursorColor: black,
-                  style: TextStyle(color: black),
+                  style: const TextStyle(color: black),
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
+                    contentPadding: const EdgeInsets.only(bottom: 3),
                     // floatingLabelBehavior: FloatingLabelBehavior.always,
                     label: Row(
                       children: [
                         RichText(
-                          text: TextSpan(
+                          text: const TextSpan(
                               text: 'Address line 2',
                               style: TextStyle(
                                 fontSize: 16,
@@ -260,21 +258,21 @@ class _UpdateAddressState extends State<UpdateAddress> {
                   },
                   obscureText: false,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
                   controller: pincodecontroller,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   cursorColor: black,
-                  style: TextStyle(color: black),
+                  style: const TextStyle(color: black),
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 3),
+                    contentPadding: const EdgeInsets.only(bottom: 3),
                     // floatingLabelBehavior: FloatingLabelBehavior.always,
                     label: Row(
                       children: [
                         RichText(
-                          text: TextSpan(
+                          text: const TextSpan(
                               text: 'Pincode',
                               style: TextStyle(
                                 fontSize: 16,
@@ -311,7 +309,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                   ],
                   obscureText: false,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 DropDownTextField(
@@ -323,13 +321,13 @@ class _UpdateAddressState extends State<UpdateAddress> {
                     dropDownItemCount: 4,
                     enableSearch: true,
                     textFieldDecoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(top: 3),
-                        labelStyle:
-                            TextStyle(height: 10, fontWeight: FontWeight.bold),
+                        contentPadding: const EdgeInsets.only(top: 3),
+                        labelStyle: const TextStyle(
+                            height: 10, fontWeight: FontWeight.bold),
                         label: Row(
                           children: [
                             RichText(
-                              text: TextSpan(
+                              text: const TextSpan(
                                   text: 'Country',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -367,11 +365,10 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         stateDropDownController!.dropDownValue = null;
                         cityDropDownController!.dropDownValue = null;
                       });
-                      print(countryDropDownController!.dropDownValue!.value);
                       getState(countryDropDownController!.dropDownValue!.value,
                           "STATE");
                     }),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 DropDownTextField(
@@ -385,7 +382,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         label: Row(
                           children: [
                             RichText(
-                              text: TextSpan(
+                              text: const TextSpan(
                                   text: 'State',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -420,15 +417,13 @@ class _UpdateAddressState extends State<UpdateAddress> {
                           value: valueItem['id'].toString());
                     }).toList(),
                     onChanged: (value) {
-                      print(value);
                       setState(() {
                         cityDropDownController!.dropDownValue = null;
                       });
-                      print(stateDropDownController!.dropDownValue!.value);
                       getCity(stateDropDownController!.dropDownValue!.value,
                           "CITY");
                     }),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 DropDownTextField(
@@ -442,7 +437,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         label: Row(
                           children: [
                             RichText(
-                              text: TextSpan(
+                              text: const TextSpan(
                                   text: 'City',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -720,17 +715,17 @@ class _UpdateAddressState extends State<UpdateAddress> {
         controller: controllers,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         cursorColor: Colors.black87,
-        style: TextStyle(color: Colors.black87),
+        style: const TextStyle(color: Colors.black87),
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(bottom: 3),
+            contentPadding: const EdgeInsets.only(bottom: 3),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: labelText,
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
               fontSize: 20,
               color: Colors.black,
             ),
             hintText: placeholder,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 16,
               // fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -747,9 +742,6 @@ class _UpdateAddressState extends State<UpdateAddress> {
     if (_formKey4.currentState!.validate()) {
       // print("Form is valid ");
       _formKey4.currentState!.save();
-      print(cityDropDownController!.dropDownValue!.value);
-      print(stateDropDownController!.dropDownValue!.value);
-      print(countryDropDownController!.dropDownValue!.value);
       updateAddress(
           address['addressId'],
           addressLine1controller.text.toString(),
@@ -758,15 +750,13 @@ class _UpdateAddressState extends State<UpdateAddress> {
           countryDropDownController!.dropDownValue!.value.toString(),
           stateDropDownController!.dropDownValue!.value.toString(),
           int.parse(pincodecontroller.text.toString()));
-    } else {
-      print('Form is Not Valid');
-    }
+    } else {}
   }
 
   Future updateAddress(int addressId, String addressLine1, addressLine2, city,
       country, state, int pincode) async {
     try {
-      String url = serverUrl + 'api/auth/updateAddress/${addressId}';
+      String url = '${serverUrl}api/auth/updateAddress/$addressId';
       var response = await http.put(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
@@ -783,27 +773,23 @@ class _UpdateAddressState extends State<UpdateAddress> {
           }));
 
       if (response.statusCode == 200) {
-        print("Success");
         addressController.getAddressApi();
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
         Get.back();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Address Updated SuccessFully'),
           backgroundColor: Colors.green,
         ));
-      } else if (response.statusCode == 401) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      } else if (response.statusCode == 401 || response.statusCode == 400) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Please Enter Valid Data'),
           backgroundColor: Colors.redAccent,
         ));
-        print("Please Enter Valid Data");
-      } else if (response.statusCode == 400) {
-        print("Bad Request");
       } else {
         printError();
       }
     } catch (e) {
-      print(e.toString());
+      e.printError();
     }
   }
 }

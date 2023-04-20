@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Controller/CategoryController.dart';
@@ -16,7 +14,6 @@ import 'package:flutter_login_app/Notification/LocalNotificationService.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../Controller/ProductController.dart';
 import 'loading.dart';
@@ -34,11 +31,11 @@ class _MainappState extends State<Mainapp> {
   String deviceType = "Android";
   LocalImagesController localImagesController =
       Get.put(LocalImagesController());
-  final PopularProductController popularproductController =
-      Get.put(PopularProductController());
-  final OfferController offerController = Get.put(OfferController());
-  final CategoryController categoryController = Get.put(CategoryController());
-  final ProductController productController = Get.put(ProductController());
+  // final PopularProductController popularproductController =
+  //     Get.put(PopularProductController());
+  // final OfferController offerController = Get.put(OfferController());
+  // final CategoryController categoryController = Get.put(CategoryController());
+  // final ProductController productController = Get.put(ProductController());
   final PushNotificationController pushNotificationController =
       Get.put(PushNotificationController());
   final logincontroller = LoginController();
@@ -83,13 +80,12 @@ class _MainappState extends State<Mainapp> {
 
   @override
   Widget build(BuildContext context) {
-    // getDeviceTokenToSendNotification();
     return Scaffold(
       body: FutureBuilder(
           future: logincontroller.tryAutoLogin(),
           builder: (context, authResult) {
             if (authResult.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.red)),
               );
@@ -98,52 +94,40 @@ class _MainappState extends State<Mainapp> {
                 print('called');
                 pushNotificationController.sendNotificationData(
                     deviceTokenToSendPushNotification, deviceType);
-                // localImagesController.getAllProductCompressedImages();
-                // localImagesController.getAllProductImages();
-                productController.getAllProducts();
+                // productController.getAllProducts();
                 List<FileSystemEntity> dirContents = directory.listSync();
-
-                if (dirContents.length == 0
-                    // &&iscompressedImagesAdded == true &&
-                    //     isImagesAdded == true
-                    ) {
+                if (dirContents.length == 0) {
                   print('Directory is empty');
-                  Timer(Duration(seconds: 1), () {
+                  Timer(const Duration(seconds: 1), () {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              HomeScreen()), // this mymainpage is your page to refresh
+                          builder: (context) => const HomeScreen()),
                       (Route<dynamic> route) => false,
                     );
                   });
                 } else {
                   print('Directory is not empty');
-                  Timer(Duration(seconds: 1), () {
+                  Timer(const Duration(seconds: 1), () {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              HomeScreen()), // this mymainpage is your page to refresh
+                          builder: (context) => const HomeScreen()),
                       (Route<dynamic> route) => false,
                     );
                   });
                 }
               } else {
-                // localImagesController.getAllProductCompressedImages();
-                // localImagesController.getAllProductImages();
-                Timer(Duration(seconds: 1), () {
+                Timer(const Duration(seconds: 1), () {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            Welcome()), // this mymainpage is your page to refresh
+                    MaterialPageRoute(builder: (context) => const Welcome()),
                     (Route<dynamic> route) => false,
                   );
                 });
               }
 
-              return LoadingScreen();
+              return const LoadingScreen();
             }
           }),
     );

@@ -22,7 +22,7 @@ class MobileNumberScreen extends StatefulWidget {
 class _MobileNumberScreenState extends State<MobileNumberScreen> {
   final _formKey1 = GlobalKey<FormState>();
   TextEditingController mobileNumberController = TextEditingController();
-  SignInApi signInApi = new SignInApi();
+  SignInApi signInApi = SignInApi();
   var argument = Get.arguments;
   @override
   Widget build(BuildContext context) {
@@ -36,13 +36,13 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
             color: grey,
             child: SingleChildScrollView(
                 child: Padding(
-              padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
               child: Column(
                 children: <Widget>[
-                  SizedBox(
+                  const SizedBox(
                     height: 140,
                   ),
-                  Text(
+                  const Text(
                     'Add Mobile Number',
                     style: TextStyle(
                         color: black,
@@ -53,7 +53,7 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
                     height: 20,
                   ),
                   IntlPhoneField(
-                    flagsButtonPadding: EdgeInsets.only(left: 15),
+                    flagsButtonPadding: const EdgeInsets.only(left: 15),
                     showDropdownIcon: false,
                     obscureText: false,
                     initialCountryCode: 'IN',
@@ -63,37 +63,38 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
                     decoration: InputDecoration(
                         counterText: '',
                         labelText: 'Enter Mobile Number',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
-                    countries: <String>['IN'],
+                            borderSide: const BorderSide(color: Colors.blue))),
+                    countries: const <String>['IN'],
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: mobileNumberController,
-                    keyboardType: TextInputType.numberWithOptions(
+                    keyboardType: const TextInputType.numberWithOptions(
                         signed: true, decimal: true),
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                       LengthLimitingTextInputFormatter(10)
                     ],
                     validator: (value) {
-                      if (value != null)
+                      if (value != null) {
                         return 'Mobile Number must be of 10 digit';
-                      else
+                      } else {
                         return null;
+                      }
                     },
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   FloatingActionButton.extended(
-                    label: Text('Add Mobile Number'), // <-- Text
+                    label: const Text('Add Mobile Number'), // <-- Text
                     backgroundColor: buttonColour,
                     onPressed: () {
                       login();
@@ -120,22 +121,20 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
   Future UpdateMobileNumber(int id, String mobileNo) async {
     try {
       String url =
-          serverUrl + 'api/auth/updateMobileNumber/${id}?mobileNo=${mobileNo}';
+          '${serverUrl}api/auth/updateMobileNumber/$id?mobileNo=$mobileNo';
       http.Response response = await http
           .put(Uri.parse(url), headers: {'Content-Type': 'application/json'});
-
       if (response.statusCode == 200) {
-        print("response body is :" + response.body);
-        Get.off(() => HomeScreen());
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('SignUp SuccessFully'),
+        Get.off(() => const HomeScreen());
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: const Text('SignUp SuccessFully'),
           backgroundColor: Colors.green,
         ));
       } else {
         print("failed");
       }
     } catch (e) {
-      print(e.toString());
+      e.printError();
     }
   }
 }

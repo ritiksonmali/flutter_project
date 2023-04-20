@@ -1,11 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
-import 'package:flutter_login_app/Pages/ResetPassword/Otpverification.dart';
 import 'package:flutter_login_app/screens/SignIn.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -19,8 +16,9 @@ class SetNewPassword extends StatefulWidget {
 
 class _SetNewPasswordState extends State<SetNewPassword> {
   final _formKey11 = GlobalKey<FormState>();
-  TextEditingController _passwordcontroller = TextEditingController();
-  TextEditingController _confirmpasswordcontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _confirmpasswordcontroller =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,23 +42,23 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                     controller: _passwordcontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
-                    style: TextStyle(color: Colors.black87),
+                    style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.lock_outline,
                           color: Colors.black87,
                         ),
                         labelText: 'Enter New Password',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: const BorderSide(color: Colors.blue))),
                     validator: (value) {
                       RegExp regex = RegExp(
                           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -73,7 +71,6 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                           return null;
                         }
                       }
-                      return null;
                     },
                     obscureText: true,
                   ),
@@ -84,23 +81,23 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                     controller: _confirmpasswordcontroller,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     cursorColor: Colors.black87,
-                    style: TextStyle(color: Colors.black87),
+                    style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.lock_outline,
                           color: Colors.black87,
                         ),
                         labelText: 'Confirm New Password',
-                        labelStyle: TextStyle(color: Colors.black54),
+                        labelStyle: const TextStyle(color: Colors.black54),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.blue))),
+                            borderSide: const BorderSide(color: Colors.blue))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Password Required';
@@ -131,13 +128,6 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                         // print(emailId);
                         checkvalidation();
                       },
-                      child: Text(
-                        'Change Password',
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.resolveWith((states) {
@@ -151,6 +141,13 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                                   RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(30)))),
+                      child: const Text(
+                        'Change Password',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
                     ),
                   ),
                 ],
@@ -171,7 +168,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
 
   Future AddNewPassword() async {
     try {
-      String url = serverUrl + 'api/auth/forgotpassword/setnewpassword';
+      String url = '${serverUrl}api/auth/forgotpassword/setnewpassword';
       http.Response response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(
@@ -179,11 +176,11 @@ class _SetNewPasswordState extends State<SetNewPassword> {
       var body = jsonDecode(response.body);
       print(response.body);
       if (body['status'] == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Password Reset Successfully !'),
           backgroundColor: Colors.green,
         ));
-        Get.off(() => SignInScreen());
+        Get.off(() => const SignInScreen());
       } else {
         print('Something Went Wrong');
       }

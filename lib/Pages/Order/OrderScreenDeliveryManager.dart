@@ -25,7 +25,6 @@ class _OrderScreenDeliveryManagerState
       Get.put(AllOrdersForDeliveryManager());
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     test();
   }
@@ -52,7 +51,7 @@ class _OrderScreenDeliveryManagerState
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: white,
           ),
@@ -104,8 +103,8 @@ class _OrderScreenDeliveryManagerState
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "#Order Id: " + order.id.toString(),
-                                        style: TextStyle(
+                                        "#Order Id: ${order.id}",
+                                        style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -122,13 +121,13 @@ class _OrderScreenDeliveryManagerState
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   ListView.builder(
                                       itemCount: allOrdersForDeliveryManager
                                           .allOrders[index].orderItem.length,
-                                      physics: ClampingScrollPhysics(),
+                                      physics: const ClampingScrollPhysics(),
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int position) {
@@ -142,7 +141,7 @@ class _OrderScreenDeliveryManagerState
                                               width: size.width * 0.6,
                                               child: Row(
                                                 children: [
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 5,
                                                   ),
                                                   Flexible(
@@ -155,14 +154,7 @@ class _OrderScreenDeliveryManagerState
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          orderItems
-                                                                  .product.name
-                                                                  .toString() +
-                                                              " " +
-                                                              "× " +
-                                                              orderItems
-                                                                  .quantity
-                                                                  .toString(),
+                                                          "${orderItems.product.name} × ${orderItems.quantity}",
                                                           // currentOrderList[index]['name'],
                                                           style:
                                                               Theme.of(context)
@@ -183,9 +175,8 @@ class _OrderScreenDeliveryManagerState
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Total : \₹" +
-                                            order.totalprice.toString(),
-                                        style: TextStyle(
+                                        "Total : \₹${order.totalprice}",
+                                        style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -194,26 +185,11 @@ class _OrderScreenDeliveryManagerState
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          // order.orderStatus == "INPROGRESS"
-                                          //     ? Padding(
-                                          //         padding:
-                                          //             const EdgeInsets.only(
-                                          //                 right: 8.0),
-                                          //         child: ElevatedButton(
-                                          //           onPressed: () async {},
-                                          //           style:
-                                          //               TextButton.styleFrom(
-                                          //             backgroundColor: black,
-                                          //           ),
-                                          //           child: Text("Delivered"),
-                                          //         ),
-                                          //       )
-                                          //     : Text(''),
                                           ElevatedButton(
                                             onPressed: () {
                                               Get.to(
                                                   () =>
-                                                      OrderDetailsDeliveryManager(),
+                                                      const OrderDetailsDeliveryManager(),
                                                   popGesture: true,
                                                   arguments: {
                                                     'orderItem':
@@ -228,25 +204,8 @@ class _OrderScreenDeliveryManagerState
                                                         allOrdersForDeliveryManager
                                                             .allOrders[index]
                                                             .id,
-                                                    'address': order
-                                                            .addressResponse
-                                                            .addressLine1 +
-                                                        "\n" +
-                                                        order.addressResponse
-                                                            .addressLine2 +
-                                                        "-" +
-                                                        order.addressResponse
-                                                            .pincode
-                                                            .toString() +
-                                                        "\n" +
-                                                        order.addressResponse
-                                                            .city +
-                                                        "\n" +
-                                                        order.addressResponse
-                                                            .state +
-                                                        " " +
-                                                        order.addressResponse
-                                                            .country,
+                                                    'address':
+                                                        "${order.addressResponse.addressLine1}\n${order.addressResponse.addressLine2}-${order.addressResponse.pincode}\n${order.addressResponse.city}\n${order.addressResponse.state} ${order.addressResponse.country}",
                                                     'totalPrice': order
                                                         .totalprice
                                                         .toString()
@@ -255,7 +214,7 @@ class _OrderScreenDeliveryManagerState
                                             style: TextButton.styleFrom(
                                               backgroundColor: buttonColour,
                                             ),
-                                            child: Text("Details"),
+                                            child: const Text("Details"),
                                           ),
                                         ],
                                       ),

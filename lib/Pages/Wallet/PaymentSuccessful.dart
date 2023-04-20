@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/Pages/Order/OrdersForWallet.dart';
 import 'package:get/get.dart';
 
 import '../../ConstantUtil/colors.dart';
-import '../../screens/Navbar.dart';
-import '../../utils/helper.dart';
 import '../Home/home_screen.dart';
-import '../Order/OrderDetails.dart';
 
 class PaymentSuessfulScreen extends StatefulWidget {
   const PaymentSuessfulScreen({Key? key}) : super(key: key);
@@ -29,9 +23,9 @@ class _PaymentSuessfulScreenState extends State<PaymentSuessfulScreen> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [],
+                children: const [],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
               Image.asset(
@@ -40,10 +34,10 @@ class _PaymentSuessfulScreenState extends State<PaymentSuessfulScreen> {
                 fit: BoxFit.cover,
                 "assets/images/success.gif",
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Center(
+              const Center(
                 child: Text(
                   "Thank You !",
                   style: TextStyle(
@@ -53,10 +47,10 @@ class _PaymentSuessfulScreenState extends State<PaymentSuessfulScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 "Amount added successfully in your wallet",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -65,14 +59,14 @@ class _PaymentSuessfulScreenState extends State<PaymentSuessfulScreen> {
                   fontWeight: FontWeight.normal,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text("Now you can use your wallet amount for shopping"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 60,
               ),
               Padding(
@@ -87,9 +81,9 @@ class _PaymentSuessfulScreenState extends State<PaymentSuessfulScreen> {
                       primary: buttonColour,
                     ),
                     onPressed: () {
-                      Get.to(() => OrdersForWallet());
+                      Get.to(() => const OrdersForWallet());
                     },
-                    child: Text(
+                    child: const Text(
                       "Wallet Transaction History",
                     ),
                   ),
@@ -101,9 +95,9 @@ class _PaymentSuessfulScreenState extends State<PaymentSuessfulScreen> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => HomeScreen());
+                    Get.to(() => const HomeScreen());
                   },
-                  child: Text(
+                  child: const Text(
                     "Back To Home",
                     style: TextStyle(
                       color: AppColor.primary,

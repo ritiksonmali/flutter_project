@@ -54,16 +54,16 @@ class _OrderDetailsDeliveryManagerState
     return WillPopScope(
       onWillPop: () async {
         allOrdersForDeliveryManager.allOrders.clear();
-        await Future.delayed(Duration(seconds: 1));
+        await Future.delayed(const Duration(seconds: 1));
         allOrdersForDeliveryManager.getAllOrders();
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
         Get.back();
         return false;
       },
       child: Scaffold(
         backgroundColor: grey,
         appBar: AppBar(
-          iconTheme: IconThemeData(color: white),
+          iconTheme: const IconThemeData(color: white),
           automaticallyImplyLeading: true,
           backgroundColor: kPrimaryGreen,
           centerTitle: true,
@@ -121,35 +121,12 @@ class _OrderDetailsDeliveryManagerState
                             primary: buttonColour),
                         onPressed: () async {
                           imagePickerOption();
-                          // if (allOrdersForDeliveryManager.uploaded == true) {
-                          //   allOrdersForDeliveryManager
-                          //       .setOrderDelivered(orderId['orderId']);
-                          //   await Future.delayed(const Duration(seconds: 2));
-                          //   // ignore: use_build_context_synchronously
-                          //   ScaffoldMessenger.of(context)
-                          //       .showSnackBar(const SnackBar(
-                          //     content: Text('Order Delivered Successfully'),
-                          //     backgroundColor: buttonColour,
-                          //   ));
-
-                          //   allOrdersForDeliveryManager.uploaded = false;
-                          // } else {
-                          //   // ignore: prefer_const_constructors
-                          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          //     content: Text('Please Upload Image !',
-                          //         style: Theme.of(context)
-                          //             .textTheme
-                          //             .bodyMedium!
-                          //             .apply(color: white)),
-                          //     backgroundColor: kAlertColor,
-                          //   ));
-                          // }
                         },
                         icon: const Icon(
                           Icons.local_shipping,
                           size: 24.0,
                         ),
-                        label: Text('Delivered'),
+                        label: const Text('Delivered'),
                       ),
                     ),
                   ),
@@ -162,7 +139,7 @@ class _OrderDetailsDeliveryManagerState
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -170,7 +147,7 @@ class _OrderDetailsDeliveryManagerState
                     child: Text("Address",
                         style: Theme.of(context).textTheme.titleLarge),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
@@ -189,17 +166,6 @@ class _OrderDetailsDeliveryManagerState
                       ],
                     ),
                   ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  // Container(
-                  //   height: 15,
-                  //   width: double.infinity,
-                  //   color: grey,
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
                   isAvoidRingingBell == false &&
                           isLeaveAtTheDoor == false &&
                           isAvoidCalling == false &&
@@ -212,12 +178,12 @@ class _OrderDetailsDeliveryManagerState
                           child: Text("Delivery Instructions",
                               style: Theme.of(context).textTheme.titleLarge),
                         ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   isAvoidRingingBell
                       ? Padding(
-                          padding: EdgeInsets.all(6.0),
+                          padding: const EdgeInsets.all(6.0),
                           child: Container(
                             width: width,
                             // height: height * 0.06,
@@ -243,7 +209,7 @@ class _OrderDetailsDeliveryManagerState
                                     Icons.notifications_active,
                                     size: height * 0.02,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -286,7 +252,7 @@ class _OrderDetailsDeliveryManagerState
                                     Icons.door_front_door,
                                     size: height * 0.02,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -330,7 +296,7 @@ class _OrderDetailsDeliveryManagerState
                                     Icons.directions,
                                     size: height * 0.02,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Expanded(
@@ -375,7 +341,7 @@ class _OrderDetailsDeliveryManagerState
                                     Icons.call,
                                     size: height * 0.02,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -418,7 +384,7 @@ class _OrderDetailsDeliveryManagerState
                                     Icons.security,
                                     size: height * 0.02,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -484,7 +450,7 @@ class _OrderDetailsDeliveryManagerState
                           ),
                         ]),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Column(
@@ -520,7 +486,7 @@ class _OrderDetailsDeliveryManagerState
                                 child: Column(
                                   children: <Widget>[
                                     Container(
-                                      padding: EdgeInsets.all(20),
+                                      padding: const EdgeInsets.all(20),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -569,7 +535,7 @@ class _OrderDetailsDeliveryManagerState
                       ),
                     );
                   })),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Container(
@@ -577,7 +543,7 @@ class _OrderDetailsDeliveryManagerState
                     width: double.infinity,
                     color: grey,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
@@ -592,7 +558,7 @@ class _OrderDetailsDeliveryManagerState
                               style: Theme.of(context).textTheme.titleMedium),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
@@ -604,7 +570,7 @@ class _OrderDetailsDeliveryManagerState
                               style: Theme.of(context).textTheme.titleMedium),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
@@ -616,14 +582,14 @@ class _OrderDetailsDeliveryManagerState
                               style: Theme.of(context).textTheme.titleMedium),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
-                      Divider(
+                      const Divider(
                         height: 10,
                         color: Color.fromARGB(255, 137, 136, 136),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Row(
@@ -635,7 +601,7 @@ class _OrderDetailsDeliveryManagerState
                               style: Theme.of(context).textTheme.titleLarge),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                     ]),
@@ -664,7 +630,7 @@ class _OrderDetailsDeliveryManagerState
   List selectedOrder = [];
 
   Future getOrderDetails(orderId) async {
-    String url = serverUrl + 'getOrderDetailsbyid/${orderId}';
+    String url = '${serverUrl}getOrderDetailsbyid/$orderId';
     http.Response response = await http.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -691,7 +657,6 @@ class _OrderDetailsDeliveryManagerState
       bool uploaded = await allOrdersForDeliveryManager.uploadImage(
           orderId['orderId'], PickedImage!);
       // Future.delayed(Duration(seconds: 2));
-      print(uploaded);
       if (uploaded == true) {
         Get.back();
         Fluttertoast.showToast(
@@ -870,7 +835,7 @@ class _OrderDetailsDeliveryManagerState
                               decoration: BoxDecoration(
                                   color: buttonColour,
                                   borderRadius: BorderRadius.circular(12)),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   "Cancel Order",
                                   style: TextStyle(
@@ -988,7 +953,6 @@ class _OrderDetailsDeliveryManagerState
 
   checkValidations() {
     if (_formKey5.currentState!.validate()) {
-      print("Form is valid ");
       _formKey5.currentState!.save();
       sendYourFeedbackApi(reasonController.text.toString(), orderId['orderId']);
     } else {
@@ -1001,16 +965,12 @@ class _OrderDetailsDeliveryManagerState
     }
   }
 
-  Future sendYourFeedbackApi(
-      // ignore: non_constant_identifier_names
-      String CancelReason,
-      int orderId) async {
-    String url = serverUrl + 'setCancellationReason';
+  Future sendYourFeedbackApi(String cancelReason, int orderId) async {
+    String url = '${serverUrl}setCancellationReason';
     var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({"orderId": orderId, "cancelReasons": CancelReason}));
+        body: json.encode({"orderId": orderId, "cancelReasons": cancelReason}));
     if (response.statusCode == 200) {
-      print(response.body);
       setState(() {
         reasonController.clear();
         Get.to(() => const OrderScreenDeliveryManager());

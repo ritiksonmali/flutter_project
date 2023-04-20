@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -27,18 +25,18 @@ class ProfileView extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             "Name: ${user.displayName ?? 'Anonymous'}",
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             "Email: ${user.email ?? 'Anonymous'}",
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
         ),
       ],
     );

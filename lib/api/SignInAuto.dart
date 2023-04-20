@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_login_app/Controller/PushNotificationController.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/screens/mobileNumber.dart';
-import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -53,16 +51,16 @@ class SignInApi extends ChangeNotifier {
       var splituser = a.split(' ');
       if (userCredential.user != null) {
         CommanDialog.showLoading();
-        await Future.delayed(Duration(seconds: 8));
-        print(splituser[0] + splituser[1]);
+        await Future.delayed(const Duration(seconds: 8));
+        // print(splituser[0] + splituser[1]);
         RestApiTest(splituser[0], splituser[1], googleUser!.email,
-            this.Defaultpassword, this.sos);
+            Defaultpassword, sos);
         // Get.to(() => HomeScreen());
       } else {
         print('not verified');
       }
     } on Exception catch (e) {
-      print(e);
+      e.printError();
     }
 
     // notifyListeners();
@@ -84,14 +82,12 @@ class SignInApi extends ChangeNotifier {
     if (result.status == LoginStatus.success) {
       CommanDialog.showLoading();
       final userData = await FacebookAuth.i.getUserData();
-      print(userData);
       String str = userData['name'];
 
       //split string
       var arr = str.split(' ');
 
-      RestApiTest(
-          arr[0], arr[1], userData['email'], this.Defaultpassword, this.sos);
+      RestApiTest(arr[0], arr[1], userData['email'], Defaultpassword, sos);
     }
   }
 
@@ -99,14 +95,14 @@ class SignInApi extends ChangeNotifier {
       String firstname, lastname, email, password, bool sos) async {
     try {
       if (email != null) {
-        String url = serverUrl + 'api/auth/signinwithsso';
+        String url = '${serverUrl}api/auth/signinwithsso';
         http.Response response = await http.post(Uri.parse(url),
             headers: {'Content-Type': 'application/json'},
             body: json.encode({
               'firstName': firstname,
               'lastName': lastname,
               'email': email,
-              'password': this.Defaultpassword,
+              'password': Defaultpassword,
               'sos': sos,
             }));
 
@@ -126,15 +122,14 @@ class SignInApi extends ChangeNotifier {
           store.setString('role', json.encode(userDetails['result']['role']));
           String? roleFrompreference = store.getString('role');
           role = jsonDecode(roleFrompreference!);
-          print("Role is " + role);
           pushNotificationController.sendNotificationData(
               deviceToken, deviceType);
           CommanDialog.hideLoading();
           if (userDetails['result']['new'] == true) {
-            Get.to(() => MobileNumberScreen(),
+            Get.to(() => const MobileNumberScreen(),
                 arguments: {'uId': userDetails['result']['id']});
           } else {
-            Get.off(() => HomeScreen());
+            Get.off(() => const HomeScreen());
           }
 
           // CommanDialog.hideLoading();
@@ -151,7 +146,7 @@ class SignInApi extends ChangeNotifier {
       } else {
         CommanDialog.hideLoading();
         print("failed");
-        Get.showSnackbar(GetSnackBar(
+        Get.showSnackbar(const GetSnackBar(
           duration: Duration(seconds: 5),
           backgroundColor: Colors.redAccent,
           messageText: Text(
@@ -159,7 +154,7 @@ class SignInApi extends ChangeNotifier {
         ));
       }
     } catch (e) {
-      print(e.toString());
+      e.printError();
     }
   }
 }

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
 import '../../ConstantUtil/colors.dart';
-import '../../screens/Navbar.dart';
 import '../../utils/helper.dart';
 import '../Home/home_screen.dart';
 
@@ -26,25 +23,15 @@ class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  // IconButton(
-                  //   onPressed: () {
-                  //     Navigator.of(context).pop();
-                  //   },
-                  //   icon: Icon(Icons.clear),
-                  // ),
-                ],
+                children: const [],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
-              // Image.asset(
-              //     "assets/fail.webp",
-              // ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 "Order Fails!",
                 style: TextStyle(
                   color: AppColor.primary,
@@ -52,7 +39,7 @@ class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
                   fontSize: 30,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
@@ -61,15 +48,15 @@ class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
                     .headline4
                     ?.copyWith(color: AppColor.primary),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                     "Your order is failed . please try again or try to contact us. the status of your order is fail"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 60,
               ),
               Padding(
@@ -78,9 +65,9 @@ class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => HomeScreen());
+                    Get.to(() => const HomeScreen());
                   },
-                  child: Text(
+                  child: const Text(
                     "Back To Home",
                     style: TextStyle(
                       color: AppColor.primary,

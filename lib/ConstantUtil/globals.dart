@@ -14,3 +14,5 @@ bool isImagesAdded = false;
 String serverUrl = 'http://10.0.2.2:8082/';
 //String serverUrl=serverUrl+'';
 // String serverUrl = 'http://158.85.243.11:8082/ergomart/';
+// String serverUrl = 'http://3.231.24.29:8080/ergomart/';
+// String serverUrl = 'http://13.232.201.207:8080/ergomart/';
