@@ -4,11 +4,8 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
-import 'package:flutter_login_app/Controller/CategoryController.dart';
 import 'package:flutter_login_app/Controller/LocalImagesController.dart';
 import 'package:flutter_login_app/Controller/LoginController.dart';
-import 'package:flutter_login_app/Controller/OfferController.dart';
-import 'package:flutter_login_app/Controller/PopularproductController.dart';
 import 'package:flutter_login_app/Controller/PushNotificationController.dart';
 import 'package:flutter_login_app/Notification/LocalNotificationService.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
@@ -43,8 +40,6 @@ class _MainappState extends State<Mainapp> {
   @override
   void initState() {
     super.initState();
-    // localImagesController.getAllProductImages();
-
     FirebaseMessaging.instance.getInitialMessage().then(
       (message) {
         print("FirebaseMessaging.instance.getInitialMessage");
@@ -58,9 +53,6 @@ class _MainappState extends State<Mainapp> {
       (message) {
         print("FirebaseMessaging.onMessage.listen");
         if (message.notification != null) {
-          print(message.notification!.title);
-          print(message.notification!.body);
-          print("message.data11 ${message.data}");
           LocalNotificationService.createanddisplaynotification(message);
         }
       },
@@ -68,12 +60,9 @@ class _MainappState extends State<Mainapp> {
 
     FirebaseMessaging.onMessageOpenedApp.listen(
       (message) {
+        // ignore: avoid_print
         print("FirebaseMessaging.onMessageOpenedApp.listen");
-        if (message.notification != null) {
-          print(message.notification!.title);
-          print(message.notification!.body);
-          print("message.data ${message.data['_id']}");
-        }
+        if (message.notification != null) {}
       },
     );
   }
@@ -94,7 +83,6 @@ class _MainappState extends State<Mainapp> {
                 print('called');
                 pushNotificationController.sendNotificationData(
                     deviceTokenToSendPushNotification, deviceType);
-                // productController.getAllProducts();
                 List<FileSystemEntity> dirContents = directory.listSync();
                 if (dirContents.length == 0) {
                   print('Directory is empty');

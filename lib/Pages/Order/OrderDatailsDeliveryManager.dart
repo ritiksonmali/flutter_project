@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Controller/AllOrdersForDeliveryManager.dart';
+import 'package:flutter_login_app/Controller/OrderController.dart';
 import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,15 @@ import '../../ConstantUtil/colors.dart';
 import 'package:http/http.dart' as http;
 
 class OrderDetailsDeliveryManager extends StatefulWidget {
-  const OrderDetailsDeliveryManager({Key? key}) : super(key: key);
+  String address;
+  String orderStatus;
+  int orderId;
+
+  OrderDetailsDeliveryManager(
+      {required this.address,
+      required this.orderStatus,
+      required this.orderId});
+  // const OrderDetailsDeliveryManager({Key? key}) : super(key: key);
   // static const routeName = '/checkout';
 
   @override
@@ -25,14 +34,16 @@ class _OrderDetailsDeliveryManagerState
     extends State<OrderDetailsDeliveryManager> {
   TextEditingController reasonController = TextEditingController();
   final _formKey5 = GlobalKey<FormState>();
-  AllOrdersForDeliveryManager allOrdersForDeliveryManager = Get.find();
+  // AllOrdersForDeliveryManager allOrdersForDeliveryManager = Get.find();
+  OrderController orderController = Get.find();
   // ignore: prefer_typing_uninitialized_variables
   var total;
   double gst = 0;
   double finalPrice = 0;
+  bool isLoading = true;
   // ignore: non_constant_identifier_names
   File? PickedImage;
-  var orderId = Get.arguments;
+  // var orderId = Get.arguments;
 
   bool isAvoidRingingBell = false;
   bool isLeaveAtTheDoor = false;
@@ -53,11 +64,13 @@ class _OrderDetailsDeliveryManagerState
     var width = size.width;
     return WillPopScope(
       onWillPop: () async {
-        allOrdersForDeliveryManager.allOrders.clear();
-        await Future.delayed(const Duration(seconds: 1));
-        allOrdersForDeliveryManager.getAllOrders();
-        await Future.delayed(const Duration(seconds: 2));
-        Get.back();
+        // orderController.orders.clear();
+        // await Future.delayed(const Duration(seconds: 1));
+        // orderController.scrollController = ScrollController();
+        // orderController.getAllOrders();
+        Navigator.of(context).pop(true);
+        // await Future.delayed(const Duration(seconds: 2));
+        // Get.back();
         return false;
       },
       child: Scaffold(
@@ -69,11 +82,12 @@ class _OrderDetailsDeliveryManagerState
           centerTitle: true,
           leading: IconButton(
             onPressed: () async {
-              allOrdersForDeliveryManager.allOrders.clear();
-              await Future.delayed(const Duration(seconds: 1));
-              allOrdersForDeliveryManager.getAllOrders();
-              await Future.delayed(const Duration(seconds: 2));
-              Get.back();
+              // orderController.orders.clear();
+              // await Future.delayed(const Duration(seconds: 1));
+              // orderController.getAllOrders();
+              Navigator.of(context).pop(true);
+              // await Future.delayed(const Duration(seconds: 2));
+              // Get.back();
             },
             icon: const Icon(
               Icons.arrow_back,
@@ -84,546 +98,604 @@ class _OrderDetailsDeliveryManagerState
               style:
                   Theme.of(context).textTheme.headline5!.apply(color: white)),
         ),
-        bottomNavigationBar: orderId['orderStatus'] == "DELIVERED" ||
-                orderId['orderStatus'] == "CANCELLED"
-            ? const SizedBox()
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.only(top: 10, bottom: 10),
-                            primary: buttonCancelColour),
-                        onPressed: () {
-                          cancelOrderOption();
-                        },
-                        icon: const Icon(
-                          Icons.cancel,
-                          size: 24.0,
-                        ),
-                        label: Text('Cancel Order',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .apply(color: white)),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.only(top: 10, bottom: 10),
-                            primary: buttonColour),
-                        onPressed: () async {
-                          imagePickerOption();
-                        },
-                        icon: const Icon(
-                          Icons.local_shipping,
-                          size: 24.0,
-                        ),
-                        label: const Text('Delivered'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-        body: SingleChildScrollView(
-          child: Stack(
-            children: [
-              SafeArea(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text("Address",
-                        style: Theme.of(context).textTheme.titleLarge),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 00),
-                          child: SizedBox(
-                            width: 230,
-                            child: Text(orderId['address'],
-                                style: Theme.of(context).textTheme.bodyMedium),
+        bottomNavigationBar: isLoading == true
+            ? Container(
+                color: grey,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : widget.orderStatus == "DELIVERED" ||
+                    widget.orderStatus == "CANCELLED"
+                //  orderId['orderStatus'] == "DELIVERED" ||
+                //         orderId['orderStatus'] == "CANCELLED"
+                ? const SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 10),
+                                primary: buttonCancelColour),
+                            onPressed: () {
+                              cancelOrderOption();
+                            },
+                            icon: const Icon(
+                              Icons.cancel,
+                              size: 24.0,
+                            ),
+                            label: Text('Cancel Order',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .apply(color: white)),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 10),
+                                primary: buttonColour),
+                            onPressed: () async {
+                              imagePickerOption();
+                            },
+                            icon: const Icon(
+                              Icons.local_shipping,
+                              size: 24.0,
+                            ),
+                            label: const Text('Delivered'),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  isAvoidRingingBell == false &&
-                          isLeaveAtTheDoor == false &&
-                          isAvoidCalling == false &&
-                          isLeaveWithSecurity == false &&
-                          isdeliveryInstruction == ''
-                      ? const SizedBox()
-                      : Padding(
-                          padding: const EdgeInsets.only(
-                              right: 20, left: 20, top: 15),
-                          child: Text("Delivery Instructions",
+        body: isLoading == true
+            ? Container(
+                color: grey,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : SingleChildScrollView(
+                child: Stack(
+                  children: [
+                    SafeArea(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text("Address",
                               style: Theme.of(context).textTheme.titleLarge),
                         ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  isAvoidRingingBell
-                      ? Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Container(
-                            width: width,
-                            // height: height * 0.06,
-                            decoration: BoxDecoration(
-                                color: buttonColour,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 1,
-                                      color: black.withOpacity(0.1),
-                                      blurRadius: 2)
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                                top: 10,
-                                bottom: 10,
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 00),
+                                child: SizedBox(
+                                  width: 230,
+                                  child: Text(widget.address,
+                                      // orderId['address'],
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                ),
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.notifications_active,
-                                    size: height * 0.02,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'Avoid ringing bell',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
-                            ),
+                            ],
                           ),
-                        )
-                      : const SizedBox(),
-                  isLeaveAtTheDoor
-                      ? Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Container(
-                            width: width,
-                            // height: height * 0.06,
-                            decoration: BoxDecoration(
-                                color: buttonColour,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 1,
-                                      color: black.withOpacity(0.1),
-                                      blurRadius: 2)
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                                top: 10,
-                                bottom: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.door_front_door,
-                                    size: height * 0.02,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'Leave at the door',
+                        ),
+                        isAvoidRingingBell == false &&
+                                isLeaveAtTheDoor == false &&
+                                isAvoidCalling == false &&
+                                isLeaveWithSecurity == false &&
+                                isdeliveryInstruction == ''
+                            ? const SizedBox()
+                            : Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 20, left: 20, top: 15),
+                                child: Text("Delivery Instructions",
                                     style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                                        Theme.of(context).textTheme.titleLarge),
                               ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                  isdeliveryInstruction != ""
-                      ? Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Container(
-                            width: width,
-                            // height: height * 0.06,
-                            decoration: BoxDecoration(
-                                color: buttonColour,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 1,
-                                      color: black.withOpacity(0.1),
-                                      blurRadius: 2)
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                                top: 10,
-                                bottom: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.directions,
-                                    size: height * 0.02,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      isdeliveryInstruction,
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
-                                      textAlign: TextAlign.start,
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        isAvoidRingingBell
+                            ? Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Container(
+                                  width: width,
+                                  // height: height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            color: black.withOpacity(0.1),
+                                            blurRadius: 2)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.notifications_active,
+                                          size: height * 0.02,
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'Avoid ringing bell',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                  isAvoidCalling
-                      ? Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Container(
-                            width: width,
-                            // height: height * 0.06,
-                            decoration: BoxDecoration(
-                                color: buttonColour,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 1,
-                                      color: black.withOpacity(0.1),
-                                      blurRadius: 2)
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                                top: 10,
-                                bottom: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.call,
-                                    size: height * 0.02,
+                                ),
+                              )
+                            : const SizedBox(),
+                        isLeaveAtTheDoor
+                            ? Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Container(
+                                  width: width,
+                                  // height: height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            color: black.withOpacity(0.1),
+                                            blurRadius: 2)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.door_front_door,
+                                          size: height * 0.02,
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'Leave at the door',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  const SizedBox(
-                                    width: 5,
+                                ),
+                              )
+                            : const SizedBox(),
+                        isdeliveryInstruction != ""
+                            ? Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Container(
+                                  width: width,
+                                  // height: height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            color: black.withOpacity(0.1),
+                                            blurRadius: 2)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      right: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.directions,
+                                          size: height * 0.02,
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            isdeliveryInstruction,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge,
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  Text(
-                                    'Avoid Calling',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                    textAlign: TextAlign.center,
+                                ),
+                              )
+                            : const SizedBox(),
+                        isAvoidCalling
+                            ? Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Container(
+                                  width: width,
+                                  // height: height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            color: black.withOpacity(0.1),
+                                            blurRadius: 2)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.call,
+                                          size: height * 0.02,
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'Avoid Calling',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                  isLeaveWithSecurity
-                      ? Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Container(
-                            width: width,
-                            // height: height * 0.06,
-                            decoration: BoxDecoration(
-                                color: buttonColour,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 1,
-                                      color: black.withOpacity(0.1),
-                                      blurRadius: 2)
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                                top: 10,
-                                bottom: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.security,
-                                    size: height * 0.02,
+                                ),
+                              )
+                            : const SizedBox(),
+                        isLeaveWithSecurity
+                            ? Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Container(
+                                  width: width,
+                                  // height: height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: buttonColour,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            color: black.withOpacity(0.1),
+                                            blurRadius: 2)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.security,
+                                          size: height * 0.02,
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "Leave with Security",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Leave with Security",
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Order Summary",
-                            style: Theme.of(context).textTheme.titleLarge),
+                                ),
+                              )
+                            : const SizedBox(),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: TextButton(
-                              onPressed: () {
-                                // Get.to(() => OrderPage());
-                              },
-                              child: Row(
-                                children: [],
-                              )),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Order Summary",
+                                  style:
+                                      Theme.of(context).textTheme.titleLarge),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: TextButton(
+                                    onPressed: () {
+                                      // Get.to(() => OrderPage());
+                                    },
+                                    child: Row(
+                                      children: [],
+                                    )),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            flex: 10,
-                            child: Text(
-                              "Product Name",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 10,
-                            child: Text(
-                              "Quantity",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 10,
-                            child: Text(
-                              "Price",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ]),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                      children: List.generate(selectedOrder.length, (index) {
-                    var productdata = selectedOrder[index];
-                    total = selectedOrder.length > 0
-                        ? selectedOrder
-                            .map<int>(
-                                (m) => m['product']['price'] * m['quantity'])
-                            .reduce((value, element) => value + element)
-                        : 0;
-                    int? totalPrice = int.tryParse(total.toString());
-                    gst = ((totalPrice! * 0.18));
-                    finalPrice = gst + totalPrice + 10;
-                    return GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: InkWell(
-                          onTap: () {},
-                          child: Container(
-                              child: Stack(
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: grey,
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          spreadRadius: 1,
-                                          color: black.withOpacity(0.1),
-                                          blurRadius: 2)
-                                    ]),
-                                child: Column(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  flex: 10,
+                                  child: Text(
+                                    "Product Name",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 10,
+                                  child: Text(
+                                    "Quantity",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 10,
+                                  child: Text(
+                                    "Price",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                            children:
+                                List.generate(selectedOrder.length, (index) {
+                          var productdata = selectedOrder[index];
+                          total = selectedOrder.length > 0
+                              ? selectedOrder
+                                  .map<int>((m) =>
+                                      m['product']['price'] * m['quantity'])
+                                  .reduce((value, element) => value + element)
+                              : 0;
+                          int? totalPrice = int.tryParse(total.toString());
+                          gst = ((totalPrice! * 0.18));
+                          finalPrice = gst + totalPrice + 10;
+                          return GestureDetector(
+                            child: Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: InkWell(
+                                onTap: () {},
+                                child: Container(
+                                    child: Stack(
                                   children: <Widget>[
                                     Container(
-                                      padding: const EdgeInsets.all(20),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                      decoration: BoxDecoration(
+                                          color: grey,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                spreadRadius: 1,
+                                                color: black.withOpacity(0.1),
+                                                blurRadius: 2)
+                                          ]),
+                                      child: Column(
                                         children: <Widget>[
-                                          Expanded(
-                                            flex: 10,
-                                            child: Text(
-                                              productdata['product']['name']
-                                                  .toString(),
-                                              // "\$ " + products[index]['price'],
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 10,
-                                            child: Text(
-                                              productdata['quantity']
-                                                  .toString(),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 10,
-                                            child: Text(
-                                              productdata['product']['price']
-                                                  .toString()
-                                                  .toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium,
-                                              textAlign: TextAlign.center,
+                                          Container(
+                                            padding: const EdgeInsets.all(20),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Expanded(
+                                                  flex: 10,
+                                                  child: Text(
+                                                    productdata['product']
+                                                            ['name']
+                                                        .toString(),
+                                                    // "\$ " + products[index]['price'],
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium,
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 10,
+                                                  child: Text(
+                                                    productdata['quantity']
+                                                        .toString(),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 10,
+                                                  child: Text(
+                                                    productdata['product']
+                                                            ['price']
+                                                        .toString()
+                                                        .toString(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium,
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
                                   ],
-                                ),
+                                )),
                               ),
-                            ],
-                          )),
+                            ),
+                          );
+                        })),
+                        const SizedBox(
+                          height: 10,
                         ),
-                      ),
-                    );
-                  })),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 15,
-                    width: double.infinity,
-                    color: grey,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Sub Total",
-                              style: Theme.of(context).textTheme.titleMedium),
-                          Text("\₹${total}",
-                              style: Theme.of(context).textTheme.titleMedium),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Delivery Cost",
-                              style: Theme.of(context).textTheme.titleMedium),
-                          Text("\₹10",
-                              style: Theme.of(context).textTheme.titleMedium),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Gst(18%)",
-                              style: Theme.of(context).textTheme.titleMedium),
-                          Text("\₹${gst.toStringAsFixed(2)}",
-                              style: Theme.of(context).textTheme.titleMedium),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const Divider(
-                        height: 10,
-                        color: Color.fromARGB(255, 137, 136, 136),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Total",
-                              style: Theme.of(context).textTheme.titleLarge),
-                          Text("\₹${finalPrice}",
-                              style: Theme.of(context).textTheme.titleLarge),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    ]),
-                  ),
-                  Container(
-                    height: 10,
-                    width: double.infinity,
-                    color: grey,
-                  ),
-                ],
-              )),
-            ],
-          ),
-        ),
+                        Container(
+                          height: 15,
+                          width: double.infinity,
+                          color: grey,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Sub Total",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium),
+                                Text("\₹${total}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Delivery Cost",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium),
+                                Text("\₹10",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Gst(18%)",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium),
+                                Text("\₹${gst.toStringAsFixed(2)}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            const Divider(
+                              height: 10,
+                              color: Color.fromARGB(255, 137, 136, 136),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Total",
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge),
+                                Text("\₹${finalPrice}",
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ]),
+                        ),
+                        Container(
+                          height: 10,
+                          width: double.infinity,
+                          color: grey,
+                        ),
+                      ],
+                    )),
+                  ],
+                ),
+              ),
       ),
     );
   }
 
   apiCall() async {
-    var SelectedOrderFromAPi = await getOrderDetails(orderId['orderId']);
+    var SelectedOrderFromAPi = await getOrderDetails(widget.orderId);
     setState(() {
       selectedOrder = SelectedOrderFromAPi;
+      isLoading = false;
     });
   }
 
@@ -654,22 +726,23 @@ class _OrderDetailsDeliveryManagerState
       setState(() {
         PickedImage = tempImage;
       });
-      bool uploaded = await allOrdersForDeliveryManager.uploadImage(
-          orderId['orderId'], PickedImage!);
+      bool uploaded = await orderController
+          .uploadOrderImageAndSetOrderDelivered(widget.orderId, PickedImage!);
       // Future.delayed(Duration(seconds: 2));
       if (uploaded == true) {
-        Get.back();
+        // Get.back();
         Fluttertoast.showToast(
             msg: "Order Delivered Successfully",
             fontSize: 14,
             backgroundColor: buttonColour,
             textColor: white);
-        CommanDialog.showLoading();
-        allOrdersForDeliveryManager.allOrders.clear();
-        allOrdersForDeliveryManager.getAllOrders();
-        await Future.delayed(const Duration(seconds: 3));
-        CommanDialog.hideLoading();
-        Get.back();
+        // CommanDialog.showLoading();
+        // orderController.orders.clear();
+        // orderController.getAllOrders();
+        // await Future.delayed(const Duration(seconds: 3));
+        Navigator.of(context).pop(true);
+        // CommanDialog.hideLoading();
+        // Get.back();
       } else {
         Get.back();
         Fluttertoast.showToast(
@@ -716,6 +789,7 @@ class _OrderDetailsDeliveryManagerState
                     ),
                     onPressed: () {
                       pickImage(ImageSource.camera);
+                      Get.back();
                     },
                     icon: const Icon(Icons.camera),
                     label: const Text("CAMERA"),
@@ -726,6 +800,7 @@ class _OrderDetailsDeliveryManagerState
                     ),
                     onPressed: () {
                       pickImage(ImageSource.gallery);
+                      Get.back();
                     },
                     icon: const Icon(Icons.image),
                     label: const Text("GALLERY"),
@@ -827,6 +902,7 @@ class _OrderDetailsDeliveryManagerState
                           ),
                           child: GestureDetector(
                             onTap: () {
+                              Navigator.of(context).pop(false);
                               checkValidations();
                             },
                             child: Container(
@@ -954,7 +1030,7 @@ class _OrderDetailsDeliveryManagerState
   checkValidations() {
     if (_formKey5.currentState!.validate()) {
       _formKey5.currentState!.save();
-      sendYourFeedbackApi(reasonController.text.toString(), orderId['orderId']);
+      sendYourFeedbackApi(reasonController.text.toString(), widget.orderId);
     } else {
       Fluttertoast.showToast(
           msg: 'please Enter Reason',
@@ -973,13 +1049,22 @@ class _OrderDetailsDeliveryManagerState
     if (response.statusCode == 200) {
       setState(() {
         reasonController.clear();
-        Get.to(() => const OrderScreenDeliveryManager());
+        // orderController.getAllOrders();
+        Navigator.of(context).pop(true);
+        // Get.to(() => const OrderScreenDeliveryManager());
       });
       Fluttertoast.showToast(
-          msg: 'Order Cancelled',
+          msg: 'Order Cancelled Successfully',
           gravity: ToastGravity.BOTTOM_RIGHT,
           fontSize: 18,
           backgroundColor: buttonColour,
+          textColor: white);
+    } else {
+      Fluttertoast.showToast(
+          msg: 'Failed to Order Cancelled please try again',
+          gravity: ToastGravity.BOTTOM_RIGHT,
+          fontSize: 18,
+          backgroundColor: buttonCancelColour,
           textColor: white);
     }
   }

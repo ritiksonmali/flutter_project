@@ -20,7 +20,8 @@ const kFillColorForth = Color(0xFFF4F4F5);
 const kAlertColor = Color(0xFFFF3B30);
 // const buttonCancelColour = Color.fromARGB(255, 137, 135, 135);
 const buttonCancelColour = Color(0xFFFF3B30);
-const buttonColour = Color.fromARGB(255, 40, 178, 88);
+// const buttonColour = Color.fromARGB(255, 40, 178, 88);
+const buttonColour = Color.fromARGB(255, 155, 129, 229);
 const kBlueColour = Color.fromARGB(255, 33, 150, 243);
 const kLightGreen = Color.fromARGB(255, 155, 238, 158);
 const kWarning = Color.fromARGB(255, 235, 160, 156);
@@ -33,7 +34,8 @@ const kTextColorForth = Color(0xFFF8F8F8);
 const backgroundColor = Color.fromARGB(255, 244, 244, 244);
 
 /// Main color pallete
-const kPrimaryGreen = Color(0xFF54B175);
+// const kPrimaryGreen = Color(0xFF54B175);
+const kPrimaryGreen = Color(0xFF9B81E5);
 const kPrimaryRed = Color(0xFFFE6E4C);
 const kPrimaryYellow = Color(0xFFFEBF43);
 const kPrimaryPurple = Color(0xFF9B81E5);

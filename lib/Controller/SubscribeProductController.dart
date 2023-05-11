@@ -6,7 +6,6 @@ import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Controller/LogsController.dart';
 import 'package:flutter_login_app/Pages/Subscribe/SubscribeProductDetails.dart';
 import 'package:flutter_login_app/Pages/Wallet/WalletScreen.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

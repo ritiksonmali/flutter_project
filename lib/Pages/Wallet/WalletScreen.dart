@@ -150,7 +150,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                 .apply(
                                     color: WalletAmount == 0
                                         ? kAlertColor
-                                        : buttonColour),
+                                        : kLightGreen),
                           ),
                         ),
                       ],

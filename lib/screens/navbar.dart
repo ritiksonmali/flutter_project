@@ -2,9 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
+import 'package:flutter_login_app/Pages/Admin/AdminDashboard.dart';
 import 'package:flutter_login_app/Pages/Feedback.dart';
+import 'package:flutter_login_app/Pages/Order/DeliveredOrders.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreen.dart';
 import 'package:flutter_login_app/Pages/Order/OrderScreenDeliveryManager.dart';
+import 'package:flutter_login_app/Pages/Order/UpcomingOrders.dart';
 import 'package:flutter_login_app/Pages/Setting/Setting.dart';
 import 'package:flutter_login_app/Pages/Subscribe/SubscriptionOrders.dart';
 import 'package:flutter_login_app/Pages/Wallet/WalletScreen.dart';
@@ -94,6 +97,32 @@ class _NavbarState extends State<Navbar> {
                           style: Theme.of(context).textTheme.headline6),
                       onTap: () {
                         Get.to(() => const OrderScreenDeliveryManager());
+                      },
+                    ),
+                  )
+                : const SizedBox(),
+            role == "ROLE_ADMIN"
+                ? Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.dashboard),
+                      title: Text('Admin Dashboard',
+                          style: Theme.of(context).textTheme.headline6),
+                      onTap: () {
+                        Get.to(() => const AdminDashboard());
+                      },
+                    ),
+                  )
+                : const SizedBox(),
+            role == "ROLE_ADMIN"
+                ? Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.delivery_dining_sharp),
+                      title: Text('Delivery Details',
+                          style: Theme.of(context).textTheme.headline6),
+                      onTap: () {
+                        Get.to(() => const DeliveredOrders());
                       },
                     ),
                   )

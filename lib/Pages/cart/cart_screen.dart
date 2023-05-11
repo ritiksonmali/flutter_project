@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/screens/navbar.dart';
 import 'package:get/get.dart';
 import 'package:image_fade/image_fade.dart';
@@ -31,7 +30,7 @@ class _CartScreenState extends State<CartScreen> {
   final ProductController productController = Get.put(ProductController());
   String add = "add";
   String remove = "remove";
-  Int? count;
+  int? count;
   bool isLoading = true;
 
   int maxCounter = 4;

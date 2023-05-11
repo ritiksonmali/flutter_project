@@ -41,7 +41,13 @@ class LogsController {
         var logDate = dateFormat.parse(log.substring(0, 19));
         return logDate.isAfter(tenDaysAgo);
       }).toList();
-      await logsFile.writeAsString(filteredLogs.join('\n'));
+      var lastLogMessage = filteredLogs.last;
+      filteredLogs[filteredLogs.length - 1] = '$lastLogMessage\n';
+
+      await logsFile.writeAsString(filteredLogs.join('\n'),
+          mode: FileMode.write);
+      // await logsFile.writeAsString(filteredLogs.join('\n'),
+      //     mode: FileMode.write);
     });
 
     // Print logs to console

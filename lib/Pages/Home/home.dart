@@ -185,6 +185,7 @@ class _HomePageState extends State<HomePage> {
 
     await Future.wait([
       _firstLoad(),
+      productController.getCount(),
       categoryController.getCategoryApi(),
       offerController.getAllOffersApi(),
       popularproductController.getPopularProducts(),
@@ -233,7 +234,7 @@ class _HomePageState extends State<HomePage> {
         endDrawer: const Navbar(),
         appBar: AppBar(
           title: Image.asset(
-            'assets/homelogo.png',
+            'assets/VrindavanLogo.png',
             height: 70,
             width: 120,
           ),
@@ -292,9 +293,15 @@ class _HomePageState extends State<HomePage> {
                             horizontal: 5, vertical: 3),
                         backgroundColor: buttonColour,
                       ),
-                      onPressed: () => checkServerStatus().then((value) => {
-                            if (value) {refreshAllData()}
-                          }),
+                      onPressed: () =>
+                          checkServerStatus().then((bool value) => {
+                                if (value != true)
+                                  {
+                                    setState(() {
+                                      refreshAllData();
+                                    })
+                                  }
+                              }),
                       child: const Text("Refresh"),
                     ),
                   ],
@@ -316,9 +323,13 @@ class _HomePageState extends State<HomePage> {
                                 horizontal: 5, vertical: 3),
                             backgroundColor: buttonColour,
                           ),
-                          onPressed: () => checkServerStatus().then((value) => {
-                                if (value) {refreshAllData()}
-                              }),
+                          onPressed: () {
+                            checkServerStatus();
+                            refreshAllData();
+                          },
+                          // onPressed: () => checkServerStatus().then((value) => {
+                          //       if (value) {refreshAllData()}
+                          //     }),
                           child: const Text("Refresh"),
                         ),
                       ],
@@ -326,6 +337,7 @@ class _HomePageState extends State<HomePage> {
                   )
                 : RefreshIndicator(
                     onRefresh: () async {
+                      checkServerStatus();
                       refreshAllData();
                       // await Future.wait([
                       //   // _firstLoad(),

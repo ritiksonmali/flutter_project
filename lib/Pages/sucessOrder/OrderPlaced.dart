@@ -21,87 +21,89 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
         body: Container(
           color: grey,
           height: 800,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: const [],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Image.asset(
-                "assets/vector4.webp",
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                "Thank You!",
-                style: TextStyle(
-                  color: AppColor.primary,
-                  fontWeight: FontWeight.w900,
-                  fontSize: 30,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [],
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "for your order",
-                style: Helper.getTheme(context)
-                    .headline4
-                    ?.copyWith(color: AppColor.primary),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                    "Your order is now being processed. We will let you know once the order is picked from the outlet. Check the status of your order"),
-              ),
-              const SizedBox(
-                height: 60,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
+                const SizedBox(
+                  height: 30,
                 ),
-                child: SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: buttonColour,
+                Image.asset(
+                  "assets/vector4.webp",
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "Thank You!",
+                  style: TextStyle(
+                    color: AppColor.primary,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 30,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "for your order",
+                  style: Helper.getTheme(context)
+                      .headline4
+                      ?.copyWith(color: AppColor.primary),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                      "Your order is now being processed. We will let you know once the order is picked from the outlet. Check the status of your order"),
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: buttonColour,
+                      ),
+                      onPressed: () {
+                        Get.to(() => const OrderScreen());
+                      },
+                      child: const Text(
+                        "Track My Order",
+                      ),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: TextButton(
                     onPressed: () {
-                      Get.to(() => const OrderScreen());
+                      Get.to(() => const HomeScreen());
                     },
                     child: const Text(
-                      "Track My Order",
+                      "Back To Home",
+                      style: TextStyle(
+                        color: AppColor.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    Get.to(() => const HomeScreen());
-                  },
-                  child: const Text(
-                    "Back To Home",
-                    style: TextStyle(
-                      color: AppColor.primary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ));
   }

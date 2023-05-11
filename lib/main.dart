@@ -25,15 +25,10 @@ void main() async {
   LocalNotificationService.initialize();
   directory = await getApplicationDocumentsDirectory();
   final localImagesController = Get.put(LocalImagesController());
-  // await localImagesController.init();
-  // await Get.find<LocalImagesController>().getAllProductCompressedImages();
   Future(() async {
     await localImagesController.getAllProductCompressedImages();
   });
   runApp(const MyApp());
-  // localImagesController.getAllProductCompressedImages().then((value) async {
-  //   runApp(const MyApp());
-  // });
 }
 
 class MyApp extends StatelessWidget {
@@ -46,7 +41,7 @@ class MyApp extends StatelessWidget {
       create: (context) => SignInApi(),
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'ErgoMart',
+        title: 'Vrindavan Dairy',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

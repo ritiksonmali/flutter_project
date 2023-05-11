@@ -244,7 +244,8 @@ class _SignInScreenState extends State<SignInScreen> {
           .post(Uri.parse(url),
               headers: {'Content-Type': 'application/json'},
               body: json.encode({'email': email, 'password': password}))
-          .timeout(const Duration(seconds: 2), onTimeout: () {
+          .timeout(const Duration(seconds: 10), onTimeout: () {
+        CommanDialog.hideLoading();
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Server is not Responding'),
           backgroundColor: kAlertColor,

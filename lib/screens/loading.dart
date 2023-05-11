@@ -20,7 +20,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         child: Container(
           child: Center(
             child: Image.asset(
-              'assets/logo111.png',
+              'assets/VrindavanLogo.png',
               fit: BoxFit.fitWidth,
               width: width * 0.3,
               height: height * 0.4,

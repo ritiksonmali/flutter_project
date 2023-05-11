@@ -30,7 +30,7 @@ class _WelcomeState extends State<Welcome> {
             padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
             child: Column(
               children: <Widget>[
-                logoWidget('assets/logo111.png'),
+                logoWidget('assets/VrindavanLogo.png'),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.2,
                 ),

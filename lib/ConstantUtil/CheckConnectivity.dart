@@ -7,7 +7,7 @@ class CheckConnectivity {
   static Future<bool> checkServerStatus(String server, int port) async {
     try {
       final socket = await Socket.connect(server, port,
-          timeout: const Duration(seconds: 1));
+          timeout: const Duration(seconds: 15));
       await socket.close();
       return false;
     } catch (error) {

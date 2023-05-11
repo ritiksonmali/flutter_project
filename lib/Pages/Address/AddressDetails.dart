@@ -1,8 +1,8 @@
 // ignore_for_file: unused_local_variable
 
 import 'dart:convert';
-import 'dart:ffi';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/Controller/AddressController.dart';
@@ -407,7 +407,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                                     style: TextButton
                                                                         .styleFrom(
                                                                       backgroundColor:
-                                                                          black,
+                                                                          buttonCancelColour,
                                                                     ),
                                                                     onPressed: () =>
                                                                         Navigator.of(context)
@@ -418,7 +418,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                                                                     style: TextButton
                                                                         .styleFrom(
                                                                       backgroundColor:
-                                                                          black,
+                                                                          buttonColour,
                                                                     ),
                                                                     onPressed:
                                                                         () async {
