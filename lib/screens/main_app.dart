@@ -12,7 +12,6 @@ import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/screens/welcome.dart';
 import 'package:get/get.dart';
 
-import '../Controller/ProductController.dart';
 import 'loading.dart';
 
 class Mainapp extends StatefulWidget {

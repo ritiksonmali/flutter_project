@@ -1,15 +1,9 @@
 import 'dart:convert';
 
-import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
-import 'package:flutter_login_app/reusable_widgets/auth_controller.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
-import 'package:flutter_login_app/reusable_widgets/reusable_widget.dart';
-import 'package:flutter_login_app/utils/ColorUtils.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 

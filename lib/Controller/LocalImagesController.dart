@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalImagesController extends GetxController {
   DateTime currentTime = DateTime.now();
-  // ignore: non_constant_identifier_names
+
   var LastUpdatedDate = '';
   bool loading = false; // Add a loading flag
   bool imagesExist =
@@ -43,29 +43,25 @@ class LocalImagesController extends GetxController {
       if (response.statusCode == 200) {
         Map<String, dynamic> body = jsonDecode(response.body);
         if (body.isNotEmpty) {
-          loading = true; // Set loading to true before fetching images
-          update(); // Update the UI
+          loading = true;
+          update();
           await Future.forEach(body.entries,
               (MapEntry<String, dynamic> entry) async {
             Uint8List byteImage = convertBase64Image(entry.value);
             final directory = await getApplicationDocumentsDirectory();
             if (await File('${directory.path}/${entry.key}').exists()) {
-              imagesExist = true; // Set the flag to true if any image exists
+              imagesExist = true;
               // File('${directory.path}/${entry.key}').delete();
             } else {
               final pathOfImage =
                   await File('${directory.path}/${entry.key}').create();
               File file = await pathOfImage.writeAsBytes(byteImage);
               fileList.add(file);
-              // LogsController.printLog(LocalImagesController, "INFO",
-              //     "local images fetched successfully");
             }
           });
           if (!imagesExist) {
-            // If no images exist in local storage
             LastUpdatedDate = '';
           } else if (date.isEmpty) {
-            // If images exist in local storage and no date was provided in the API call
             LastUpdatedDate = DateFormat('dd-MM-yyyy HH:mm:ss')
                 .format(currentTime.toUtc().toLocal());
             final SharedPreferences prefs =

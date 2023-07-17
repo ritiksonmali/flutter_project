@@ -181,7 +181,7 @@ class _DeliveredOrdersState extends State<DeliveredOrders> {
                     padding: const EdgeInsets.all(8),
                     child: Text(
                       'Type : $_selectedType',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: black,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -194,7 +194,7 @@ class _DeliveredOrdersState extends State<DeliveredOrders> {
                   onPressed: () {
                     showMenu(
                       context: context,
-                      position: RelativeRect.fromLTRB(
+                      position: const RelativeRect.fromLTRB(
                           0, 50, -200, 0), // Adjust the position of the menu
                       items: _types.map((String type) {
                         return PopupMenuItem<String>(

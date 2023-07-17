@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/CheckConnectivity.dart';
 import 'package:flutter_login_app/Controller/ApplicationParameterController.dart';
 import 'package:flutter_login_app/Controller/CategoryController.dart';
+import 'package:flutter_login_app/Controller/LoginController.dart';
 import 'package:flutter_login_app/Controller/OfferController.dart';
 import 'package:flutter_login_app/Controller/PopularproductController.dart';
 import 'package:flutter_login_app/Controller/ProductController.dart';
@@ -143,10 +144,14 @@ class _HomePageState extends State<HomePage> {
       Get.put(PopularProductController());
   final ApplicationParameterController applicationParameterController =
       Get.put(ApplicationParameterController());
+  final LoginController loginController = Get.put(LoginController());
 
   @override
   void initState() {
     super.initState();
+    if (!loginController.isAuthenticated) {
+      loginController.authenticateFingerprintAndFaceDetection(context);
+    }
     test();
     checkServerStatus();
     refreshAllData();
@@ -234,7 +239,7 @@ class _HomePageState extends State<HomePage> {
         endDrawer: const Navbar(),
         appBar: AppBar(
           title: Image.asset(
-            'assets/VrindavanLogo.png',
+            'assets/homelogo.png',
             height: 70,
             width: 120,
           ),

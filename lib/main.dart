@@ -41,10 +41,8 @@ class MyApp extends StatelessWidget {
       create: (context) => SignInApi(),
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Vrindavan Dairy',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        title: 'Ergomart Dairy',
+        theme: ThemeData.light(),
         home: const Mainapp(),
         // home: const SignInScreen(),
       ),

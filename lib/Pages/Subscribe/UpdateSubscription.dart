@@ -79,7 +79,8 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
     print(valueChoose);
     test();
     // formattedDate = DateFormat('EEE, MMM d, yyyy').format(date);
-    formattedDate = argument['startDate'];
+    formattedDate =
+        argument['startDate'] != null ? argument['startDate'] : null;
     endsDate = argument['endDate'] != null ? argument['endDate'] : null;
     counter = argument['quantity'];
     argument['frequency'] == 1 ? selectEveryDay = true : null;
@@ -1327,11 +1328,17 @@ class _UpdateSubscriptionState extends State<UpdateSubscription> {
                                                 .updateSubscription(
                                                     argument['orderId'],
                                                     DateFormat('dd-MM-yyyy')
-                                                        .format(date),
+                                                        .format(DateFormat(
+                                                                "EEE, MMM d, yyyy")
+                                                            .parse(
+                                                                formattedDate)),
                                                     endDate != null
                                                         ? DateFormat(
                                                                 'dd-MM-yyyy')
-                                                            .format(endDate!)
+                                                            .format(DateFormat(
+                                                                    "EEE, MMM d, yyyy")
+                                                                .parse(
+                                                                    endsDate))
                                                         : null,
                                                     DateFormat('HH:mm:ss')
                                                         .format(time2),

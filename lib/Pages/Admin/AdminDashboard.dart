@@ -188,7 +188,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                                       .perfomanceData[
                                                           'todaysPerformance']
                                                           ['revenue']
-                                                      .toString()
+                                                      .toStringAsFixed(2)
                                                   : "0",
                                               style: const TextStyle(
                                                 fontSize: 32,
@@ -257,7 +257,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                                       .perfomanceData[
                                                           'todaysPerformance']
                                                           ['adr']
-                                                      .toString()
+                                                      .toStringAsFixed(2)
                                                   : "0",
                                               style: const TextStyle(
                                                 fontSize: 32,
