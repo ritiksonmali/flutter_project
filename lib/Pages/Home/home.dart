@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_login_app/ConstantUtil/CheckConnectivity.dart';
 import 'package:flutter_login_app/Controller/ApplicationParameterController.dart';
 import 'package:flutter_login_app/Controller/CategoryController.dart';
@@ -1162,5 +1162,4 @@ class _HomePageState extends State<HomePage> {
   //         ],
   //       ),
   //     );
-
 }

@@ -71,7 +71,7 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: const BorderSide(color: Colors.blue))),
-                    countries: const <String>['IN'],
+                    // countries: const <String>['IN'],
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: mobileNumberController,
                     keyboardType: const TextInputType.numberWithOptions(

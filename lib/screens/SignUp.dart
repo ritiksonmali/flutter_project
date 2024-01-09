@@ -218,7 +218,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: const BorderSide(color: Colors.blue))),
-                    countries: const <String>['IN'],
+                    // countries: const <String>['IN'],
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _mobileNocontroller,
                     keyboardType: const TextInputType.numberWithOptions(

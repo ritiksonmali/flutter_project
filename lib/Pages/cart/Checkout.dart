@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/Controller/ApplicationParameterController.dart';
@@ -309,6 +309,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 onPressed: () async {
                                   await Future.delayed(
                                       const Duration(seconds: 1));
+                                  // ignore: unused_local_variable
                                   final value = await Navigator.push(
                                     context,
                                     MaterialPageRoute(

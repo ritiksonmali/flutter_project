@@ -3,14 +3,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:badges/badges.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
 import 'package:flutter_login_app/Controller/ApplicationParameterController.dart';
 import 'package:flutter_login_app/Controller/ProductController.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/Pages/cart/cart_screen.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/screens/navbar.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -452,8 +451,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
                                                                             .spaceBetween,
-                                                                    children: <
-                                                                        Widget>[
+                                                                    children: <Widget>[
                                                                       Padding(
                                                                         padding:
                                                                             EdgeInsets.zero,

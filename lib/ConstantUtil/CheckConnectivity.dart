@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:http/http.dart' as http;
 
 class CheckConnectivity {
   static Future<bool> checkServerStatus(String server, int port) async {

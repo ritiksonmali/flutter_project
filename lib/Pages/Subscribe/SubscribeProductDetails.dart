@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
@@ -13,7 +13,6 @@ import 'package:flutter_login_app/Controller/SubscribeProductController.dart';
 import 'package:flutter_login_app/Pages/Address/AddressDetails.dart';
 import 'package:flutter_login_app/Pages/Home/home_screen.dart';
 import 'package:flutter_login_app/Pages/Wallet/WalletScreen.dart';
-import 'package:flutter_login_app/reusable_widgets/comman_dailog.dart';
 import 'package:flutter_login_app/screens/navbar.dart';
 import 'package:get/get.dart';
 import 'package:image_fade/image_fade.dart';

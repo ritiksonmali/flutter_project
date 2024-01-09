@@ -18,6 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
+  # sdk: '>=3.0.6 <4.0.0'
   sdk: ">=2.17.6 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
@@ -36,8 +37,10 @@ dependencies:
   path_provider: ^2.0.2
   sqflite: ^2.0.0+4
   cupertino_icons: ^1.0.2
-  firebase_auth: ^3.7.0
-  firebase_core: ^1.21.1
+  # firebase_auth: ^3.7.0
+  firebase_auth: ^4.7.0
+  # firebase_core: ^1.21.1
+  firebase_core: ^2.15.0
   google_sign_in: ^5.4.1
   flutter_facebook_auth: ^4.4.1+1
   flutter_login_facebook: ^1.6.0
@@ -47,18 +50,20 @@ dependencies:
   get: ^4.6.5
   binding: ^1.0.0
   badges: ^2.0.3
-  easy_localization: ^3.0.1
   flutter_gallery_assets: ^1.0.2
   auto_size_text: ^3.0.0
   counter_button: ^1.0.1
   raised_buttons: ^0.0.2
   bottom_nav_bar: ^1.0.3
   image_picker: ^0.8.5+3
-  firebase_database: ^9.1.4
-  cloud_firestore: ^3.4.8
-  firebase_storage: ^10.3.8
+  # firebase_database: ^9.1.4
+  firebase_database: ^10.2.4
+  # cloud_firestore: ^3.4.8
+  cloud_firestore: ^4.8.3
+  # firebase_storage: ^10.3.8
+  firebase_storage: ^11.2.5
   permission_handler: ^10.0.0
-  snapshot: ^0.2.5
+  # snapshot: ^0.2.5
   linear_progress_bar: ^1.1.0
   flutter_bloc: ^8.1.1
   dio: ^4.0.6
@@ -68,14 +73,16 @@ dependencies:
   line_icons:
   animate_do: ^2.1.0
   fluttertoast: ^8.1.1
-  package_info_plus: ^1.4.1
+  # package_info_plus: ^1.4.1
+  # package_info_plus: ^4.0.2
   razorpay_flutter: ^1.3.2
-  firebase_messaging: ^13.0.4
+  # firebase_messaging: ^13.0.4
+  firebase_messaging: ^14.6.5
   flutter_local_notifications: ^12.0.3
   font_awesome_flutter: ^10.2.1
   flutter_rating_bar: ^4.0.1
   carousel_slider: ^4.0.0-nullsafety.0
-  intl_phone_field: ^3.1.0
+  intl_phone_field: ^3.2.0
   dropdown_textfield: ^1.0.3
   connectivity_plus: ^2.3.7
   internet_connection_checker: ^0.0.1+2
@@ -83,6 +90,10 @@ dependencies:
   shimmer: ^2.0.0
   logger: ^1.3.0
   local_auth: ^1.1.0
+  intl: ^0.17.0
+  # firebase_core_platform_interface: ^4.5.1
+  firebase_auth_platform_interface: ^6.9.0
+  # easy_localization: ^3.0.1
 
 dev_dependencies:
   flutter_test:

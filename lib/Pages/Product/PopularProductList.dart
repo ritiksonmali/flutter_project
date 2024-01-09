@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:badges/badges.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/Controller/ApplicationParameterController.dart';
 import 'package:flutter_login_app/Controller/PopularproductController.dart';
@@ -518,8 +518,7 @@ class _PopularProductListState extends State<PopularProductList> {
                                                                               .min,
                                                                       // mainAxisAlignment:
                                                                       //     MainAxisAlignment.center,
-                                                                      children: <
-                                                                          Widget>[
+                                                                      children: <Widget>[
                                                                         Expanded(
                                                                           child:
                                                                               Padding(

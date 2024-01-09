@@ -2,12 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
 import 'package:flutter_login_app/ConstantUtil/globals.dart';
-import 'package:flutter_login_app/Controller/AllOrdersForDeliveryManager.dart';
 import 'package:flutter_login_app/Controller/OrderController.dart';
 import 'package:flutter_login_app/Pages/Order/OrderDatailsDeliveryManager.dart';
 import 'package:flutter_login_app/model/OrderHistory.dart';

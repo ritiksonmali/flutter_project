@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_app/ConstantUtil/colors.dart';
@@ -509,6 +509,7 @@ class _DeliveredOrdersState extends State<DeliveredOrders> {
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
+                                              // ignore: unnecessary_null_comparison
                                               order.createdDate != null
                                                   ? DateFormat(
                                                           'dd-MM-yyyy hh:mm a')

@@ -27,11 +27,6 @@ class _MainappState extends State<Mainapp> {
   String deviceType = "Android";
   LocalImagesController localImagesController =
       Get.put(LocalImagesController());
-  // final PopularProductController popularproductController =
-  //     Get.put(PopularProductController());
-  // final OfferController offerController = Get.put(OfferController());
-  // final CategoryController categoryController = Get.put(CategoryController());
-  // final ProductController productController = Get.put(ProductController());
   final PushNotificationController pushNotificationController =
       Get.put(PushNotificationController());
   final logincontroller = LoginController();
